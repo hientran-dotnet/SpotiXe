@@ -1,0 +1,112 @@
+{% layout 'layout' %}
+{% block title %}Edit Post{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active">Edit Post</li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/form-tokenfield/bootstrap-tokenfield.css" | asset_url | stylesheet_tag }}       <!-- Tokenfield -->
+{{ "plugins/summernote/dist/summernote.css" | asset_url | stylesheet_tag }} 				<!-- Summernote -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/form-tokenfield/bootstrap-tokenfield.min.js" | asset_url | script_tag }}     	<!-- Tokenfield -->
+{{ "plugins/summernote/dist/summernote.js" | asset_url | script_tag }}  					<!-- Summernote -->
+
+<script>
+	$('.composer').summernote({
+		height: 350
+	});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-7">
+
+		<input type="text" class="form-control input-lg mb20" value="Robotic exoskeletons give dock workers superhuman lifting abilities" placeholder="Enter post title...">
+
+		<div class="composer">
+            <h3>Default Editor</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, nobis laboriosam repellat ipsum deserunt voluptate eos praesentium atque eligendi libero. Nam, id, eligendi natus facilis ullam pariatur numquam amet illum repudiandae ex porro labore in perferendis vero nobis iure ratione? Repudiandae, vel, quo, dolores velit vero debitis sed non odio culpa quasi excepturi tempore saepe atque quod repellendus aliquam eum neque dolorem beatae veniam quis id deserunt dignissimos voluptatum incidunt necessitatibus inventore reprehenderit consequatur esse perferendis ipsum earum pariatur et eaque sequi a harum sit similique itaque dicta expedita unde. Animi, quo, facilis laudantium quas commodi aut harum reprehenderit explicabo.</p>
+        </div>
+
+        <div class="panel panel-info mt20">
+        	<div class="panel-heading"></div>
+        	<div class="panel-body">
+        		<h3 class="mt0 mb20">Likes and Shares</h3>
+				
+				<ul class="list-unstyled mb0">
+        			<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Show Likes</label></li>
+        			<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Show Sharing Buttons</label></li>
+        		</ul>
+        	</div>
+        </div>
+	</div>
+	<div class="col-md-5">
+		<div class="panel panel-purple">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<h3 class="mt0">Publish</h3>
+
+				<dl class="dl-horizontal mb20">
+					<dt>Status</dt>
+					<dd>Published</dd>
+
+					<dt>Visibility</dt>
+					<dd>Public</dd>
+
+					<dt>Revisions</dt>
+					<dd>2 <a href="">Browse</a></dd>
+
+					<dt>Published on</dt>
+					<dd>Mar 18, 2010 @ 23:19 <a href="">Edit</a></dd>
+				</dl>
+
+				<div class="panel-footer">
+					<a href="" class="pull-left btn btn-link">Move to Trash</a>
+					<a href="" class="pull-right btn btn-info">Update</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-inverse">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<h3 class="mt0 mb20">Categories</h3>
+
+				<div class="tab-container tab-default mb0">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#all-cat" data-toggle="tab">All Categories</a></li>
+						<li><a href="#most-cat" data-toggle="tab">Most Used</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="all-cat">
+							<ul class="list-unstyled mb0">
+								<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Cars</label></li>
+								<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Gadgets </label></li>
+								<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Corporate </label></li>
+								<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Music </label></li>
+								<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Books </label></li>
+							</ul>
+						</div>
+						<div class="tab-pane" id="most-cat">
+							<ul class="list-unstyled mb0">
+								<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Uncategorized </label></li>
+								<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Books </label></li>
+								<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Corporate </label></li>
+								<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Gadgets </label></li>
+								<li><label><div class="checkbox-inline icheck"><input type="checkbox" /></div> Cars </label></li>
+							</ul>
+						</div>
+  					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

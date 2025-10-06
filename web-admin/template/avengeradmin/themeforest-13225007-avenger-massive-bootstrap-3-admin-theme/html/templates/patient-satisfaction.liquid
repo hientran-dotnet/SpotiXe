@@ -1,0 +1,196 @@
+{% layout 'layout' %}
+{% block title %}Patient Satisfaction{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active"><a href="app-blog-comment.html">Patient Satisfaction</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/nvd3/nv.d3.min.css" | asset_url | stylesheet_tag }} 		<!-- nvd3 -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/d3/d3.min.js" | asset_url | script_tag }}             		<!-- nvd3 dependency -->
+{{ "plugins/nvd3/nv.d3.min.js" | asset_url | script_tag }} 				<!-- nvd3 -->
+
+{{ "plugins/charts-morrisjs/raphael.min.js" | asset_url | script_tag }} <!-- Load Raphael as Dependency -->
+{{ "plugins/charts-morrisjs/morris.min.js" | asset_url | script_tag }}  <!-- Load Morris.js -->
+{{ "demo/demo-patient-satisfaction.js" | asset_url | script_tag }}               <!-- demo-kpi-dashboard -->
+{% endblock %} 
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-6">
+		<div class="panel">
+	        <div class="panel-heading">
+	            <h2>Average Length of Stay | Appendectomy</h2>
+	        </div>
+	        <div class="panel-body">
+		        <div id="chart1" style="height: 300px;">
+				    <svg></svg>
+				</div>3
+				020213.2
+			</div>
+	    </div>
+	</div><!-- col-sm-6 -->
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Lab Test Turnaround</h2>
+			</div>
+			<div class="panel-body panel-no-padding">
+				<div id="demo">
+					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-fixed-header m0" id="example">
+						<thead>
+							<tr>
+								<th>Test</th>
+								<th>Target</th>
+								<th>Average</th>
+								<th>+/-</th>
+								<th>Past 30 Results</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="gradeX">
+								<td>Amylase</td>
+								<td>24h</td>
+								<td>31h</td>
+								<td>-22.5%</td>
+								<td><span class="barcharts" values="5,6,-3,9,-2,7,-5,5,6,-3,9,2,7,-5,5,6,-3,9,2,7,5"></span></td>
+							</tr>
+							<tr class="gradeX">
+								<td>ANA</td>
+								<td>168h</td>
+								<td>180h</td>
+								<td>-6.67%</td>
+								<td><span class="barcharts" values="5,6,-3,9,-2,7,-5,5,6,-3,9,2,7,-5,5,6,-3,9,2,7,5"></span></td>
+							</tr>
+							<tr class="gradeX">
+								<td>aPTT</td>
+								<td>72h</td>
+								<td>78h</td>
+								<td>-7.69%</td>
+								<td><span class="barcharts" values="5,6,-3,9,-2,7,-5,5,6,-3,9,2,7,-5,5,6,-3,9,2,7,5"></span></td>
+							</tr>
+							<tr class="gradeX">
+								<td>Basic metabolic Panel</td>
+								<td>24h</td>
+								<td>26h</td>
+								<td>-7.69%</td>
+								<td><span class="barcharts" values="5,6,-3,9,-2,7,-5,5,6,-3,9,2,7,-5,5,6,-3,9,2,7,5"></span></td>
+							</tr>
+							<tr class="gradeX">
+								<td>Complete Blood Count</td>
+								<td>24h</td>
+								<td>28h</td>
+								<td>-14.29%</td>
+								<td><span class="barcharts" values="5,6,-3,9,-2,7,-5,5,6,-3,9,2,7,-5,5,6,-3,9,2,7,5"></span></td>
+							</tr>
+							<tr class="gradeX">
+								<td>Comprehensive Metabolic Panel</td>
+								<td>48h</td>
+								<td>52h</td>
+								<td>-7.69%</td>
+								<td><span class="barcharts" values="5,6,-3,9,-2,7,-5,5,6,-3,9,2,7,-5,5,6,-3,9,2,7,5"></span></td>
+							</tr>
+							<tr class="gradeX">
+								<td>Electrolyte Panel</td>
+								<td>24h</td>
+								<td>23h</td>
+								<td>4.33%</td>
+								<td><span class="barcharts" values="5,6,-3,9,-2,7,-5,5,6,-3,9,2,7,-5,5,6,-3,9,2,7,5"></span></td>
+							</tr>
+							<tr class="gradeX">
+								<td>Sedimentation Rate</td>
+								<td>96h</td>
+								<td>94h</td>
+								<td>2.13%</td>
+								<td><span class="barcharts" values="5,6,-3,9,-2,7,-5,5,6,-3,9,2,7,-5,5,6,-3,9,2,7,5"></span></td>
+							</tr>
+							<tr class="gradeX">
+								<td>Flu Tests</td>
+								<td>12h</td>
+								<td>15h</td>
+								<td>-25.00%</td>
+								<td><span class="barcharts" values="5,6,-3,9,-2,7,-5,5,6,-3,9,2,7,-5,5,6,-3,9,2,7,5"></span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div><!-- demo -->			
+			</div><!-- panel-body panel-no-padding -->
+		</div><!-- panel panel-default -->
+	</div><!-- col-sm-6 -->
+</div><!-- row -->
+<div class="row">
+	<div class="col-sm-8">
+		<div class="panel panel-default">
+	        <div class="panel-heading">
+	            <h2>Patient Metrics</h2>
+	        </div>
+	        <div class="panel-body">
+	        	<div class="col-sm-6">
+	        		<a class="info-tiles tiles-sky" href="#">
+					    <div class="tiles-heading">
+					        <div class="pull-left">Arrival to Bed</div>
+					        <div class="pull-right">Target: 20min</div>
+					    </div>
+					    <div class="tiles-body">
+					        <div class="pull-left"><i class="fa fa-clock-o"></i></div>
+					        <div class="pull-right">25min</div>
+					    </div>
+					</a>
+	        	</div><!-- col-sm-6 -->
+	        	<div class="col-sm-6">
+	        		<a class="info-tiles tiles-sky" href="#">
+					    <div class="tiles-heading">
+					        <div class="pull-left">Arrival to Physician</div>
+					        <div class="pull-right">Target: 60min</div>
+					    </div>
+					    <div class="tiles-body">
+					        <div class="pull-left"><i class="fa fa-clock-o"></i></div>
+					        <div class="pull-right">83min</div>
+					    </div>
+					</a>
+	        	</div><!-- col-sm-6 -->
+	        	<div class="col-sm-6">
+	        		<a class="info-tiles tiles-sky" href="#">
+					    <div class="tiles-heading">
+					        <div class="pull-left">Arrival to Nurse</div>
+					        <div class="pull-right">Target: 40min</div>
+					    </div>
+					    <div class="tiles-body">
+					        <div class="pull-left"><i class="fa fa-clock-o"></i></i></div>
+					        <div class="pull-right">45min</div>
+					    </div>
+					</a>
+	        	</div><!-- col-sm-6 -->
+	        	<div class="col-sm-6">
+	        		<a class="info-tiles tiles-sky" href="#">
+					    <div class="tiles-heading">
+					        <div class="pull-left">Arrival to Discharge</div>
+					        <div class="pull-right">Target: 100min</div>
+					    </div>
+					    <div class="tiles-body">
+					        <div class="pull-left"><i class="fa fa-clock-o"></i></i></div>
+					        <div class="pull-right">137min</div>
+					    </div>
+					</a>
+	        	</div><!-- col-sm-6 -->
+	        </div>
+	    </div>
+	</div><!-- col-sm-8 -->
+	<div class="col-sm-4">
+		<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2>Customer Satisfaction</h2>
+		</div>
+		<div class="panel-body panel-no-padding">
+			<div id="donut-example"></div>
+		</div><!-- panel-body panel-no-padding -->
+	</div><!-- panel panel-default -->
+	</div><!-- col-sm-8 -->
+</div><!-- row -->
+{% endblock %}

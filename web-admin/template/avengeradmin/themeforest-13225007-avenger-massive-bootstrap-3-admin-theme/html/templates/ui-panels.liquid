@@ -1,0 +1,502 @@
+{% layout 'layout' %}
+{% block title %}Panels{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Elements</a></li>
+<li class="active"><a href="ui-panels.html">Panels</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/switchery/switchery.css" | asset_url | stylesheet_tag }}        					<!-- Switchery -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/switchery/switchery.js" | asset_url | script_tag }}     								<!-- Switchery -->
+<script>
+$(function () {
+
+	Switchery(document.querySelector('.js-switch-primary'), {color: Utility.getBrandColor('primary')});
+
+	$("#panel-color-switcher .btn").click(function(e) {
+		//Change Button Active Class
+		$("#panel-color-switcher .btn").removeClass("active");
+		$(this).addClass("active");
+
+		//Change Panel Color Class
+		$(".panel").attr('class','panel').addClass($(this).attr('data-panel-class'));
+	});
+
+	$(".panel-color-list>li>span").click(function(e) {
+		$(".panel").attr('class','panel').addClass($(this).attr('data-style'));
+	});
+	
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="alert alert-inverse mb40">
+			<h3>Panel Options</h3>
+			<p>All the basic panel options and colors are shown below. More Advanced Panels options will be coming soon!</p> 
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12 text-center">
+		<h2 class="mt0 mb20">Panel Colors</h2>
+        <ul class="text-center panel-color-list list-inline mb40">
+			<li><span data-style="panel-default"></span></li>
+			<li><span data-style="panel-inverse"></span></li>
+			<li><span data-style="panel-primary"></span></li>
+			<li><span data-style="panel-success"></span></li>
+			<li><span data-style="panel-warning"></span></li>
+			<li><span data-style="panel-danger"></span></li>
+			<li><span data-style="panel-info"></span></li>
+			<li><span data-style="panel-brown"></span></li>
+			<li><span data-style="panel-indigo"></span></li>
+			<li><span data-style="panel-orange"></span></li>
+			<li><span data-style="panel-midnightblue"></span></li>
+			<li><span data-style="panel-sky"></span></li>
+			<li><span data-style="panel-magenta"></span></li>
+			<li><span data-style="panel-purple"></span></li>
+			<li><span data-style="panel-green"></span></li>
+			<li><span data-style="panel-grape"></span></li>
+			<li><span data-style="panel-toyo"></span></li>
+			<li><span data-style="panel-alizarin"></span></li>
+        </ul>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Panel</h2></div>
+			<div class="panel-body" style="height: 190px">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam, obcaecati, possimus, deleniti ipsa autem optio consectetur ratione modi neque fugiat provident amet saepe repellendus aliquam quam sit cumque suscipit dicta nobis eligendi eius ullam nostrum impedit nobis.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Panel with Scroll</h2></div>
+			<div class="panel-body scroll-pane" style="height: 190px;">
+				<div class="scroll-content">
+					<p>Itaque, iste, aliquid dolore rem praesentium adipisci molestiae cum quae alias temporibus quod dolor porro saepe doloribus illo. Ab mollitia magnam animi expedita quam beatae quae consequatur. Tenetur sint esse perferendis minima. Non, sapiente, placeat, dicta sunt nulla ipsum dolor ullam deserunt nihil itaque ab modi a ratione! Nihil ipsam nobis quo quos corporis porro inventore quibusdam aperiam optio. Necessitatibus ducimus unde quibusdam sequi. Veniam, perspiciatis, eaque fugiat soluta ratione sequi qui voluptatibus? Aspernatur, ex, provident, illo deleniti architecto repudiandae est exercitationem repellat quod illum maiores harum optio dicta. Deleniti, officiis, veniam, perferendis saepe non dolorem delectus cum libero excepturi eos pariatur animi ea ullam nesciunt magnam illo aliquam? Nam, nostrum, nihil suscipit ut sint voluptatibus quisquam aliquam qui illo debitis quidem consequatur similique sunt facilis aut dolores excepturi deserunt maxime sequi veritatis delectus quis quo expedita omnis quod ad soluta labore sit laudantium modi? Dignissimos, suscipit, autem, maiores esse laborum magnam quam inventore dicta ab atque vel similique eaque quae. Culpa, ab, magni, magnam velit libero quasi vel ea quo similique nostrum rerum natus et excepturi molestiae assumenda quod itaque distinctio quia dolorum sit minus impedit dolorem cumque iure necessitatibus pariatur.</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia aperiam delectus nulla in ex deleniti ducimus quam molestias, sint laudantium deserunt maxime tenetur nihil, numquam molestiae eligendi recusandae voluptatem reprehenderit asperiores culpa aut. Ab illum rem rerum ducimus nobis quod est a aliquam eum odio tempore at, iure atque? Quo, ad sunt. Aliquam nihil voluptatum, officiis ipsa, cum, natus, laudantium perspiciatis voluptatem debitis dolorem nam id molestias nostrum veritatis maxime eligendi! Vel numquam illum, voluptas ad quidem. Vitae soluta culpa quia veritatis accusantium rerum praesentium illum maiores. Fugit eaque excepturi rem natus, dolorem numquam, veniam corrupti doloribus officia incidunt reprehenderit mollitia omnis provident minus quisquam nobis eos. Nobis reprehenderit tempora facere asperiores ad illum sunt possimus quos deleniti nesciunt. Earum laborum incidunt accusamus corrupti, dolores, quis sit facilis quia quibusdam iusto officia. At atque cupiditate cumque officia, quasi distinctio nam eveniet! Reprehenderit suscipit itaque dolores magnam quaerat, aspernatur quae! Aspernatur fugit dolores distinctio odit at, eaque minima reprehenderit ipsa quae labore temporibus delectus perspiciatis fuga id beatae molestiae quaerat, qui libero et consequatur minus. Fugit saepe magni quod, deserunt similique obcaecati ipsum, voluptas ipsa nisi aliquam perferendis, nam est voluptatum temporibus esse eum provident eaque sint. Ducimus perspiciatis, expedita fuga.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Panel with Footer</h2></div>
+			<div class="panel-body">
+				<p class="mb20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam, obcaecati, possimus, deleniti ipsa autem optio consectetur ratione modi neque fugiat provident amet saepe repellendus aliquam quam sit cumque suscipit dicta nobis eligendi eius ullam nostrum impedit nobis.</p>
+				<div class="panel-footer">
+					<span class="text-gray">Footer</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Panel with Footer</h2></div>
+			<div class="panel-body">
+				<p class="mb20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam, obcaecati, possimus, deleniti ipsa autem optio consectetur ratione modi neque fugiat provident amet saepe repellendus aliquam quam sit cumque suscipit dicta nobis eligendi eius ullam nostrum impedit nobis.</p>
+				<div class="panel-footer">
+					<span class="text-gray">Footer</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Nestable Panles</h2></div>
+			<div class="panel-body pb0">
+				<p class="mb20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, iure cum perferendis esse voluptate similique harum. Nostrum quo id temporibus accusamus tempore? Deleniti, aliquam, beatae, aliquid, voluptates sed reiciendis dolorem sunt sequi doloribus sapiente natus incidunt amet? Maiores, deleniti iure culpa veniam expedita. Praesentium dolor sapiente laboriosam nobis libero quam! Et, repudiandae, quia suscipit distinctio voluptas modi aliquid ex. Veniam, perspiciatis, eaque fugiat soluta ratione sequi qui voluptatibus? Aspernatur, ex, provident, illo deleniti architecto repudiandae est exercitationem repellat quod illum maiores harum optio dicta. Deleniti, officiis, veniam, perferendis saepe non dolorem delectus cum libero excepturi eos pariatur animi ea ullam nesciunt magnam illo aliquam?</p>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading"><h2>Panel</h2></div>
+							<div class="panel-body">
+								<p class="mb0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, iure cum perferendis esse voluptate similique harum. Nostrum quo id temporibus accusamus tempore? Deleniti, aliquam, beatae, aliquid, voluptates sed reiciendis dolorem sunt sequi doloribus sapiente natus incidunt amet?</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading"><h2>Panel</h2></div>
+							<div class="panel-body">
+								<p class="mb0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, iure cum perferendis esse voluptate similique harum. Nostrum quo id temporibus accusamus tempore? Deleniti, aliquam, beatae, aliquid, voluptates sed reiciendis dolorem sunt sequi doloribus sapiente natus incidunt amet?</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading"><h2>Panel</h2></div>
+							<div class="panel-body">
+								<p class="mb0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, iure cum perferendis esse voluptate similique harum. Nostrum quo id temporibus accusamus tempore? Deleniti, aliquam, beatae, aliquid, voluptates sed reiciendis dolorem sunt sequi doloribus sapiente natus incidunt amet?</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading"><h2>Panel</h2></div>
+							<div class="panel-body">
+								<p class="mb0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, iure cum perferendis esse voluptate similique harum. Nostrum quo id temporibus accusamus tempore? Deleniti, aliquam, beatae, aliquid, voluptates sed reiciendis dolorem sunt sequi doloribus sapiente natus incidunt amet? Maiores, deleniti iure culpa veniam expedita.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="panel panel-default">
+							<div class="panel-heading"><h2>Panel</h2></div>
+							<div class="panel-body">
+								<p class="mb0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, iure cum perferendis esse voluptate similique harum. Nostrum quo id temporibus accusamus tempore? Deleniti, aliquam, beatae, aliquid, voluptates sed reiciendis dolorem sunt sequi doloribus sapiente natus incidunt amet? Maiores, deleniti iure culpa veniam expedita.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Panel with Tabs</h2>
+				<div>
+					<ul class="nav nav-tabs pull-right">
+						<li class="active"><a href="#home1" data-toggle="tab">Home</a></li>
+						<li><a href="#tabb2" data-toggle="tab">Two</a></li>
+						<li><a href="#tabb3" data-toggle="tab">Three</a></li>
+						<li><a href="#tabb4" data-toggle="tab">Four</a></li>
+						<li><a href="#tabb5" data-toggle="tab">Five</a></li>
+						<li><a href="#tabb6" data-toggle="tab">Six</a></li>
+						<li><a href="#tabb7" data-toggle="tab">Seven</a></li>
+						<li><a href="#tabb8" data-toggle="tab">Eight</a></li>
+						<li><a href="#tabb9" data-toggle="tab">Nine</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="home1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+					<div class="tab-pane" id="tabb2">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+					<div class="tab-pane" id="tabb3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+					<div class="tab-pane" id="tabb4">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+					<div class="tab-pane" id="tabb5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+					<div class="tab-pane" id="tabb6">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+					<div class="tab-pane" id="tabb7">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+					<div class="tab-pane" id="tabb8">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+					<div class="tab-pane" id="tabb9">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+						<li><a href="#tab2" data-toggle="tab">Two</a></li>
+						<li><a href="#tab3" data-toggle="tab">Three</a></li>
+						<li><a href="#tab4" data-toggle="tab">Four</a></li>
+						<li><a href="#tab5" data-toggle="tab">Five</a></li>
+						<li><a href="#tab6" data-toggle="tab">Six</a></li>
+						<li><a href="#tab7" data-toggle="tab">Seven</a></li>
+						<li><a href="#tab8" data-toggle="tab">Eight</a></li>
+						<li><a href="#tab9" data-toggle="tab">Nine</a></li>
+					</ul>
+				</h2>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="home">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+					<div class="tab-pane" id="tab2">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+					<div class="tab-pane" id="tab3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+					<div class="tab-pane" id="tab4">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+					<div class="tab-pane" id="tab5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+					<div class="tab-pane" id="tab6">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+					<div class="tab-pane" id="tab7">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+					<div class="tab-pane" id="tab8">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+					<div class="tab-pane" id="tab9">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Buttons</h2>
+				<div class="panel-ctrls">
+					<a href="#" class="btn btn-sm btn-default">Button</a>
+					<div class="btn-group">
+						<a href="#" class="btn btn-sm btn-default">Button</a>
+						<div class="btn-group">
+							<a href="#" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">Dropdown <i class="caret"></i></a>
+							<ul class="dropdown-menu" role="menu">
+							  <li><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+							  <li><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+							  <li><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+							  <li class="divider"></li>
+							  <li><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, eos, ex ipsa quo quos adipisci fuga praesentium aspernatur reprehenderit asperiores illo provident distinctio earum quod similique dolor sunt excepturi sequi a id aliquam deleniti numquam accusamus tenetur quaerat magnam dolorum natus debitis tempora in laboriosam nesciunt tempore ipsam voluptatibus quasi vel quibusdam sit atque aliquid temporibus officiis incidunt perspiciatis mollitia totam reiciendis consequuntur.</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Pagination</h2>
+				<div class="panel-ctrls">
+					<ul class="pagination pagination-sm clearfix">
+						<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+						<li class="active"><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, eos, ex ipsa quo quos adipisci fuga praesentium aspernatur reprehenderit asperiores illo provident distinctio earum quod similique dolor sunt excepturi sequi a id aliquam deleniti numquam accusamus tenetur quaerat magnam dolorum natus debitis tempora in laboriosam nesciunt tempore ipsam voluptatibus quasi vel quibusdam sit atque aliquid temporibus officiis incidunt perspiciatis mollitia totam reiciendis consequuntur.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Text Field</h2>
+				<div class="panel-ctrls">
+					<div class="input-group panel-ctrls-center-sm input-group-sm">
+					  <span class="input-group-addon">@</span>
+					  <input type="text" class="form-control" placeholder="">
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, eos, ex ipsa quo quos adipisci fuga praesentium aspernatur reprehenderit asperiores illo provident distinctio earum quod similique dolor sunt excepturi sequi a id aliquam deleniti numquam accusamus tenetur quaerat magnam dolorum natus debitis tempora in laboriosam nesciunt tempore ipsam voluptatibus quasi vel quibusdam sit atque aliquid temporibus officiis incidunt perspiciatis mollitia totam reiciendis consequuntur.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Labels and Badges</h2>
+				<div class="panel-ctrls">
+					<i class="separator"></i>
+					<div class="badge badge-info">99</div>
+					<i class="separator"></i>
+					<div class="label label-primary"><i class="fa fa-cloud"></i> 23.5%</div>
+
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, eos, ex ipsa quo quos adipisci fuga praesentium aspernatur reprehenderit asperiores illo provident distinctio earum quod similique dolor sunt excepturi sequi a id aliquam deleniti numquam accusamus tenetur quaerat magnam dolorum natus debitis tempora in laboriosam nesciunt tempore ipsam voluptatibus quasi vel quibusdam sit atque aliquid temporibus officiis incidunt perspiciatis mollitia totam reiciendis consequuntur.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Search</h2>
+			    <div class="panel-ctrls panel-ctrls-center-sm" style="width: 200px;">
+					<div class="input-icon right">
+						<i class="fa fa-fw fa-search"></i>
+						<input id="email" class="input-error form-control input-sm" type="text" placeholder="Search...">
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, eos, ex ipsa quo quos adipisci fuga praesentium aspernatur reprehenderit asperiores illo provident distinctio earum quod similique dolor sunt excepturi sequi a id aliquam deleniti numquam accusamus tenetur quaerat magnam dolorum natus debitis tempora in laboriosam nesciunt tempore ipsam voluptatibus quasi vel quibusdam sit atque aliquid temporibus officiis incidunt perspiciatis mollitia totam reiciendis consequuntur.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Progress Bar</h2>
+				<div class="panel-ctrls">
+					<div class="progress progress-lg progress-striped active">
+					  <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+					    <span class="sr-only">45% Complete</span>
+					  </div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, eos, ex ipsa quo quos adipisci fuga praesentium aspernatur reprehenderit asperiores illo provident distinctio earum quod similique dolor sunt excepturi sequi a id aliquam deleniti numquam accusamus tenetur quaerat magnam dolorum natus debitis tempora in laboriosam nesciunt tempore ipsam voluptatibus quasi vel quibusdam sit atque aliquid temporibus officiis incidunt perspiciatis mollitia totam reiciendis consequuntur.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Button Groups</h2>
+				<div class="panel-ctrls">
+					<div class="btn-group">
+						<a href="#" class="btn btn-xs btn-inverse"><i class="fa fa-play"></i></a>
+						<a href="#" class="btn btn-xs btn-inverse"><i class="fa fa-pause"></i></a>
+						<a href="#" class="btn btn-xs btn-inverse"><i class="fa fa-stop"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, eos, ex ipsa quo quos adipisci fuga praesentium aspernatur reprehenderit asperiores illo provident distinctio earum quod similique dolor sunt excepturi sequi a id aliquam deleniti numquam accusamus tenetur quaerat magnam dolorum natus debitis tempora in laboriosam nesciunt tempore ipsam voluptatibus quasi vel quibusdam sit atque aliquid temporibus officiis incidunt perspiciatis mollitia totam reiciendis consequuntur.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Toggle Buttons</h2>
+				<div class="panel-ctrls">
+					<input type="checkbox" class="js-switch-primary switchery-xs" checked />
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, eos, ex ipsa quo quos adipisci fuga praesentium aspernatur reprehenderit asperiores illo provident distinctio earum quod similique dolor sunt excepturi sequi a id aliquam deleniti numquam accusamus tenetur quaerat magnam dolorum natus debitis tempora in laboriosam nesciunt tempore ipsam voluptatibus quasi vel quibusdam sit atque aliquid temporibus officiis incidunt perspiciatis mollitia totam reiciendis consequuntur.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<h3 class="mt0">Without Heading</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, corrupti, mollitia iusto perferendis corporis similique tempora dolores! Temporibus, error, vitae, harum deserunt recusandae repellat quo odit incidunt quam molestiae eveniet sint nisi! Aspernatur ullam doloremque dolorum dolore illo perferendis atque.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<h3 class="mt0">Without Heading</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, corrupti, mollitia iusto perferendis corporis similique tempora dolores! Temporibus, error, vitae, harum deserunt recusandae repellat quo odit incidunt quam molestiae eveniet sint nisi! Aspernatur ullam doloremque dolorum dolore illo perferendis atque.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2><i class="fa fa-cloud"></i>Panel</h2></div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, aut, vitae, facere tempore quia sint maxime assumenda quasi porro architecto asperiores reiciendis laborum expedita animi consectetur  atque beatae.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2><i class="fa fa-globe"></i>Panel</h2></div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, aut, vitae, facere tempore quia sint maxime assumenda quasi porro architecto asperiores reiciendis laborum expedita animi consectetur  atque beatae.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2><i class="fa fa-moon-o"></i>Panel</h2></div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, aut, vitae, facere tempore quia sint maxime assumenda quasi porro architecto asperiores reiciendis laborum expedita animi consectetur  atque beatae.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2><i class="fa fa-anchor"></i>Panel</h2>
+				<div class="panel-ctrls">
+					<a href="#" class="button-icon"><i class="fa fa-file"></i></a>
+					<a href="#" class="button-icon"><i class="fa fa-code"></i></a>
+					<a href="#" class="button-icon"><i class="fa fa-circle-o"></i></a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, aut, vitae, facere tempore quia sint maxime assumenda quasi porro architecto asperiores reiciendis laborum expedita animi consectetur  atque beatae.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2><i class="fa fa-microphone"></i>Panel</h2>
+				<div class="panel-ctrls">
+					<a href="#" class="button-icon"><i class="fa fa-file"></i></a>
+					<a href="#" class="button-icon"><i class="fa fa-code"></i></a>
+					<a href="#" class="button-icon"><i class="fa fa-circle-o"></i></a>
+				</div>						
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, aut, vitae, facere tempore quia sint maxime assumenda quasi porro architecto asperiores reiciendis laborum expedita animi consectetur  atque beatae.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2><i class="fa fa-briefcase"></i>Panel</h2>
+				<div class="panel-ctrls">
+					<a href="#" class="button-icon"><i class="fa fa-file"></i></a>
+					<a href="#" class="button-icon"><i class="fa fa-code"></i></a>
+					<a href="#" class="button-icon"><i class="fa fa-circle-o"></i></a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, aut, vitae, facere tempore quia sint maxime assumenda quasi porro architecto asperiores reiciendis laborum expedita animi consectetur  atque beatae.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

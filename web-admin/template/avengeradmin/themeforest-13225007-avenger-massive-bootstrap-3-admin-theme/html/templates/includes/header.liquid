@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Avenger Admin Theme</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="description" content="Avenger Admin Theme">
+    <meta name="author" content="KaijuThemes">
+
+    <link href='http://fonts.googleapis.com/css?family=RobotoDraft:300,400,400italic,500,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,400italic,600,700' rel='stylesheet' type='text/css'>
+
+    <!--[if lt IE 10]>
+        {{ "js/media.match.min.js" | asset_url | script_tag }}
+        {{ "js/placeholder.min.js" | asset_url | script_tag }}
+    <![endif]-->
+
+    {{ "fonts/font-awesome/css/font-awesome.min.css" | asset_url | stylesheet_tag }}        <!-- Font Awesome -->
+    {{ "css/styles.css" | asset_url | stylesheet_tag }}                                     <!-- Core CSS with all styles -->
+
+    {{ "plugins/jstree/dist/themes/avenger/style.min.css" | asset_url | stylesheet_tag }}    <!-- jsTree -->
+    {{ "plugins/codeprettifier/prettify.css" | asset_url | stylesheet_tag }}                <!-- Code Prettifier -->
+    {{ "plugins/iCheck/skins/minimal/blue.css" | asset_url | stylesheet_tag }}              <!-- iCheck -->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries. Placeholdr.js enables the placeholder attribute -->
+    <!--[if lt IE 9]>
+        {{ "css/ie8.css" | asset_url | stylesheet_tag }}
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/charts-flot/excanvas.min.js"></script>
+        <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->

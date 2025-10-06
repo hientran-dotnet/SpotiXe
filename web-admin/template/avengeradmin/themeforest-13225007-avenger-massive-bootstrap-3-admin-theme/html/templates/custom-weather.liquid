@@ -1,0 +1,43 @@
+{% layout 'layout' %}
+{% block title %}Weather{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Custom Components</a></li>
+<li class="active"><a href="custom-weather.html">Weather</a></li>
+{% endblock %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/simpleWeather/jquery.simpleWeather.min.js" | asset_url | script_tag }}    <!-- Weather Plugin -->
+
+{{ "demo/demo-custom-weather.js" | asset_url | script_tag }} 
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+
+		<div class="alert alert-info">
+			 <h3>Simple Weather</h3>
+			 <p>A simple jQuery plugin to display current weather data for any location and doesn't get in your way. Now supports HTML5 GeoLocation!</p>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h2>Weather</h2>
+			</div>
+			<div class="panel-body">
+				<div class="weather-container">
+					<div class="weather-widget mb20"></div>
+					<button class="btn btn-default btn-block js-geolocation" style="display: none;">Use Your Location</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock %}

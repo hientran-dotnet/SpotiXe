@@ -1,0 +1,37 @@
+{% layout 'layout' %}
+{% block title %}Product Sales{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active"><a href="app-blog-comment.html">Product Sales</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/nvd3/nv.d3.min.css" | asset_url | stylesheet_tag }} 		<!-- nvd3 -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/d3/d3.min.js" | asset_url | script_tag }}             		<!-- nvd3 dependency -->
+{{ "plugins/nvd3/nv.d3.min.js" | asset_url | script_tag }} 				<!-- nvd3 -->
+
+{{ "plugins/charts-morrisjs/raphael.min.js" | asset_url | script_tag }} <!-- Load Raphael as Dependency -->
+{{ "plugins/charts-morrisjs/morris.min.js" | asset_url | script_tag }}  <!-- Load Morris.js -->
+
+{{ "demo/demo-product-sales.js" | asset_url | script_tag }}          <!-- sales-performance -->
+{% endblock %}
+
+{% block content %} 
+<div class="col-sm-8">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2>Top Products in Revenue</h2>
+		</div>
+		<div class="panel-body panel-no-padding">
+			<div id="donut-example"></div>
+		</div><!-- panel-body panel-no-padding -->
+	</div><!-- panel panel-default -->
+</div><!-- col-sm-8 -->
+<div class="col-sm-4"></div><!-- col-sm-4 -->
+{% endblock %}

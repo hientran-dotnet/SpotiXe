@@ -1,0 +1,168 @@
+{% layout 'layout' %}
+{% block title %}KPI Dashboard{% endblock %} 
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active"><a href="app-blog-comment.html">KPI Dashboard</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/nvd3/nv.d3.min.css" | asset_url | stylesheet_tag }} 		<!-- nvd3 -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/d3/d3.min.js" | asset_url | script_tag }}             		<!-- nvd3 dependency -->
+{{ "plugins/nvd3/nv.d3.min.js" | asset_url | script_tag }} 				<!-- nvd3 -->
+
+{{ "plugins/easypiechart/jquery.easypiechart.js" | asset_url | script_tag }} <!-- EasyPieCharts -->
+{{ "demo/demo-kpi-dashboard.js" | asset_url | script_tag }}               <!-- demo-kpi-dashboard -->
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-8">
+		<div class="panel">
+	        <div class="panel-heading">
+	            <h2>Debt-to-Eauity</h2>
+	        </div>
+	        <div class="panel-body">
+		        <div id="chart1" style="height: 300px;">
+				    <svg></svg>
+				</div>3
+				020213.2
+			</div>
+	    </div>
+	    <div class="panel">
+	        <div class="panel-heading">
+	            <h2>Return on Equity | 2010-2012</h2>
+	        </div>
+	        <div class="panel-body">
+		       <div class="contextual-progress">
+		            <div class="clearfix">
+	                    <div class="progress-title">2010</div>
+	                    <div class="progress-percentage">53%</div>
+	                </div>
+	                <div class="progress">
+	                	<div class="progress-bar progress-bar-warning" style="width: 53%"></div>
+	                </div>
+	            </div>
+				<div class="contextual-progress">
+	                <div class="clearfix">
+	                    <div class="progress-title">2011</div>
+	                    <div class="progress-percentage">44%</div>
+	                </div>
+	                <div class="progress">
+	                  <div class="progress-bar progress-bar-success" style="width: 44%"></div>
+	                </div>
+	            </div>
+	            <div class="contextual-progress" style="padding-bottom: 0;border-bottom: 0;">
+	                <div class="clearfix">
+	                    <div class="progress-title">2012</div>
+	                    <div class="progress-percentage">49%</div>
+	                </div>
+	                <div class="progress">
+	                  <div class="progress-bar progress-bar-primary" style="width: 49%"></div>
+	                </div>
+	            </div> 
+			</div>
+	    </div>
+	</div><!-- col-sm-8 -->
+	<div class="col-sm-4">
+		<div class="panel">
+	        <div class="panel-heading">
+	            <h2>Net Profit Margin | 2012 vs 2011</h2>
+	        </div>
+	        <div class="panel-body">
+		       <div class="tiles-sparkline">
+					<div class="tiles-sparkline-heading clearfix">
+						<div class="pull-left">
+							<h2 class="block">12.5% 2012</h2>
+							<span class="tiles-sparkline-subheading block">... compared to 
+								<span class="text-muted">14.5% 2011</span>
+							</span>
+						</div>
+					</div>
+					<div class="tiles-sparkline-body">
+						<div id="tiles-sparkline-stats-pageviews"></div>
+						<div id="tiles-sparkline-stats-totalorders"></div>
+						<div class="tabular">
+							<div class="tabular-row">
+								<div class="tabular-cell">
+									<div class="week-day sun">S</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day mon">M</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day tue">T</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day wed">W</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day thu">T</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day fri">F</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day sat">S</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			   </div> 
+			</div>
+	    </div>
+	    <div class="panel">
+	        <div class="panel-heading">
+	            <h2>Gross Profit Margin | 2011 v. 2012</h2>
+	        </div>
+	        <div class="panel-body">
+		       <div class="tiles-sparkline">
+					<div class="tiles-sparkline-heading clearfix">
+						<div class="pull-left">
+							<h2 class="block">62.5% 2012</h2>
+							<span class="tiles-sparkline-subheading block">...compared to <span class="text-muted">59.8% 2011</span></span>
+						</div>
+						<!-- <div class="pull-right">
+							<span class="label label-success">+121%</span>
+						</div> -->
+					</div>
+					<div class="tiles-sparkline-body">
+						<div id="tiles-sparkline-stats-pageviews-extra"></div>
+						<div id="tiles-sparkline-stats-totalorders-extra"></div>
+						<div class="tabular">
+							<div class="tabular-row">
+								<div class="tabular-cell">
+									<div class="week-day sun">S</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day mon">M</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day tue">T</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day wed">W</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day thu">T</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day fri">F</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day sat">S</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			   </div> 
+			</div>
+	    </div>
+	</div><!-- col-sm-4 -->
+</div> <!-- .row -->
+{% endblock %}

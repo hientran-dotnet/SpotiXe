@@ -1,0 +1,141 @@
+{% layout 'layout' %}
+{% block title %}Chatroom{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Extras</a></li>
+<li class="active"><a href="extras-chatroom.html">Chatroom</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Chat Room</h2>
+			</div>
+			<div class="panel-body p-n">
+				<div class="row">
+					<div class="col-md-8 col-xs-12">
+						<div class="panel-chat well m-n" id="chat" tabindex="5000" style="overflow-y: hidden; outline: none; border-radius: 0;">
+							<div class="chat-message me">
+								<div class="chat-contact">
+									<img src="{{'demo/avatar/avatar_13.png' | asset_url | img_loc }}" alt="">
+								</div>
+								<div class="chat-text">
+									Chatroulette was one of those sites that didn’t impress me much because it was difficult to find someone to simply chat with.
+								</div>
+							</div>
+							<div class="chat-message chat-primary">
+								<div class="chat-contact">
+									<img src="{{'demo/avatar/avatar_02.png' | asset_url | img_loc }}" alt="">
+								</div>
+								<div class="chat-text">
+									Well, that was almost like a visit to the local loony bin. Strangers starts talking to you, but you are unable to comprehend what they are trying to say, and then they suddenly get distracted and leaves.
+								</div>
+							</div>
+							<div class="chat-message chat-success">
+								<div class="chat-contact">
+									<img src="{{'demo/avatar/avatar_07.png' | asset_url | img_loc }}" alt="">
+								</div>
+								<div class="chat-text">
+									I found some really interesting people on omegle.
+								</div>
+							</div>
+							<div class="chat-message chat-success">
+								<div class="chat-contact">
+									<img src="{{'demo/avatar/avatar_03.png' | asset_url | img_loc }}" alt="">
+								</div>
+								<div class="chat-text">
+									We talked about music, literature, life, etc.
+								</div>
+							</div>
+							<div class="chat-message me">
+								<div class="chat-contact">
+									<img src="{{'demo/avatar/avatar_13.png' | asset_url | img_loc }}" alt="">
+								</div>
+								<div class="chat-text">
+									What about good old ICQ?
+								</div>
+							</div>
+							<div class="chat-message me">
+								<div class="chat-contact">
+									<img src="{{'demo/avatar/avatar_13.png' | asset_url | img_loc }}" alt="">
+								</div>
+								<div class="chat-text">
+									It’s not a website.
+								</div>
+							</div>
+                            <div class="chat-message chat-success">
+                                <div class="chat-contact">
+                                    <img src="{{'demo/avatar/avatar_03.png' | asset_url | img_loc }}" alt="">
+                                </div>
+                                <div class="chat-text">
+                                    I’m talking about icq.com, not the messenger.
+                                </div>
+                            </div>
+                            <div class="chat-message chat-success">
+                                <div class="chat-contact">
+                                    <img src="{{'demo/avatar/avatar_08.png' | asset_url | img_loc }}" alt="">
+                                </div>
+                                <div class="chat-text">
+                                    Well, thank you for the pointer! I will eventually write a post about chatrooms and will definitely include ICQ.
+                                </div>
+                            </div>
+                            <div class="chat-message me">
+                                <div class="chat-contact">
+                                    <img src="{{'demo/avatar/avatar_13.png' | asset_url | img_loc }}" alt="">
+                                </div>
+                                <div class="chat-text">
+                                    I’ve been using chatlack.com which is like chatroulette and iddin but with photos.
+                                </div>
+                            </div>
+						</div>
+					</div>
+					<div class="col-md-4 hidden-xs">
+						<div class="panel-body p-n">
+							<ul class="chat-users mt-lg">
+						        <h4>Favotires<small> (5)</small></h4>
+									<li data-stats="online"><a href="javascript:;"><img src="{{'demo/avatar/avatar_02.png' | asset_url | img_loc }}" alt=""><span>Jeremy Potter</span></a></li>
+            						<li data-stats="online"><a href="javascript:;"><img src="{{'demo/avatar/avatar_07.png' | asset_url | img_loc }}" alt=""><span>David Tennant</span></a></li>
+            						<li data-stats="online"><a href="javascript:;"><img src="{{'demo/avatar/avatar_03.png' | asset_url | img_loc }}" alt=""><span>Anna Johansson</span></a></li>
+            						<li data-stats="busy"><a href="javascript:;"><img src="{{'demo/avatar/avatar_04.png' | asset_url | img_loc }}" alt=""><span>Eric Jackson</span></a></li>
+            						<li data-stats="away"><a href="javascript:;"><img src="{{'demo/avatar/avatar_08.png' | asset_url | img_loc }}" alt=""><span>Howard Jobs</span></a></li>
+                                <hr class="outsider">
+                                <h4>Online<small> (10)</small></h4>
+            						<li data-stats="offline"><a href="javascript:;"><img src="{{'demo/avatar/avatar_10.png' | asset_url | img_loc }}" alt=""><span>Annie Watson</span></a></li>
+                					<li data-stats="offline"><a href="javascript:;"><img src="{{'demo/avatar/avatar_09.png' | asset_url | img_loc }}" alt=""><span>Alan Doyle</span></a></li>				
+                					<li data-stats="offline"><a href="javascript:;"><img src="{{'demo/avatar/avatar_05.png' | asset_url | img_loc }}" alt=""><span>Simon Corbett</span></a></li>
+                					<li data-stats="offline"><a href="javascript:;"><img src="{{'demo/avatar/avatar_01.png' | asset_url | img_loc }}" alt=""><span>Polly Paton</span></a></li>
+                                	<li data-stats="offline"><a href="javascript:;"><img src="{{'demo/avatar/avatar_10.png' | asset_url | img_loc }}" alt=""><span>Annie Watson</span></a></li>
+                                	<li data-stats="offline"><a href="javascript:;"><img src="{{'demo/avatar/avatar_09.png' | asset_url | img_loc }}" alt=""><span>Alan Doyle</span></a></li>             
+                                	<li data-stats="offline"><a href="javascript:;"><img src="{{'demo/avatar/avatar_05.png' | asset_url | img_loc }}" alt=""><span>Simon Corbett</span></a></li>
+                                	<li data-stats="offline"><a href="javascript:;"><img src="{{'demo/avatar/avatar_01.png' | asset_url | img_loc }}" alt=""><span>Polly Paton</span></a></li>
+                                	<li data-stats="offline"><a href="javascript:;"><img src="{{'demo/avatar/avatar_10.png' | asset_url | img_loc }}" alt=""><span>Annie Watson</span></a></li>
+                                	<li data-stats="offline"><a href="javascript:;"><img src="{{'demo/avatar/avatar_09.png' | asset_url | img_loc }}" alt=""><span>Alan Doyle</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-footer p-md">
+				<form action="#">
+            	    <div class="input-group">
+            	    	<input type="text" placeholder="Enter your message here" class="form-control">
+            	    	<span class="input-group-btn">
+            	    		<button type="button" class="btn btn-default"><i class="fa fa-arrow-right"></i></button>
+            	    	</span>
+            	    </div>
+            	</form>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock %}

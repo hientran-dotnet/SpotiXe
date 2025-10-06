@@ -1,0 +1,668 @@
+{% layout 'layout' %}
+{% block title %}Tasks{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Applications</a></li>
+<li class="active"><a href="app-tasks.html">Tasks</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/form-nestable/jquery.nestable.css" | asset_url | stylesheet_tag }}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/form-nestable/jquery.nestable.min.js" | asset_url | script_tag }}
+
+{{ "demo/demo-tasks.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %} 
+<div id="panel-advancedoptions">
+	<div class="row">
+		<div class="col-md-8">
+            <div class="panel panel-default" id="tl1">
+                <div class="panel-heading">
+                    <h2>List 1</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6 conditional-margin">
+                            <ul class="sortable-connected list-unstyled" id="sortable-tasks-1">
+                                <li class="card-task card-inverse" id="">
+                                    <div class="card-handle"></div>
+                                    <div class="card-title">
+                                        <h3>Colorschemes</h3>
+                                        <div class="card-done">0/5</div>
+                                    </div>
+                                    <div class="progress progress-lg">    
+                                        <div class="progress-bar progress-bar-inverse" style="width: 20%"></div>
+                                    </div>
+
+                                    <p class="card-desc">
+                                        Create color variations for sidebar and topnav
+                                    </p>
+                                    <div class="card-options">
+                                        <div class="pull-left">
+                                            <span class="label label-orange">CSS</span>
+                                        </div>
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-pencil"></i></a>
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="card-checklist">
+                                        <div class="clearfix checklist-toggler">
+                                            <h4>Checklist</h4>
+                                            <i class="fa fa-angle-left"></i>
+                                        </div>
+
+                                        <div class="checklist-container dd" id="nestable-list-1" style="display: none">
+                                            <ol class="dd-list">
+                                                <li class="checklist-item dd-item" data-id="1">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Red
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="2">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Black
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="3">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Orange
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="4">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Violet
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="5">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Blue
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                            
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="card-task card-sky" id="">
+                                    <div class="card-handle"></div>
+                                    <div class="card-title">
+                                        <h3>Template Pages</h3>
+                                        <div class="card-done">0/5</div>
+                                    </div>
+                                    <div class="progress progress-lg">    
+                                        <div class="progress-bar progress-bar-sky" style="width: 20%"></div>
+                                    </div>
+
+                                    <p class="card-desc">
+                                        Finish all pending pages
+                                    </p>
+                                    <div class="card-options">
+                                        <div class="pull-left">
+                                            <span class="label label-primary">HTML</span>
+                                        </div>
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-pencil"></i></a>    
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="card-checklist">
+                                        <div class="clearfix checklist-toggler">
+                                            <h4>Checklist</h4>
+                                            <i class="fa fa-angle-left"></i>
+                                        </div>
+
+                                        <div class="checklist-container dd" id="nestable-list-2" style="display: none">
+                                            <ol class="dd-list">
+                                                <li class="checklist-item dd-item" data-id="1">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Clients
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="2">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Portfolio
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="3">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Blog
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="4">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Timeline
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="5">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Profile
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                            
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="card-task card-primary" id="">
+                                    <div class="card-handle"></div>
+                                    <div class="card-title">
+                                        <h3>Bugs</h3>
+                                        <div class="card-done">0/5</div>
+                                    </div>
+                                    <div class="progress progress-lg">    
+                                        <div class="progress-bar progress-bar-primary" style="width: 20%"></div>
+                                    </div>
+
+                                    <p class="card-desc">
+                                        Pending bug fixes.
+                                    </p>
+                                    <div class="card-options">
+                                        <div class="pull-left">
+                                            <span class="label label-orange">CSS</span>
+                                            <span class="label label-alizarin">JS</span>
+                                        </div>
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-pencil"></i></a>  
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="card-checklist">
+                                        <div class="clearfix checklist-toggler">
+                                            <h4>Checklist</h4>
+                                            <i class="fa fa-angle-left"></i>
+                                        </div>
+
+                                        <div class="checklist-container dd" id="nestable-list-3" style="display: none">
+                                            <ol class="dd-list">
+                                                <li class="checklist-item dd-item" data-id="1">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Responsiveness
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="2">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Internet explorer 8
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="3">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Sidebars
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="4">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Dropdowns
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="5">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Switches
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                            
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6">
+                            <ul class="sortable-connected list-unstyled" id="sortable-tasks-4">
+                                <li class="card-task card-indigo" id="">
+                                    <div class="card-handle"></div>
+                                    <div class="card-title">
+                                        <h3>Components</h3>
+                                        <div class="card-done">0/5</div>
+                                    </div>
+                                    <div class="progress progress-lg">    
+                                        <div class="progress-bar progress-bar-indigo" style="width: 20%"></div>
+                                    </div>
+
+                                    <p class="card-desc">
+                                        Add custom components
+                                    </p>
+                                    <div class="card-options">
+                                        <div class="pull-left">
+                                        </div>
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-pencil"></i></a>
+    
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="card-checklist">
+                                        <div class="clearfix checklist-toggler">
+                                            <h4>Checklist</h4>
+                                            <i class="fa fa-angle-left"></i>
+                                        </div>
+
+                                        <div class="checklist-container dd" id="nestable-list-4" style="display: none">
+                                            <ol class="dd-list">
+                                                <li class="checklist-item dd-item" data-id="1">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Bootbox
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="2">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        jQuery knob
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="3">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Nestable lists
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="4">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Tree View
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="5">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Paginators
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                            
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="card-task card-warning" id="">
+                                    <div class="card-handle"></div>
+                                    <div class="card-title">
+                                        <h3>Widgets</h3>
+                                        <div class="card-done">0/5</div>
+                                    </div>
+                                    <div class="progress progress-lg">    
+                                        <div class="progress-bar progress-bar-warning" style="width: 20%"></div>
+                                    </div>
+
+                                    <p class="card-desc">
+                                        Style all the widgets
+                                    </p>
+                                    <div class="card-options">
+                                        <div class="pull-left">
+                                        </div>
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-pencil"></i></a>
+    
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="card-checklist">
+                                        <div class="clearfix checklist-toggler">
+                                            <h4>Checklist</h4>
+                                            <i class="fa fa-angle-left"></i>
+                                        </div>
+
+                                        <div class="checklist-container dd" id="nestable-list-5" style="display: none">
+                                            <ol class="dd-list">
+                                                <li class="checklist-item dd-item" data-id="1">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Chat
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="2">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Feeds
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="3">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Contacts
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="4">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Todo
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="5">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Weather
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                            
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="card-task card-danger" id="">
+                                    <div class="card-handle"></div>
+                                    <div class="card-title">
+                                        <h3>Data Tables</h3>
+                                        <div class="card-done">0/5</div>
+                                    </div>
+                                    <div class="progress progress-lg">    
+                                        <div class="progress-bar progress-bar-danger" style="width: 20%"></div>
+                                    </div>
+
+                                    <p class="card-desc">
+                                        Fix all data table bugs and add new plugins
+                                    </p>
+                                    <div class="card-options">
+                                        <div class="pull-left">
+                                            <span class="label label-alizarin">JS</span>
+                                        </div>
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-pencil"></i></a>
+    
+                                                <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="card-checklist">
+                                        <div class="clearfix checklist-toggler">
+                                            <h4>Checklist</h4>
+                                            <i class="fa fa-angle-left"></i>
+                                        </div>
+
+                                        <div class="checklist-container dd" id="nestable-list-6" style="display: none">
+                                            <ol class="dd-list">
+                                                <li class="checklist-item dd-item" data-id="1">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                        Editable tables
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="2">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Fixed header
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="3">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Advanced options
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="4">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Custom tables
+                                                    </div>
+                                                </li>
+                                                <li class="checklist-item dd-item" data-id="5">
+                                                    <div class="dd-handle">
+                                                        <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                        Update versions
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                            
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default" id="tl2">
+                <div class="panel-heading">
+                    <h2>List 2</h2>
+                </div>
+                <div class="panel-body">
+                    <ul class="sortable-connected list-unstyled" id="sortable-tasks-7">
+                        <li class="card-task card-info" id="">
+                            <div class="card-handle"></div>
+                            <div class="card-title">
+                                <h3>Wireframes</h3>
+                                <div class="card-done">0/5</div>
+                            </div>
+                            <div class="progress progress-lg">    
+                                <div class="progress-bar progress-bar-info" style="width: 20%"></div>
+                            </div>
+
+                            <p class="card-desc">
+                                Sketch wireframes for following pages
+                            </p>
+                            <div class="card-options">
+                                <div class="pull-left">
+                                </div>
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-pencil"></i></a>
+                                        <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="card-checklist">
+                                <div class="clearfix checklist-toggler">
+                                    <h4>Checklist</h4>
+                                    <i class="fa fa-angle-left"></i>
+                                </div>
+
+                                <div class="checklist-container dd" id="nestable-list-7" style="display: none">
+                                    <ol class="dd-list">
+                                        <li class="checklist-item dd-item" data-id="1">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                User dashboard
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="2">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                User settings
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="3">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                User profile
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="4">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                Edit profile
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="5">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                User uploads
+                                            </div>
+                                        </li>
+                                    </ol>
+                                    
+                                </div>
+                            </div>
+                        </li>
+                        <li class="card-task card-success" id="">
+                            <div class="card-handle"></div>
+                            <div class="card-title">
+                                <h3>Design Pages</h3>
+                                <div class="card-done">0/5</div>
+                            </div>
+                            <div class="progress progress-lg">    
+                                <div class="progress-bar progress-bar-success" style="width: 20%"></div>
+                            </div>
+
+                            <p class="card-desc">
+                                Create psds for the following pages
+                            </p>
+                            <div class="card-options">
+                                <div class="pull-left">
+                                    <span class="label label-midnightblue">PSD</span>
+                                </div>
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-pencil"></i></a>
+                                        <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="card-checklist">
+                                <div class="clearfix checklist-toggler">
+                                    <h4>Checklist</h4>
+                                    <i class="fa fa-angle-left"></i>
+                                </div>
+
+                                <div class="checklist-container dd" id="nestable-list-8" style="display: none">
+                                    <ol class="dd-list">
+                                        <li class="checklist-item dd-item" data-id="1">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                Home
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="2">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                Blog
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="3">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                Blog post
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="4">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                Portfolio
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="5">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                Services
+                                            </div>
+                                        </li>
+                                    </ol>
+                                    
+                                </div>
+                            </div>
+                        </li>
+                        <li class="card-task card-midnightblue" id="">
+                            <div class="card-handle"></div>
+                            <div class="card-title">
+                                <h3>App</h3>
+                                <div class="card-done">0/5</div>
+                            </div>
+                            <div class="progress progress-lg">    
+                                <div class="progress-bar progress-bar-midnightblue" style="width: 20%"></div>
+                            </div>
+
+                            <p class="card-desc">
+                                Add the following features to app
+                            </p>
+                            <div class="card-options">
+                                <div class="pull-left">
+                                </div>
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-pencil"></i></a>
+                                        <a class="btn btn-default-alt btn-xs" href="#"><i class="fa fa-fw fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="card-checklist">
+                                <div class="clearfix checklist-toggler">
+                                    <h4>Checklist</h4>
+                                    <i class="fa fa-angle-left"></i>
+                                </div>
+
+                                <div class="checklist-container dd" id="nestable-list-9" style="display: none">
+                                    <ol class="dd-list">
+                                        <li class="checklist-item dd-item" data-id="1">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                                Drag and drop functionality
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="2">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                Edit description
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="3">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                Add new card
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="4">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                Delete card
+                                            </div>
+                                        </li>
+                                        <li class="checklist-item dd-item" data-id="5">
+                                            <div class="dd-handle">
+                                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                                                Add list item
+                                            </div>
+                                        </li>
+                                    </ol>
+                                    
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% layout 'layout' %}
+{% block title %}Notific8 Notificaition{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Custom Components</a></li>
+<li class="active"><a href="custom-notific8.html">Notific8</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/jquery-notific8/jquery.notific8.css" | asset_url | stylesheet_tag }} 	<!-- Notific8 Plugin -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/jquery-notific8/jquery.notific8.js" | asset_url | script_tag }} 		<!-- Notific8 Plugin -->
+
+{{ "demo/demo-custom-notific8.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-xs-12">
+
+		<div class="alert alert-info">
+			<h3>Notific8</h3>
+			<p>Notific8 is a notification plug-in inspired by the notifications introduced in Windows 8 with some web ready restyling and customizations. Notific8 has built in themes and is easy to create new themes for.</p>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h2>Notific8</h2>
+			</div>
+			<div class="panel-body">
+				<div class="form-horizontal">
+					<div class="form-group">
+						<div class="col-xs-4">
+							<label for="notific8Text">Notification text</label>	
+						</div>
+						<div class="col-xs-6">
+							<input class="form-control" type="text" name="notific8Text" id="notific8Text" size="50" maxlength="100" value="Notifications inspired by Windows 8 notifications" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-4">
+							<label for="notific8Heading">Heading (optional)</label>	
+						</div>
+						<div class="col-xs-6">
+							<input class="form-control" type="text" name="notific8Heading" id="notific8Heading" size="50" maxlength="50" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-4">
+							<label for="notific8Sticky">Sticky</label>
+						</div>
+						<div class="col-xs-6">
+							<input type="checkbox" name="notific8Sticky" id="notific8Sticky" /> (if checked, setting life below will be ignored)
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-4">
+							<label for="notific8Life">Life</label>
+						</div>
+						<div class="col-xs-6">
+							<select name="notific8Life" id="notific8Life" class="form-control">
+					            <option value="1000">1 second</option>
+					            <option value="5000">5 seconds</option>
+					            <option value="10000" selected="selected">10 seconds (Default)</option>
+					            <option value="25000">25 seconds</option>
+					            <option value="60000">60 seconds</option>
+					        </select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-4">
+							<label for="notific8Theme">Theme</label>
+						</div>
+						<div class="col-xs-6">
+					        <select name="notific8Theme" id="notific8Theme" class="form-control">
+					            <option value="teal" selected="selected">Teal (Default)</option>
+					            <option value="amethyst">Amethyst</option>
+					            <option value="ruby">Ruby</option>
+					            <option value="tangerine">Tangerine</option>
+					            <option value="lemon">Lemon</option>
+					            <option value="lime">Lime</option>
+					            <option value="ebony">Ebony</option>
+					            <option value="smoke">Smoke</option>
+					        </select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-4">
+							Positioning
+						</div>
+						<div class="col-xs-6">
+							<div class="row">
+								<div class="col-xs-6">
+									<select name="notific8horizontal" id="notific8horizontal" class="form-control">
+					    			    <option value="top">Top (Default)</option>
+					    			    <option value="bottom">Bottom</option>
+					    			</select>
+								</div>
+								<div class="col-xs-6">
+									<select name="notific8vertical" id="notific8vertical" class="form-control">
+					    			    <option value="right">Right (default)</option>
+					    			    <option value="left">Left</option>
+					    			</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-6 col-xs-offset-4">
+							<button type="button" name="notific8Test" id="notific8Test" class="btn btn-default btn-block">Test notifications!</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

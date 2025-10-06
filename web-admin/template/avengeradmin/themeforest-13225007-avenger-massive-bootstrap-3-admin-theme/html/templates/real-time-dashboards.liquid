@@ -1,0 +1,73 @@
+{% layout 'layout' %}
+{% block title %}Real Time Dashboards{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active"><a href="app-blog-comment.html">Real Time Dashboards</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/nvd3/nv.d3.min.css" | asset_url | stylesheet_tag }} 		<!-- nvd3 -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/d3/d3.min.js" | asset_url | script_tag }}             		<!-- nvd3 dependency -->
+{{ "plugins/nvd3/nv.d3.min.js" | asset_url | script_tag }} 				<!-- nvd3 -->
+
+{{ "demo/demo-er-status.js" | asset_url | script_tag }}               <!-- demo-kpi-dashboard -->
+{% endblock %} 
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-4">
+		<a class="info-tiles tiles-sky" href="#">
+    		<div class="tiles-heading">
+		        <div class="pull-left">Key Web Metrics</div>
+		        <div class="pull-right">target: 200:1 or less</div>
+		    </div>
+		    <div class="tiles-body">
+		        <div class="pull-left">170:1 Visitor to lead Ratio</div>
+		    </div>
+		</a>
+	</div>
+	<div class="col-sm-4">
+		<a class="info-tiles tiles-sky" href="#">
+    		<div class="tiles-heading">
+		        <div class="pull-left">Key Sales Metrics</div>
+		        <div class="pull-right">target: 7:1 or less</div>
+		    </div>
+		    <div class="tiles-body">
+		        <div class="pull-left">5:1 Lead to Win Ratio</div>
+		    </div>
+		</a>
+	</div>
+	<div class="col-sm-4"> 
+		<a class="info-tiles tiles-sky" href="#">
+    		<div class="tiles-heading">
+		        <div class="pull-left">Social Interactions</div>
+		        <div class="pull-right">Target: 9,500 or more</div>
+		    </div>
+		    <div class="tiles-body">
+		        <div class="pull-left">9,974 Social Interactions</div>
+		    </div>
+		</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel">
+	        <div class="panel-heading">
+	            <h2>Visit and Goals</h2>
+	        </div>
+	        <div class="panel-body">
+		        <div id="chart1" style="height: 300px;">
+				    <svg></svg>
+				</div>3
+				020213.2
+			</div>
+	    </div>
+	</div>
+</div>
+{% endblock %}

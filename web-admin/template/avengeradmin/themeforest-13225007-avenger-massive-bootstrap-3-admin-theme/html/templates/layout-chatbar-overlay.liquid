@@ -1,0 +1,27 @@
+{% layout "layout-chatbar" %}
+{% block title %}Overlay Chatbar{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Layout</a></li>
+<li class="active"><a href="layout-chatbar-overlay.html">Overlay Chatbar</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{{ "demo/demo-layout-chatbar-overlay.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %} 
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="alert alert-info">
+				<strong>Sidebar:</strong> Static, <strong>Chatbar:</strong> Overlay
+			</div>
+
+		</div>
+	</div>
+{% endblock %}

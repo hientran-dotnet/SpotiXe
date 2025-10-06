@@ -1,0 +1,176 @@
+{% layout 'layout' %}
+{% block title %}Blog Portfolio{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>Extras</li>
+<li class="active"><a href="extras-gallery.html">Gallery</a></li>
+{% endblock %}
+
+{% block styles %}{% endblock %}
+
+{% block scripts %}
+{{ "plugins/shufflejs/modernizr.custom.min.js" | asset_url | script_tag }}  <!-- Dependency for Shuffle.js -->
+{{ "plugins/shufflejs/jquery.shuffle.min.js" | asset_url | script_tag }}    <!-- Shuffle.js -->
+
+{{ "demo/demo-extras-gallery.js" | asset_url | script_tag }}
+
+{% endblock %}
+
+{% block content %} 
+<div class="row">
+	<div class="col-md-12">
+
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Gallery</h2></div>
+			<div class="panel-body pb0">
+
+				<div class="alert alert-info">
+					<h3>Shuffle.js</h3>
+					<p>Avenger comes bundled with easy to use, light weight, CSS3 fliter and sort plugin. It provides beautiful animated filtering and sorting of categorized and ordered content. It plays nice with your existing HTML and CSS, making it a great choice for fluid, responsive layouts.</p>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="clearfix">
+					    	<div class="btn-group pull-left" id="galleryfilter">
+					    		<button class="btn btn-default active" data-group="all">All</button>
+					    		<button class="btn btn-default" data-group="industrial">Industrial</button>
+					    		<button class="btn btn-default" data-group="nature">Nature</button>
+					    		<button class="btn btn-default" data-group="architecture">Architecture</button>
+					    	</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="clearfix">
+							<div class="btn-group pull-right" id="gallerysort">
+								<button class="btn btn-default" data-order="desc"><i class="fa fa-sort-alpha-asc"></i><span class="hidden-xs"> Name</span></button>
+								<button class="btn btn-default" data-order="asc"><i class="fa fa-sort-alpha-desc"></i><span class="hidden-xs"> Name</span></button>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-12">
+
+						<hr style="mt0 mb10">
+
+
+						<ul class="gallery row">
+						
+							<div data-groups='["industrial"]' class="item-wrapper col-md-3" data-name="Rusty">
+								<div class="item">
+									<img src="{{'demo/stockphoto/communication_02.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Communication</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["nature"]' class="item-wrapper col-md-3" data-name="Enchanted Creek">
+								<div class="item">
+									<img src="{{'demo/stockphoto/music_02.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Music</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["architecture"]' class="item-wrapper col-md-3" data-name="Building">
+								<div class="item">
+									<img src="{{'demo/stockphoto/beauty_06.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Beauty</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["nature"]' class="item-wrapper col-md-3" data-name="Mill">
+								<div class="item">
+									<img src="{{'demo/stockphoto/music_04.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Music</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["industrial"]' class="item-wrapper col-md-3" data-name="Machiery">
+								<div class="item">
+									<img src="{{'demo/stockphoto/music_01.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Music</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["architecture"]' class="item-wrapper col-md-3" data-name="Fire Escape">
+								<div class="item">
+									<img src="{{'demo/stockphoto/music_06.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Music</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["nature"]' class="item-wrapper col-md-3" data-name="Mossy Tree">
+								<div class="item">
+									<img src="{{'demo/stockphoto/music_12.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Music</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["industrial"]' class="item-wrapper col-md-3" data-name="Demolition">
+								<div class="item">
+									<img src="{{'demo/stockphoto/music_08.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Music</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["architecture"]' class="item-wrapper col-md-3" data-name="Fountain">
+								<div class="item">
+									<img src="{{'demo/stockphoto/communication_09.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Communication</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["nature"]' class="item-wrapper col-md-3" data-name="Rider">
+								<div class="item">
+									<img src="{{'demo/stockphoto/music_10.jpg' | asset_url | img_loc }}" alt="" class="img-responsive">
+									<h3>Music</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["nature"]' class="item-wrapper col-md-3" data-name="River">
+								<div class="item">
+									<img src="{{'demo/stockphoto/beauty_10.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Beauty</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["industrial"]' class="item-wrapper col-md-3" data-name="Corrosion Hazard">
+								<div class="item">
+									<img src="{{'demo/stockphoto/blog_02.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Blog</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["nature"]' class="item-wrapper col-md-3" data-name="Gardens">
+								<div class="item">
+									<img src="{{'demo/stockphoto/portfolio_02.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Portfolio</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["industrial"]' class="item-wrapper col-md-3" data-name="Code">
+								<div class="item">
+									<img src="{{'demo/stockphoto/portfolio_06.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Portfolio</h3>
+								</div>
+							</div>
+						
+							<div data-groups='["nature"]' class="item-wrapper col-md-3" data-name="Trees">
+								<div class="item">
+									<img src="{{'demo/stockphoto/music_11.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<h3>Music</h3>
+								</div>
+							</div>
+						
+							
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

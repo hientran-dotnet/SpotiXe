@@ -1,0 +1,67 @@
+{% layout 'layout' %}
+{% block title %}Sparklines{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Charts</a></li>
+<li class="active"><a href="charts-sparklines.html">Sparklines</a></li>
+{% endblock %}
+
+{% block styles %}{% endblock %}
+
+{% block scripts %}
+{{ "demo/demo-inlinecharts.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-info">
+    <h3>Sparklines</h3>
+    <p>Sparklines are very small, inline charts that can be drawn using data supplied either inline in the HTML, or via javascript. They can, however, be customized to fit even bigger divs.</p>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2>Inline</h2>
+            </div>
+            <div class="panel-body">
+                <p>Inline line charts <span class="linecharts" values="5,4,7,6,9,5,8,2,6,4,6,7"><canvas width="36" height="18" style="display: inline-block; width: 36px; height: 18px; vertical-align: top;"></canvas></span> can be placed anywhere <span class="linecharts" values="6,3,8,1,3,2,4,5,6,3,2"><canvas width="33" height="18" style="display: inline-block; width: 33px; height: 18px; vertical-align: top;"></canvas></span></p>
+
+                <p>Bar charts <span class="barcharts" values="5,6,3,9,2,7,5"><canvas width="34" height="18" style="display: inline-block; width: 34px; height: 18px; vertical-align: top;"></canvas></span> with negetives <span class="barcharts" values="5,6,-3,9,-2,7,-5"><canvas width="34" height="18" style="display: inline-block; width: 34px; height: 18px; vertical-align: top;"></canvas></span> and stacked <span class="barcharts" values="1:3, 5:3, 2:7,9:1,5:6"><canvas width="24" height="18" style="display: inline-block; width: 24px; height: 18px; vertical-align: top;"></canvas></span></p>
+
+                <p>Composite inline <span id="compositeline" values="5,4,7,6,9,5,8,2,6,4,6,7"><canvas width="36" height="18" style="display: inline-block; width: 36px; height: 18px; vertical-align: top;"></canvas></span></p>
+
+                <p>Composite bar <span id="compositebar" values="5,4,7,6,9,5,8,2,6,4,6,7"><canvas width="59" height="18" style="display: inline-block; width: 59px; height: 18px; vertical-align: top;"></canvas></span></p>
+
+                <p>Discrete <span id="discrete1" values="4,6,7,7,4,3,2,1,4,4 "><canvas width="20" height="18" style="display: inline-block; width: 20px; height: 18px; vertical-align: top;"></canvas></span> and with threshhold <span id="discrete2" values="4,6,7,7,4,3,2,1,4,4"><canvas width="20" height="18" style="display: inline-block; width: 20px; height: 18px; vertical-align: top;"></canvas></span></p>
+                <p>Pie charts <span id="pie"><canvas width="18" height="18" style="display: inline-block; width: 18px; height: 18px; vertical-align: top;"></canvas></span></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h2>Stacked</h2></div>
+          <div class="panel-body"><div id="bigstacked" style="margin:0 auto; width: 400px"><canvas width="400" height="200" style="display: inline-block; width: 400px; height: 200px; vertical-align: top;"></canvas></div></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h2>Pie Chart</h2></div>
+          <div class="panel-body"><div id="bigpie" style="margin:0 auto; width: 200px"><canvas width="200" height="200" style="display: inline-block; width: 200px; height: 200px; vertical-align: top;"></canvas></div></div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h2>Line Charts</h2></div>
+            <div class="panel-body"><div id="bigline"><canvas width="773" height="200" style="display: inline-block; width: 773px; height: 200px; vertical-align: top;"></canvas></div></div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,124 @@
+{% layout 'layout' %}
+{% block title %}Vector Maps{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Maps</a></li>
+<li class="active"><a href="maps-vector.html">Vector Maps</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/jqvmap/jqvmap.css" | asset_url | stylesheet_tag }}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/jqvmap/jquery.vmap.min.js" | asset_url | script_tag }} 					<!-- Jquery Vector Map -->
+{{ "plugins/jqvmap/maps/jquery.vmap.world.js" | asset_url | script_tag }} 			<!-- Load Vector Map Data -->
+{{ "plugins/jqvmap/maps/jquery.vmap.europe.js" | asset_url | script_tag }} 			<!-- Load Vector Map Data -->
+{{ "plugins/jqvmap/maps/jquery.vmap.usa.js" | asset_url | script_tag }} 			<!-- Load Vector Map Data -->
+{{ "plugins/jqvmap/maps/jquery.vmap.germany.js" | asset_url | script_tag }} 		<!-- Load Vector Map Data -->
+{{ "plugins/jqvmap/maps/jquery.vmap.russia.js" | asset_url | script_tag }} 			<!-- Load Vector Map Data -->
+{{ "plugins/jqvmap/maps/jquery.vmap.france.js" | asset_url | script_tag }} 			<!-- Load Vector Map Data -->
+{{ "plugins/jqvmap/maps/jquery.vmap.algeria.js" | asset_url | script_tag }} 		<!-- Load Vector Map Data -->
+
+{{ "plugins/jqvmap/data/jquery.vmap.sampledata.js" | asset_url | script_tag }} 		<!-- Load Sample Data for the vector maps -->
+
+{{ "demo/demos-jqvmap.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-info">
+	<h3>jQuery Vector Maps</h3>
+	<p>JQVMap is a jQuery plugin that renders Vector Maps.  It uses resizable Scalable Vector Graphics (SVG) for modern browsers like Firefox, Safari, Chrome, Opera and Internet Explorer 9.</p>
+	<br>
+	<p><i class="fa fa-map-marker"></i> Download vector maps available for free <a href="http://jvectormap.com/maps/world/europe/">here</a></p>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class = "panel panel-info">
+			<div class="panel-heading">
+			<h2>World Map</h2>
+			</div>
+			<div class="panel-body">
+				<div id="worldmap" style="height: 400px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h2>USA</h2>
+			</div>
+			<div class="panel-body">
+				<div id="usamap" style="height: 350px;"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h2>Europe</h2>
+			</div>
+			<div class="panel-body">
+				<div id="euromap" style="height: 350px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h2>Germany</h2>
+			</div>
+			<div class="panel-body">
+				<div id="germanymap" style="height: 350px;"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h2>Russia</h2>
+			</div>
+			<div class="panel-body">
+				<div id="russiamap" style="height: 350px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h2>France</h2>
+			</div>
+			<div class="panel-body">
+				<div id="francemap" style="height: 350px;"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h2>Algeria</h2>
+			</div>
+			<div class="panel-body">
+				<div id="algeriamap" style="height: 350px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

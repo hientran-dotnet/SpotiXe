@@ -1,0 +1,781 @@
+{% layout 'layout' %}
+{% block title %}Tiles{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Components</a></li>
+<li class="active"><a href="ui-tiles.html">Tiles</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/easypiechart/jquery.easypiechart.js" | asset_url | script_tag }} <!-- EasyPieCharts -->
+
+{{ "demo/demo-ui-tiles.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-info">
+	<h3>Tiles <small><strong>Easily make your own beautiful widgets</strong></small></h3>
+	<p>With our CSS-Only tiles you can easily show quick stats without the buzz and fuzz of any javascript plugins. It can be clickable if you wrap it in a <code>a</code> tag, or not if it's in a <code>div</code></p>
+</div>
+
+<div class="row">
+	<div class="col-md-12">	
+		<div class="row">
+			<div class="col-md-3">
+				<div class="amazo-tile tile-success">
+					<div class="tile-heading">
+						<div class="title">Revenue</div>
+						<div class="secondary">past 28 days</div>
+					</div>
+					<div class="tile-body">
+						<div class="content">$75,800</div>
+					</div>
+					<div class="tile-footer">
+						<span class="info-text text-right">13.4% <i class="fa fa-level-up"></i></span>
+						<div id="sparkline-revenue" class="sparkline-line"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="amazo-tile tile-info" href="#"> 
+					<div class="tile-heading">
+						<div class="title">Goals</div>
+						<div class="secondary">orders this month</div>
+					</div>
+					<div class="tile-body">
+						<div class="content">3,690</div>
+					</div>
+					<div class="tile-footer">
+						<span class="info-text text-right">82% of 4,500</span>
+						<div class="progress">
+							<div class="progress-bar" style="width: 82%"></div>
+						</div>
+					</div>
+				</div>
+			</div>			
+			<div class="col-md-3">
+				<div class="amazo-tile tile-white">
+					<div class="tile-heading">
+						<div class="title">Items</div>
+						<div class="secondary">past 28 days</div>
+					</div>
+					<div class="tile-body">
+						<span class="content">407</span>
+					</div>
+					<div class="tile-footer text-center">
+						<span class="info-text text-right" style="color: #f04743">13.4% <i class="fa fa-level-down"></i></span>
+						<div id="sparkline-item" class="sparkline-bar"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="amazo-tile tile-white">
+					<div class="tile-heading">
+						<span class="title">Commision</span>
+						<span class="secondary">past 28 days</span>
+					</div>
+					<div class="tile-body">
+						<span class="content">$9,500</span>
+					</div>
+					<div class="tile-footer">
+						<span class="info-text text-right" style="color: #94c355">9.2% <i class="fa fa-level-up"></i></span>
+						<div id="sparkline-commission" class="sparkline"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="tile-sparkline">
+					<div class="tile-sparkline-heading clearfix">
+						<div class="pull-left">
+							<h2 class="block">9,172</h2>
+							<span class="tile-sparkline-subheading block">Page Views <span class="text-muted">This week</span></span class="block">
+						</div>
+						<div class="pull-right">
+							<span class="label label-success">+121%</span>
+						</div>
+					</div>
+					<div class="tile-sparkline-body">
+						<div id="tiles-sparkline-stats-pageviews"></div>
+						<div class="tabular">
+							<div class="tabular-row">
+								<div class="tabular-cell">
+									<div class="week-day sun">S</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day mon">M</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day tue">T</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day wed">W</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day thu">T</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day fri">F</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day sat">S</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tile-sparkline-footer">
+						<a href="#">Go to analytics</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="tile-sparkline">
+					<div class="tile-sparkline-heading clearfix">
+						<div class="pull-left">
+							<h2 class="block">$25,501</h2>
+							<span class="tile-sparkline-subheading block">Total Sales <span class="text-muted">This week</span></span class="block">
+						</div>
+						<div class="pull-right">
+							<span class="label label-danger">-37%</span>
+						</div>
+					</div>
+					<div class="tile-sparkline-body">
+						<div id="tiles-sparkline-stats-totalsales"></div>
+						<div class="tabular">
+							<div class="tabular-row">
+								<div class="tabular-cell">
+									<div class="week-day sun">S</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day mon">M</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day tue">T</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day wed">W</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day thu">T</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day fri">F</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day sat">S</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tile-sparkline-footer">
+						<a href="#">Go to accounts</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="tile-sparkline">
+					<div class="tile-sparkline-heading clearfix">
+						<div class="pull-left">
+							<h2 class="block">812</h2>
+							<span class="tile-sparkline-subheading block">Total Orders <span class="text-muted">This week</span></span class="block">
+						</div>
+						<div class="pull-right">
+							<span class="label label-success">+98%</span>
+						</div>
+					</div>
+					<div class="tile-sparkline-body">
+						<div id="tiles-sparkline-stats-totalorders"></div>
+						<div class="tabular">
+							<div class="tabular-row">
+								<div class="tabular-cell">
+									<div class="week-day sun">S</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day mon">M</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day tue">T</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day wed">W</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day thu">T</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day fri">F</div>
+								</div>
+								<div class="tabular-cell">
+									<div class="week-day sat">S</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tile-sparkline-footer">
+						<a href="#">Go to analytics</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Info Tiles</h2>
+				<div class="options">
+					<ul class="nav nav-tabs">
+					  <li class="active"><a href="#dominfotiles" data-toggle="tab"><i class="fa fa-desktop"></i></a></li>
+					  <li><a href="#codeinfotiles" data-toggle="tab"><i class="fa fa-code"></i></a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="dominfotiles">
+						<div class="row">
+							<div class="col-md-3">
+								<a class="info-tile tile-sky" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">Page View</div>
+										<div class="pull-right">-15.6%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-eye"></i></div>
+										<div class="pull-right">1.6K</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="info-tile tile-orange" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">Likes</div>
+										<div class="pull-right">+5.5%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-thumbs-o-up"></i></div>
+										<div class="pull-right">345</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="info-tile tile-brown" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">Bugs Fixed</div>
+										<div class="pull-right">+14.9%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-check-square"></i></div>
+										<div class="pull-right">21</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="info-tile tile-midnightblue" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">New Members</div>
+										<div class="pull-right">-9.8%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-group"></i></div>
+										<div class="pull-right">125</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<a class="info-tile tile-purple" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">Gifts</div>
+										<div class="pull-right">+58.1%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-gift"></i></div>
+										<div class="pull-right">16</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="info-tile tile-success" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">Profits</div>
+										<div class="pull-right">+4.5%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-money"></i></div>
+										<div class="pull-right">$2.4K</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="info-tile tile-primary" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">Sales Revenue</div>
+										<div class="pull-right">-19.1%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-dollar"></i></div>
+										<div class="pull-right">$30.2K</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="info-tile tile-indigo" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">New Orders</div>
+										<div class="pull-right">+25.8%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-shopping-cart"></i></div>
+										<div class="pull-right">679</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<a class="info-tile tile-green" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">Comments</div>
+										<div class="pull-right">+10.3%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-comments"></i></div>
+										<div class="pull-right">32</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="info-tile tile-danger" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">Downloads</div>
+										<div class="pull-right">-8.5%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-download"></i></div>
+										<div class="pull-right">6.7K</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="info-tile tile-magenta" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">Tasks</div>
+										<div class="pull-right">-11.1%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-tasks"></i></div>
+										<div class="pull-right">17</div>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3">
+								<a class="info-tile tile-inverse" href="#">
+									<div class="tile-heading">
+										<div class="pull-left">Videos</div>
+										<div class="pull-right">-20.7%</div>
+									</div>
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-video-camera"></i></div>
+										<div class="pull-right">31</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						
+					</div> <!-- .tab-pane -->
+					<div class="tab-pane" id="codeinfotiles">
+<div class="row">
+	<div class="col-md-9">
+<pre class="prettyprint linenums">
+&lt;a class=&quot;info-tile tile-info&quot;&gt;
+	&lt;div class=&quot;tile-heading&quot;&gt;
+		&lt;div class=&quot;pull-left&quot;&gt;New Members&lt;/div&gt;
+		&lt;div class=&quot;pull-right&quot;&gt;&lt;i class=&quot;fa fa-caret-up&quot;&gt;&lt;/i&gt; 9.8%&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;tile-body&quot;&gt;
+		&lt;div class=&quot;pull-left&quot;&gt;&lt;i class=&quot;fa fa-group&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+		&lt;div class=&quot;pull-right&quot;&gt;125&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/a&gt;
+</pre>
+	</div>
+	<div class="col-md-3">
+		<a class="info-tile tile-info" href="#">
+			<div class="tile-heading">
+				<div class="pull-left">New Members</div>
+				<div class="pull-right"><i class="fa fa-caret-down"></i> 9.8%</div>
+			</div>
+			<div class="tile-body">
+				<div class="pull-left"><i class="fa fa-group"></i></div>
+				<div class="pull-right">125</div>
+			</div>
+		</a>
+	</div>
+</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Info Tiles: Sparkline Variants</h2></div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-3">
+						<a class="info-tile tile-grape has-footer" href="#">
+							<div class="tile-heading">
+								<div class="pull-left">Orders</div>
+								<div class="pull-right">
+									<div id="tileorders" class="sparkline-block"></div>
+								</div>
+							</div>
+							<div class="tile-body">
+								<div class="pull-left"><i class="fa fa-shopping-cart"></i></div>
+								<div class="pull-right">1,249</div>
+							</div>
+							<div class="tile-footer">
+								<div class="pull-left">manage orders</div>
+								<div class="pull-right percent-change">+20.7%</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3">
+						<a class="info-tile tile-info has-footer" href="#">
+							<div class="tile-heading">
+								<div class="pull-left">Tickets</div>
+								<div class="pull-right">
+									<div id="tiletickets" class="sparkline-block"></div>
+								</div>
+							</div>
+							<div class="tile-body">
+								<div class="pull-left"><i class="fa fa-tag"></i></div>
+								<div class="pull-right">228</div>
+							</div>
+							<div class="tile-footer">
+								<div class="pull-left">see all tickets</div>
+								<div class="pull-right percent-change">+10.3%</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3">
+						<a class="info-tile tile-alizarin has-footer" href="#">
+							<div class="tile-heading">
+								<div class="pull-left">Revenues</div>
+								<div class="pull-right">
+									<div id="tilerevenues" class="sparkline-block"></div>
+								</div>
+							</div>
+							<div class="tile-body">
+								<div class="pull-left"><i class="fa fa-dollar"></i></div>
+								<div class="pull-right">$61,250</div>
+							</div>
+							<div class="tile-footer">
+								<div class="pull-left">go to accounts</div>
+								<div class="pull-right percent-change">17.2%</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3">
+						<a class="info-tile tile-midnightblue has-footer" href="#">
+							<div class="tile-heading">
+								<div class="pull-left">Members</div>
+								<div class="pull-right">
+									<div id="tilemembers" class="sparkline-block"></div>
+								</div>
+							</div>
+							<div class="tile-body">
+								<div class="pull-left"><i class="fa fa-group"></i></div>
+								<div class="pull-right">7,112</div>
+							</div>
+							<div class="tile-footer">
+								<div class="pull-left">manage members</div>
+								<div class="pull-right percent-change">-11.1%</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Info Tiles: Easy Pie Chart Variant</h2></div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-2">
+						<a href="#" class="info-tile tile-midnightblue">
+							<div class="tile-heading">
+								Bandwidth
+							</div>
+							<div class="tile-body">
+								<div class="easypiechart" id="bandwidth" data-percent="42">
+									<span class="percent"></span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-2">
+						<a href="#" class="info-tile tile-primary">
+							<div class="tile-heading">
+								Server Load
+							</div>
+							<div class="tile-body">
+								<div class="easypiechart" id="serverload" data-percent="31">
+									<span class="percent"></span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-2">
+						<a href="#" class="info-tile tile-grape">
+							<div class="tile-heading">
+								RAM Usage
+							</div>
+							<div class="tile-body">
+								<div class="easypiechart" id="ramusage" data-percent="72">
+									<span class="percent"></span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-2">
+						<a href="#" class="info-tile tile-alizarin">
+							<div class="tile-heading">
+								Space
+							</div>
+							<div class="tile-body">
+								<div class="easypiechart" id="ramusage" data-percent="76">
+									<span class="percent"></span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-2">
+						<a href="#" class="info-tile tile-magenta">
+							<div class="tile-heading">
+								Network
+							</div>
+							<div class="tile-body">
+								<div class="easypiechart" id="network" data-percent="62">
+									<span class="percent"></span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-2">
+						<a href="#" class="info-tile tile-inverse">
+							<div class="tile-heading">
+								Beer Consumed
+							</div>
+							<div class="tile-body">
+								<div class="easypiechart" id="beer" data-percent="40">
+									<span class="percent"></span>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+		  	<div class="panel-heading">
+				<h2>Shortcut Tiles</h2>
+				<div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#domshortcuttiles" data-toggle="tab"><i class="fa fa-desktop"></i></a></li>
+						<li><a href="#codeshortcuttiles" data-toggle="tab"><i class="fa fa-code"></i></a></li>
+					</ul>
+				</div>
+		  	</div>
+			<div class="panel-body">
+				<p>Shortcut tiles can be used to focus on links and can even contain notifications</p>
+				<div class="tab-content">
+					<div class="tab-pane active" id="domshortcuttiles">
+						<div class="row">
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-info">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-home"></i></div>
+										<div class="pull-right"><span class="badge">2</span></div>
+									</div>
+									<div class="tile-footer">
+										Project Home
+									</div>
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-orange">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-glass"></i></div>
+										<div class="pull-right"><span class="badge">5</span></div>
+									</div>
+									<div class="tile-footer">
+										Drink
+									</div>
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-success">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-music"></i></div>
+										
+									</div>
+									<div class="tile-footer">
+										Music
+									</div>
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-magenta">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-credit-card"></i></div>
+										<div class="pull-right"><span class="badge">3</span></div>
+									</div>
+									<div class="tile-footer">
+										Credit Card
+									</div>
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-midnightblue">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-folder"></i></div>
+										<div class="pull-right"><span class="badge">10</span></div>
+									</div>
+									<div class="tile-footer">
+										Files
+									</div>
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-green">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-archive"></i></div>
+										<div class="pull-right"><span class="badge">16</span></div>
+									</div>
+									<div class="tile-footer">
+										Archive
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-brown">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-camera"></i></div>
+
+									</div>
+									<div class="tile-footer">
+										Photos
+									</div>
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-primary">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-envelope"></i></div>
+										<div class="pull-right"><span class="badge">99</span></div>
+									</div>
+									<div class="tile-footer">
+										Messages
+									</div>
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-indigo">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-dashboard"></i></div>
+									</div>
+									<div class="tile-footer">
+										Dashboard
+									</div>
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-inverse">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-group"></i></div>
+										<div class="pull-right"><span class="badge">3</span></div>
+									</div>
+									<div class="tile-footer">
+										Members
+									</div>
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-warning">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-beer"></i></div>
+										<div class="pull-right"><span class="badge">12</span></div>
+									</div>
+									<div class="tile-footer">
+										Beer!
+									</div>
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a href="#" class="shortcut-tile tile-danger">
+									<div class="tile-body">
+										<div class="pull-left"><i class="fa fa-bar-chart-o"></i></div>
+										<div class="pull-right"><span class="badge">1</span></div>
+									</div>
+									<div class="tile-footer">
+										Site Stats
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="codeshortcuttiles">
+<div class="row">
+	<div class="col-md-10">
+
+<pre class="prettyprint linenums">
+&lt;a href=&quot;#&quot; class=&quot;shortcut-tile tile-info&quot;&gt;
+	&lt;div class=&quot;tile-body&quot;&gt;
+		&lt;div class=&quot;pull-left&quot;&gt;&lt;i class=&quot;fa fa-home&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+		&lt;div class=&quot;pull-right&quot;&gt;&lt;span class=&quot;badge&quot;&gt;2&lt;/span&gt;&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;tile-footer&quot;&gt;
+		Project Home
+	&lt;/div&gt;
+&lt;/a&gt;
+</pre>
+	</div>
+	<div class="col-md-2">
+		<a href="#" class="shortcut-tile tile-info">
+			<div class="tile-body">
+				<div class="pull-left"><i class="fa fa-home"></i></div>
+				<div class="pull-right"><span class="badge">2</span></div>
+			</div>
+			<div class="tile-footer">
+				Project Home
+			</div>
+		</a>
+	</div>
+</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% include header %}
+    <!-- The following CSS are included as plugins and can be removed if unused-->
+    {% block styles %}{% endblock %}
+    </head>
+
+    <body class="infobar-overlay horizontal-nav">
+        {% include analytics %}
+        <div id="wrapper">
+            {% include headerbar %}
+            {% include topnav %}
+
+            <nav class="navbar sidebar-inverse" role="navigation" id="headernav">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#horizontal-navbar">
+                        <i class="fa fa-navicon"></i>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse large-icons-nav" id="horizontal-navbar">
+                    <ul class="nav navbar-nav smart-menu">
+                        <li class="active"><a href="layout-horizontal-large"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                        <li><a href="index"><i class="fa fa-columns"></i> <span>Layout</span></a></li>
+                        <li><a href="index"><i class="fa fa-group"></i> <span>Members</span></a></li>
+                        <li><a href="index"><i class="fa fa-pencil"></i> <span>Components</span></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle='dropdown'><i class="fa fa-cog"></i> <span>Settings <i class="fa fa-angle-down"></i></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Menu Item 1</a></li>
+                                <li><a href="#">Menu Item 2</a></li>
+                                <li><a href="#">Menu Item 3</a></li>
+                                <li><a href="#">Menu Item 4</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="static-content">
+                <div class="page-content">
+                    <div class="page-heading">            
+                        <h1>{% block title %}Blank{% endblock %}</h1>
+                        {% include header-options-default %}
+                    </div>
+                    <ol class="breadcrumb">
+                        {% block breadcrumb %}<li><a href="index.html">Home</a></li>{% endblock %}
+                    </ol>
+                    <div class="container-fluid">
+                        {% block content %}{% endblock %}
+                    </div> <!-- .container-fluid -->
+                </div> <!-- #page-content -->
+            </div>
+
+        </div>
+        {% include footer %}
+
+
+        <div class="infobar-wrapper scroll-pane">
+            {% include rightbar %}
+        </div>
+
+
+    {% include demo-switcher %}
+    {% include scripts %}
+    
+    <!-- Load page level scripts-->
+    {% block scripts %}{% endblock %}
+    <!-- End loading page level scripts-->
+
+    </body>
+</html>

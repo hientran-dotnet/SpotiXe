@@ -1,0 +1,59 @@
+{% layout "layout-sidebar-scroll" %}
+{% block title %}Notes{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Applications</a></li>
+<li class="active"><a href="app-inbox.html">Notes</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/summernote/dist/summernote.css" | asset_url | stylesheet_tag }} <!-- Summernote -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/summernote/dist/summernote.js" | asset_url | script_tag }}   <!-- Summernote -->
+{{ "demo/demo-notes.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %} 
+<div id="panel-advancedoptions">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default note-panel" id="tl1">
+                <div class="panel-heading">
+                    <h2>Notes</h2>
+                </div>
+                <div class="panel-body panel-body panel-no-padding">
+                    <div class="notes-container row no-gutter">
+                        <div class="col-xs-5 col-sm-4 col-md-3">
+                            <div class="notes-sidebar">
+                                <div class="notes-list scroll-pane">
+                                    <div class="scroll-content">
+                                        <div class="notes-snippet active">
+                                            <h6 class="notes-title">...</h6>
+                                            <span class="notes-date">9/23/2014 at 11:32 PM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="notes-options clearfix">
+                                    <a href="#" class="pull-left btn btn-success">New</a>
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-default btn-danger"><i class="fa fa-trash-o"></i></a> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-7 col-sm-8 col-md-9">
+                            <div class="note scroll-pane" spellcheck="false">
+                                <div class="scroll-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

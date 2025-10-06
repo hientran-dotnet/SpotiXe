@@ -1,0 +1,182 @@
+{% layout 'layout' %}
+{% block title %}Nestable Lists{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Components</a></li>
+<li class="active"><a href="ui-nestable.html">Nestable Lists</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/form-nestable/jquery.nestable.css" | asset_url | stylesheet_tag }}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/form-nestable/jquery.nestable.min.js" | asset_url | script_tag }}
+{{ "demo/demo-nestable.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+<div class="alert alert-info">
+    <p><span class="label label-info">Note</span>  Nestable List Plugin supported in Firefox, Chrome, Opera, Safari, Internet Explorer 10 and Internet Explorer 9 only. Internet Explorer 8 not supported.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="pull-left">Serialsed Output</h3>
+        <div id="nestable_list_menu" class="pull-right">
+            <button type="button" class="btn btn-primary btn-sm" data-action="expand-all">Expand All</button>
+            <button type="button" class="btn btn-primary btn-sm" data-action="collapse-all">Collapse All</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <textarea id="nestable_list_1_output" style="width:100%" rows="3" class="form-group">
+
+        </textarea>
+    </div>
+    <div class="col-md-12">
+        <textarea id="nestable_list_2_output" style="width:100%" rows="3" class="form-group">
+
+        </textarea>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h2>Nestable List 1</h2></div>
+            <div class="panel-body">
+                <div class="dd" id="nestable_list_1">
+                    <ol class="dd-list">
+                        <li class="dd-item" data-id="1">
+                            <div class="dd-handle">Item 1</div>
+                        </li>
+                        <li class="dd-item" data-id="2">
+                            <div class="dd-handle">Item 2 <span class="badge badge-info pull-right">3</span></div>
+                            <ol class="dd-list">
+                                <li class="dd-item" data-id="3">
+                                    <div class="dd-handle">Item 3</div>
+                                </li>
+                                <li class="dd-item" data-id="4">
+                                    <div class="dd-handle">Item 4</div>
+                                </li>
+                                <li class="dd-item" data-id="5">
+                                    <div class="dd-handle success-bg"><strong>Item 5</strong>&nbsp; <span class="label label-success">Important</span><span class="badge badge-primary pull-right">3</span></div>
+                                    <ol class="dd-list">
+                                        <li class="dd-item" data-id="6">
+                                            <div class="dd-handle">Item 6</div>
+                                        </li>
+                                        <li class="dd-item" data-id="7">
+                                            <div class="dd-handle">Item 7</div>
+                                        </li>
+                                        <li class="dd-item" data-id="8">
+                                            <div class="dd-handle">Item 8</div>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li class="dd-item" data-id="9">
+                                    <div class="dd-handle">Item 9</div>
+                                </li>
+                                <li class="dd-item" data-id="10">
+                                    <div class="dd-handle">Item 10</div>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="dd-item" data-id="11">
+                            <div class="dd-handle">Item 11</div>
+                        </li>
+                        <li class="dd-item" data-id="12">
+                            <div class="dd-handle">Item 12</div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h2>Nestable List 2</h2></div>
+            <div class="panel-body">
+                <div class="dd" id="nestable_list_2">
+                    <ol class="dd-list">
+                        <li class="dd-item" data-id="13">
+                            <div class="dd-handle">Item 13</div>
+                        </li>
+                        <li class="dd-item" data-id="14">
+                            <div class="dd-handle">Item 14</div>
+                        </li>
+                        <li class="dd-item" data-id="15">
+                            <div class="dd-handle">Item 15</div>
+                            <ol class="dd-list">
+                                <li class="dd-item" data-id="16">
+                                    <div class="dd-handle">Item 16</div>
+                                </li>
+                                <li class="dd-item" data-id="17">
+                                    <div class="dd-handle">Item 17</div>
+                                </li>
+                                <li class="dd-item" data-id="18">
+                                    <div class="dd-handle">Item 18</div>
+                                </li>
+                                <li class="dd-item" data-id="19">
+                                    <div class="dd-handle">Item 19</div>
+                                </li>
+                                <li class="dd-item" data-id="20">
+                                    <div class="dd-handle">Item 20</div>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="dd-item" data-id="20">
+                            <div class="dd-handle">Item 20</div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-warning">
+            <div class="panel-heading"><h2>Re-orderable List</h2></div>
+            <div class="panel-body">
+                <div class="dd" id="nestable_list_3">
+                    <ol class="dd-list">
+                        <li class="dd-item dd3-item" data-id="13">
+                            <div class="dd-handle dd3-handle"></div>
+                            <div class="dd3-content">Item 13</div>
+                        </li>
+                        <li class="dd-item dd3-item" data-id="14">
+                            <div class="dd-handle dd3-handle"></div>
+                            <div class="dd3-content">Item 14</div>
+                        </li>
+                        <li class="dd-item dd3-item" data-id="15">
+                            <div class="dd-handle dd3-handle"></div>
+                            <div class="dd3-content">Item 15</div>
+                            <ol class="dd-list">
+                                <li class="dd-item dd3-item" data-id="16">
+                                    <div class="dd-handle dd3-handle"></div>
+                                    <div class="dd3-content">Item 16</div>
+                                </li>
+                                <li class="dd-item dd3-item" data-id="17">
+                                    <div class="dd-handle dd3-handle"></div>
+                                    <div class="dd3-content">Item 17</div>
+                                </li>
+                                <li class="dd-item dd3-item" data-id="18">
+                                    <div class="dd-handle dd3-handle"></div>
+                                    <div class="dd3-content">Item 18</div>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

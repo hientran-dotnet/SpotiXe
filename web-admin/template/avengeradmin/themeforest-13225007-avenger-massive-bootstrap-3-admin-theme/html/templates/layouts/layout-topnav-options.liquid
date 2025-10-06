@@ -1,0 +1,440 @@
+{% include header %}
+    <!-- The following CSS are included as plugins and can be removed if unused-->
+    {% block styles %}{% endblock %}
+    </head>
+
+    <body class="infobar-offcanvas">
+        {% include analytics %}
+        {% include headerbar %}
+
+        <header class="navbar navbar-default navbar-fixed-top clearfix" role="banner" id="topnav">
+            
+            <span id="trigger-sidebar" class="toolbar-trigger toolbar-icon-bg">
+                <a data-toggle="tooltips" data-placement="right" title="Toggle Sidebar"><span class="icon-bg"><i class="fa fa-fw fa-bars"></i></span></a>
+            </span>
+            
+            <a class="navbar-brand" href="index.html">Avenger</a>
+
+            <div class="yamm navbar-left navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown" id="widget-megamenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-random mr5"></i>Mega Menu<span class="caret"></span></a>
+                        <ul class="dropdown-menu" style="width: 900px;">
+                            <li>
+                                <div class="yamm-content container-sm-height">
+                                    <div class="row row-sm-height yamm-col-bordered">
+                                        <div class="col-sm-3 col-sm-height yamm-col">
+                                                    
+                                            <h3 class="yamm-category">Sidebar</h3>
+                                            <ul class="list-unstyled mb20">
+                                                <li><a href="layout-fixed-sidebars.html">Stretch Sidebars</a></li>
+                                                <li><a href="layout-sidebar-scroll.html">Scroll Sidebar</a></li>
+                                                <li><a href="layout-static-leftbar.html">Static Sidebar</a></li>
+                                                <li><a href="layout-leftbar-widgets.html">Sidebar Widgets</a></li>   
+                                            </ul>
+
+                                            <h3 class="yamm-category">Infobar</h3>
+                                            <ul class="list-unstyled">
+                                                <li><a href="layout-infobar-offcanvas.html">Offcanvas Infobar</a></li>
+                                                <li><a href="layout-infobar-overlay.html">Overlay Infobar</a></li>
+                                                <li><a href="layout-chatbar-overlay.html">Chatbar</a></li>
+                                                <li><a href="layout-rightbar-widgets.html">Infobar Widgets</a></li>   
+                                            </ul>
+                                            
+                                        </div>
+                                        <div class="col-sm-3 col-sm-height yamm-col">
+                                            
+                                            <h3 class="yamm-category">Page Content</h3>
+                                            <ul class="list-unstyled mb20">
+                                                <li><a href="layout-breadcrumb-top.html">Breadcrumbs on Top</a></li>
+                                                <li><a href="layout-page-tabs.html">Page Tabs</a></li>
+                                                <li><a href="layout-fullheight-panel.html">Full-Height Panel</a></li>
+                                                <li><a href="layout-fullheight-content.html">Full-Height Content</a></li>
+                                            </ul>
+
+                                            <h3 class="yamm-category">Misc</h3>
+                                            <ul class="list-unstyled">
+                                                <li><a href="layout-topnav-options.html">Topnav Options</a></li>
+                                                <li><a href="layout-horizontal-small.html">Horizontal Small</a></li>
+                                                <li><a href="layout-horizontal-large.html">Horizontal Large</a></li>
+                                                <li><a href="layout-boxed.html">Boxed</a></li>
+                                            </ul>
+                                            
+                                        </div>
+                                        <div class="col-sm-3 col-sm-height yamm-col">
+                                            
+                                            <h3 class="yamm-category">Analytics</h3>
+                                            <ul class="list-unstyled mb20">
+                                                <li><a href="charts-flot.html">Flot</a></li>
+                                                <li><a href="charts-sparklines.html">Sparklines</a></li>
+                                                <li><a href="charts-morris.html">Morris</a></li>
+                                                <li><a href="charts-easypiechart.html">Easy Pie Charts</a></li>
+                                            </ul>
+
+                                            <h3 class="yamm-category">Components</h3>
+                                            <ul class="list-unstyled">
+                                                <li><a href="ui-tiles.html">Tiles</a></li>
+                                                <li><a href="custom-knob.html">jQuery Knob</a></li>
+                                                <li><a href="custom-jqueryui.html">jQuery Slider</a></li>
+                                                <li><a href="custom-ionrange.html">Ion Range Slider</a></li>
+                                            </ul>
+                                            
+                                        </div>
+                                        <div class="col-sm-3 col-sm-height yamm-col">
+                                            <h3 class="yamm-category">Rem</h3>
+                                            <img src="{{'demo/stockphoto/communication_12_carousel.jpg' | asset_url | img_loc }}" class="mb20 img-responsive">
+                                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="widget-classicmenu">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="http://avenger.kaijuthemes.com/frontend/index.html" target="_blank">Frontend</a></li>
+                    <li><a href="http://avenger.kaijuthemes.com/landing/index.html" target="_blank">Landing Page</a></li>
+                </ul>
+            </div>
+
+            <ul class="nav navbar-nav toolbar pull-right">
+                <li class="dropdown">
+                    <a href="#" id="navbar-links-toggle" data-toggle="collapse" data-target="header>.navbar-collapse"></a>
+                </li>
+
+                <li class="toolbar-icon-bg" id="widget-headerbar">
+                    <a href="#" id="headerbardropdown"><span class="icon-bg"><i class="fa fa-fw fa-level-down"></i></span></i></a>
+                </li>
+
+                <li class="dropdown toolbar-icon-bg language-switcher" id="widget-languageswitcher">
+                    <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="fa fa-fw fa-globe"></i></a>
+                    <div class="dropdown-menu dropdown-alternate arrow">
+                        <ul>
+                            <li><a href="#"><img src="{{'img/flags/us.png' | asset_url | img_loc }}" alt=""><strong>English (US)</strong><!-- <i class="fa fa-check pull-right" style="margin-top: 3px;"></i> --></a></li>
+                            <li><a href="#"><img src="{{'img/flags/es.png' | asset_url | img_loc }}" alt="">Español</a></li>
+                            <li><a href="#"><img src="{{'img/flags/de.png' | asset_url | img_loc }}" alt="">Deutsch</a></li>
+                            <li><a href="#"><img src="{{'img/flags/jp.png' | asset_url | img_loc }}" alt="">日本語</a></li>
+                            <li><a href="#"><img src="{{'img/flags/cn.png' | asset_url | img_loc }}" alt="">中文</a></li>
+                            <li><a href="#"><img src="{{'img/flags/fr.png' | asset_url | img_loc }}" alt="">Français</a></li>
+                            <li><a href="#"><img src="{{'img/flags/ru.png' | asset_url | img_loc }}" alt="">Русский язык</a></li>
+                            <li><a href="#"><img src="{{'img/flags/it.png' | asset_url | img_loc }}" alt="">Italiano</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="dropdown toolbar-icon-bg" id="widget-taskprogress">
+                    <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="fa fa-fw fa-tasks"></i></span><span class="badge badge-warning">7</span></a>
+                    <div class="dropdown-menu dropdown-alternate taskprogresses arrow">
+                        <div class="dd-header">
+                            <span>Tasks</span>
+                            <span><a href="#">Settings</a></span>
+                        </div>
+                        <div class="scroll-pane scrollthis">
+                            <ul class="scroll-content">
+                                <li>
+                                    <a href="#">
+                                        <div class="contextual-progress">
+                                            <div class="clearfix">
+                                                <div class="progress-title">Template Styling</div>
+                                                <div class="progress-percentage">5/25</div>
+                                            </div>
+                                            <div class="progress progress-lg">
+                                                <div class="progress-bar progress-bar-inverse" style="width: 20%"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="contextual-progress">
+                                            <div class="clearfix">
+                                                <div class="progress-title">App Development</div>
+                                                <div class="progress-percentage">1/10</div>
+                                            </div>
+                                            <div class="progress progress-lg progress-striped active">
+                                                <div class="progress-bar progress-bar-success" style="width: 10%"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="contextual-progress">
+                                            <div class="clearfix">
+                                                <div class="progress-title">App Interface</div>
+                                                <div class="progress-percentage">6/24</div>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-danger" style="width: 25%"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="contextual-progress">
+                                            <div class="clearfix">
+                                                <div class="progress-title">Documentation</div>
+                                                <div class="progress-percentage">4/5</div>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-primary" style="width: 80%"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="contextual-progress">
+                                            <div class="clearfix">
+                                                <div class="progress-title">eCommerce</div>
+                                                <div class="progress-percentage">8/10</div>
+                                            </div>
+                                            <div class="progress progress-lg progress-striped active">
+                                                <div class="progress-bar progress-bar-info" style="width: 80%"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="dd-footer">
+                            <a href="#">View all tasks</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="dropdown toolbar-icon-bg" id="widget-tabbeddropdown">
+                    <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="fa fa-fw fa-cloud"></i></span></a>
+                    {% include topnav-tabs %}
+                </li>
+                
+                <li class="dropdown toolbar-icon-bg" id="widget-notifications">
+                    <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="fa fa-fw fa-bell"></i></span><span class="badge badge-danger">5</span></a>
+                    <div class="dropdown-menu dropdown-alternate notifications arrow">
+                        <div class="dd-header">
+                            <span>Notifications</span>
+                            <span><a href="#">Settings</a></span>
+                        </div>
+                        <div class="scrollthis scroll-pane">
+                            <ul class="scroll-content">
+                                <li class="">
+                                    <a href="#" class="notification-success">
+                                        <div class="notification-icon"><i class="fa fa-check fa-fw"></i></div>
+                                        <div class="notification-content"><strong>Lorem ipsum</strong> dolor sit amet consectetur adipisicing elit!</div>
+                                        <div class="notification-time">40m</div>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#" class="notification-danger">
+                                        <div class="notification-icon"><i class="fa fa-times fa-fw"></i></div>
+                                        <div class="notification-content">Etiam porta sem malesuada</div>
+                                        <div class="notification-time">5h</div>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#" class="notification-inverse">
+                                        <div class="notification-icon"><i class="fa fa-cloud fa-fw"></i></div>
+                                        <div class="notification-content"><strong>Nesciunt</strong> reprehenderit provident distinctio eveniet cupiditate atque</div>
+                                        <div class="notification-time">16h</div>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#" class="notification-warning">
+                                        <div class="notification-icon"><i class="fa fa-warning fa-fw"></i></div>
+                                        <div class="notification-content">Aperiam accusamus modi ipsum officia quas nisi!</div>
+                                        <div class="notification-time">1d</div>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#" class="notification-info">
+                                        <div class="notification-icon"><i class="fa fa-shopping-cart fa-fw"></i></div>
+                                        <div class="notification-content">Libero distinctio eveniet</div>
+                                        <div class="notification-time">5d</div>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#" class="notification-primary">
+                                        <div class="notification-icon"><i class="fa fa-comment fa-fw"></i></div>
+                                        <div class="notification-content">Officiis modi ipsum officia ad dolor sit amet consectetur sit voluptatem accusantium doloremque laudantium totam rem aperiam</div>
+                                        <div class="notification-time">8d</div>
+                                    </a>
+                                </li>
+                            </ul>
+                            </div>
+                        <div class="dd-footer">
+                            <a href="#">View all notifications</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="dropdown toolbar-icon-bg" id="widget-messages">
+                    <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="fa fa-fw fa-envelope"></i></span><span class="badge badge-info">1</span></a>
+                    <div class="dropdown-menu dropdown-alternate messages arrow">
+                        <div class="dd-header">
+                            <span>Messages</span>
+                            <span><a href="#">Settings</a></span>
+                        </div>
+
+                        <div class="scroll-pane scrollthis">
+                            <ul class="scroll-content">
+                                <li class="">
+                                    <a href="#">
+                                        <img class="msg-avatar" src="assets/demo/avatar/avatar_09.png" alt="avatar" />
+                                        <div class="msg-content">
+                                            <span class="name">Steven Shipe</span>
+                                            <span class="msg">Nonummy nibh epismod lorem ipsum</span>
+                                        </div>
+                                        <span class="msg-time">30s</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="msg-avatar" src="assets/demo/avatar/avatar_01.png" alt="avatar" />
+                                        <div class="msg-content">
+                                            <span class="name">Roxann Hollingworth <i class="fa fa-paperclip attachment"></i></span>
+                                            <span class="msg">Lorem ipsum dolor sit amet consectetur adipisicing elit</span>
+                                        </div>
+                                        <span class="msg-time">5m</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="msg-avatar" src="assets/demo/avatar/avatar_05.png" alt="avatar" />
+                                        <div class="msg-content">
+                                            <span class="name">Diamond Harlands</span>
+                                            <span class="msg">:)</span>
+                                        </div>
+                                        <span class="msg-time">3h</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="msg-avatar" src="assets/demo/avatar/avatar_02.png" alt="avatar" />
+                                        <div class="msg-content">
+                                            <span class="name">Michael Serio <i class="fa fa-paperclip attachment"></i></span>
+                                            <span class="msg">Sed distinctio dolores fuga molestiae modi?</span>
+                                        </div>
+                                        <span class="msg-time">12h</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="msg-avatar" src="assets/demo/avatar/avatar_03.png" alt="avatar" />
+                                        <div class="msg-content">
+                                            <span class="name">Matt Jones</span>
+                                            <span class="msg">Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et mole</span>
+                                        </div>
+                                        <span class="msg-time">2d</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="msg-avatar" src="assets/demo/avatar/avatar_07.png" alt="avatar" />
+                                        <div class="msg-content">
+                                            <span class="name">John Doe</span>
+                                            <span class="msg">Neque porro quisquam est qui dolorem</span>
+                                        </div>
+                                        <span class="msg-time">7d</span>
+                                    </a>
+                                </li>                   
+                            </ul>
+                        </div>
+
+                        <div class="dd-footer"><a href="#">View all messages</a></div>
+                    </div>
+                </li>
+
+                <li class="dropdown toolbar-icon-bg" id="widget-searchbox">
+                    <a href="#" class="dropdown-toggle tooltips" data-toggle="dropdown"><span class="icon-bg"><i class="fa fa-fw fa-search"></i></span></a>
+                    
+                    <div class="dropdown-menu dropdown-alternate arrow search dropdown-menu-form">
+                        <div class="dd-header">
+                            <span>Search</span>
+                            <span><a href="#">Advanced search</a></span>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="">
+                            
+                            <span class="input-group-btn">
+                                
+                                <a class="btn btn-primary" href="#">Search</a>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="dropdown toolbar-icon-bg mr-sm">
+                    <a href="#" class="dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="fa fa-fw fa-user"></i></span></a>
+                    <ul class="dropdown-menu userinfo arrow">
+                        <li><a href="#"><span class="pull-left">Profile</span> <span class="badge badge-info">80%</span></a></li>
+                        <li><a href="#"><span class="pull-left">Account</span> <i class="pull-right fa fa-user"></i></a></li>
+                        <li><a href="#"><span class="pull-left">Settings</span> <i class="pull-right fa fa-cog"></i></a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><span class="pull-left">Earnings</span> <i class="pull-right fa fa-line-chart"></i></a></li>
+                        <li><a href="#"><span class="pull-left">Statement</span> <i class="pull-right fa fa-list-alt"></i></a></li>
+                        <li><a href="#"><span class="pull-left">Withdrawals</span> <i class="pull-right fa fa-dollar"></i></a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><span class="pull-left">Sign Out</span> <i class="pull-right fa fa-sign-out"></i></a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <!-- <div class="navbar-header pull-left"> -->
+                
+            <!-- </div> -->
+        </header>
+
+        <div id="wrapper">
+            <div id="layout-static">
+                <div class="static-sidebar-wrapper sidebar-inverse">
+                    <div class="static-sidebar">
+                        {% include sidebar %}
+                    </div>
+                </div>
+                <div class="static-content-wrapper">
+                    <div class="static-content">
+                        <div class="page-content">
+                            <div class="page-heading">            
+                                <h1>{% block title %}Blank{% endblock %}</h1>
+                                {% include header-options-default %}
+                            </div>
+                            <ol class="breadcrumb">
+                                {% block breadcrumb %}<li><a href="index.html">Home</a></li>{% endblock %}
+                            </ol>
+                            <div class="container-fluid">
+                                {% block content %}{% endblock %}
+                            </div> <!-- .container-fluid -->
+                        </div> <!-- #page-content -->
+                    </div>
+                    {% include footer %}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="infobar-wrapper scroll-pane">
+            {% include rightbar %}
+        </div>
+
+
+    {% include demo-switcher %}
+    {% include scripts %}
+    
+    <!-- Load page level scripts-->
+    {% block scripts %}{% endblock %}
+    <!-- End loading page level scripts-->
+
+    </body>
+</html>

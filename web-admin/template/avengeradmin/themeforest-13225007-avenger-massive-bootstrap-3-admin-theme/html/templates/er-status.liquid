@@ -1,0 +1,147 @@
+{% layout 'layout' %}
+{% block title %}ER Status{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active"><a href="app-blog-comment.html">ER Status</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/nvd3/nv.d3.min.css" | asset_url | stylesheet_tag }} 		<!-- nvd3 -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/d3/d3.min.js" | asset_url | script_tag }}             		<!-- nvd3 dependency -->
+{{ "plugins/nvd3/nv.d3.min.js" | asset_url | script_tag }} 				<!-- nvd3 -->
+
+{{ "demo/demo-er-status.js" | asset_url | script_tag }}               <!-- demo-kpi-dashboard -->
+{% endblock %} 
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-6">
+		<div class="panel">
+	        <div class="panel-heading">
+	            <h2>ER Wait Time</h2>
+	        </div>
+	        <div class="panel-body">
+	        	<a class="info-tiles tiles-sky" href="#">
+	        		<div class="tiles-heading">
+				        <div class="pull-left">Urgent</div>
+				    </div>
+				    <div class="tiles-body">
+				        <div class="pull-left"><i class="fa fa-arrow-down"></i></div>
+				        <div class="pull-right">1:50</div>
+				    </div>
+				</a>
+				<a class="info-tiles tiles-sky" href="#">
+					<div class="tiles-heading">
+				        <div class="pull-left">Stable</div>
+				    </div>
+				    <div class="tiles-body">
+				        <div class="pull-left"><i class="fa fa-repeat"></i></div>
+				        <div class="pull-right">2:30</div>
+				    </div>
+				</a>
+		        <div id="chart1" style="height: 300px;">
+				    <svg></svg>
+				</div>3
+				020213.2
+			</div>
+	    </div>
+	</div><!-- col-sm-6 -->
+	<div class="col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Patients in ER</h2>
+			</div>
+			<div class="panel-body panel-no-padding">
+				<div id="demo">
+					<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-fixed-header m0" id="example">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Room</th>
+								<th></th>
+								<th>Triage</th>
+								<th>Wait Time</th>
+								<th>Queue</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="gradeX">
+								<td>PatientA</td>
+								<td>10</td>
+								<td>Urgent</td>
+								<td><i class="fa fa-check"></i></td>
+								<td>1:06</td>
+								<td>1</td>
+							</tr>
+							<tr class="gradeX">
+								<td>PatientB</td>
+								<td>12</td>
+								<td>Stable</td>
+								<td><i class="fa fa-times"></i></td>
+								<td>1:47</td>
+								<td>4</td>
+							</tr>
+							<tr class="gradeX">
+								<td>PatientC</td>
+								<td>6</td>
+								<td>Urgent</td>
+								<td><i class="fa fa-repeat"></i></td>
+								<td>0:52</td>
+								<td>2</td>
+							</tr>
+							<tr class="gradeX">
+								<td>PatientD</td>
+								<td>4</td>
+								<td>Stable</td>
+								<td><i class="fa fa-check"></i></td>
+								<td>0:45</td>
+								<td>5</td>
+							</tr>
+							<tr class="gradeX">
+								<td>PatientE</td>
+								<td>9</td>
+								<td>Stable</td>
+								<td><i class="fa fa-times"></i></td>
+								<td>2:03</td>
+								<td>6</td>
+							</tr>
+							<tr class="gradeX">
+								<td>PatientF</td>
+								<td>3</td>
+								<td>Urgent</td>
+								<td><i class="fa fa-repeat"></i></td>
+								<td>1:24</td>
+								<td>3</td>
+							</tr>
+						</tbody>
+					</table>
+				</div><!-- demo -->			
+			</div><!-- panel-body panel-no-padding -->
+		</div><!-- panel panel-default -->
+		<a class="info-tiles tiles-sky" href="#">
+			<div class="tiles-heading">
+		        <div class="pull-left">Wait Times - Past 30 days</div>
+		    </div> 
+		    <div class="tiles-body">
+		        <div class="pull-left"><span class="linecharts" values="5,4,7,6,9,5,8,2,6,4,6,7,5,4,7,6,9,5,8,2,6,4,6,7,5,4,7,6,9,5,8,2,6,4,6,7"><canvas width="36" height="18" style="display: inline-block; width: 36px; height: 18px; vertical-align: top;"></canvas></span></div>
+		        <div class="pull-right">110 minutes</div>
+		    </div>
+		</a>
+		<a class="info-tiles tiles-sky" href="#">
+			<div class="tiles-heading">
+		        <div class="pull-left">ER Occupancy - Past 30 days</div>
+		    </div>
+		    <div class="tiles-body">
+		        <div class="pull-left"><span class="barcharts" values="5,6,3,9,2,7,5,5,6,3,9,2,7,5,5,6,3,9,2,7,5,7"><canvas width="34" height="18" style="display: inline-block; width: 34px; height: 18px; vertical-align: top;"></canvas></span></div>
+		        <div class="pull-right">118 patients</div>
+		    </div>
+		</a>
+	</div><!-- col-sm-6 -->
+</div><!-- row -->
+{% endblock %}

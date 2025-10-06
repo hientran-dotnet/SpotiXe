@@ -1,0 +1,212 @@
+{% layout 'layout' %}
+{% block title %}Product Details{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>eCommerce</li>
+<li class="active"><a href="app-store-product-details.html">Product Details</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" | asset_url | stylesheet_tag }} 	<!-- Touchspin -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js" | asset_url | script_tag }} 				<!-- Touchspin -->
+
+<script>
+	$(function() {
+		$("input.touchspin").TouchSpin({
+			verticalbuttons: true,
+			buttondown_class: "btn btn-lg btn-default",
+			buttonup_class: "btn btn-lg btn-default"
+		});
+	});
+</script>
+{% endblock %}
+
+{% block content %} 
+<div class="store">
+	<div class="box">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="article-slide">
+					<div class="carousel slide" id="article-photo-carousel">
+						<div class="carousel-inner cont-slider">
+							<div class="item active">
+								<img alt="" title="" src="assets/demo/stockphoto/communication_01.jpg">
+							</div>
+							<div class="item">
+								<img alt="" title="" src="assets/demo/stockphoto/communication_04.jpg">
+							</div>
+							<div class="item">
+								<img alt="" title="" src="assets/demo/stockphoto/communication_05.jpg">
+							</div>
+							<div class="item">
+								<img alt="" title="" src="assets/demo/stockphoto/communication_08.jpg">
+							</div>
+						</div>
+						<ol class="carousel-indicators">
+							<li class="active" data-slide-to="0" data-target="#article-photo-carousel">
+								<img alt="" src="assets/demo/stockphoto/communication_01.jpg" height="167" width="250">
+							</li>
+							<li class="" data-slide-to="1" data-target="#article-photo-carousel">
+								<img alt="" src="assets/demo/stockphoto/communication_04.jpg" height="167" width="250">
+							</li>
+							<li class="" data-slide-to="2" data-target="#article-photo-carousel">
+								<img alt="" src="assets/demo/stockphoto/communication_05.jpg" height="167" width="250">
+							</li>
+							<li class="" data-slide-to="3" data-target="#article-photo-carousel">
+								<img alt="" src="assets/demo/stockphoto/communication_08.jpg" height="167" width="250">
+							</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="col-md-8">
+				<div class="">
+					<h2 class="mt0">Tempora Perspiciatis</h2>
+					<ul class="list-unstyled list-inline rating-list ml0 mb10">
+						<li><i class="fa fa-star"></i></li>
+						<li><i class="fa fa-star"></i></li>
+						<li><i class="fa fa-star"></i></li>
+						<li><i class="fa fa-star"></i></li>
+						<li><i class="fa fa-star"></i></li>
+						<li class="ml10"><a href="#">4 Reviews</a></li>
+					</ul>
+					<span class="price">$500.00</span>
+				</div>
+				<br>
+				<p class="mb20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, alias ipsa placeat tempora eaque eveniet doloremque nobis aspernatur voluptatem totam velit saepe necessitatibus! Porro voluptatem, dignissimos itaque id. Eius aperiam, neque aspernatur nesciunt ea maxime deleniti, laboriosam numquam dolore perferendis corporis inventore eaque, voluptas veritatis ex aut? Dolores quisquam quod sed commodi maiores fuga, sapiente adipisci. Ut velit at tempora perspiciatis fuga, nulla ex repellendus! Quibusdam reiciendis distinctio facilis vel.</p>
+
+				<!-- <form action="#" class="mt20 mb20"> -->
+				<div style="width: 100px;" class="pull-left mr10">
+					<input type="text" class="form-control input-lg touchspin" placeholder="Number of Items" value="1">
+				</div>
+				<a href="#" class="btn btn-danger btn-lg">Add to Cart</a>
+				<!-- </form> -->		
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="tab-container tab-default mt20 mb0">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-moreinfo" data-toggle="tab">More Information</a></li>
+						<li><a href="#tab-productdetails" data-toggle="tab">Product Details</a></li>
+						<li><a href="#tab-special" data-toggle="tab">Special Offers</a></li>
+						<li><a href="#tab-comments"  data-toggle="tab">Reviews</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="tab-moreinfo">
+							<p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid.</p>
+							<p>Consequuntur, suscipit animi ratione a molestias assumenda iure minus. Quod, molestiae. Culpa maxime perferendis ipsum corrupti aperiam, enim excepturi magni odio dicta impedit eos, illum voluptatibus deserunt, possimus architecto sit. Maxime commodi odio repellendus vitae autem sit eveniet excepturi magnam molestias amet, exercitationem tenetur corrupti minima velit id non dolores optio rem et? Et sint, repellat aperiam recusandae doloribus laudantium eaque autem maiores minima dolorum, error odio blanditiis asperiores, perferendis accusantium aliquid sed eum. Delectus nam dolorem quis a veritatis iure at, cum sequi similique facere ipsa molestias repudiandae. In expedita doloremque fugiat perspiciatis rerum ducimus illum molestias quis, obcaecati, doloribus delectus illo culpa aliquid velit magni enim numquam, distinctio! Magnam asperiores, sint non possimus sapiente blanditiis? Aliquid perferendis earum adipisci perspiciatis, culpa dignissimos molestiae atque, veritatis commodi incidunt eos consequatur nisi temporibus debitis voluptatibus cum harum eius dicta tenetur et velit maxime. Ex possimus, pariatur, laborum in doloribus nesciunt optio facere voluptatem aspernatur itaque ratione quibusdam amet vitae iusto dicta enim voluptate adipisci iste? Molestiae quibusdam voluptatem tenetur totam quos temporibus error, distinctio quisquam! Perspiciatis cumque iure alias voluptas dolorem, voluptate enim aliquam provident explicabo id dignissimos sequi, earum reiciendis quas?</p>
+						</div>
+						<div class="tab-pane" id="tab-productdetails">
+							<dl class="dl-horizontal">
+								<dt>Product Dimensions</dt>
+								<dd>3.9 x 2.8 x 0.3 inches ; 1.9 ounces</dd>
+								<dt>Shipping Weight</dt>
+								<dd>4.2 ounces</dd>
+								<dt>Shipping</dt>
+								<dd>This item is also available for shipping to select countries outside the U.S.</dd>
+								<dt>Date First Available</dt>
+								<dd>Oct 9, 2012</dd>
+							</dl>
+						</div>
+						<div class="tab-pane" id="tab-special">
+							<dl class="dl-horizontal">
+								<dt>Buy Used and Save</dt>
+								<dd>Buy a Used "Samsung 840 Series 2.5 inch 120GB SATA III interna..." and save 33% off the $119.99 list price. Buy with confidence as the condition of this item and its timely delivery are guaranteed under the "Amazon A-to-z Guarantee". <a href="#">See all Used offers.</a></dd>
+								<dt>Get a $75 Avenger Gift Card</dt>
+								<dd>Get the Discover Avenger Card and get a <strong>$75.00</strong> Avenger Gift Card after your first purchase. <a href="#">Learn More</a></dd>
+							</dl>
+						</div>
+						<div class="tab-pane" id="tab-comments">
+						
+							<ul class="media-list comments">
+								<li class="media">
+									<a class="pull-left" href="#">
+										<img class="media-object" src="assets/demo/avatar/avatar_02.png" alt="">
+									</a>
+									<div class="media-body">
+										<h5 class="media-heading">
+											<a href="#" class="person">Jeremy Potter</a>
+											<ul class="list-unstyled list-inline rating-list">
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+											</ul>
+										</h5>
+										<p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+										<p><small class="time">5 days ago</small></p>
+									</div>
+								</li>
+								<li class="media">
+									<a class="pull-left" href="#">
+										<img class="media-object" src="assets/demo/avatar/avatar_11.png" alt="">
+									</a>
+									<div class="media-body">
+										<h5 class="media-heading">
+											<a href="#" class="person">Joseph Vasquez</a>
+											<ul class="list-unstyled list-inline rating-list">
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+												<li><i class="fa fa-star"></i></li>
+											</ul>
+										</h5>
+										<p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+										<p class="mb0"><small class="time">5 days ago</small></p>
+									</div>
+								</li>
+							</ul>
+							
+							<hr class="outsider">
+									
+							<h3 class="mt0 mb20">Write a Review</h3>
+							
+							<div class="form-group mb0">
+								<form action="#" role="form">
+						            <div class="form-group">
+						              	<label for="contacts-name">Name</label>
+						              	<input type="text" class="form-control">
+						            </div>
+						            <div class="form-group">
+						              	<label for="contacts-email">Email</label>
+						              	<input type="email" class="form-control">
+						            </div>
+						            <div class="form-group">
+						              	<label>Message</label>
+						              	<textarea class="form-control" style="min-height: 100px;"></textarea>
+						            </div>
+						            <div class="form-group">
+										<label for="comment" class="control-label">Rating</label>
+										<ul class="list-unstyled list-inline rating-list ml0">
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+											<li><i class="fa fa-star"></i></li>
+										</ul>
+									</div>
+						            <a type="submit" class="btn btn-success">Submit</a>
+						            <a type="button" class="btn btn-default">Cancel</a>
+						        </form>
+							</div>
+					
+						</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

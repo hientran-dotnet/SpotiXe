@@ -1,0 +1,72 @@
+{% layout 'layout' %}
+{% block title %}Date Paginator{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Custom Components</a></li>
+<li class="active"><a href="custom-datepaginator.html">Date Paginator</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/datepaginator/bootstrap-datepaginator.css" | asset_url | stylesheet_tag }}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/form-daterangepicker/moment.min.js" | asset_url | script_tag }}
+{{ "plugins/bootstrap-datepicker/bootstrap-datepicker.js" | asset_url | script_tag }}
+{{ "plugins/bootstrap-datepaginator/bootstrap-datepaginator.js" | asset_url | script_tag }}
+
+<script>
+	$(function() {
+		$('#datepageinate-ex1').datepaginator({itemWidth: 40});
+
+		$('#datepageinate-ex2').datepaginator({
+			onSelectedDateChanged: function(event, date) {
+				alert("Selected date: " + moment(date).format("Do, MMM YYYY"));
+			},
+			itemWidth: 40
+		});
+		
+		$('#datepageinate-ex3').datepaginator({size: "large", itemWidth: 50});
+		
+		$('#datepageinate-ex4').datepaginator({size: "small"});
+	});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+
+		<div class="alert alert-info">
+			<h3>Date Paginator <small>for Bootstrap</small></h3>
+			<p>A jQuery plugin which takes Twitter Bootstrap's already great pagination component and injects a bit of date based magic. In the process creating a hugely simplified and modularised way of paging date based results in your application.</p>
+			<p>Dates are selectable, scrollable and with the optional calendar select option, you can easily jump to any calendar date.</p>
+		</div>
+
+
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h2>Date Paginator</h2>
+			</div>
+			<div class="panel-body">
+				<h3>Default Date Paginator</h3>
+				<p>Default initialization, with no extra options set</p>
+				<div id="datepageinate-ex1"></div>
+				<br />
+				<h3>With Event Handler (On Date Selected) <small>Try selecting a date</small></h3>
+				<p>Fired when the selected date changes. You can bind to it using either the callback handler or the standard jQuery .on method</p>
+				<div id="datepageinate-ex2"></div>
+				<br />
+				<h3>Large Date Paginator</h3>
+				<p>As easy as setting <code>{size: "large"}</code></p>
+				<div id="datepageinate-ex3"></div>
+				<br />
+				<h3>Small Date Paginator</h3>
+				<p>Simply set <code>{size: "small"}</code></p>
+				<div id="datepageinate-ex4"></div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

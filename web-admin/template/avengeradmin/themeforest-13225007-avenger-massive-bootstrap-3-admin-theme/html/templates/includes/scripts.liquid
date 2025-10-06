@@ -1,0 +1,37 @@
+<!-- Load site level scripts -->
+
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script> -->
+
+{{ "js/jquery-1.10.2.min.js" | asset_url | script_tag }} 							<!-- Load jQuery -->
+{{ "js/jqueryui-1.9.2.min.js" | asset_url | script_tag }} 							<!-- Load jQueryUI -->
+
+{{ "js/bootstrap.min.js" | asset_url | script_tag }} 								<!-- Load Bootstrap -->
+
+
+{{ "plugins/easypiechart/jquery.easypiechart.js" | asset_url | script_tag }} 		<!-- EasyPieChart-->
+{{ "plugins/sparklines/jquery.sparklines.min.js" | asset_url | script_tag }}  		<!-- Sparkline -->
+{{ "plugins/jstree/dist/jstree.min.js" | asset_url | script_tag }}  				<!-- jsTree -->
+
+{{ "plugins/codeprettifier/prettify.js" | asset_url | script_tag }} 				<!-- Code Prettifier  -->
+{{ "plugins/bootstrap-switch/bootstrap-switch.js" | asset_url | script_tag }} 		<!-- Swith/Toggle Button -->
+
+{{ "plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js" | asset_url | script_tag }}  <!-- Bootstrap Tabdrop -->
+
+{{ "plugins/iCheck/icheck.min.js" | asset_url | script_tag }}     					<!-- iCheck -->
+
+{{ "js/enquire.min.js" | asset_url | script_tag }} 									<!-- Enquire for Responsiveness -->
+
+{{ "plugins/bootbox/bootbox.js" | asset_url | script_tag }}							<!-- Bootbox -->
+
+{{ "plugins/simpleWeather/jquery.simpleWeather.min.js" | asset_url | script_tag }} <!-- Weather plugin-->
+
+{{ "plugins/nanoScroller/js/jquery.nanoscroller.min.js" | asset_url | script_tag }} <!-- nano scroller -->
+
+{{ "plugins/jquery-mousewheel/jquery.mousewheel.min.js" | asset_url | script_tag }} 	<!-- Mousewheel support needed for jScrollPane -->
+
+{{ "js/application.js" | asset_url | script_tag }}
+{{ "demo/demo.js" | asset_url | script_tag }}
+{{ "demo/demo-switcher.js" | asset_url | script_tag }}
+
+<!-- End loading site level scripts -->

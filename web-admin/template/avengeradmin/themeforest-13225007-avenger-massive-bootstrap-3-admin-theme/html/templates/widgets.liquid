@@ -1,0 +1,288 @@
+{% layout 'layout' %}
+{% block title %}Widgets{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active"><a href="app-blog-comment.html">Widgets</a></li>
+{% endblock %}
+
+{% block styles %}
+
+{{ "plugins/switchery/switchery.css" | asset_url | stylesheet_tag }}        					<!-- Switchery -->
+
+{% endblock %}
+
+{% block scripts %}
+
+{{ "plugins/switchery/switchery.js" | asset_url | script_tag }}     							<!-- 	Switchery -->
+
+{{ "plugins/card/lib/js/card.js" | asset_url | script_tag }} 									<!-- 	Card -->
+{{ "plugins/bootstrap-switch/bootstrap-switch.js" | asset_url | script_tag }}     					<!-- BS Switch -->
+
+{{ "demo/demo-widgets.js" | asset_url | script_tag }}
+	<!-- Wijet -->	
+{{ "plugins/wijets/wijets.js" | asset_url | script_tag }}     						<!-- 	Wijet -->
+{% endblock %}  
+
+{% block content %}  
+<div class="col-sm-4"> 
+
+	<div class="widget-weather">
+		<div class="weather-heading">
+			<div class="weather-heading-top">
+				<h4 class="pull-left">Cloudy</h4>
+				<a href="" class="weather-settings pull-right"><i class="fa fa-wrench"></i></a>
+			</div><!-- weather-heading-top -->
+			<div class="weather-heading-bottom">
+				<div class="weather-symbol pull-left"><i class="fa fa-cloud"></i></div>
+				<div class="pull-right">
+					<h1 class="weather-result">41°
+						<span class="weather-details">
+							<h4>Today</h4>
+							<p>Cloudy</p>
+							<p class="degree-range">42°-34°</p>
+						</span><!-- weather-details -->
+					</h1><!-- weather-result -->
+				</div>
+			</div><!-- weather-heading-bottom -->
+		</div><!-- weather-heading -->
+		<div class="weather-body">
+			<div class="col-sm-6">
+			    <div class="input-group location-search">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+			      </span>
+			      <input type="text" class="form-control" placeholder="Location">
+			    </div><!-- /input-group -->
+		    </div><!-- /.col-lg-6 -->
+		    <div class="location-name pull-right">
+		    	<p><span>London,</span><br>United Kindom</p>
+		    </div> 
+		</div><!-- weather-body -->
+		<div class="weather-footer">
+			<div class="day-list">
+				<ul>
+					<li>
+					  <p>34°</p>
+					  <p><i class="fa fa-sun-o"></i></p>
+					  <p>Sat</p>
+					</li>
+					<li>
+					  <p>26°</p>
+					  <p><i class="fa fa-cloud"></i></p>
+					  <p>Sun</p>
+					</li>
+					<li>
+					  <p>23°</p>
+					  <p><i class="fa fa-bolt"></i></p>
+					  <p>Mon</p>
+					</li>
+					<li>
+					  <p>22°</p>
+					  <p><i class="fa fa-bolt"></i></p>
+					  <p>Tue</p>
+					</li>
+					<li>
+					  <p>26°</p>
+					  <p><i class="fa fa-cloud"></i></p>
+					  <p>Wed</p>
+					</li>
+					<li>
+					  <p>33°</p>
+					  <p><i class="fa fa-sun-o"></i></p>
+					  <p>Thu</p>
+					</li>
+				</ul>
+			</div>
+		</div><!-- weather-footer -->
+	</div><!-- widget-weather -->
+
+</div><!-- col-sm-4 -->
+<div class="col-sm-4">
+	<div class="widget-staff">
+		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+		  
+		  <!-- Wrapper for slides -->
+		  <div class="carousel-inner" role="listbox">
+		    <div class="item active">
+		      <div class="item-top"></div><!-- item-top -->
+		      <div class="item-bottom">
+		      	<div class="staff-image">
+		      		<img src="{{'demo/avatar/avatar_11.png' | asset_url | img_loc }}" alt="" class="img-responsive img-circle">
+		      		<h4 class="staff-name">John Doe</h4><!-- staff-name -->
+		      		<p class="staff-designation">Art director</p><!-- staff-designation -->
+		      	</div><!-- staff-image -->
+		      	<div class="staff-info">
+		      		<p class="info-inner"><i class="fa fa-envelope-o"></i>john@themex.co</p>
+		      		<p class="info-inner"><i class="fa fa-facebook"></i>fb.com/j.doe</p>
+		      		<p class="info-inner"><i class="fa fa-phone"></i>+1 234 567 890</p>
+		      		<p class="info-inner"><i class="fa fa-map-marker"></i>Hollywood Hills, California</p>
+		      		<p class="info-inner"><i class="fa fa-globe"></i>www.themex.co</p>
+		      	</div><!-- staff-info -->
+		      </div><!-- item-bottom -->
+		    </div><!-- item -->
+		    <div class="item">
+		      <div class="item-top"></div><!-- item-top -->
+		      <div class="item-bottom">
+		      	<div class="staff-image">
+		      		<img src="{{'demo/avatar/avatar_10.png' | asset_url | img_loc }}" alt="" class="img-responsive img-circle">
+		      		<h4 class="staff-name">Team Cook</h4><!-- staff-name -->
+		      		<p class="staff-designation">Art director</p><!-- staff-designation -->
+		      	</div><!-- staff-image -->
+		      	<div class="staff-info">
+		      		<p class="info-inner"><i class="fa fa-envelope-o"></i>john@themex.co</p>
+		      		<p class="info-inner"><i class="fa fa-facebook"></i>fb.com/j.doe</p>
+		      		<p class="info-inner"><i class="fa fa-phone"></i>+1 234 567 890</p>
+		      		<p class="info-inner"><i class="fa fa-map-marker"></i>Hollywood Hills, California</p>
+		      		<p class="info-inner"><i class="fa fa-globe"></i>www.themex.co</p>
+		      	</div><!-- staff-info -->
+		      </div><!-- item-bottom -->
+		    </div><!-- item -->
+		  </div><!-- carousel-inner -->
+
+		  <!-- Controls -->
+		  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+		    <span class="fa fa-chevron-left" aria-hidden="true"></span>
+		    <span class="sr-only">Previous</span>
+		  </a>
+		  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+		    <span class="fa fa-chevron-right" aria-hidden="true"></span>
+		    <span class="sr-only">Next</span>
+		  </a>
+		</div><!-- carousel -->
+	</div><!-- widget-staff -->
+</div><!-- col-sm-4 -->
+<div class="col-sm-4">
+	<div class="panel">
+        <div class="panel-heading">
+            <h2>Activities</h2>
+        </div><!-- panel-heading -->
+        <div class="panel-body panel-no-padding">
+	       <div class="activities-container">
+	    	   <div class="activities-inner">
+	    	   	   <div class="activities-icon activity-paste"><i class="fa fa-arrow-up activity"></i></div><!-- activities-icon -->
+	    	   	   <div class="activities-icon-info">
+	    	   	   	   <p class="activities-name"><span>Kim Grundy</span> have update profile image</p>
+	    	   	   	   <p class="activities-time">20 mins ago</p>
+	    	   	   </div><!-- activities-icon-info -->
+	    	   </div><!-- activities-inner -->
+	    	   <div class="activities-inner">
+	    	   	   <div class="activities-icon activity-parle"><i class="fa fa-check activity"></i></div><!-- activities-icon -->
+	    	   	   <div class="activities-icon-info">
+	    	   	   	   <p class="activities-name"><span>Marvin</span> is now following you</p>
+	    	   	   	   <p class="activities-time">55 mins ago</p>
+	    	   	   </div><!-- activities-icon-info -->
+	    	   </div><!-- activities-inner -->	
+	    	   <div class="activities-inner">
+	    	   	   <div class="activities-icon activity-pink"><i class="fa fa-heart activity"></i></div><!-- activities-icon -->
+	    	   	   <div class="activities-icon-info">
+	    	   	   	   <p class="activities-name"><span>Junnat Nisa</span> like your image</p>
+	    	   	   	   <p class="activities-time">2 Hours ago</p>
+	    	   	   </div><!-- activities-icon-info -->
+	    	   </div><!-- activities-inner -->
+	    	   <div class="activities-inner">
+	    	   	   <div class="activities-icon activity-yellow"><i class="fa fa-pencil activity"></i></div><!-- activities-icon -->
+	    	   	   <div class="activities-icon-info">
+	    	   	   	   <p class="activities-name"><span>Kamal Hossain</span> posted a new status</p>
+	    	   	   	   <p class="activities-time">2 Hours ago</p>
+	    	   	   </div><!-- activities-icon-info -->
+	    	   </div><!-- activities-inner -->
+	    	   <div class="activities-inner">
+	    	   	   <div class="activities-icon activity-pink"><i class="fa fa-heart activity"></i></div><!-- activities-icon -->
+	    	   	   <div class="activities-icon-info">
+	    	   	   	   <p class="activities-name"><span>Nova</span> and <span>Russel</span> like your status</p>
+	    	   	   	   <p class="activities-time">5 Hours ago</p>
+	    	   	   </div><!-- activities-icon-info -->
+	    	   </div><!-- activities-inner -->
+	       </div><!-- activities-container --> 
+		</div><!-- panel-body -->
+    </div><!-- panel -->
+</div><!-- col-sm-4 -->
+<div class="col-sm-4">
+	<div class="panel">
+        <div class="panel-heading">
+            <h2>Setting</h2>
+        </div><!-- panel-heading -->
+        <div class="panel-body">
+	       <div class="setting-container">
+	       	<div class="setting-inner">
+	       		<div class="setting-info pull-left">
+	       			<p>Cellular Data</p>
+	       		</div><!-- setting-info -->
+	       		<div class="setting-switch pull-right">
+	       			<ul class="demo-btns mb-10 sm">
+						<li><input type="checkbox" class="js-switch-primary switchery-sm" checked /></li>
+					</ul>
+	       		</div><!-- setting-switch -->
+	       	</div><!-- setting-inner -->
+	       	<div class="setting-inner">
+	       		<div class="setting-info pull-left">
+	       			<p>Location Services</p>
+	       		</div><!-- setting-info -->
+	       		<div class="setting-switch pull-right">
+	       			<ul class="demo-btns mb-10 sm">
+						<li><input type="checkbox" class="js-switch-success switchery-sm" checked /></li>
+					</ul>
+	       		</div><!-- setting-switch -->
+	       	</div><!-- setting-inner -->
+	       	<div class="setting-inner">
+	       		<div class="setting-info pull-left">
+	       			<p>Bluetooth</p>
+	       		</div><!-- setting-info -->
+	       		<div class="setting-switch pull-right">
+	       			<ul class="demo-btns mb-10 sm">
+						<li><input type="checkbox" class="js-switch-warning switchery-sm" checked /></li>
+					</ul>
+	       		</div><!-- setting-switch -->
+	       	</div><!-- setting-inner -->
+	       	<div class="setting-inner">
+	       		<div class="setting-info pull-left">
+	       			<p>Wifi Service</p>
+	       		</div><!-- setting-info -->
+	       		<div class="setting-switch pull-right">
+	       			<ul class="demo-btns mb-10 sm">
+						<li><input type="checkbox" class="js-switch-inverse switchery-sm" checked /></li>
+					</ul>
+	       		</div><!-- setting-switch -->
+	       	</div><!-- setting-inner -->
+	       	<div class="setting-inner">
+	       		<div class="setting-info pull-left">
+	       			<p>Location Services</p>
+	       		</div><!-- setting-info -->
+	       		<div class="setting-switch pull-right">
+	       			<ul class="demo-btns mb-10 sm">
+						<li><input type="checkbox" class="js-switch-danger switchery-sm" checked /></li>
+					</ul>
+	       		</div><!-- setting-switch -->
+	       	</div><!-- setting-inner -->
+	       	<div class="setting-inner">
+	       		<div class="setting-info pull-left">
+	       			<p>Bluetooth</p>
+	       		</div><!-- setting-info -->
+	       		<div class="setting-switch pull-right">
+	       			<ul class="demo-btns mb-10 sm">
+						<li><input type="checkbox" class="js-switch-info switchery-sm" checked /></li>
+					</ul>
+	       		</div><!-- setting-switch -->
+	       	</div><!-- setting-inner -->
+	       </div><!-- setting-container -->
+		</div><!-- panel-body -->
+    </div><!-- panel -->
+</div><!-- col-sm-4 -->
+<div class="col-sm-4">
+	<a class="info-tile tile-sky" href="#">
+	    <div class="tile-body">
+	        <div class="pull-left"><i class="fa fa-twitter"></i></div>
+	        <div class="pull-right">12,750 <br>Tweets</div>
+	    </div>
+	</a>
+	<a class="info-tile tile-primary" href="#">
+        <div class="tile-body">
+            <div class="pull-left"><i class="fa fa-facebook"></i></div>
+            <div class="pull-right">14,570 <br>Likes</div>
+        </div>
+    </a>
+</div><!-- col-sm-4 -->
+{% endblock %}

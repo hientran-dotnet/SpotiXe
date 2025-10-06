@@ -1,0 +1,128 @@
+{% layout "layout-leftbar-widgets" %}
+{% block title %}Leftbar Widgets{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Layout</a></li>
+<li class="active"><a href="layout-leftbar-widgets.html">Leftbar Widgets</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/bootstrap-switch/bootstrap-switch.js" | asset_url | script_tag }}     					<!-- BS Switch -->
+
+<script>
+$(function() {
+	$('input.bootstrap-switch').bootstrapSwitch();
+
+	$('input[name="toggle-search"]').on('switchChange.bootstrapSwitch', function(event, state) {
+	  $('#widget-search').toggle();
+	  $(window).trigger('resize');
+	});
+
+
+	$('input[name="toggle-welcomebox"]').on('switchChange.bootstrapSwitch', function(event, state) {
+	  $('#widget-welcomebox').toggle();
+	  $(window).trigger('resize');
+	});
+
+	$('input[name="toggle-clientrep"]').on('switchChange.bootstrapSwitch', function(event, state) {
+	  $('#widget-clientrep').toggle();
+	  $(window).trigger('resize');
+	});
+
+	$('input[name="toggle-sidebar"]').on('switchChange.bootstrapSwitch', function(event, state) {
+	  $('#widget-sidebar').toggle();
+	  $(window).trigger('resize');
+	});
+
+	$('input[name="toggle-switcher"]').on('switchChange.bootstrapSwitch', function(event, state) {
+	  $('#widget-switcher').toggle();
+	  $(window).trigger('resize');
+	});
+
+	$('input[name="toggle-accinfo"]').on('switchChange.bootstrapSwitch', function(event, state) {
+	  $('#widget-accinfo').toggle();
+	  $(window).trigger('resize');
+	});
+
+	$('input[name="toggle-filebrowser"]').on('switchChange.bootstrapSwitch', function(event, state) {
+	  $('#widget-filebrowser').toggle();
+	  $(window).trigger('resize');
+	});
+
+	$('input[name="toggle-taskprogress"]').on('switchChange.bootstrapSwitch', function(event, state) {
+	  $('#widget-taskprogress').toggle();
+	  $(window).trigger('resize');
+	});
+
+});
+</script>
+{% endblock %}
+
+{% block content %} 
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-info">
+				<p>With Avenger, you can have any content you want in your leftbar! Check out the samples by toggling them on and off</p>
+			</div>
+			<div class="panel">
+				<div class="panel-body panel-no-padding">
+					<table class="table table-striped table-bordered table-vam mb0">
+						<thead>
+							<tr>
+								<th width="300">Widgets</th>
+								<th width="100">Status</th>
+								<th class="hidden-xs">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Welcome Box</td>
+								<td><input class="bootstrap-switch" type="checkbox" data-size="small" checked data-on-color="success" data-off-color="default" name='toggle-welcomebox'></td>
+								<td class="hidden-xs">Add a Welcome Box for your users</td>
+							</tr>
+							<tr>
+								<td>Search</td>
+								<td><input class="bootstrap-switch" type="checkbox" data-size="small" checked data-on-color="success" data-off-color="default" name='toggle-search'></td>
+								<td class="hidden-xs">Put search in the leftbar</td>
+							</tr>
+							<tr>
+								<td>Client Representative</td>
+								<td><input class="bootstrap-switch" type="checkbox" data-size="small" checked data-on-color="success" data-off-color="default" name='toggle-clientrep'></td>
+								<td class="hidden-xs">Detailed User Support Widget</td>
+							</tr>
+							<tr>
+								<td>Switcher</td>
+								<td><input class="bootstrap-switch" type="checkbox" data-size="small" checked data-on-color="success" data-off-color="default" name='toggle-switcher'></td>
+								<td class="hidden-xs">Project switcher</td>
+							</tr>
+							<tr>
+								<td>Account Info</td>
+								<td><input class="bootstrap-switch" type="checkbox" data-size="small" checked data-on-color="success" data-off-color="default" name='toggle-accinfo'></td>
+								<td class="hidden-xs">Account Information with Sparklines</td>
+							</tr>
+							<tr>
+								<td>File Browser</td>
+								<td><input class="bootstrap-switch" type="checkbox" data-size="small" checked data-on-color="success" data-off-color="default" name='toggle-filebrowser'></td>
+								<td class="hidden-xs">Tree Support</td>
+							</tr>
+							<tr>
+								<td>Task Progress</td>
+								<td><input class="bootstrap-switch" type="checkbox" data-size="small" checked data-on-color="success" data-off-color="default" name='toggle-taskprogress'></td>
+								<td class="hidden-xs">Include Task Progresses</td>
+							</tr>
+							<tr>
+								<td>Sidebar</td>
+								<td><input class="bootstrap-switch" type="checkbox" data-size="small" checked data-on-color="success" data-off-color="default"  name='toggle-sidebar'></td>
+								<td class="hidden-xs">Accordion and Collapsible Navigation</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

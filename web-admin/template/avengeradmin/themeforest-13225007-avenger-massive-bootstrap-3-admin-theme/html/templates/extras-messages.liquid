@@ -1,0 +1,194 @@
+{% layout "layout-messages" %}
+{% block title %}Messages{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Extras</a></li>
+<li class="active"><a href="extras-messages.html">Messages</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-4">
+			<div class="panel">
+				<div class="panel-body panel-no-padding">
+					<div class="input-search-icon-sm">
+                    	<input type="text" placeholder="Search messages..." class="form-control">
+                    </div>
+					<ul class="mailbox-msg-list">
+						<li>
+							<a href="#" class="mailbox-msg-list-item">
+								<span class="time">30s</span>
+								<img src="{{'demo/avatar/avatar_09.png' | asset_url | img_loc }}" alt="avatar" title="" style="">
+								<div><span class="name">Kenneth Ross</span><span class="msg">Hey there, how's it going?</span></div>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="mailbox-msg-list-item">
+								<span class="time">5m</span>
+								<img src="{{'demo/avatar/avatar_01.png' | asset_url | img_loc }}" alt="avatar">
+								<div><span class="name">David Luke</span><span class="msg">Are we meeting this week...?</span></div>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="mailbox-msg-list-item">
+								<span class="time">3h</span>
+								<img src="{{'demo/avatar/avatar_05.png' | asset_url | img_loc }}" alt="avatar" />
+								<div><span class="name">Jack Aviles</span><span class="msg">New UI looks good.</span></div>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="mailbox-msg-list-item">
+								<span class="time">2d</span>
+								<img src="{{'demo/avatar/avatar_07.png' | asset_url | img_loc }}" alt="avatar" />
+								<div><span class="name">Darrell Ortega</span><span class="msg">Files uploaded to server.</span></div>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="mailbox-msg-list-item">
+								<span class="time">2d</span>
+								<img src="{{'demo/avatar/avatar_10.png' | asset_url | img_loc }}" alt="avatar" />
+								<div><span class="name">Skyler Freeman</span><span class="msg">Files uploaded to server.</span></div>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="mailbox-msg-list-item">
+								<span class="time">2d</span>
+								<img src="{{'demo/avatar/avatar_13.png' | asset_url | img_loc }}" alt="avatar" />
+								<div><span class="name">Walter Stephanie</span><span class="msg">Files uploaded to server.</span></div>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="mailbox-msg-list-item">
+								<span class="time">2d</span>
+								<img src="{{'demo/avatar/avatar_07.png' | asset_url | img_loc }}" alt="avatar" />
+								<div><span class="name">David Thomas</span><span class="msg">Files uploaded to server.</span></div>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="mailbox-msg-list-item">
+								<span class="time">2d</span>
+								<img src="{{'demo/avatar/avatar_02.png' | asset_url | img_loc }}" alt="avatar" />
+								<div><span class="name">Leonel Archie</span><span class="msg">Files uploaded to server.</span></div>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="mailbox-msg-list-item">
+								<span class="time">2d</span>
+								<img src="{{'demo/avatar/avatar_04.png' | asset_url | img_loc }}" alt="avatar" />
+								<div><span class="name">Reginald Martin</span><span class="msg">Files uploaded to server.</span></div>
+							</a>
+						</li>
+						<li>
+							<a href="#" class="mailbox-msg-list-item">
+								<span class="time">2d</span>
+								<img src="{{'demo/avatar/avatar_08.png' | asset_url | img_loc }}" alt="avatar" />
+								<div><span class="name">Jacob Davis</span><span class="msg">Files uploaded to server.</span></div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+	</div>
+	<div class="col-md-8">
+
+		<div class="panel panel-gray">
+			<div class="panel-body mailbox-panel">
+				<header>
+					<h3 class="pull-left mt0 mb0">Kenneth Ross</h3>
+					<div class=" pull-right">
+						<div class="btn-group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<i class="fa fa-cog"></i> Action <i class="fa fa-angle-down fa-sm"></i>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Mark as Unread</a></li>
+								<li><a href="#">Delete Message</a></li>
+								<li class="divider"></li>
+								<li><a href="#">Archive</a></li>
+								<li><a href="#">Mute Conversation</a></li>
+							</ul>
+						</div>
+					</div>
+				</header>
+				<section class="tabular">
+					<div class="message tabular-row">
+						<div class="tabular-cell avatar">
+							<img src="{{'demo/avatar/avatar_09.png' | asset_url | img_loc }}" alt="avatar" class="">
+						</div>
+						<div class="tabular-cell msg">
+							<a href="#" class="msgee">Kenneth Ross</a>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam odit odio soluta numquam aliquam tempore eius dolor hic!</p>
+							<div class="well mb0 attachment">
+								<div class="clearfix">
+									<span class="pull-left">
+										<i class="fa fa-paperclip"></i>&nbsp;
+										<a href="#">screenshot.jpg</a>
+									</span>
+									<span class="pull-right">
+										<a href="#" class="btn btn-xs btn-default">Open</a>
+										<a href="#" class="btn btn-xs btn-primary">Save</a>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="tabular-cell time">
+							<small>2h</small>
+						</div>
+					</div>
+					
+					<div class="message tabular-row">
+						<div class="tabular-cell avatar">
+							<img src="{{'demo/avatar/avatar_10.png' | asset_url | img_loc }}" alt="avatar" />
+						</div>
+						<div class="tabular-cell msg">
+							<a href="#" class="msgee">Skyler Freeman</a>
+							<p>Ullam odit odio soluta numquam aliquam tempore eius dolor hic! Illo, animi, debitis, earum, perferendis voluptate fuga velit rem neque temporibus iure praesentium quas eos eum aliquam odio nihil porro. Adipisci, sit.</p>
+							<p>Provident, omnis, aliquam culpa odit fuga maiores corrupti atque explicabo quis id cumque perspiciatis voluptates labore! Nostrum modi voluptatem qui ipsa accusamus!</p>
+						</div>
+						<div class="tabular-cell time">
+							<small>11h</small>
+						</div>
+					</div>
+					<div class="message tabular-row">
+						<div class="tabular-cell avatar">
+							<img src="{{'demo/avatar/avatar_09.png' | asset_url | img_loc }}" alt="avatar" class="">
+						</div>
+						<div class="tabular-cell msg">
+							<a href="#" class="msgee">Kenneth Ross</a>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat, sunt!</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente, ipsa molestiae modi nisi assumenda accusamus nihil tempora accusantium. Iste, accusantium, alias, blanditiis eius consequuntur facilis ut eaque modi maxime similique ratione ipsum beatae. Magni, consequuntur, labore molestias quidem ab animi unde delectus tenetur nihil neque maxime recusandae sunt nulla saepe.</p>
+						</div>
+						<div class="tabular-cell time">
+							<small>15h</small>
+						</div>
+					</div>
+				</section>
+
+
+				<div class="panel-footer">
+					<textarea class="form-control" rows="4" placeholder="Write a reply..." style="resize: none; width: none;"></textarea>
+					<div class="msg-composer">
+						<div class="pull-left">
+							<a href="#" class="btn btn-default"><i class="fa fa-paperclip"></i>	Add File</a>
+							<a href="#" class="btn btn-default"><i class="fa fa-camera"></i>	Add Photos</a>
+						</div>
+						<div class="pull-right clearfix">
+							<a href="#" class="btn btn-primary send-btn pull-right">Send</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+	
+</div>
+{% endblock %}

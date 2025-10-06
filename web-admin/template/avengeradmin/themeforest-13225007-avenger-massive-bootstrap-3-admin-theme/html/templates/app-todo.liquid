@@ -1,0 +1,109 @@
+{% layout "layout" %}
+{% block title %}Todo{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Applications</a></li>
+<li class="active"><a href="app-inbox.html">Todo</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{{ "demo/demo-app-todo.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %} 
+<div id="panel-advancedoptions">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default panel-btn-focused" id="p1">
+                <div class="panel-heading">
+                    <h2>Todo List</h2>
+                </div>
+                <div class="panel-body panel-no-padding panel-todo">
+                    <ul class="connectedSortable" id="sortable-todo">
+                        <li class="item-warning">
+                            <span class="drag-todo"> 
+                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                            </span>
+                            <p class="todo-description">
+                                Send project demo files to client
+                            </p>
+                            
+                        </li>
+                        <li class="item-orange">
+                            <span class="drag-todo"> 
+                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                            </span>
+                            <p class="todo-description">
+                                Sketch wireframes for new project and send it to client as soon as possible
+                            </p>
+                            
+                        </li>
+                        <li class="">
+                            <span class="drag-todo"> 
+                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                            </span>
+                            <p class="todo-description">
+                                Buy some milk
+                            </p>
+                            
+                        </li>
+                        <li class="">
+                            <span class="drag-todo"> 
+                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                            </span>
+                            <p class="todo-description">
+                                Prepare documentation for completed project
+                            </p>
+                            
+                        </li>
+                        <li class="item-success">
+                            <span class="drag-todo"> 
+                                <div class="checkbox-inline icheck"><input type="checkbox"></div>
+                            </span>
+                            <p class="todo-description">
+                                Meeting with the development team
+                            </p>
+                            
+                        </li>
+                    
+                    </ul>
+                    <span class="todo-header"></span>
+                    <ul class="todo-completed connectedSortable" id="completed-todo">
+                    
+                        <li class="item-primary">
+                            <span class="drag-todo"> 
+                                <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                <span class="drag-image"></span>
+                            </span>
+                            <p class="todo-description">
+                                Assign todo to designers
+                            </p>
+                            
+                        </li>
+                        <li class="">
+                            <span class="drag-todo"> 
+                                <div class="checkbox-inline icheck"><input type="checkbox" checked></div>
+                                <span class="drag-image"></span>
+                            </span>
+                            <p class="todo-description">
+                                Set up a meeting with new client
+                            </p>
+                            
+                        </li>
+                    
+                    </ul>
+                    <div class="todo-footer clearfix">
+                        <a href="#" class="btn btn-success"><i class="visible-xs fa fa-plus"></i> <span class="hidden-xs">New</span></a>
+                        <a href="#" class="btn btn-default"><i class="visible-xs fa fa-check"></i> <span class="hidden-xs">Mark All Done</span></a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

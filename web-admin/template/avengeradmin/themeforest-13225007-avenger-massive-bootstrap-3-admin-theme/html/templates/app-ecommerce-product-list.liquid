@@ -1,0 +1,106 @@
+{% layout 'layout' %}
+{% block title %}Ecommerce Product List{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>eCommerce</li>
+<li class="active"><a href="app-ecommerce-product-list.html">eCommerce Product List</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %} 
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>Order List</h2>
+			</div>
+			<div class="panel-body panel-no-padding">
+			<table id="example" class="table table-striped" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>Order #</th>
+						<th>Purchased On</th>
+						<th>Customer Name</th>
+						<th>Ship To</th>
+						<th>Base Price</th>
+						<th>Purchased Price</th>
+						<th>Status</th>
+						<th style="text-align: right;">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>19/08/2014</td>
+						<td>Connie Merv</td>
+						<td>Sydney</td>
+						<td>$250</td>
+						<td>$300</td>
+						<td><span class="label label-danger">Declined</span></td>
+						<td style="text-align: right;">
+							<a href="#" class="btn btn-default btn-xs">View</a>
+						</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>19/08/2014</td>
+						<td>Dyson Crispian</td>
+						<td>Tokyo</td>
+						<td>$250</td>
+						<td>$300</td>
+						<td><span class="label label-info">Pending</span></td>
+						<td style="text-align: right;">
+							<a href="#" class="btn btn-default btn-xs">View</a>
+						</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>21/08/2014</td>
+						<td>Terry Clement</td>
+						<td>Sydney</td>
+						<td>$250</td>
+						<td>$300</td>
+						<td><span class="label label-warning">Warning</span></td>
+						<td style="text-align: right;">
+							<a href="#" class="btn btn-default btn-xs">View</a>
+						</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>22/08/2014</td>
+						<td>Ewart Gray</td>
+						<td>Boston</td>
+						<td>$250</td>
+						<td>$300</td>
+						<td><span class="label label-success">Approved</span></td>
+						<td style="text-align: right;">
+							<a href="#" class="btn btn-default btn-xs">View</a>
+						</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>26/08/2014</td>
+						<td>Ronnie Gil</td>
+						<td>New York</td>
+						<td>$250</td>
+						<td>$300</td>
+						<td><span class="label label-info">Pending</span></td>
+						<td style="text-align: right;">
+							<a href="#" class="btn btn-default btn-xs">View</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+		
+	</div>
+</div>
+{% endblock %}

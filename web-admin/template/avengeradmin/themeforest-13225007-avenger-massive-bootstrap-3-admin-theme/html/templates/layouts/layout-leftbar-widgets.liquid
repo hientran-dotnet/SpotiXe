@@ -1,0 +1,234 @@
+{% include header %}
+    <!-- The following CSS are included as plugins and can be removed if unused-->
+    {% block styles %}{% endblock %}
+    </head>
+
+    <body class="infobar-offcanvas">
+        {% include analytics %}
+        {% include headerbar %}
+        {% include topnav %}
+
+        <div id="wrapper">
+            <div id="layout-static">
+                <div class="static-sidebar-wrapper sidebar-inverse">
+                    <div class="static-sidebar">
+                        
+                        <div class="sidebar">
+
+                            <div class="widget stay-on-collapse" id="widget-welcomebox">
+                                <div class="widget-body welcome-box tabular">
+                                    <div class="tabular-row">
+                                        <div class="tabular-cell welcome-avatar">
+                                            <a href="#"><img src="{{'demo/avatar/avatar_02.png' | asset_url | img_loc }}" class="avatar"></a>
+                                        </div>
+                                        <div class="tabular-cell welcome-options">
+                                            <span class="welcome-text">Welcome,</span>
+                                            <a href="#" class="name">Jonathan Smith</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget stay-on-collapse" id="widget-search">
+                                <span class="widget-heading"></span> <!-- empty acts as a divider -->
+                                <a href="javascript:;" class="search-toggler"><i class="fa fa-search fa-fw"></i></a>
+
+                                <div class="widget-body" id="sidebar-search">
+                                    <form role="search">
+                                        <input type="text" class="search-query" placeholder="Search...">
+                                        <button type="submit"><i class="fa fa-search fa-fw"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+
+                           <div class="widget" id="widget-clientrep">
+                                <span class="widget-heading"></span> <!-- empty acts as a divider -->
+                                <div class="widget-body">
+                                    <div class="contactdetails">
+                                        <div class="avatar">
+                                            <img src="{{'demo/avatar/avatar_02.png' | asset_url | img_loc }}" class="img-responsive img-circle">
+                                        </div>
+                                        <span class="contact-name">Jonathan Smith</span>
+                                        <span class="contact-status">Client Representative</span>
+                                        <ul class="details">
+                                            <li><a href="#"><i class="fa fa-fw fa-envelope-o"></i>&nbsp;heyfromsmith@themex.co</a></li>
+                                            <li><i class="fa fa-fw fa-phone"></i>&nbsp;+1 234 567 890</li>
+                                            <li><i class="fa fa-fw fa-map-marker"></i>&nbsp;Hollywood Hills, California</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="widget" id="widget-switcher">
+                                <span class="widget-heading"></span> <!-- empty acts as a divider -->
+                                <div class="widget-body with-padding">
+                                    <div class="project-switcher btn-group btn-block">
+                                        <a href="#" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown"><span>Project X</span><i class="fa fa-sort fa-sm"></i></a>
+                                        <ul class="project-switcher-dropdown dropdown-menu">
+                                            <li><a href="javascript:;">Project A</a></li>
+                                            <li><a href="javascript:;">Project B</a></li>
+                                            <li><a href="javascript:;">Project C</a></li>
+                                            <li><a href="javascript:;">Project X</a></li>
+                                            <li><a href="javascript:;">Project Y</a></li>
+                                            <li><a href="javascript:;">Project Z</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>                          
+
+
+                            <div class="widget" id="widget-accinfo">
+                                <div class="widget-heading">
+                                    Account Info
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-block">
+                                        <div class="pull-left">
+                                            <h5>Credit Balance</h5>
+                                            <span class="big">$7,504</span>
+                                        </div>
+                                        <div class="pull-right">
+                                            <div id="currentbalance"></div>
+                                        </div>
+                                    </div>
+                                    <div class="widget-block">
+                                        <div class="pull-left">
+                                            <h5>Sales Volume</h5>
+                                            <span class="big">$164,910</span>
+                                        </div>
+                                        <div class="pull-right">
+                                            <div id="salesvolume"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget hidden-xs" id="widget-filebrowser">
+                                <div class="widget-heading">File Browser</div>
+                                <div class="widget-body with-padding">
+                                    <div id="jstree-demo">
+                                        <ul>
+                                            <li class="jstree-open">
+                                                Public
+                                                <ul>
+                                                    <li>Apps 1</li>
+                                                    <li>Apps 2</li>
+                                                    <li>Apps 3</li>
+                                                    <li>Vendor</li>
+                                                </ul>
+                                            </li>
+                                            <li class="jstree-open">
+                                                Private
+                                                <ul>
+                                                    <li>Sub Folder 1</li>
+                                                    <li>Sub Folder 2</li>
+                                                    <li>Sub Folder 3</li>
+                                                </ul>
+                                            </li>
+                                            <li class="jstree-open">
+                                                Work
+                                            </li>
+                                            <li class="jstree-open">
+                                                Project Files
+                                            </li>
+                                            <li class="jstree-open">
+                                                Misc
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget" id="widget-taskprogress">
+                                <div class="widget-heading">Task Progress</div>
+                                <div class="widget-body">
+                                    <div class="contextual-progress">
+                                        <div class="clearfix">
+                                            <div class="progress-title"><a href="#">Backend Dev</a></div>
+                                            <div class="progress-percentage">25%</div>
+                                        </div>
+                                        <div class="progress-desc">Lorem ipsum dolor nonummy nibh epismod tincidunt jut laoreg</div>
+
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" style="width: 25%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="contextual-progress">
+                                        <div class="clearfix">
+                                            <div class="progress-title"><a href="#">Javascript Code</a></div>
+                                            <div class="progress-percentage">70%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" style="width: 70%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="contextual-progress">
+                                        <div class="clearfix">
+                                            <div class="progress-title"><a href="#">Preparing Documentation</a></div>
+                                            <div class="progress-percentage">6%</div>
+                                        </div>
+                                        <div class="progress-desc">Dolor nonummy nibh epismod lorem ipsum dolor nonummy nibh epismod tincidunt jut laoreg </div>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" style="width: 6%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="contextual-progress">
+                                        <div class="clearfix">
+                                            <div class="progress-title"><a href="#">App Development</a></div>
+                                            <div class="progress-percentage">20%</div>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-success" style="width: 20%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="widget stay-on-collapse" id="widget-sidebar">
+                                {% include navigation %}
+                            </div>                         
+
+
+                            
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="static-content-wrapper">
+                    <div class="static-content">
+                        <div class="page-content">
+                            <div class="page-heading">            
+                                <h1>{% block title %}Blank{% endblock %}</h1>
+                                {% include header-options-default %}
+                            </div>
+                            <ol class="breadcrumb">
+                                {% block breadcrumb %}<li><a href="index.html">Home</a></li>{% endblock %}
+                            </ol>
+                            <div class="container-fluid">
+                                {% block content %}{% endblock %}
+                            </div> <!-- .container-fluid -->
+                        </div> <!-- #page-content -->
+                    </div>
+                    {% include footer %}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="infobar-wrapper scroll-pane">
+            {% include rightbar %}
+        </div>
+
+
+    {% include demo-switcher %}
+    {% include scripts %}
+    
+    <!-- Load page level scripts-->
+    {% block scripts %}{% endblock %}
+    <!-- End loading page level scripts-->
+
+    </body>
+</html>

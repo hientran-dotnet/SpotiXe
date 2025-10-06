@@ -1,0 +1,51 @@
+{% include header %}
+    <!-- The following CSS are included as plugins and can be removed if unused-->
+    {% block styles %}{% endblock %}
+    </head>
+
+    <body class="infobar-overlay infobar-active">
+        {% include analytics %}
+        {% include headerbar %}
+        {% include topnav %}
+
+        <div id="wrapper">
+            <div id="layout-static">
+                <nav class="static-sidebar-wrapper sidebar-inverse">
+                    <div class="static-sidebar">
+                        {% include sidebar %}
+                    </div>
+                </nav>
+                <div class="static-content-wrapper">
+                    <div class="static-content">
+                        <div class="page-content">
+                            <div class="page-heading">            
+                                    <h1>{% block title %}Blank{% endblock %}</h1>
+                                    {% include header-options-default %}
+                            </div>
+                            <ol class="breadcrumb">
+                                {% block breadcrumb %}<li><a href="index.html">Home</a></li>{% endblock %}
+                            </ol>
+                            <div class="container-fluid">
+                                {% block content %}{% endblock %}
+                            </div> <!-- .container-fluid -->
+                        </div> <!-- #page-content -->
+                    </div>
+                    {% include footer %}
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="infobar-wrapper scroll-pane">
+            {% include chatbar %}
+        </div>
+
+
+    {% include demo-switcher %}
+    {% include scripts %}
+
+    <!-- Load page level scripts-->
+    {% block scripts %}{% endblock %}
+    <!-- End loading page level scripts-->
+    </body>
+</html>

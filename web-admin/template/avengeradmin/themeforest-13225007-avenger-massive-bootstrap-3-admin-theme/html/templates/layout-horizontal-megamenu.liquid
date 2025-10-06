@@ -1,0 +1,486 @@
+{% layout "layout-horizontal-megamenu" %}
+{% block title %}Horizontal Megamenu with Sidebar Tools{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Layout</a></li>
+<li class="active"><a href="layout-horizontal-megamenu.html">Horizontal Megamenu with Sidebar Tools</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+{{ "plugins/gmaps/gmaps.js" | asset_url | script_tag }}
+<script>
+	$(document).ready(function () {
+
+	  map = new GMaps({
+        div: '#basic-map',
+        lat: -12.043333,
+        lng: -77.028333
+      });
+       map.addMarker({
+        lat: -12.042,
+        lng: -77.028333,
+        title: 'Marker with InfoWindow',
+        infoWindow: {
+          content: '<p>HTML Content</p>'
+        }
+      });
+
+    });
+</script>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+
+		<div class="alert alert-info"><p>Avenger comes built-in with a lightweight and pure CSS megamenu that uses the standard navbar markup and the fluid grid system classes from Bootstrap 3. Work for fixed and responsive layout and has the facility to include (almost) any Bootstrap elements.</p></div>
+
+		<div class="panel panel-info">
+			<div class="panel-heading"><h2>Fixed width menu with Navbar Default style</h2></div>
+			<div class="panel-body">
+				<nav class="navbar navbar-default mb20" role="navigation">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">Navbar</a>
+					</div>
+
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="yamm collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Accordion <b class="caret"></b></a>
+								<ul class="dropdown-menu" style="width: 900px;">
+									<li>
+										<div class="yamm-content container-sm-height">
+											<div class="row row-sm-height yamm-col-bordered">
+												<div class="col-sm-3 col-sm-height yamm-col">
+													<h6>
+														<span class="yamm-category">Variations</span>
+													</h6>
+													<ul class="list-unstyled">
+														<li><a href="layout-fixed-sidebars">Fixed Sidebars</a></li>
+														<li><a href="layout-infobar-offcanvas">Offcanvas Infobar</a></li>
+														<li><a href="layout-infobar-overlay">Overlay Infobar</a></li>
+														<li><a href="layout-sidebar-scroll">Scroll Sidebar</a></li>
+														<li><a href="layout-boxed">Boxed</a></li>
+														<li><a href="layout-chatbar-overlay">Chatbar</a></li>
+														<li><a href="layout-compact">Compact</a></li>
+														
+													</ul>
+												</div>
+												<div class="col-sm-3 col-sm-height yamm-col">
+													<h6>
+														<span class="yamm-category">Variations</span>
+													</h6>
+													<ul class="list-unstyled">
+														<li><a href="layout-fixed-sidebars">Fixed Sidebars</a></li>
+														<li><a href="layout-infobar-offcanvas">Offcanvas Infobar</a></li>
+														<li><a href="layout-infobar-overlay">Overlay Infobar</a></li>
+														<li><a href="layout-sidebar-scroll">Scroll Sidebar</a></li>
+														<li><a href="layout-boxed">Boxed</a></li>
+														<li><a href="layout-chatbar-overlay">Chatbar</a></li>
+														<li><a href="layout-compact">Compact</a></li>
+														
+													</ul>
+												</div>
+												<div class="col-sm-6 col-sm-height yamm-col">
+													<div class="accordion-group" id="accordionB">
+														<div class="panel accordion-item">
+															<a class="accordion-title" data-toggle="collapse" data-parent="#accordionB" href="#collapseaOne"><h2>Collapsible Group Item #1</h2></a>
+															<div id="collapseaOne" class="collapse in">
+																<div class="accordion-body">
+																	Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor.
+																</div>
+															</div>
+														</div>
+														<div class="panel accordion-item">
+															<a class="accordion-title" data-toggle="collapse" data-parent="#accordionB" href="#collapseaTwo"><h2>Collapsible Group Item #2</h2></a>
+															<div id="collapseaTwo" class="collapse">
+																<div class="accordion-body">
+																	Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor.
+																</div>
+															</div>
+														</div>
+														<div class="panel accordion-item">
+															<a class="accordion-title" data-toggle="collapse" data-parent="#accordionB" href="#collapseaThree"><h2>Collapsible Group Item #3</h2></a>
+															<div id="collapseaThree" class="collapse">
+																<div class="accordion-body">
+																	Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor.
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact <b class="caret"></b></a>
+								<ul class="dropdown-menu" style="width: 900px">
+									<li>
+										<div class="yamm-content">
+											<div class="container">
+												<div class="row">
+													<div class="col-sm-4 yamm-col">
+														<h6><span class="yamm-category">From the Blog</span></h6>
+														<style>
+															.from-the-blog {padding-left: 0;}
+															.from-the-blog a {background: none; padding: 0 !important;}
+															.from-the-blog li {margin: 0 0 10px 0 !important;}
+															.from-the-blog img {height: 60px;}
+															.from-the-blog .tabular-cell:first-child {width: 100px;padding-right: 10px;}
+														</style>
+														<ul class="list-unstlyed from-the-blog">
+												
+															<li class="tabular">
+																<a href="#" class="tabular-row">
+																	<div class="tabular-cell">
+																		<img src="{{'demo/stockphoto/music_08.jpg' | asset_url | img_loc }}" alt="">
+																	</div>
+																	<h6 class="tabular-cell">How does quartz in a clock keep time?</h6>
+																</a>
+															</li>
+															<li class="tabular">
+																<a href="#" class="tabular-row">
+																	<div class="tabular-cell">
+																		<img src="{{'demo/stockphoto/music_10.jpg' | asset_url | img_loc }}" alt="">
+																	</div>
+																	<h6 class="tabular-cell">How would you prevent and fight DDoS Attack?</h6>
+																</a>
+															</li>
+															<li class="tabular">
+																<a href="#" class="tabular-row">
+																	<div class="tabular-cell">
+																		<img src="{{'demo/stockphoto/music_11.jpg' | asset_url | img_loc }}" alt="">
+																	</div>
+																	<h6 class="tabular-cell">Is the center of a rotating circle at rest?</h6>
+																</a>
+															</li>
+															<li class="tabular">
+																<a href="#" class="tabular-row">
+																	<div class="tabular-cell">
+																		<img src="{{'demo/stockphoto/portfolio_01.jpg' | asset_url | img_loc }}" alt="">
+																	</div>
+																	<h6 class="tabular-cell">Is the center of a rotating circle at rest?</h6>
+																</a>
+															</li>
+														</ul>
+												
+													</div>
+													<div class="col-sm-4 yamm-col">
+														<div id="basic-map" style="height: 312px !important; width: 273px !important"></div>
+													</div>
+													<div class="col-sm-4 yamm-col">
+														<form action="#">
+															<div class="form-group mb10">
+																<label class="mb5">Name <small>(required)</small></label>
+																<input type="text" class="form-control input-sm" placeholder="">
+															</div>
+															<div class="form-group mb10">
+																<label class="mb5">Email Address <small>(required)</small></label>
+																<input type="text" class="form-control input-sm" placeholder="">
+															</div>
+															<div class="form-group mb10">
+																<label class="mb5">Message</label>
+																<textarea class="form-control" rows="5">This form is for demonstration purposes only</textarea>
+															</div>
+															<button class="btn btn-primary">Submit</button>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Tables <b class="caret"></b></a>
+								<ul class="dropdown-menu" style="width: 900px">
+									<div class="yamm-content">
+										<div class="yamm-col">
+											<table class="table table-striped mb0">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>First Name</th>
+														<th>Last Name</th>
+														<th>Username</th>
+														<th>First Name</th>
+														<th>Last Name</th>
+														<th>Username</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>1</td>
+														<td>Mark</td>
+														<td>Otto</td>
+														<td>@mdo</td>
+														<td>Mark</td>
+														<td>Otto</td>
+														<td>@mdo</td>
+													</tr>
+													<tr>
+														<td>2</td>
+														<td>Jacob</td>
+														<td>Thornton</td>
+														<td>@fat</td>
+														<td>Jacob</td>
+														<td>Thornton</td>
+														<td>@fat</td>
+													</tr>
+													<tr>
+														<td>3</td>
+														<td colspan="2">Larry the Bird</td>
+														<td>@twitter</td>
+														<td colspan="2">Larry the Bird</td>
+														<td>@twitter</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</ul>
+							</li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="#">Link</a>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Classic Dropdown <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="#">Action</a></li>
+									<li><a href="#">Another action</a></li>
+									<li><a href="#">Something else here</a></li>
+									<li class="divider"></li>
+									<li><a href="#">Separated link</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<!-- /.navbar-collapse -->
+				</nav>
+
+				<div class="row">
+					<div class="col-md-4">
+						<h4>Markup</h4>
+						
+						<ul>
+							<li>Reuse navbar markup and add class <code>.yamm</code> at the top.</li>
+							<li>Then add your markup into the <code>.dropdown-menu</code></li>
+							<li>Optionally, use .<code>yamm-content</code> to wrap content with padding.</li>
+							<li>Optionally, add a fixed width to <code>ul.dropdown-menu</code> using <code>style</code></li>
+						</ul>
+					</div>
+					<div class="col-md-8">
+<pre class="prettyprint">
+&lt;nav class=&quot;navbar yamm navbar-default &quot; role=&quot;navigation&quot;&gt;
+...
+     &lt;ul class=&quot;nav navbar-nav&quot;&gt;
+       &lt;li class=&quot;dropdown&quot;&gt;
+         &lt;a href=&quot;#&quot; class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;Dropdown&lt;/a&gt;
+         &lt;ul class=&quot;dropdown-menu&quot;&gt;
+           &lt;li&gt;
+               &lt;div class=&quot;yamm-content&quot;&gt;
+                  &lt;div class=&quot;row&quot;&gt; 
+                    ...
+                  &lt;/div&gt;
+               &lt;/div&gt;
+           &lt;/li&gt;
+         &lt;/ul&gt;
+       &lt;/li&gt;
+     &lt;/ul&gt;
+...
+&lt;/nav&gt;
+</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-info">
+			<div class="panel-heading"><h2>Full width menu with Navbar Inverse style</h2></div>
+			<div class="panel-body">
+				<nav class="navbar navbar-inverse mb20" role="navigation">
+							<!-- Brand and toggle get grouped for better mobile display -->
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+									<span class="sr-only">Toggle navigation</span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+								</button>
+								<a class="navbar-brand" href="#">Navbar</a>
+							</div>
+
+							<!-- Collect the nav links, forms, and other content for toggling -->
+							<div class="yamm collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+								<ul class="nav navbar-nav">
+									<li class="dropdown yamm-fw">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">Grid <b class="caret"></b></a>
+										<ul class="dropdown-menu">
+											<li class="show-grid">
+												<div class="yamm-content">
+									                <div class="row">
+									                      <div class="col-sm-12">.col-sm-12</div>
+								                    </div>
+								                    <div class="row">
+									                      <div class="col-sm-6">.col-sm-6</div>
+									                      <div class="col-sm-6">.col-sm-6</div>
+								                    </div>
+								                    <div class="row">
+									                      <div class="col-sm-4">.col-sm-4</div>
+									                      <div class="col-sm-4">.col-sm-4</div>
+									                      <div class="col-sm-4">.col-sm-4</div>
+								                    </div>
+								                    <div class="row">
+									                      <div class="col-sm-3">.col-sm-3</div>
+									                      <div class="col-sm-3">.col-sm-3</div>
+									                      <div class="col-sm-3">.col-sm-3</div>
+									                      <div class="col-sm-3">.col-sm-3</div>
+								                    </div>
+								                    <div class="row">
+									                      <div class="col-sm-2">.col-sm-2</div>
+									                      <div class="col-sm-2">.col-sm-2</div>
+									                      <div class="col-sm-2">.col-sm-2</div>
+									                      <div class="col-sm-2">.col-sm-2</div>
+									                      <div class="col-sm-2">.col-sm-2</div>
+									                      <div class="col-sm-2">.col-sm-2</div>
+								                    </div>
+								                    <div class="row">
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                      <div class="col-sm-1">.col-sm-1</div>
+									                </div>
+												</div>
+											</li>
+										</ul>
+									</li>
+									<li class="dropdown yamm-fw">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">Offset <b class="caret"></b></a>
+										<ul class="dropdown-menu">
+											<li class="show-grid">
+												<div class="yamm-content">
+									                <div class="row">
+									                      <div class="col-sm-4">4</div>
+									                      <div class="col-sm-4 col-sm-offset-4">4 offset 4</div>
+									                </div>
+									                <div class="row">
+									                      <div class="col-sm-3 col-sm-offset-3">3 offset 3</div>
+									                      <div class="col-sm-3 col-sm-offset-3">3 offset 3</div>
+									                </div>
+									                <div class="row">
+									                      <div class="col-sm-6 col-sm-offset-3">6 offset 6</div>
+									                </div>
+												</div>
+											</li>
+										</ul>
+									</li>
+									<li class="dropdown yamm-fw">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">Aside <b class="caret"></b></a>
+										<ul class="dropdown-menu">
+											<li class="show-grid">
+												<div class="yamm-content">
+													<div class="row">
+														<div class="col-sm-3"><br>
+															<h3>3</h3><br>
+														</div>
+														<div class="col-sm-9"><br>
+															<h3>9</h3><br>
+														</div>
+													</div>
+												</div>
+							                </li>
+						                </ul>
+									</li>
+									<li class="dropdown yamm-fw"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Nesting<b class="caret"></b></a>
+						                <ul class="dropdown-menu">
+						                  <li class="show-grid">
+						                    <div class="row">
+						                      <div class="col-sm-12">12</div>
+						                    </div>
+						                    <div class="row">
+						                      <div class="col-sm-12">12
+						                        <div class="row">
+						                          <div class="col-sm-4">4</div>
+						                          <div class="col-sm-4">4</div>
+						                          <div class="col-sm-4">4</div>
+						                        </div>
+						                      </div>
+						                    </div>
+						                  </li>
+						                </ul>
+						              </li>
+									
+								</ul>
+								<ul class="nav navbar-nav navbar-right">
+									<li><a href="#">Link</a>
+									</li>
+									<li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+										<ul class="dropdown-menu">
+											<li><a href="#">Action</a></li>
+											<li><a href="#">Another action</a></li>
+											<li><a href="#">Something else here</a></li>
+											<li class="divider"></li>
+											<li><a href="#">Separated link</a></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							<!-- /.navbar-collapse -->
+						</nav>
+						
+						<div class="row">
+							<div class="col-md-3">
+								<h3>Width</h3>
+								<p>By default every mega-dropdown will take the content size so is possible to use add .yamm-fw to .dropdown to expand it fullwidth</p>
+								<p>Yamm works better with fullwidth menus.</p>
+							</div>
+							<div class="col-md-9">
+<pre class="prettyprint">
+&lt;nav class=&quot;navbar yamm navbar-default &quot; role=&quot;navigation&quot;&gt;
+...
+     &lt;ul class=&quot;nav navbar-nav&quot;&gt;
+       &lt;li class=&quot;dropdown yamm-fw&quot;&gt;
+             ...
+       &lt;/li&gt;
+     &lt;/ul&gt;
+...
+&lt;/nav&gt;
+</pre>
+							</div>
+						</div>
+
+
+						<hr>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, asperiores, minima nostrum non ratione quibusdam minus facere neque sit quos quidem dolore deserunt officia harum iusto reprehenderit nesciunt totam nulla? Fugit excepturi veniam quos iste sint ad ipsum natus deleniti perferendis voluptatem. Harum, natus consequuntur dolorum quae repudiandae necessitatibus ducimus molestiae cumque. Explicabo, cumque, eveniet, expedita iure earum reprehenderit vel non doloremque repellat sunt minima eum reiciendis quia quaerat fuga similique provident incidunt accusantium voluptatem ex. Quaerat, laboriosam, doloremque, ipsum, voluptas soluta dolores ea tempora voluptatibus minus reprehenderit laborum vitae dolorum eos blanditiis nulla itaque atque. Explicabo, iure veritatis id.</p>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock %}

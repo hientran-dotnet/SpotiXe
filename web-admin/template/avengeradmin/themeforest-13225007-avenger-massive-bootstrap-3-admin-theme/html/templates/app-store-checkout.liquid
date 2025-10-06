@@ -1,0 +1,291 @@
+{% layout 'layout' %}
+{% block title %}Checkout{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>eCommerce</li>
+<li class="active"><a href="app-store-checkout.html">Checkout</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/card/lib/css/card.css" | asset_url | stylesheet_tag }} 									<!-- Card -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/form-stepy/jquery.stepy.js" | asset_url | script_tag }}  								<!-- Stepy Plugin -->
+{{ "plugins/card/lib/js/card.js" | asset_url | script_tag }} 										<!-- Card -->
+
+<script>
+	$(document).ready(function() {
+		$('#checkoutwizard').stepy();
+		$('.stepy-navigator').wrapInner('<div class="pull-right"></div>');
+
+		$('.card').card({ container: $('.card-wrapper')})
+	});
+</script>
+{% endblock %}
+
+{% block content %} 
+	<div class="row">
+		<div class="col-xs-12">
+			
+			<div class="panel panel-success">
+				<div class="panel-heading"></div>
+				<div class="panel-body">
+					<form id="checkoutwizard">
+						<fieldset title="Step 1">
+							<legend>Account Information</legend>
+								<div class="row">
+									<div class="col-md-6">
+										<h5>Register New User</h5>
+										<div class="form-group">
+											<label for="FullNameResgiter1">Full name</label>
+											<input type="text" class="form-control" id="FullNameResgiter1">
+											<p class="help-block">Middle name not required</p>
+										</div>
+										<div class="form-group">
+											<label for="EmailRegister1">Email address</label>
+											<input type="email" class="form-control" id="EmailRegister1">
+										</div>
+										<div class="form-group">
+											<label for="PhoneRegister1">Phone</label>
+											<input type="text" class="form-control phone_us_masking" placeholder="(000) 000-0000" id="PhoneRegister1" maxlength="14" autocomplete="off">
+										</div>
+										<div class="form-group">
+											<label for="PassowordRegister1">Password</label>
+											<input type="password" class="form-control" id="PassowordRegister1">
+										</div>
+										<div class="form-group">
+											<label for="RePassowordRegister1">Retype Password</label>
+											<input type="password" class="form-control" id="RePassowordRegister1">
+										</div>
+										<div class="form-group">
+											<div class="checkbox">
+												<label class="">
+													<input type="checkbox">I've read and agree with <a href="#fakelink">Term and condition</a>
+												</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-danger">Register</button>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h5>Login Existing User</h5>
+										<div class="form-group">
+											<label for="EmailLogin1">Email address</label>
+											<input type="email" class="form-control" id="EmailLogin1" placeholder="Enter email">
+										</div>
+										<div class="form-group">
+											<label for="PasswordLogin1">Password</label>
+											<input type="password" class="form-control" id="PasswordLogin1" placeholder="Password">
+										</div>
+										<div class="form-group">
+											<div class="checkbox">
+												<label for="">
+													<input type="checkbox"> Remember Me
+												</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-success">Login</button>
+										</div>
+									</div>
+								</div>
+						</fieldset>
+						<fieldset title="Step 2">
+							<legend>Shipping</legend>
+								<div class="row">
+									<div class="col-md-6">
+										<h5>New Shipping Account</h5>
+											<div class="form-group">
+												<label for="FullNameResgiter1">Full name</label>
+												<input type="text" class="form-control" id="FullNameResgiter1">
+												<p class="help-block">Middle name not required</p>
+											</div>
+											<div class="form-group">
+												<label for="EmailRegister1">Email address</label>
+												<input type="email" class="form-control" id="EmailRegister1">
+											</div>
+											<div class="form-group">
+												<label for="PhoneRegister1">Phone</label>
+												<input type="text" class="form-control phone_us_masking" placeholder="(000) 000-0000" id="PhoneRegister1" maxlength="14" autocomplete="off">
+											</div>
+											<div class="form-group">
+												<label for="Address">Address</label>
+												<textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+											</div>
+											<div class="form-group">
+												<label for="Address">Country</label>
+												<select name="" id="" class="form-control">
+													<option value="">United States</option>
+												</select>
+											</div>
+									</div>
+								
+									<div class="col-md-6">
+										<h5>Use My Account Information</h5>
+
+										<div class="form-group">
+											<label class="control-label">Full name</label>
+											<div>
+											  <p class="form-control-static">Paris Hawker</p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Email</label>
+											<div>
+											  <p class="form-control-static">email@example.com</p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Phone</label>
+											<div>
+											  <p class="form-control-static">+61 1234546 78</p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Address</label>
+											<div>
+												<address>
+												  <strong>Twitter, Inc.</strong><br>
+												  795 Folsom Ave, Suite 600<br>
+												  San Francisco, CA 94107
+												</address>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Post code</label>
+											<div>
+											  <p class="form-control-static"><a href="#fakelink">12345678</a></p>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<button class="btn btn-success"><i class="fa fa-check"></i> Use It</button>
+										</div>
+
+									</div>
+								</div>
+						</fieldset>
+						<fieldset title="Step 3">
+							<legend>Payment Method</legend>
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-horizontal card">
+											<div class="form-group">
+												<label for="#" class="col-sm-4 control-label">Card Number</label>	
+												<div class="col-sm-8">
+													<input placeholder="Card number" type="text" name="number" class="form-control">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="#" class="col-sm-4 control-label">Full Name</label>	
+												<div class="col-sm-8">
+													<input placeholder="Full name" type="text" name="name" class="form-control">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="#" class="col-sm-4 control-label">Expiry</label>	
+												<div class="col-sm-8">
+													<input placeholder="MM/YY" type="text" name="expiry" class="form-control">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="#" class="col-sm-4 control-label">CVC</label>	
+												<div class="col-sm-8">
+													<input placeholder="CVC" type="text" name="cvc" class="form-control">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="card-wrapper"></div>
+									</div>
+								</div>
+						</fieldset>
+						<fieldset title="Step 4">
+							<legend>Finish</legend>
+								<div class="alert alert-warning">
+									<span class="label label-warning">Note!</span> Please check your order before you submit
+								</div>
+								<h3>Review Your Order</h3>
+								<hr>
+
+								<div class="row">
+									<div class="col-md-6">
+										<h5>Payment</h5>
+										<div class="form-group">
+											<label class="control-label">Payment method</label>
+											<div>
+											  <p class="form-control-static">Paypal (someone@example.com)</p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Shipping fees</label>
+											<div>
+											  <p class="form-control-static">$ 15.00</p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Total order</label>
+											<div>
+											  <p class="form-control-static">$ 150.00</p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Grand total</label>
+											<div>
+											  <p class="form-control-static text-danger">$ 165.00</p>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h5>Shipping Address</h5>
+										<div class="form-group">
+											<label class="control-label">Full name</label>
+											<div>
+											  <p class="form-control-static">Paris Hawker</p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Email</label>
+											<div>
+											  <p class="form-control-static">email@example.com</p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Phone</label>
+											<div>
+											  <p class="form-control-static">+61 1234546 78</p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Address</label>
+											<div>
+												<address>
+												  <strong>Twitter, Inc.</strong><br>
+												  795 Folsom Ave, Suite 600<br>
+												  San Francisco, CA 94107
+												</address>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Post code</label>
+											<div>
+											  <p class="form-control-static"><a href="#fakelink">12345678</a></p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</fieldset>
+						<input type="submit" class="finish btn-success btn" value="Submit" />
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+{% endblock %}

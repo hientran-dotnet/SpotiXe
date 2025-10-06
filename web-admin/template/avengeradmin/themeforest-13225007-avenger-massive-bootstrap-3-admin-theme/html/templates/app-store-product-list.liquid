@@ -1,0 +1,175 @@
+{% layout 'layout' %}
+{% block title %}Product Details {% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>eCommerce</li>
+<li class="active"><a href="app-store-product-list.html">Product Details</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" | asset_url | stylesheet_tag }} 	<!-- Touchspin -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js" | asset_url | script_tag }} 			<!-- Touchspin -->
+
+<script>
+	$(function() {
+	    $("input.touchspin").TouchSpin({
+	      verticalbuttons: true
+	    });
+	});
+</script>
+{% endblock %}
+
+{% block content %} 
+<div class="store">
+	<div class="box">
+		<div class="row">
+			<div class="col-sm-2">
+				<img src="{{'demo/stockphoto/beauty_10.jpg' | asset_url | img_loc }}" class="mb20 img-responsive">
+			</div>
+			
+			<div class="col-sm-10">
+				<h3 class="product-title mt0 mb10"><a href="#"><span class="product-price label label-danger">$299.00</span>Lorem Ipsum Dolor Sit Amet</a></h3>
+				<span class="label label-inverse mb10">Reprehenderit</span>
+				<ul class="list-unstyled list-inline rating-list ml0 mb10">
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+				</ul>
+				<p class="mb20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut nesciunt consectetur rerum molestiae et voluptatibus veritatis fugiat doloribus sint tempora, ducimus quam quidem reprehenderit quaerat harum libero a? Magni, laudantium.</p>
+			</div>
+		</div>
+		<div class="product-footer clearfix">
+			<div class="pull-right">
+				<div style="width: 80px;" class="pull-left mr10">
+					<input type="text" class="form-control touchspin" placeholder="Number of Items" value="1">
+				</div>
+				<a href="#" class="add-to-cart btn btn-default pull-right"><i class="fa fa-shopping-cart"></i>&nbsp; <span class="hidden-xs">Add to Cart</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<div class="row">
+			<div class="col-sm-2">
+				<img src="{{'demo/stockphoto/beauty_03.jpg' | asset_url | img_loc }}" class="mb20 img-responsive">
+			</div>
+			
+			<div class="col-sm-10">
+				<h3 class="product-title mt0 mb10"><a href="#"><span class="product-price label label-danger">$299.00</span>Lorem Ipsum Dolor Sit Amet</a></h3>
+				<span class="label label-inverse mb10">Reprehenderit</span>
+				<ul class="list-unstyled list-inline rating-list ml0 mb10">
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+				</ul>
+				<p class="mb20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut nesciunt consectetur rerum molestiae et voluptatibus veritatis fugiat doloribus sint tempora, ducimus quam quidem reprehenderit quaerat harum libero a? Magni, laudantium.</p>
+			</div>
+		</div>
+		<div class="product-footer clearfix">
+			<div class="pull-right">
+				<div style="width: 80px;" class="pull-left mr10">
+					<input type="text" class="form-control touchspin" placeholder="Number of Items" value="1">
+				</div>
+				<a href="#" class="add-to-cart btn btn-default pull-right"><i class="fa fa-shopping-cart"></i>&nbsp; <span class="hidden-xs">Add to Cart</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<div class="row">
+			<div class="col-sm-2">
+				<img src="{{'demo/stockphoto/beauty_07.jpg' | asset_url | img_loc }}" class="mb20 img-responsive">
+			</div>
+			
+			<div class="col-sm-10">
+				<h3 class="product-title mt0 mb10"><a href="#"><span class="product-price label label-danger">$299.00</span>Lorem Ipsum Dolor Sit Amet</a></h3>
+				<span class="label label-inverse mb10">Reprehenderit</span>
+				<ul class="list-unstyled list-inline rating-list ml0 mb10">
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+				</ul>
+				<p class="mb20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut nesciunt consectetur rerum molestiae et voluptatibus veritatis fugiat doloribus sint tempora, ducimus quam quidem reprehenderit quaerat harum libero a? Magni, laudantium.</p>
+			</div>
+		</div>
+		<div class="product-footer clearfix">
+			<div class="pull-right">
+				<div style="width: 80px;" class="pull-left mr10">
+					<input type="text" class="form-control touchspin" placeholder="Number of Items" value="1">
+				</div>
+				<a href="#" class="add-to-cart btn btn-default pull-right"><i class="fa fa-shopping-cart"></i>&nbsp; <span class="hidden-xs">Add to Cart</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<div class="row">
+			<div class="col-sm-2">
+				<img src="{{'demo/stockphoto/beauty_06.jpg' | asset_url | img_loc }}" class="mb20 img-responsive">
+			</div>
+			
+			<div class="col-sm-10">
+				<h3 class="product-title mt0 mb10"><a href="#"><span class="product-price label label-danger">$299.00</span>Lorem Ipsum Dolor Sit Amet</a></h3>
+				<span class="label label-inverse mb10">Reprehenderit</span>
+				<ul class="list-unstyled list-inline rating-list ml0 mb10">
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+				</ul>
+				<p class="mb20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut nesciunt consectetur rerum molestiae et voluptatibus veritatis fugiat doloribus sint tempora, ducimus quam quidem reprehenderit quaerat harum libero a? Magni, laudantium.</p>
+			</div>
+		</div>
+		<div class="product-footer clearfix">
+			<div class="pull-right">
+				<div style="width: 80px;" class="pull-left mr10">
+					<input type="text" class="form-control touchspin" placeholder="Number of Items" value="1">
+				</div>
+				<a href="#" class="add-to-cart btn btn-default pull-right"><i class="fa fa-shopping-cart"></i>&nbsp; <span class="hidden-xs">Add to Cart</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<div class="row">
+			<div class="col-sm-2">
+				<img src="{{'demo/stockphoto/communication_09.jpg' | asset_url | img_loc }}" class="mb20 img-responsive">
+			</div>
+			
+			<div class="col-sm-10">
+				<h3 class="product-title mt0 mb10"><a href="#"><span class="product-price label label-danger">$299.00</span>Lorem Ipsum Dolor Sit Amet</a></h3>
+				<span class="label label-inverse mb10">Reprehenderit</span>
+				<ul class="list-unstyled list-inline rating-list ml0 mb10">
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+					<li><i class="fa fa-star"></i></li>
+				</ul>
+				<p class="mb20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut nesciunt consectetur rerum molestiae et voluptatibus veritatis fugiat doloribus sint tempora, ducimus quam quidem reprehenderit quaerat harum libero a? Magni, laudantium.</p>
+			</div>
+		</div>
+		<div class="product-footer clearfix">
+			<div class="pull-right">
+				<div style="width: 80px;" class="pull-left mr10">
+					<input type="text" class="form-control touchspin" placeholder="Number of Items" value="1">
+				</div>
+				<a href="#" class="add-to-cart btn btn-default pull-right"><i class="fa fa-shopping-cart"></i>&nbsp; <span class="hidden-xs">Add to Cart</span></a>
+			</div>
+		</div>
+	</div>
+	
+
+
+	
+	
+</div>
+{% endblock %}

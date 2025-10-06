@@ -1,0 +1,133 @@
+{% layout 'layout' %}
+{% block title %}Blog Dashboard{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active"><a href="app-blog-dashboard.html">Blog Dashboard</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{{ "demo/demo-ui-tiles.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %} 
+	<div class="row">
+		<div class="col-md-6">
+			<div class="tiles-sparkline">
+				<div class="tiles-sparkline-heading mb20 clearfix">
+					<div class="pull-left">
+						<h2>8,175</h2>
+						<h3 class="tiles-sparkline-subheading">Total Page Views</h3>
+					</div>
+					<div class="pull-right">
+						<span class="label label-success">+121%</span>
+					</div>
+				</div>
+				<div class="tiles-sparkline-body">
+					<div id="tiles-sparkline-stats-blogviews"></div>
+					<div class="tabular">
+						<div class="tabular-row">
+							<div class="tabular-cell">
+								<div class="week-day sun">S</div>
+							</div>
+							<div class="tabular-cell">
+								<div class="week-day mon">M</div>
+							</div>
+							<div class="tabular-cell">
+								<div class="week-day tue">T</div>
+							</div>
+							<div class="tabular-cell">
+								<div class="week-day wed">W</div>
+							</div>
+							<div class="tabular-cell">
+								<div class="week-day thu">T</div>
+							</div>
+							<div class="tabular-cell">
+								<div class="week-day fri">F</div>
+							</div>
+							<div class="tabular-cell">
+								<div class="week-day sat">S</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-default demo-new-members" id="p3" role="widget">
+				<div class="panel-heading"><h2>Quick Draft</h2></div>
+				<div class="panel-body" role="content">
+					<form>
+						<div class="form-group">
+							<input type="text" class="form-control" id="focusedinput" placeholder="Title">
+						</div>
+						<div class="form-group">
+							<textarea name="txtarea1" id="txtarea1" cols="50" rows="4" class="form-control" placeholder="Type something..." style="resize: none; height: 100px;"></textarea>
+						</div>
+					</form>
+					<div class="panel-footer">
+						<a href="#" class="btn btn-primary"><i class="fa fa-save"></i> Save</a>
+					</div>
+				</div>
+
+			</div>
+			
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3">
+    		<a class="info-tiles tiles-facebook" href="#">
+			    <div class="tiles-heading">
+			        <div class="pull-left">Likes</div>
+			        <div class="pull-right">+20.7%</div>
+			    </div>
+			    <div class="tiles-body">
+			        <div class="pull-left"><i class="fa fa-facebook"></i></div>
+			        <div class="pull-right">12,7K</div>
+			    </div>
+			</a>
+    	</div>
+    	<div class="col-md-3">
+    		<a class="info-tiles tiles-twitter" href="#">
+			    <div class="tiles-heading">
+			        <div class="pull-left">Followers</div>
+			        <div class="pull-right">+10.3%</div>
+			    </div>
+			    <div class="tiles-body">
+			        <div class="pull-left"><i class="fa fa-twitter"></i></div>
+			        <div class="pull-right">2,56K</div>
+			    </div>
+			</a>
+    	</div>
+    	<div class="col-md-3">
+    		<a class="info-tiles tiles-dribbble" href="#">
+			    <div class="tiles-heading">
+			        <div class="pull-left">Followers</div>
+			        <div class="pull-right">+20.7%</div>
+			    </div>
+			    <div class="tiles-body">
+			        <div class="pull-left"><i class="fa fa-dribbble"></i></div>
+			        <div class="pull-right">706</div>
+			    </div>
+			</a>
+    	</div>
+    	<div class="col-md-3">
+    		<a class="info-tiles tiles-vimeo" href="#">
+			    <div class="tiles-heading">
+			        <div class="pull-left">Followers</div>
+			        <div class="pull-right">+10.3%</div>
+			    </div>
+			    <div class="tiles-body">
+			        <div class="pull-left"><i class="fa fa-vimeo-square"></i></div>
+			        <div class="pull-right">396</div>
+			    </div>
+			</a>
+    	</div>
+    </div>
+{% endblock %}

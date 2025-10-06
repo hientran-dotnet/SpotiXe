@@ -1,0 +1,179 @@
+{% layout 'layout' %}
+{% block title %}Search{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Extras</a></li>
+<li class="active"><a href="extras-search.html">Search</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+
+		<div class="panel">
+			<div class="panel-heading">
+				<h2>Search Results</h2>
+
+          <ul class="nav nav-tabs">
+              <li class="active" ><a data-toggle="tab" href="#search-classic">Classic Search</a></li>
+              <li><a data-toggle="tab" href="#search-user">User Search</a></li>
+          </ul>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+                    <div id="search-classic" class="tab-pane active">
+                        <form action="#">
+                           <div class="input-group well well-sm w100">
+                              <input type="text" placeholder="Search..." class="form-control input-lg">
+                              <span class="input-group-btn">
+                                  <button type="button" class="btn btn-primary btn-lg"><i class="fa fa-search"></i></button>
+                              </span>
+                           </div>
+                        </form>
+                        <h3>Displaying results for 'Avenger'</h3>
+                        <hr>
+                        <div class="search-result">
+                           <h4><a href="http://themeforest.net/item/avant-clean-and-responsive-bootstrap-332-admin/5961888?ref=KaijuThemes">Avant - A flexible and responsive, mobile first admin template</a></h4>
+                           <a href="#">http://www.google.com</a>
+                           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi, obcaecati consequuntur aspernatur neque voluptatum mollitia eaque tenetur ea tempora itaque dolore incidunt explicabo voluptate quaerat at reprehenderit iste iusto asperiores?</p>
+                        </div>
+                        <hr>
+                        <div class="search-result">
+                           <h4><a href="http://themeforest.net/item/avant-clean-and-responsive-bootstrap-332-admin/5961888?ref=KaijuThemes">Avant - Clean and Responsive Bootstrap 3 Admin</a></h4>
+                           <a href="#">http://www.google.com</a>
+                           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, ut, quis, molestias dolor nobis doloremque eos distinctio perferendis alias aspernatur quam natus necessitatibus fugiat quo nostrum ipsum tempore. Expedita eveniet impedit dolorum unde rerum temporibus.</p>
+                        </div>
+                        <hr>
+                        <div class="search-result">
+                           <h4><a href="http://themeforest.net/item/avant-clean-and-responsive-bootstrap-332-admin/5961888?ref=KaijuThemes">Avant - A flexible and responsive, mobile first admin template</a></h4>
+                           <a href="#">http://www.google.com</a>
+                           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, voluptates, nulla vero beatae deserunt impedit quas fugiat cupiditate error soluta veritatis delectus cumque possimus fugit libero eligendi provident voluptatum nostrum nesciunt.</p>
+                        </div>
+                        <hr>
+                        <div class="search-result">
+                           <h4><a href="http://themeforest.net/item/avant-clean-and-responsive-bootstrap-332-admin/5961888?ref=KaijuThemes">Avant - Clean and Responsive Bootstrap 3 Admin</a></h4>
+                           <a href="#">http://www.google.com</a>
+                           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, reprehenderit, cumque, quas, voluptatibus expedita aspernatur alias enim laboriosam eum sunt perspiciatis a pariatur dignissimos eligendi repellat harum hic!</p>
+                        </div>
+                        <hr>
+                        <div class="search-result">
+                           <h4><a href="http://themeforest.net/item/avant-clean-and-responsive-bootstrap-332-admin/5961888?ref=KaijuThemes">Avant - A flexible and responsive, mobile first admin template</a></h4>
+                           <a href="#">http://www.google.com</a>
+                           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, incidunt.</p>
+                        </div>
+                        <hr>
+                        <div class="search-result">
+                           <h4><a href="http://themeforest.net/item/avant-clean-and-responsive-bootstrap-332-admin/5961888?ref=KaijuThemes">Avant - Clean and Responsive Bootstrap 3 Admin</a></h4>
+                           <a href="#">http://www.google.com</a>
+                           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus adipisci laborum provident enim quam!</p>
+                        </div>
+                        <hr>
+                        <div class="search-result">
+                           <h4><a href="http://themeforest.net/item/avant-clean-and-responsive-bootstrap-332-admin/5961888?ref=KaijuThemes">Avant - A flexible and responsive, mobile first admin template</a></h4>
+                           <a href="#">http://www.google.com</a>
+                           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque, harum temporibus beatae assumenda ipsum. Dignissimos deleniti temporibus ut obcaecati possimus.</p>
+                        </div>
+                        <hr>
+                        <ol class="pagination text-center pull-right">
+                            <li class="prev disabled"><a href="#"><i class="fa fa-angle-left"></i> Previous</a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li class="next"><a href="#">Next <i class="fa fa-angle-right"></i></a></li>
+                        </ol>
+                    </div>
+    
+                    <div id="search-user" class="tab-pane">
+                        <form action="#">
+                           <div class="input-group well well-sm w100">
+                              <input type="text" placeholder="Search..." class="form-control input-lg">
+                              <span class="input-group-btn">
+                                  <button type="button" class="btn btn-primary btn-lg"><i class="fa fa-search"></i></button>
+                              </span>
+                           </div>
+                        </form>
+    
+                        <div class="panel mb0">
+                          <div class="panel-body panel-no-padding">
+                            <div class="table-responsive">
+                              <table class="table table-striped table-vam table-bordered mb0">
+                                  <thead>
+                                      <tr>
+                                          <th>Avatar</th>
+                                          <th>Full Name</th>
+                                          <th>Username</th>
+                                          <th>Joined</th>
+                                          <th>Last Active</th>
+                                          <th>Status</th>
+                                          <th>&nbsp;</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr>
+                                          <td><img src="{{'demo/avatar/avatar_11.png' | asset_url | img_loc }}" alt="" class="avatar"></td>
+                                          <td>William Hartnell</td>
+                                          <td>doc_01</td>
+                                          <td>12 Jan 2013</td>
+                                          <td>14 Feb 2014</td>
+                                          <td><span class="label label-success">Approved</span></td>
+                                          <td><a href="#" class="btn btn-default btn-xs">View</a></td>
+                                      </tr>
+                                      <tr>
+                                          <td><img src="{{'demo/avatar/avatar_05.png' | asset_url | img_loc }}" alt="" class="avatar"></td>
+                                          <td>Patrick Troughton</td>
+                                          <td>trough12</td>
+                                          <td>12 Jan 2013</td>
+                                          <td>14 Feb 2014</td>
+                                          <td><span class="label label-success">Approved</span></td>
+                                          <td><a href="#" class="btn btn-default btn-xs">View</a></td>
+                                      </tr>
+                                      <tr>
+                                          <td><img src="{{'demo/avatar/avatar_06.png' | asset_url | img_loc }}" alt="" class="avatar"></td>
+                                          <td>John Pertwee</td>
+                                          <td>pertweepiepie</td>
+                                          <td>12 Jan 2013</td>
+                                          <td>14 Feb 2014</td>
+                                          <td><span class="label label-warning">Pending</span></td>
+                                          <td><a href="#" class="btn btn-default btn-xs">View</a></td>
+                                      </tr>
+                                      <tr>
+                                          <td><img src="{{'demo/avatar/avatar_09.png' | asset_url | img_loc }}" alt="" class="avatar"></td>
+                                          <td>Tom Baker</td>
+                                          <td>whoknows</td>
+                                          <td>12 Jan 2013</td>
+                                          <td>14 Feb 2014</td>
+                                          <td><span class="label label-success">Approved</span></td>
+                                          <td><a href="#" class="btn btn-default btn-xs">View</a></td>
+                                      </tr>
+                                      <tr>
+                                          <td><img src="{{'demo/avatar/avatar_04.png' | asset_url | img_loc }}" alt="" class="avatar"></td>
+                                          <td>Pater Davison</td>
+                                          <td>pson84</td>
+                                          <td>12 Jan 2013</td>
+                                          <td>14 Feb 2014</td>
+                                          <td><span class="label label-danger">Declined</span></td>
+                                          <td><a href="#" class="btn btn-default btn-xs">View</a></td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+
+                    </div>
+                </div>
+			</div>
+		</div>
+
+	</div> <!-- col-md-12 -->
+</div>
+{% endblock %}

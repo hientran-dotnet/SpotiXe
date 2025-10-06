@@ -1,0 +1,145 @@
+{% layout 'layout' %}
+{% block title %}Call Status Dashboard{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active"><a href="app-blog-comment.html">Call Status Dashboard</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/nvd3/nv.d3.min.css" | asset_url | stylesheet_tag }} 		<!-- nvd3 -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/d3/d3.min.js" | asset_url | script_tag }}             		<!-- nvd3 dependency -->
+{{ "plugins/nvd3/nv.d3.min.js" | asset_url | script_tag }} 				<!-- nvd3 -->
+
+{{ "plugins/easypiechart/jquery.easypiechart.js" | asset_url | script_tag }} <!-- EasyPieCharts -->
+
+{{ "demo/demo-call-status-dashboard.js" | asset_url | script_tag }}               <!-- demo-kpi-dashboard -->
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="row">
+        	<div class="col-md-3">
+        		<a class="info-tiles tiles-sky" href="#">
+				    <div class="tiles-heading">
+				        <div class="pull-left">Agent Logged In</div>				        
+				    </div>
+				    <div class="tiles-body">
+				        <div class="pull-left"><i class="fa fa-users"></i></div>
+				        <div class="pull-right">34</div>
+				    </div>
+				</a>
+        	</div>
+	        <div class="col-md-3">
+        		<a class="info-tiles tiles-sky" href="#">
+				    <div class="tiles-heading">
+				        <div class="pull-left">Calls > 5 min</div>				        
+				    </div>
+				    <div class="tiles-body">
+				        <div class="pull-left"><i class="fa fa-phone"></i></div>
+				        <div class="pull-right">15</div>
+				    </div>
+				</a>
+        	</div>
+	  		<div class="col-md-3">
+        		<a class="info-tiles tiles-sky" href="#">
+				    <div class="tiles-heading">
+				        <div class="pull-left">Total Calls Today</div>				        
+				    </div>
+				    <div class="tiles-body">
+				        <div class="pull-left"><i class="fa fa-bar-chart"></i></div>
+				        <div class="pull-right">1,232</div>
+				    </div>
+				</a>
+        	</div>
+	  		<div class="col-md-3">
+        		<a class="info-tiles tiles-sky" href="#">
+				    <div class="tiles-heading">
+				        <div class="pull-left">Calls Waiting</div>				        
+				    </div>
+				    <div class="tiles-body">
+				        <div class="pull-left"><i class="fa fa-phone"></i></div>
+				        <div class="pull-right">4</div>
+				    </div>
+				</a>
+        	</div>
+	  		<div class="col-md-3">
+        		<a class="info-tiles tiles-sky" href="#">
+				    <div class="tiles-heading">
+				        <div class="pull-left">Agent Ready</div>				        
+				    </div>
+				    <div class="tiles-body">
+				        <div class="pull-left"><i class="fa fa-fax"></i></div>
+				        <div class="pull-right">4</div>
+				    </div>
+				</a>
+        	</div>
+	  		<div class="col-md-3">
+        		<a class="info-tiles tiles-sky" href="#">
+				    <div class="tiles-heading">
+				        <div class="pull-left">Average Call Length</div>				        
+				    </div>
+				    <div class="tiles-body">
+				        <div class="pull-left"><i class="fa fa-clock-o"></i></div>
+				        <div class="pull-right">3:16s</div>
+				    </div>
+				</a>
+        	</div>
+        	<div class="col-md-3">
+        		<a class="info-tiles tiles-sky" href="#">
+				    <div class="tiles-heading">
+				        <div class="pull-left">ASA</div>				        
+				    </div>
+				    <div class="tiles-body">
+				        <div class="pull-left"><i class="fa fa-clock-o"></i></div>
+				        <div class="pull-right">17s</div>
+				    </div>
+				</a>
+        	</div>
+        	<div class="col-md-3">
+        		<a class="info-tiles tiles-sky" href="#">
+				    <div class="tiles-heading">
+				        <div class="pull-left">Longest Call Waiting</div>				        
+				    </div>
+				    <div class="tiles-body">
+				        <div class="pull-left"><i class="fa fa-clock-o"></i></div>
+				        <div class="pull-right">4:35</div>
+				    </div>
+				</a>
+        	</div>
+	    </div>
+	</div><!-- col-sm-12 -->
+</div>
+<div class="row">
+	<div class="col-md-6">
+	    <div class="panel panel-default">
+	        <div class="panel-heading">
+	            <h2>75/20 Service Level - Today</h2>
+	        </div>
+	        <div class="panel-body">
+	        	<h2><i class="fa fa-recycle"></i> 16 / 20</h2>
+	            <p>Call Volume <span class="linecharts" values="5,4,7,6,9,5,8,2,6,4,6,7,5,4,7,6,9,5,8,2,6,4,6,7,5,4,7,6,9,5,8,2,6,4,6,7"></span></p>
+	            <p>Pass/Fail <span class="barcharts" values="5,6,-3,9,-2,7,-5,5,6,-3,9,2,7,-5,5,6,-3,9,2,7,5"></span></p>
+	        </div>
+	    </div>
+	</div>
+	<div class="col-md-6">
+	    <div class="panel panel-default">
+	        <div class="panel-heading">
+	            <h2>Call Monitor (Past 120 min)</h2>
+	        </div>
+	        <div class="panel-body">
+	        	<div id='line'>
+				  <svg style='height:300px'> </svg>
+				</div>
+	        </div>
+	    </div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,320 @@
+{% layout "layout-page-tabs" %}
+{% block title %}Blog Portfolio{% endblock %}
+
+{% block tablist %}
+<li class="active"><a data-toggle="tab" href="#tab-four">Four Columns</a></li>
+<!-- <li><a data-toggle="tab" href="#tab-three">Three Columns</a></li>
+<li><a data-toggle="tab" href="#tab-two">Two Columns</a></li> -->
+{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active"><a href="app-blogfront-portfolio.html">Portfolio</a></li>
+{% endblock %}
+
+{% block styles %}{% endblock %}
+
+{% block scripts %}
+{{ "plugins/shufflejs/modernizr.custom.min.js" | asset_url | script_tag }}  <!-- Dependency for Shuffle.js -->
+{{ "plugins/shufflejs/jquery.shuffle.min.js" | asset_url | script_tag }}    <!-- Shuffle.js -->
+
+{{ "demo/demo-app-blogfront-portfolio.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %} 
+
+<div class="tab-content blog">
+	<div class="tab-pane active" id="tab-four">
+
+		<div class="row">
+
+			<div class="col-md-12 text-center">
+		    	<div class="btn-group" id="galleryfilter-four">
+		    		<button class="btn btn btn-inverse-alt active" data-group="all">All</button>
+		    		<button class="btn btn btn-inverse-alt" data-group="industrial">Industrial</button>
+		    		<button class="btn btn btn-inverse-alt" data-group="nature">Nature</button>
+		    		<button class="btn btn btn-inverse-alt" data-group="architecture">Architecture</button>
+		    	</div>
+				<hr class="dashed">
+			</div>
+
+			<div class="col-md-12">
+				<div class="row">
+					<div class="portfolio fourcols">
+					
+						<div class="col-md-3 item-wrapper" data-groups='["industrial"]' data-name="Rusty">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_01.jpg' | asset_url | img_loc }}" class="img-responsive">
+									<span class="caption-wrapper">
+										<span class="caption">
+											<h3>Rusty</h3>
+											<p>Ipsam obcaecati possimus</p>
+											<div class="buttons">
+												<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+												<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+											</div>
+										</span>
+									</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["nature"]' data-name="Enchanted Creek">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_02.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Enchanted Creek</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["architecture"]' data-name="Building">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_03.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Building</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["nature"]' data-name="Mill">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_04.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Mill</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["industrial"]' data-name="Machiery">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_05.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Machiery</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["architecture"]' data-name="Fire Escape">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_06.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Fire Escape</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["nature"]' data-name="Mossy Tree">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_07.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Mossy Tree</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["industrial"]' data-name="Demolivtion">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_01.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Demolivtion</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["architecture"]' data-name="Fountain">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_02.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Fountain</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["nature"]' data-name="Rider">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_03.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Rider</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["nature"]' data-name="River">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_04.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>River</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["industrial"]' data-name="Corrosion Hazard">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_05.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Corrosion Hazard</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["nature"]' data-name="Gardens">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_06.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Gardens</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["industrial"]' data-name="Code">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_07.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Code</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["nature"]' data-name="Trees">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_02.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Trees</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+					
+						<div class="col-md-3 item-wrapper" data-groups='["nature"]' data-name="Woodstump">
+							<div class="item">
+								<img src="{{'demo/stockphoto/portfolio_01.jpg' | asset_url | img_loc }}" class="img-responsive">
+								<span class="caption-wrapper">
+									<span class="caption">
+										<h3>Woodstump</h3>
+										<p>Ipsam obcaecati possimus</p>
+										<div class="buttons">
+											<a href="#" class="btn btn-default-alt"><i class="fa fa-link"></i></a>
+											<a href="#" class="btn btn-default-alt open-modal"><i class="fa fa-search-plus"></i></a>
+										</div>
+									</span>
+								</span>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div> <!-- tab-four -->
+
+	<div class="tab-pane" id="tab-three">
+		<!-- coming soon! -->
+	</div> <!-- tab-three -->
+
+	<div class="tab-pane" id="tab-two">
+		<!-- coming soon! -->
+	</div> <!-- tab-two -->
+</div>
+
+
+{% endblock %}

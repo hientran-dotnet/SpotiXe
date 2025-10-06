@@ -1,0 +1,106 @@
+{% layout 'layout' %}
+{% block title %}Comment Moderation{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>Blog</li>
+<li class="active"><a href="app-blog-comment.html">Comment Moderation</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %} 
+	<div class="row">
+		<div class="col-md-12">
+			<form action="" class="form-inline mb10">
+				<div class="form-group">
+					<select name="" id="" class="form-control">
+						<option value="">Bulk Actions</option>
+						<option value="">Unapprove</option>
+						<option value="">Approve</option>
+						<option value="">Mark as Spam</option>
+						<option value="">Move to Trash</option>
+					</select>
+
+					<div class="btn btn-default">Apply</div>
+				</div>
+
+				<div class="form-group pull-right">
+					<select name="" id="" class="form-control">
+						<option value="">All comment types</option>
+						<option value="">Comments</option>
+						<option value="">Ping</option>
+					</select>
+					
+					<div class="btn btn-default">Filter</div>
+				</div>
+			</form>
+
+			<div class="panel">
+				<div class="panel-body panel-no-padding">
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th width="40">
+									<div class="icheck checkbox-inline"><input type="checkbox"></div>
+								</th>
+								<th width="200">Author</th>
+								<th>Comment</th>
+								<th>In Response To</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><div class="icheck checkbox-inline"><input type="checkbox"></div></td>
+								<td><a href="#">Colleen A. Davis</a></td>
+								<td><a href="">Soluta quod impedit aliquid voluptate quaerat. Beatae, quaerat? Natus dignissimos quibusdam repudiandae placeat saepe, numquam, ab unde minima amet blanditiis tempora. Perferendis?</a></td>
+								<td><a href="">Viber's Snapchat-like voice feature comes to Windows Phone 8</a></td>
+							</tr>
+							<tr>
+								<td><div class="icheck checkbox-inline"><input type="checkbox"></div></td>
+								<td><a href="#">Carolyn J. Sanchez</a></td>
+								<td><a href="">Praesentium atque repudiandae quis cumque velit! Vero in consequuntur ex maiores, ad autem praesentium amet reiciendis iure. Libero necessitatibus, provident suscipit blanditiis.</a></td>
+								<td><a href="">Scientists create fully-functional brain neurons from mouse skin cells</a></td>
+							</tr>
+							<tr>
+								<td><div class="icheck checkbox-inline"><input type="checkbox"></div></td>
+								<td><a href="#">Jose T. Haglund</a></td>
+								<td><a href="">Necessitatibus quis quam ipsum exercitationem iure vel error non voluptatum corporis culpa nam dolor impedit laudantium voluptatem magnam, quasi soluta fuga eum minima id architecto porro ullam numquam. Maiores aperiam, quidem quibusdam!</a></td>
+								<td><a href="">US billboards to display interactive paintings to teach you art history</a></td>
+							</tr>
+							<tr>
+								<td><div class="icheck checkbox-inline"><input type="checkbox"></div></td>
+								<td><a href="#">Bobbie R. Segarra</a></td>
+								<td><a href="">Blanditiis, eius quis error amet, doloremque, deleniti distinctio eos temporibus, eveniet a voluptate sit nostrum quidem ex! Molestiae, nulla voluptatibus consectetur porro repellat, tempore aliquid, beatae atque aut autem animi excepturi error.</a></td>
+								<td><a href="">US billboards to display interactive paintings to teach you art history</a></td>
+							</tr>
+							<tr>
+								<td><div class="icheck checkbox-inline"><input type="checkbox"></div></td>
+								<td><a href="#">Raymond R. Francis</a></td>
+								<td><a href="">At cupiditate rem asperiores molestiae, repellat obcaecati! Animi deserunt, modi ut nulla.</a></td>
+								<td><a href="">Square just bought a restaurant delivery company</a></td>
+							</tr>
+							<tr>
+								<td><div class="icheck checkbox-inline"><input type="checkbox"></div></td>
+								<td><a href="#">Brenda W. Pavon</a></td>
+								<td><a href="">Nemo molestias minima error esse architecto commodi excepturi quo autem, quam incidunt maiores libero. Numquam repellat veritatis provident exercitationem necessitatibus quos, deserunt consectetur repudiandae.</a></td>
+								<td><a href="">SpaceX's new rocket facility officially lands in Brownsville, Texas</a></td>
+							</tr>
+							<tr>
+								<td><div class="icheck checkbox-inline"><input type="checkbox"></div></td>
+								<td><a href="#">Mary B. Hurley</a></td>
+								<td><a href="">Harum cum, eaque necessitatibus accusantium numquam fugiat sit quidem eligendi tenetur iure dolorem, maiores tempore cumque, cupiditate, voluptatem nam iusto esse repudiandae libero corporis illum! Cumque qui earum harum, magnam aliquam nam eos ea natus eveniet sint.</a></td>
+								<td><a href="">Now you can catch Cat Fact fever from your phone</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

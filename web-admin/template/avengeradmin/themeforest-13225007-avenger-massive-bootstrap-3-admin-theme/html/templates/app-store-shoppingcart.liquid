@@ -1,0 +1,91 @@
+{% layout 'layout' %}
+{% block title %}Shopping Cart{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li>App Templates</li>
+<li>eCommerce</li>
+<li class="active"><a href="app-store-shoppingcart.html">Shopping Cart</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" | asset_url | stylesheet_tag }} 	<!-- Touchspin -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js" | asset_url | script_tag }} 				<!-- Touchspin -->
+
+<script>
+$(function() {
+    $("input.touchspin").TouchSpin({
+      verticalbuttons: true
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %} 
+	<div class="store">
+		<div class="panel">
+			<div class="panel-body panel-no-padding">
+				<table class="table-striped table table-vam">
+					<thead>
+						<th>ID</th>
+						<th>Product</th>
+						<th>Name</th>
+						<th>Price</th>
+						<th>Quantity</th>
+						<th style="text-align: right;">Subtotal</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>#001</td>
+							<td>Item 1</td>
+							<td>A</td>
+							<td>$500</td>
+							<td style="width: 80px;"><input type="text" class="form-control touchspin" value="1"></td>
+							<td style="text-align: right;">$999</td>
+						</tr>
+						<tr>
+							<td>#002</td>
+							<td>Item 2</td>
+							<td>B</td>
+							<td>$999</td>
+							<td style="width: 80px;"><input type="text" class="form-control touchspin" value="1"></td>
+							<td style="text-align: right;">$999</td>
+						</tr>
+						<tr>
+							<td>#003</td>
+							<td>Item 3</td>
+							<td>C</td>
+							<td>$999</td>
+							<td style="width: 80px;"><input type="text" class="form-control touchspin" value="1"></td>
+							<td style="text-align: right;">$999</td>
+						</tr>
+						<tr>
+							<td>#004</td>
+							<td>Item 4</td>
+							<td>D</td>
+							<td>$999</td>
+							<td style="width: 80px;"><input type="text" class="form-control touchspin" value="1"></td>
+							<td style="text-align: right;">$999</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="5" class="text-right"><strong>Total</strong></td>
+							<td style="text-align: right;"><strong>$3996</strong></td>
+						</tr>
+					</tfoot>
+				</table>
+				<div class="panel-footer ml0 mb0 mr0">
+					<div class="clearfix">
+						<button class="btn btn-default pull-left"><i class="fa fa-refresh"></i> Update Card</button>
+						<button class="btn btn-success pull-right"><i class="fa fa-check"></i> Check Out</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

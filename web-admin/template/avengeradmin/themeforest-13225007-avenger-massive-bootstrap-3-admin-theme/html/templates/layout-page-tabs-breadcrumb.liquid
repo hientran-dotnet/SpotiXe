@@ -1,0 +1,54 @@
+{% layout "layout-page-tabs-breadcrumb" %}
+{% block title %}Page-level Tabs{% endblock %}
+
+{% block tablist %}
+<li class="active"><a data-toggle="tab" href="#tab1">Dashboard</a></li>
+<li><a data-toggle="tab" href="#tab2">Profile</a></li>
+<li><a data-toggle="tab" href="#tab2">Settings</a></li>
+<li><a data-toggle="tab" href="#tab2">Portfolio</a></li>
+<li><a data-toggle="tab" href="#tab2">Hidden Items</a></li>
+<li><a data-toggle="tab" href="#tab2">Downloads</a></li>
+<li><a data-toggle="tab" href="#tab2">Invoices</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+
+<div class="tab-content">
+  <div class="tab-pane active" id="tab1">
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-success">
+					<div class="panel-heading"><h2>Green Panels</h2></div>
+					<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, beatae quidem atque ut harum aperiam quisquam est facere nam modi unde repellat adipisci vitae voluptatum ipsa asperiores eligendi excepturi similique debitis accusantium reprehenderit magnam at dolore mollitia voluptatibus aspernatur quos sapiente quibusdam laudantium. Maiores, expedita, laborum nam libero voluptas esse odio voluptatem quae ea corporis! Maxime, nemo, omnis, totam ex tenetur vitae explicabo animi iste quasi ipsam rerum sapiente dignissimos fuga porro at dolorum ullam quaerat nesciunt facilis consequuntur delectus nulla itaque ut ipsa odit. Labore, sunt, enim quibusdam laboriosam aperiam cupiditate nemo dolore ad necessitatibus facilis! Natus, iste, dolorem.</div>
+				</div>
+			</div>
+		</div>
+
+  </div>
+  <div class="tab-pane" id="tab2">
+
+	<div class="row">
+		<div class="col-md-12">
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel-danger panel">
+						<div class="panel-heading"><h2>Red Panels</h2></div>
+						<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, cupiditate, saepe, quos eligendi ratione in placeat praesentium voluptatum soluta assumenda ea optio voluptatibus quasi. Beatae, doloribus consequuntur dolore commodi itaque! Illum, delectus, officia, hic, sapiente ipsa molestiae aut perspiciatis ab corporis architecto natus eligendi blanditiis! Possimus, mollitia, aperiam, voluptatum accusamus alias nobis reprehenderit ipsa porro labore cum quisquam quod saepe error harum rerum obcaecati iste. Esse, omnis excepturi doloremque voluptas placeat quam hic nam porro. Ducimus, iste, ex modi ea similique officia nobis reiciendis quis sequi vero delectus eos minima illo maiores voluptatibus iure ut aliquid saepe sapiente excepturi!</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+  </div>
+</div>
+{% endblock %}

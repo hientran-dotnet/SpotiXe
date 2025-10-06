@@ -1,0 +1,252 @@
+{% layout 'layout' %}
+{% block title %}Profile{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Extras</a></li>
+<li class="active"><a href="extras-profile.html">Profile</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-3">
+		<div class="panel panel-profile">
+			<div class="panel-body">
+				<div class="user-card">
+                    <div class="avatar">
+                        <img src="{{'demo/avatar/avatar_11.png' | asset_url | img_loc }}" class="img-responsive img-circle">
+                    </div>
+                    <div class="contact-name">Jonathan Smith</div>
+                    <div class="contact-status">Graphic Designer</div>
+                    <ul class="details">
+                        <li><a href="#">heyfromsmith@themex.co</a></li>
+                        <li>+1 234 567 890</li>
+                        <li>Hollywood Hills, California</li>
+                        <li><a href="#">www.johnsmith.com</a></li>
+                    </ul>
+                </div>
+                <hr class="outsider">
+                <div class="text-center">
+                    <a href="#" class="btn btn-social btn-facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="#" class="btn btn-social btn-twitter"><i class="fa fa-twitter"></i></a>
+                    <a href="#" class="btn btn-social btn-github"><i class="fa fa-github"></i></a>
+                    <a href="#" class="btn btn-social btn-flickr"><i class="fa fa-flickr"></i></a>
+                    <a href="#" class="btn btn-social btn-instagram"><i class="fa fa-instagram"></i></a>
+                </div>
+                <hr class="outsider">
+                <p class="m-n">Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#timeline" data-toggle="tab">Timeline</a></li>
+						<li><a href="<span id="_"></span>projects" data-toggle="tab">Projects</a></li>
+						<li><a href="<span id="_"></span>photos" data-toggle="tab">Photos</a></li>
+						<li><a href="<span id="_"></span>followers" data-toggle="tab">Followers</a></li>
+						<li><a href="<span id="_"></span>portoflio" data-toggle="tab">Portfolio</a></li>
+					</ul>
+				</h2>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="timeline">
+						<ul class="timeline">
+							<li class="timeline-orange">
+								<div class="timeline-icon"><i class="fa fa-camera"></i></div>
+								<div class="timeline-body">
+									<div class="timeline-header">
+										<span class="author">Posted by <a href="#">David Tennant</a></span>
+										<span class="date">Monday, November 11, 2014</span>
+									</div>
+									<div class="timeline-content">
+										<h3>Lorem Ipsum Dolor Sit Amet</h3>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, officiis, molestiae, deserunt asperiores architecto ut vel repudiandae dolore inventore nesciunt necessitatibus doloribus ratione facere consectetur suscipit! Quasi, officia, veniam mollitia recusandae iure aperiam totam culpa aut nobis eveniet porro laborum quisquam non.</p>
+									</div>
+									<div class="timeline-footer">
+										<a href="#" class="btn-link pull-left">Read Full Story</a>
+									</div>
+								</div>
+							</li>
+							<li class="timeline-success">
+								<div class="timeline-icon"><i class="fa fa-video-camera"></i></div>
+								<div class="timeline-body">
+									<div class="timeline-header">
+										<span class="author">Posted by <a href="#">David Tennant</a></span>
+										<span class="date">Thursday, December 03, 2014</span>
+									</div>
+									<div class="timeline-content">
+										<h3>Lorem Ipsum Dolor Sit Amet</h3>
+										<div class="row">
+											<div class="col-md-6">
+												<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, officiis, molestiae, deserunt asperiores architecto ut vel repudiandae dolore inventore nesciunt necessitatibus doloribus ratione facere consectetur suscipit! Quasi, officia, veniam mollitia recusandae iure aperiam totam culpa aut nobis eveniet porro laborum quisquam non.</p>
+											</div>
+											<div class="col-md-6">
+												<div class='embed-container'><iframe src='http://www.youtube.com/embed/NhheiPTdZCw' frameborder='0' allowfullscreen></iframe></div>
+											</div>
+										</div>
+									</div>
+									<div class="timeline-footer">
+										<a href="#" class="btn-link pull-left">Read Full Story</a>
+									</div>
+								</div>
+							</li>
+							<li class="timeline-midnightblue">
+								<div class="timeline-icon"><i class="fa fa-pencil"></i></div>
+								<div class="timeline-body">
+									<div class="timeline-header">
+										<span class="author">Posted by <a href="#">David Tennant</a></span>
+										<span class="date">Thursday, December 12, 2014</span>
+									</div>
+									<div class="timeline-content">
+										<h3>Consectetur Adipisicing Elit</h3>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, officiis, molestiae, deserunt asperiores architecto ut vel repudiandae dolore inventore nesciunt necessitatibus doloribus ratione facere consectetur suscipit!</p>
+									</div>
+								</div>
+							</li>
+							<li class="timeline-primary">
+								<div class="timeline-icon"><i class="fa fa-camera"></i></div>
+								<div class="timeline-body">
+									<div class="timeline-header">
+										<span class="author">Posted by <a href="#">David Tennant</a></span>
+										<span class="date">Thursday, January 03, 2015</span>
+									</div>
+									<div class="timeline-content">
+										<h3>Lorem Ipsum Dolor Sit Amet</h3>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, molestiae, deserunt asperiores architecto!</p>
+										<p class="clearfix"><img src="{{'demo/stockphoto/blog_05.jpg' | asset_url | img_loc }}" alt="" class="pull-left img-responsive" width="128px"><img src="{{'demo/stockphoto/blog_05.jpg' | asset_url | img_loc }}" alt="" class="pull-left img-responsive" width="128px"><img src="{{'demo/stockphoto/blog_05.jpg' | asset_url | img_loc }}" alt="" class="pull-left img-responsive" width="128px"></p>
+									</div>
+								</div>
+							</li>
+							<li class="timeline-indigo">
+								<div class="timeline-icon"><i class="fa fa-music"></i></div>
+								<div class="timeline-body">
+									<div class="timeline-header">
+										<span class="author">Posted by <a href="#">David Tennant</a></span>
+										<span class="date">Thursday, January 24, 2015</span>
+									</div>
+									<div class="timeline-content">
+										<h3>Consectetur Adipisicing Elit</h3>
+										<div class="row">
+											<div class="col-md-6">
+												<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, officiis, molestiae, deserunt asperiores architecto ut vel repudiandae dolore inventore nesciunt necessitatibus doloribus ratione facere consectetur suscipit!</p>
+												
+											</div>
+											<div class="col-md-6">
+												<iframe width="100%" height="128" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/124726630&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="tab-pane" id="_projects">
+						<table class="table table-bordered m-n" cellspacing="0">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>First Name</th>
+									<th>Last Name</th>
+									<th>Username</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>Mark</td>
+									<td>Otto</td>
+									<td>@mdo</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>Jacob</td>
+									<td>Thornton</td>
+									<td>@fat</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>Larry</td>
+									<td>the Bird</td>
+									<td>@twitter</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane" id="_photos">
+						<div class="row">
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_01.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg hoverZoomLink">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_02.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_03.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_04.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_01.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg hoverZoomLink">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_02.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_03.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg hoverZoomLink">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_04.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_01.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg hoverZoomLink">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_02.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_03.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_04.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_01.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg hoverZoomLink">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_02.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_03.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg hoverZoomLink">
+							</div>
+							<div class="col-md-3">
+								<img src="{{'demo/stockphoto/blog_04.jpg' | asset_url | img_loc }}" alt="" class="img-thumbnail img-responsive mb-lg">
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="_followers">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+					<div class="tab-pane" id="_portoflio">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% layout 'layout' %}
+{% block title %}jQuery UI Widgets{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Custom Components</a></li>
+<li class="active"><a href="ui-sliders.html">jQuery UI Widgets</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "js/jqueryui.css" | asset_url | stylesheet_tag }}
+<style>
+    .slider-value {margin-top: 10px}
+    .slider-vertical-value {margin-bottom: 10px}
+</style>
+{% endblock %}
+
+{% block scripts %}
+{{ "demo/demo-jqueryui.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+
+    <div class="col-md-12">
+
+    <div class="alert alert-info">
+        <h3>jQuery UI</h3>
+        <p>jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.</p>
+    </div>
+    
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2>jQuery UI Sliders</h2>
+            </div>
+            <div class="panel-body">
+                <form action="" class="form-horizontal row-border">
+                    <div class="form-group">
+                        <div class="col-md-3">Basic</div>
+                        <div class="col-md-9">
+                            <div class="slider slider-basic inverse"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">Snap to increments</div>
+                        <div class="col-md-9">
+                            <div id="slider-snap-inc" class="slider info"></div>
+                            <div class="slider-value">
+                                Amount ($100 increments):
+                                <span id="slider-snap-inc-amount"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">Range</div>
+                        <div class="col-md-9">
+                            <div id="slider-range" class="slider primary"></div>
+                            <div class="slider-value">
+                                Price range:
+                                <span id="slider-range-amount"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">Maximum</div>
+                        <div class="col-md-9">
+                            <div id="slider-range-max" class="slider success"></div>
+                            <div class="slider-value">
+                                Maximum Value:
+                                <span id="slider-range-max-amount"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">Minimum</div>
+                        <div class="col-md-9">
+                            <div id="slider-range-min" class="slider danger"></div>
+                            <div class="slider-value">
+                                Minimum Value:
+                                <span class="slider-value" id="slider-range-min-amount"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">Graphic EQ</div>
+                        <div class="col-md-9">
+                            <style>
+                            #slider-eq  > span {height:160px; float:left; margin:15px}
+                            </style>
+                            <div id="slider-eq" class="slider info">
+                                <span>88</span>
+                                <span>77</span>
+                                <span>55</span>
+                                <span>33</span>
+                                <span>40</span>
+                                <span>45</span>
+                                <span>90</span>
+                                <span>40</span>
+                                <span>60</span>
+                                <span>20</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">Vertical</div>
+                        <div class="col-md-9">
+                            <div class="slider-vertical-value">
+                                Value:
+                                <span class="slider-value" id="slider-vertical-amount"></span>
+                            </div>
+                            <div id="slider-vertical" class="slider" style="height: 160px;"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">Range (Vertical)</div>
+                        <div class="col-md-9">
+                            <div class="slider-vertical-value">
+                                Target (Millions):
+                                <span  class="slider-value" id="slider-range-vertical-amount"></span>
+                            </div>
+                            <div id="slider-range-vertical" class="slider info" style="height: 160px;"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
