@@ -1,4 +1,4 @@
-package com.example.spotixe
+package pages
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -35,34 +35,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import pages.Start2Screen
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            val navController = rememberNavController()
-            SpotiXeTheme {
-                NavHost(
-                    navController = navController,
-                    startDestination = "main"
-                ) {
-                    composable("main"){StartScreen(navController)}
-                    composable ("start2"){ Start2Screen(navController)}
-                }
-            }
-        }
-    }
-}
+import com.example.spotixe.R
 
 @Composable
-fun StartScreen(navController: NavController){
+fun Start2Screen(navController: NavController){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -99,18 +81,18 @@ fun StartScreen(navController: NavController){
 
             Text(
                 "Melody comes\nwith you all along",
-                    color = Color.White,
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold,
+                color = Color.White,
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
 
-                    textAlign = TextAlign.Center,
-                    lineHeight = 50.sp
-                )
+                textAlign = TextAlign.Center,
+                lineHeight = 50.sp
+            )
 
             Spacer(Modifier.height(140.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Start2)},
+                onClick = {},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -122,11 +104,11 @@ fun StartScreen(navController: NavController){
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
                 Text(
-                    "I already have account",
-                        color = Color.Black,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    "Continue with phone",
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
 
             Spacer(Modifier.height(10.dp))
@@ -144,10 +126,40 @@ fun StartScreen(navController: NavController){
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
                 Text(
-                    "Sign up free",
+                    "Continue with email",
                     color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
+                )
+            }
+
+            Spacer(Modifier.height(10.dp))
+
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(65.dp)
+                    .padding(bottom = 10.dp)
+                    .padding(start = 20.dp)
+                    .padding(end = 20.dp)
+                    .imePadding(),
+                shape = RoundedCornerShape(28.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.google_logo),
+                    contentDescription = "Google Logo",
+                    modifier = Modifier
+                        .size(50.dp)
+                )
+
+                Text(
+                    "Continue with Google",
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
                 )
             }
         }
