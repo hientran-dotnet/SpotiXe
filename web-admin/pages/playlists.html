@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlists Management - SpotiXe Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo"><i class="fas fa-music"></i><h2>SpotiXe</h2></div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="sidebar-menu-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+                <a href="songs.html" class="sidebar-menu-item"><i class="fas fa-music"></i><span>Songs</span></a>
+                <a href="artists.html" class="sidebar-menu-item"><i class="fas fa-user-music"></i><span>Artists</span></a>
+                <a href="albums.html" class="sidebar-menu-item"><i class="fas fa-compact-disc"></i><span>Albums</span></a>
+                <a href="users.html" class="sidebar-menu-item"><i class="fas fa-users"></i><span>Users</span></a>
+                <a href="playlists.html" class="sidebar-menu-item active"><i class="fas fa-list-ul"></i><span>Playlists</span></a>
+            </nav>
+        </aside>
+        <div class="app-content" id="appContent">
+            <header class="header" id="header">
+                <div class="header-left">
+                    <i class="fas fa-bars menu-toggle" id="menuToggle"></i>
+                    <div class="header-search"><i class="fas fa-search"></i><input type="text" id="globalSearch" placeholder="Search..."></div>
+                </div>
+                <div class="header-right">
+                    <div class="header-icon" id="themeToggle" title="Toggle Theme"><i class="fas fa-moon"></i></div>
+                    <div class="header-icon"><i class="fas fa-bell"></i><span class="badge">3</span></div>
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-avatar-placeholder">AD</div>
+                        <div class="user-info"><div class="user-name">Admin User</div><div class="user-role">Administrator</div></div>
+                        <i class="fas fa-chevron-down" style="color: var(--gray-500); font-size: 12px;"></i>
+                        <div class="dropdown-menu" id="userDropdown">
+                            <div class="dropdown-menu-item"><i class="fas fa-user"></i><span>Profile</span></div>
+                            <div class="dropdown-menu-item"><i class="fas fa-cog"></i><span>Settings</span></div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-menu-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main class="main-content">
+                <div class="mb-4" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div><h1 style="font-size: 28px; font-weight: 700; color: var(--gray-800); margin-bottom: 5px;"><i class="fas fa-list-ul me-2" style="color: var(--primary);"></i>Playlists Management</h1><p style="color: var(--gray-500); font-size: 14px;">Manage all playlists in your platform</p></div>
+                    <button class="btn btn-primary btn-lg" id="addPlaylistBtn"><i class="fas fa-plus"></i> Create Playlist</button>
+                </div>
+                <div class="table-container">
+                    <div class="table-header">
+                        <div style="position: relative;"><i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-400);"></i><input type="text" id="searchPlaylists" placeholder="Search playlists..." style="padding-left: 38px; width: 300px;" class="form-control"></div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th style="width: 60px;">Cover</th><th>Name</th><th>Creator</th><th>Songs</th><th>Visibility</th><th>Featured</th><th style="width: 130px;">Actions</th></tr></thead>
+                            <tbody id="playlistsTableBody"><tr><td colspan="7" class="text-center"><div class="loading-spinner"><div class="spinner"></div></div></td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/modules/playlists.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => PlaylistManager.init());</script>
+</body>
+</html>

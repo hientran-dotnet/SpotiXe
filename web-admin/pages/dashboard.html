@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SpotiXe Admin Panel</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-music"></i>
+                <h2>SpotiXe</h2>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="sidebar-menu-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="songs.html" class="sidebar-menu-item">
+                    <i class="fas fa-music"></i>
+                    <span>Songs</span>
+                </a>
+                <a href="artists.html" class="sidebar-menu-item">
+                    <i class="fas fa-user-music"></i>
+                    <span>Artists</span>
+                </a>
+                <a href="albums.html" class="sidebar-menu-item">
+                    <i class="fas fa-compact-disc"></i>
+                    <span>Albums</span>
+                </a>
+                <a href="users.html" class="sidebar-menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="playlists.html" class="sidebar-menu-item">
+                    <i class="fas fa-list-ul"></i>
+                    <span>Playlists</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="app-content" id="appContent">
+            <!-- Header -->
+            <header class="header" id="header">
+                <div class="header-left">
+                    <i class="fas fa-bars menu-toggle" id="menuToggle"></i>
+                    <div class="header-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="globalSearch" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="header-icon" id="themeToggle" title="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="header-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-avatar-placeholder">AD</div>
+                        <div class="user-info">
+                            <div class="user-name">Admin User</div>
+                            <div class="user-role">Administrator</div>
+                        </div>
+                        <i class="fas fa-chevron-down" style="color: var(--gray-500); font-size: 12px;"></i>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown-menu" id="userDropdown">
+                            <div class="dropdown-menu-item">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </div>
+                            <div class="dropdown-menu-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-menu-item" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="main-content">
+                <!-- Page Header -->
+                <div class="mb-4">
+                    <h1 style="font-size: 28px; font-weight: 700; color: var(--gray-800); margin-bottom: 5px;">
+                        Dashboard
+                    </h1>
+                    <p style="color: var(--gray-500); font-size: 14px;">
+                        Welcome back! Here's what's happening with your music streaming platform.
+                    </p>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="d-grid grid-cols-4 gap-3 mb-4" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                    <div class="stat-card">
+                        <div class="stat-card-icon primary">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="stat-card-value" id="totalSongs">0</div>
+                        <div class="stat-card-label">Total Songs</div>
+                        <div class="stat-card-change positive">
+                            <i class="fas fa-arrow-up"></i> 12% from last month
+                        </div>
+                    </div>
+
+                    <div class="stat-card" style="border-left-color: var(--success);">
+                        <div class="stat-card-icon success">
+                            <i class="fas fa-user-music"></i>
+                        </div>
+                        <div class="stat-card-value" id="totalArtists">0</div>
+                        <div class="stat-card-label">Total Artists</div>
+                        <div class="stat-card-change positive">
+                            <i class="fas fa-arrow-up"></i> 8% from last month
+                        </div>
+                    </div>
+
+                    <div class="stat-card" style="border-left-color: var(--info);">
+                        <div class="stat-card-icon info">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-card-value" id="totalUsers">0</div>
+                        <div class="stat-card-label">Total Users</div>
+                        <div class="stat-card-change positive">
+                            <i class="fas fa-arrow-up"></i> 24% from last month
+                        </div>
+                    </div>
+
+                    <div class="stat-card" style="border-left-color: var(--warning);">
+                        <div class="stat-card-icon warning">
+                            <i class="fas fa-compact-disc"></i>
+                        </div>
+                        <div class="stat-card-value" id="totalAlbums">0</div>
+                        <div class="stat-card-label">Total Albums</div>
+                        <div class="stat-card-change positive">
+                            <i class="fas fa-arrow-up"></i> 5% from last month
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions & Recent Activity -->
+                <div class="row g-3 mb-4">
+                    <!-- Quick Actions -->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-bolt me-2" style="color: var(--warning);"></i>
+                                    Quick Actions
+                                </h3>
+                            </div>
+                            <div class="card-body" style="display: flex; flex-direction: column; gap: 10px;">
+                                <a href="songs.html?action=add" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i>
+                                    Add New Song
+                                </a>
+                                <a href="artists.html?action=add" class="btn btn-success">
+                                    <i class="fas fa-user-plus"></i>
+                                    Add New Artist
+                                </a>
+                                <a href="albums.html?action=add" class="btn" style="background-color: var(--info); color: white;">
+                                    <i class="fas fa-compact-disc"></i>
+                                    Create Album
+                                </a>
+                                <a href="playlists.html?action=add" class="btn btn-warning">
+                                    <i class="fas fa-list"></i>
+                                    Create Playlist
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-clock me-2" style="color: var(--primary);"></i>
+                                    Recent Activity
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="recentActivity" style="max-height: 400px; overflow-y: auto;">
+                                    <!-- Activity items will be loaded here -->
+                                    <div class="loading-spinner">
+                                        <div class="spinner"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row g-3">
+                    <!-- Most Played Songs -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-fire me-2" style="color: var(--danger);"></i>
+                                    Most Played Songs
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="mostPlayedSongs">
+                                    <div class="loading-spinner">
+                                        <div class="spinner"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Artists -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-star me-2" style="color: var(--warning);"></i>
+                                    Top Artists
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="topArtists">
+                                    <div class="loading-spinner">
+                                        <div class="spinner"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/app.js"></script>
+
+    <script>
+        // Dashboard specific functionality
+        const Dashboard = {
+            async init() {
+                await this.loadStats();
+                await this.loadRecentActivity();
+                await this.loadCharts();
+            },
+
+            async loadStats() {
+                try {
+                    // Mock data for demonstration
+                    // In production, fetch from API: const response = await api.getDashboardStats();
+                    const stats = {
+                        totalSongs: 15847,
+                        totalArtists: 2341,
+                        totalUsers: 45823,
+                        totalAlbums: 3452
+                    };
+
+                    // Animate count-up
+                    Utils.animateCountUp(document.getElementById('totalSongs'), stats.totalSongs);
+                    Utils.animateCountUp(document.getElementById('totalArtists'), stats.totalArtists);
+                    Utils.animateCountUp(document.getElementById('totalUsers'), stats.totalUsers);
+                    Utils.animateCountUp(document.getElementById('totalAlbums'), stats.totalAlbums);
+
+                } catch (error) {
+                    console.error('Failed to load stats:', error);
+                    Utils.showToast('Failed to load statistics', 'error');
+                }
+            },
+
+            async loadRecentActivity() {
+                try {
+                    const container = document.getElementById('recentActivity');
+                    
+                    // Mock data for demonstration
+                    const activities = [
+                        { type: 'song', action: 'added', title: 'Blinding Lights', user: 'Admin', time: '5 minutes ago', icon: 'music', color: 'primary' },
+                        { type: 'user', action: 'registered', title: 'john.doe@email.com', user: 'System', time: '15 minutes ago', icon: 'user-plus', color: 'success' },
+                        { type: 'artist', action: 'updated', title: 'The Weeknd', user: 'Admin', time: '1 hour ago', icon: 'user-edit', color: 'info' },
+                        { type: 'album', action: 'published', title: 'After Hours', user: 'Admin', time: '2 hours ago', icon: 'compact-disc', color: 'warning' },
+                        { type: 'song', action: 'deleted', title: 'Old Track', user: 'Admin', time: '3 hours ago', icon: 'trash', color: 'danger' },
+                        { type: 'playlist', action: 'created', title: 'Top Hits 2024', user: 'Admin', time: '4 hours ago', icon: 'list', color: 'primary' },
+                    ];
+
+                    container.innerHTML = activities.map(activity => `
+                        <div style="display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid var(--gray-100); transition: background-color 0.2s;" 
+                             onmouseover="this.style.backgroundColor='var(--gray-50)'" 
+                             onmouseout="this.style.backgroundColor='transparent'">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: rgba(102, 126, 234, 0.1); 
+                                        display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i class="fas fa-${activity.icon}" style="color: var(--${activity.color}); font-size: 16px;"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: var(--gray-700); margin-bottom: 3px;">
+                                    ${activity.title}
+                                </div>
+                                <div style="font-size: 13px; color: var(--gray-500);">
+                                    ${Utils.capitalize(activity.action)} by ${activity.user} • ${activity.time}
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+
+                } catch (error) {
+                    console.error('Failed to load recent activity:', error);
+                    const container = document.getElementById('recentActivity');
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="fas fa-inbox"></i>
+                            </div>
+                            <div class="empty-state-title">No recent activity</div>
+                        </div>
+                    `;
+                }
+            },
+
+            async loadCharts() {
+                try {
+                    // Load most played songs
+                    const mostPlayedContainer = document.getElementById('mostPlayedSongs');
+                    const mostPlayed = [
+                        { title: 'Blinding Lights', artist: 'The Weeknd', plays: 2548763, image: 'https://via.placeholder.com/50' },
+                        { title: 'Save Your Tears', artist: 'The Weeknd', plays: 1847521, image: 'https://via.placeholder.com/50' },
+                        { title: 'Levitating', artist: 'Dua Lipa', plays: 1654872, image: 'https://via.placeholder.com/50' },
+                        { title: 'Peaches', artist: 'Justin Bieber', plays: 1432109, image: 'https://via.placeholder.com/50' },
+                        { title: 'Good 4 U', artist: 'Olivia Rodrigo', plays: 1298745, image: 'https://via.placeholder.com/50' }
+                    ];
+
+                    mostPlayedContainer.innerHTML = mostPlayed.map((song, index) => `
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 8px; margin-bottom: 10px;
+                                    background-color: ${index === 0 ? 'rgba(102, 126, 234, 0.05)' : 'transparent'};">
+                            <div style="font-weight: 700; color: var(--gray-400); width: 20px;">${index + 1}</div>
+                            <img src="${song.image}" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: var(--gray-700);">${song.title}</div>
+                                <div style="font-size: 13px; color: var(--gray-500);">${song.artist}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600; color: var(--primary);">
+                                    ${Utils.formatNumber(song.plays)}
+                                </div>
+                                <div style="font-size: 12px; color: var(--gray-500);">plays</div>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    // Load top artists
+                    const topArtistsContainer = document.getElementById('topArtists');
+                    const topArtists = [
+                        { name: 'The Weeknd', songs: 125, followers: 54231, image: 'https://via.placeholder.com/50' },
+                        { name: 'Dua Lipa', songs: 98, followers: 48765, image: 'https://via.placeholder.com/50' },
+                        { name: 'Justin Bieber', songs: 187, followers: 67543, image: 'https://via.placeholder.com/50' },
+                        { name: 'Olivia Rodrigo', songs: 45, followers: 32109, image: 'https://via.placeholder.com/50' },
+                        { name: 'Ed Sheeran', songs: 156, followers: 59871, image: 'https://via.placeholder.com/50' }
+                    ];
+
+                    topArtistsContainer.innerHTML = topArtists.map((artist, index) => `
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 8px; margin-bottom: 10px;
+                                    background-color: ${index === 0 ? 'rgba(72, 187, 120, 0.05)' : 'transparent'};">
+                            <div style="font-weight: 700; color: var(--gray-400); width: 20px;">${index + 1}</div>
+                            <img src="${artist.image}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; color: var(--gray-700);">${artist.name}</div>
+                                <div style="font-size: 13px; color: var(--gray-500);">${artist.songs} songs</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600; color: var(--success);">
+                                    ${Utils.formatNumber(artist.followers)}
+                                </div>
+                                <div style="font-size: 12px; color: var(--gray-500);">followers</div>
+                            </div>
+                        </div>
+                    `).join('');
+
+                } catch (error) {
+                    console.error('Failed to load charts:', error);
+                }
+            }
+        };
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            Dashboard.init();
+        });
+    </script>
+</body>
+</html>

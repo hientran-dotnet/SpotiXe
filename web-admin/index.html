@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SpotiXe Admin Panel</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .login-container {
+            max-width: 450px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo i {
+            font-size: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        .login-logo p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-control.is-invalid {
+            border-color: #f56565;
+        }
+
+        .invalid-feedback {
+            font-size: 13px;
+        }
+
+        .input-group-text {
+            background: transparent;
+            border: 2px solid #e2e8f0;
+            border-right: none;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .input-group .form-control {
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .input-group:focus-within .input-group-text {
+            border-color: #667eea;
+        }
+
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-login .spinner-border {
+            width: 18px;
+            height: 18px;
+            border-width: 2px;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .form-check-label {
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .forgot-password {
+            font-size: 14px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+            padding: 12px 16px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #718096;
+            z-index: 10;
+        }
+
+        .password-toggle:hover {
+            color: #667eea;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        @media (max-width: 576px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+
+            .login-logo h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <i class="fas fa-music"></i>
+                <h1>SpotiXe Admin</h1>
+                <p>Music Streaming Management Panel</p>
+            </div>
+
+            <!-- Alert for errors -->
+            <div id="loginAlert" class="alert alert-danger d-none" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span id="loginAlertMessage"></span>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" novalidate>
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope me-1"></i> Email Address
+                    </label>
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        name="email" 
+                        placeholder="admin@spotixe.com"
+                        required
+                        autocomplete="email"
+                    >
+                    <div class="invalid-feedback">
+                        Please enter a valid email address.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock me-1"></i> Password
+                    </label>
+                    <div class="input-wrapper">
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Enter your password"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                    </div>
+                    <div class="invalid-feedback">
+                        Password is required.
+                    </div>
+                </div>
+
+                <div class="remember-forgot">
+                    <div class="form-check">
+                        <input 
+                            class="form-check-input" 
+                            type="checkbox" 
+                            id="rememberMe" 
+                            name="rememberMe"
+                        >
+                        <label class="form-check-label" for="rememberMe">
+                            Remember me
+                        </label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-login" id="loginButton">
+                    <span id="loginButtonText">
+                        <i class="fas fa-sign-in-alt me-2"></i> Sign In
+                    </span>
+                    <span id="loginButtonSpinner" class="d-none">
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Signing in...
+                    </span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
+
+    <script>
+        // Check if already logged in
+        if (Auth.isAuthenticated()) {
+            Auth.redirectIfAuthenticated();
+        }
+
+        // Password toggle functionality
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Login form handling
+        const loginForm = document.getElementById('loginForm');
+        const loginAlert = document.getElementById('loginAlert');
+        const loginAlertMessage = document.getElementById('loginAlertMessage');
+        const loginButton = document.getElementById('loginButton');
+        const loginButtonText = document.getElementById('loginButtonText');
+        const loginButtonSpinner = document.getElementById('loginButtonSpinner');
+
+        // Show error message
+        function showError(message) {
+            loginAlertMessage.textContent = message;
+            loginAlert.classList.remove('d-none');
+
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                loginAlert.classList.add('d-none');
+            }, 5000);
+        }
+
+        // Hide error message
+        function hideError() {
+            loginAlert.classList.add('d-none');
+        }
+
+        // Set loading state
+        function setLoading(loading) {
+            if (loading) {
+                loginButton.disabled = true;
+                loginButtonText.classList.add('d-none');
+                loginButtonSpinner.classList.remove('d-none');
+            } else {
+                loginButton.disabled = false;
+                loginButtonText.classList.remove('d-none');
+                loginButtonSpinner.classList.add('d-none');
+            }
+        }
+
+        // Form validation
+        function validateForm() {
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            let isValid = true;
+
+            // Reset validation states
+            email.classList.remove('is-invalid');
+            password.classList.remove('is-invalid');
+
+            // Validate email
+            if (!email.value || !Utils.isValidEmail(email.value)) {
+                email.classList.add('is-invalid');
+                isValid = false;
+            }
+
+            // Validate password
+            if (!password.value || password.value.length < 3) {
+                password.classList.add('is-invalid');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Handle form submission
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            hideError();
+
+            // Validate form
+            if (!validateForm()) {
+                return;
+            }
+
+            // Get form data
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // Set loading state
+            setLoading(true);
+
+            try {
+                // Attempt login
+                await Auth.login(email, password, rememberMe);
+
+                // Success - redirect will happen automatically in Auth.login
+                Utils.showToast('Login successful! Redirecting...', 'success');
+
+                // Small delay for better UX
+                setTimeout(() => {
+                    Auth.redirectIfAuthenticated();
+                }, 500);
+
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                let errorMessage = 'Login failed. Please try again.';
+                
+                if (error.message) {
+                    errorMessage = error.message;
+                } else if (error.errors) {
+                    // Handle validation errors
+                    const errorMessages = Object.values(error.errors).flat();
+                    errorMessage = errorMessages.join(', ');
+                }
+
+                showError(errorMessage);
+                setLoading(false);
+            }
+        });
+
+        // Remove validation errors on input
+        document.getElementById('email').addEventListener('input', function() {
+            this.classList.remove('is-invalid');
+            hideError();
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            this.classList.remove('is-invalid');
+            hideError();
+        });
+
+        // Handle Enter key in inputs
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    loginForm.dispatchEvent(new Event('submit'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
