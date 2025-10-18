@@ -84,7 +84,6 @@ fun Start2Screen(navController: NavController){
                 color = Color.White,
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
-
                 textAlign = TextAlign.Center,
                 lineHeight = 50.sp
             )
@@ -107,7 +106,8 @@ fun Start2Screen(navController: NavController){
                     "Continue with phone",
                     color = Color.Black,
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
                 )
             }
 
@@ -129,7 +129,8 @@ fun Start2Screen(navController: NavController){
                     "Continue with email",
                     color = Color.Black,
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
                 )
             }
 
@@ -147,20 +148,30 @@ fun Start2Screen(navController: NavController){
                 shape = RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.google_logo),
-                    contentDescription = "Google Logo",
-                    modifier = Modifier
-                        .size(50.dp)
-                )
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
 
-                Text(
-                    "Continue with Google",
-                    color = Color.Black,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.align(Alignment.CenterStart)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.google_logo),
+                            contentDescription = "Google Logo",
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+
+                    Text(
+                        text = "Continue with Google",
+                        color = Color.Black,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }
