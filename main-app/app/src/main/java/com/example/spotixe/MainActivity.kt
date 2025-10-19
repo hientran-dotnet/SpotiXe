@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pages.Sign_in1Screen
+import pages.Sign_in2Screen
 import pages.Start2Screen
 import pages.Start3Screen
 
@@ -53,12 +54,13 @@ class MainActivity : ComponentActivity() {
             SpotiXeTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = "sign_in1"
+                    startDestination = "sign_in2"
                 ) {
                     composable("main"){StartScreen(navController)}
                     composable("start2"){Start2Screen(navController)}
                     composable("start3"){Start3Screen(navController)}
-                    composable("sign_in1"){Sign_in1Screen(navController) }
+                    composable("sign_in1"){Sign_in1Screen(navController)}
+                    composable("sign_in2"){Sign_in2Screen(navController)}
                 }
             }
         }
