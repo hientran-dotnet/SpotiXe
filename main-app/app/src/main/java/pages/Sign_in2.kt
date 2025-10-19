@@ -44,9 +44,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.R
+import com.example.spotixe.Routes
 
 @Composable
 fun Sign_in2Screen(navController: NavController){
+    var green = Color(0xFF58BA47)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -82,7 +84,7 @@ fun Sign_in2Screen(navController: NavController){
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
-                .padding(horizontal = 30.dp), // căn lề đều hai bên
+                .padding(horizontal = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(50.dp))
@@ -99,7 +101,7 @@ fun Sign_in2Screen(navController: NavController){
                 "Sign in your account",
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF58BA47),
+                color = green,
                 textAlign = TextAlign.Center
             )
 
@@ -109,7 +111,7 @@ fun Sign_in2Screen(navController: NavController){
             // Phone number label
             Text(
                 text = "Phone number",
-                color = Color(0xFF58BA47),
+                color = green,
                 fontSize = 18.sp,
                 modifier = Modifier.align(Alignment.Start)
             )
@@ -148,19 +150,19 @@ fun Sign_in2Screen(navController: NavController){
             Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.Sign_in3)},
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF58BA47),
+                    containerColor = green,
                     contentColor = Color.Black
 
                 )
 
             ) {
                 Text(
-                    text = "Sign in",
+                    text = "Continue",
                     fontSize = 18.sp
                 )
             }
@@ -173,7 +175,7 @@ fun Sign_in2Screen(navController: NavController){
                     withStyle(style = SpanStyle(color = Color.White)) { append("sign in") }
                     append(" with")
                 },
-                color = Color(0xFF58BA47),
+                color = green,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
@@ -199,8 +201,8 @@ fun Sign_in2Screen(navController: NavController){
 
             Text(
                 text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = Color(0xFF58BA47))) {append("Don't have account ?\n")}
-                    withStyle(style = SpanStyle(color = Color(0xFF58BA47))) { append("Click here to ") }
+                    withStyle(style = SpanStyle(color = green)) {append("Don't have account ?\n")}
+                    withStyle(style = SpanStyle(color = green)) { append("Click here to ") }
                     withStyle(style = SpanStyle(color = Color.White, fontStyle = FontStyle.Italic)) { append("sign up") }
                 },
                 fontSize = 16.sp,

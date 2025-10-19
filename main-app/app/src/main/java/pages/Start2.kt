@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spotixe.R
+import com.example.spotixe.Routes
 
 @Composable
 fun Start2Screen(navController: NavController){
@@ -53,7 +54,7 @@ fun Start2Screen(navController: NavController){
                     colors = listOf(
                         Color(0xFF000000),
                         Color(0xFF031508),
-                        Color(0xFF1DB954)
+                        Color(0xFF58BA47)
                     ),
                     start = Offset(1000f, 0f),
                     end = Offset(0f, 1800f)
@@ -91,7 +92,7 @@ fun Start2Screen(navController: NavController){
             Spacer(Modifier.height(140.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.Sign_in2)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -114,7 +115,7 @@ fun Start2Screen(navController: NavController){
             Spacer(Modifier.height(10.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.Sign_in1)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)

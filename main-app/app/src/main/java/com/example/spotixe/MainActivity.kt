@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pages.Sign_in1Screen
 import pages.Sign_in2Screen
+import pages.Sign_in3Screen
 import pages.Start2Screen
 import pages.Start3Screen
 
@@ -54,13 +55,14 @@ class MainActivity : ComponentActivity() {
             SpotiXeTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = "sign_in2"
+                    startDestination = "main"
                 ) {
                     composable("main"){StartScreen(navController)}
                     composable("start2"){Start2Screen(navController)}
                     composable("start3"){Start3Screen(navController)}
                     composable("sign_in1"){Sign_in1Screen(navController)}
                     composable("sign_in2"){Sign_in2Screen(navController)}
+                    composable("sign_in3"){ Sign_in3Screen(navController) }
                 }
             }
         }
@@ -69,6 +71,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun StartScreen(navController: NavController){
+    var green = Color(0xFF58BA47)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -77,7 +80,7 @@ fun StartScreen(navController: NavController){
                     colors = listOf(
                         Color(0xFF000000),
                         Color(0xFF031508),
-                        Color(0xFF1DB954)
+                        green
                     ),
                     start = Offset(1000f, 0f),
                     end = Offset(0f, 1800f)

@@ -53,7 +53,7 @@ fun Start3Screen(navController: NavController){
                     colors = listOf(
                         Color(0xFF000000),
                         Color(0xFF031508),
-                        Color(0xFF1DB954)
+                        Color(0xFF58BA47)
                     ),
                     start = Offset(1000f, 0f),
                     end = Offset(0f, 1800f)

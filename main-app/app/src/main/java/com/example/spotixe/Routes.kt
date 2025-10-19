@@ -6,4 +6,5 @@ object Routes {
     const val Start3 = "start3"
     const val Sign_in1="sign_in1"
     const val Sign_in2="sign_in2"
+    const val Sign_in3="sign_in3"
 }
