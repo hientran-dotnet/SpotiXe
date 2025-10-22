@@ -1,9 +1,5 @@
-package pages
+package com.example.spotixe.StartPages
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,29 +17,20 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.spotixe.ui.theme.SpotiXeTheme
-import androidx.compose.foundation.background
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spotixe.R
+import com.example.spotixe.Routes
 
 @Composable
-fun Start3Screen(navController: NavController){
+fun Start2Screen(navController: NavController){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -84,7 +70,6 @@ fun Start3Screen(navController: NavController){
                 color = Color.White,
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
-
                 textAlign = TextAlign.Center,
                 lineHeight = 50.sp
             )
@@ -92,7 +77,7 @@ fun Start3Screen(navController: NavController){
             Spacer(Modifier.height(140.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.Sign_in2)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -104,7 +89,7 @@ fun Start3Screen(navController: NavController){
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
                 Text(
-                    "Sign up by phone",
+                    "Continue with phone",
                     color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -115,7 +100,7 @@ fun Start3Screen(navController: NavController){
             Spacer(Modifier.height(10.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.Sign_in1)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -127,7 +112,7 @@ fun Start3Screen(navController: NavController){
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
                 Text(
-                    "Sign up by email",
+                    "Continue with email",
                     color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -166,7 +151,7 @@ fun Start3Screen(navController: NavController){
                     }
 
                     Text(
-                        text = "Sign up with Google",
+                        text = "Continue with Google",
                         color = Color.Black,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
