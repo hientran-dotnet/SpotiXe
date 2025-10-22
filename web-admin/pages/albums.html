@@ -32,7 +32,7 @@
     <div class="app-wrapper">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-logo">
-                <img src="../assets/img/logo-spotixe.png" alt="SpotiXe" style="height:150px; width:auto;"/>
+                <img src="../assets/img/logo-spotixe.png" alt="SpotiXe" style="max-height: 60px; width: auto;"/>
                  <h2 class="sidebar-logo-text">SpotiXe</h2>
              </div>
             <nav class="sidebar-menu">
@@ -82,22 +82,12 @@
                 </div>
             </header>
             <main class="main-content">
-                <div class="mb-4" style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                     <h1 style="font-size: 28px; font-weight: 700; color: var(--gray-800); margin-bottom: 5px;">
-                     <i class="fa-solid fa-record-vinyl me-2" style="color: var(--warning);"></i>
-                     Albums Management
-                </h1>
-                <p style="color: var(--gray-500); font-size: 14px;">Manage all albums in your platform</p>
-                </div>
-    <button class="btn btn-warning btn-lg" id="addAlbumBtn">
-        <i class="fas fa-plus"></i> Create Album
-    </button>
-</div>
-
                 <div class="table-container">
                     <div class="table-header">
                         <div style="position: relative;"><i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-400);"></i><input type="text" id="searchAlbums" placeholder="Search albums..." style="padding-left: 38px; width: 300px;" class="form-control"></div>
+                        <button class="btn btn-warning btn-lg" id="addAlbumBtn">
+                            <i class="fas fa-plus"></i> Create Album
+                        </button>
                     </div>
                     <div class="table-responsive">
                         <table class="data-table">
