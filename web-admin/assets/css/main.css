@@ -128,7 +128,7 @@ img {
 }
 
 .sidebar-logo i {
-    font-size: 36px;
+    font-size: 6px;
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -573,6 +573,168 @@ img {
     
     .stat-card-change {
         font-size: 12px;
+    }
+}
+
+/* ==================== QUICK ACTIONS ==================== */
+.quick-actions-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.quick-actions-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.quick-actions-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+}
+
+.quick-actions-icon {
+    font-size: 20px;
+    color: #f59e0b;
+}
+
+.quick-actions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Quick Action Buttons - Neutral with Color Reveal */
+.quick-action-btn {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    color: #1f2937;
+    position: relative;
+}
+
+.quick-action-btn:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.quick-action-btn i {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* Individual Button Icon Colors */
+.quick-action-btn.purple i {
+    color: #8b5cf6;
+}
+
+.quick-action-btn.green i {
+    color: #10b981;
+}
+
+.quick-action-btn.blue i {
+    color: #3b82f6;
+}
+
+.quick-action-btn.orange i {
+    color: #f59e0b;
+}
+
+/* Hover Effects - Purple (Border stays gray!) */
+.quick-action-btn.purple:hover {
+    /* background: rgba(139, 92, 246, 0.1); */
+    border-color: #e5e7eb;
+    box-shadow: 0 4px 6px rgba(139, 92, 246, 0.15);
+    transform: translateY(-1px);
+}
+
+.quick-action-btn.purple:hover i {
+    transform: scale(1.1);
+}
+
+/* Hover Effects - Green (Border stays gray!) */
+.quick-action-btn.green:hover {
+    /* background: rgba(16, 185, 129, 0.1); */
+    border-color: #e5e7eb;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.15);
+    transform: translateY(-1px);
+}
+
+.quick-action-btn.green:hover i {
+    transform: scale(1.1);
+}
+
+/* Hover Effects - Blue (Border stays gray!) */
+.quick-action-btn.blue:hover {
+    /* background: rgba(59, 130, 246, 0.1); */
+    border-color: #e5e7eb;
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.15);
+    transform: translateY(-1px);
+}
+
+.quick-action-btn.blue:hover i {
+    transform: scale(1.1);
+}
+
+/* Hover Effects - Orange (Border stays gray!) */
+.quick-action-btn.orange:hover {
+    /* background: rgba(245, 158, 11, 0.1); */
+    border-color: #e5e7eb;
+    box-shadow: 0 4px 6px rgba(245, 158, 11, 0.15);
+    transform: translateY(-1px);
+}
+
+.quick-action-btn.orange:hover i {
+    transform: scale(1.1);
+}
+
+/* Active States (Border stays gray!) */
+.quick-action-btn.purple:active {
+    /* background: rgba(139, 92, 246, 0.15); */
+    border-color: #e5e7eb;
+    transform: scale(0.98);
+}
+
+.quick-action-btn.green:active {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: #e5e7eb;
+    transform: scale(0.98);
+}
+
+.quick-action-btn.blue:active {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: #e5e7eb;
+    transform: scale(0.98);
+}
+
+.quick-action-btn.orange:active {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: #e5e7eb;
+    transform: scale(0.98);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .quick-action-btn,
+    .quick-action-btn i {
+        transition: none;
     }
 }
 

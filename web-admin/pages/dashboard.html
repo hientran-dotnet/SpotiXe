@@ -166,29 +166,35 @@
                 <div class="row g-3 mb-4">
                     <!-- Quick Actions -->
                     <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <i class="fas fa-bolt me-2" style="color: var(--warning);"></i>
-                                    Quick Actions
-                                </h3>
+                        <div class="quick-actions-card">
+                            <div class="quick-actions-header">
+                                <i class="fas fa-bolt quick-actions-icon" aria-hidden="true"></i>
+                                <h3>Quick Actions</h3>
                             </div>
-                            <div class="card-body" style="display: flex; flex-direction: column; gap: 10px;">
-                                <a href="songs.html?action=add" class="btn btn-primary">
-                                    <i class="fas fa-plus"></i>
-                                    Add New Song
+                            <div class="quick-actions-list">
+                                <a href="songs.html?action=add" 
+                                   class="quick-action-btn purple" 
+                                   aria-label="Add a new song to the library">
+                                    <i class="fas fa-plus" aria-hidden="true"></i>
+                                    <span>Add New Song</span>
                                 </a>
-                                <a href="artists.html?action=add" class="btn btn-success">
-                                    <i class="fas fa-user-plus"></i>
-                                    Add New Artist
+                                <a href="artists.html?action=add" 
+                                   class="quick-action-btn green" 
+                                   aria-label="Add a new artist to the library">
+                                    <i class="fas fa-user-plus" aria-hidden="true"></i>
+                                    <span>Add New Artist</span>
                                 </a>
-                                <a href="albums.html?action=add" class="btn" style="background-color: var(--info); color: white;">
-                                    <i class="fas fa-compact-disc"></i>
-                                    Create Album
+                                <a href="albums.html?action=add" 
+                                   class="quick-action-btn blue" 
+                                   aria-label="Create a new album">
+                                    <i class="fas fa-compact-disc" aria-hidden="true"></i>
+                                    <span>Create Album</span>
                                 </a>
-                                <a href="playlists.html?action=add" class="btn btn-warning">
-                                    <i class="fas fa-list"></i>
-                                    Create Playlist
+                                <a href="playlists.html?action=add" 
+                                   class="quick-action-btn orange" 
+                                   aria-label="Create a new playlist">
+                                    <i class="fas fa-list" aria-hidden="true"></i>
+                                    <span>Create Playlist</span>
                                 </a>
                             </div>
                         </div>
