@@ -261,9 +261,9 @@ fun Sign_UpEmailScreen(navController: NavController){
 
             Text(
                 text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = green)) {append("Don't have account ?\n")}
+                    withStyle(style = SpanStyle(color = green)) {append("Already have account ?\n")}
                     withStyle(style = SpanStyle(color = green)) { append("Click here to ") }
-                    withStyle(style = SpanStyle(color = Color.White, fontStyle = FontStyle.Italic)) { append("sign in") }
+                    withStyle(style = SpanStyle(color = Color.White, fontStyle = FontStyle.Italic)) { append("sign up") }
                 },
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,

@@ -9,5 +9,6 @@ object Routes {
     const val Sign_in3="sign_in3"
     const val Sign_UpEmail="sign_upEmail"
     const val Sign_UpPhone1="sign_upPhone1"
+    const val Sign_UpPhone2="sign_upPhone2"
 
 }
