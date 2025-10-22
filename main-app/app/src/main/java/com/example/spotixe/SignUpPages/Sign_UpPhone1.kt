@@ -1,6 +1,5 @@
 package com.example.spotixe.SignUpPages
 
-import Components.TermsAndPolicyCheck
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,20 +18,16 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,17 +37,18 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.R
+import com.example.spotixe.Routes
 
 @Composable
-fun Sign_UpEmailScreen(navController: NavController){
+fun Sign_UpPhone1Screen(navController: NavController){
     var green = Color(0xFF58BA47)
-    var agreed by rememberSaveable { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -99,7 +95,7 @@ fun Sign_UpEmailScreen(navController: NavController){
                 modifier = Modifier.height(180.dp)
             )
 
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(20.dp))
 
             Text(
                 "Create your account",
@@ -109,10 +105,12 @@ fun Sign_UpEmailScreen(navController: NavController){
                 textAlign = TextAlign.Center
             )
 
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(40.dp))
 
+
+            // Phone number label
             Text(
-                text = "Name",
+                text = "Phone number",
                 color = green,
                 fontSize = 18.sp,
                 modifier = Modifier.align(Alignment.Start)
@@ -120,7 +118,7 @@ fun Sign_UpEmailScreen(navController: NavController){
 
             Spacer(Modifier.height(8.dp))
 
-            // TextField cho Name
+            // TextField cho Phone number
             TextField(
                 value = "",
                 onValueChange = {},
@@ -130,87 +128,19 @@ fun Sign_UpEmailScreen(navController: NavController){
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     cursorColor = Color.White,
-                ),
+
+                    ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(shape = RoundedCornerShape(12.dp))
+
             )
 
-            Spacer(Modifier.height(10.dp))
-
-            // Email label
-            Text(
-                text = "Email",
-                color = green,
-                fontSize = 18.sp,
-                modifier = Modifier.align(Alignment.Start)
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            // TextField cho Email
-            TextField(
-                value = "",
-                onValueChange = {},
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFF444444),
-                    unfocusedContainerColor = Color(0xFF444444),
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.White,
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(12.dp))
-            )
-
-            Spacer(Modifier.height(10.dp))
-
-            // Password label
-            Text(
-                text = "Password",
-                color = green,
-                fontSize = 18.sp,
-                modifier = Modifier.align(Alignment.Start)
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            // TextField cho Password
-            TextField(
-                value = "",
-                onValueChange = {},
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFF444444),
-                    unfocusedContainerColor = Color(0xFF444444),
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(12.dp))
-            )
-
-            Spacer(Modifier.height(6.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TermsAndPolicyCheck(
-                    checked = agreed,
-                    onCheckedChange = { agreed = it },
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.Sign_in3)},
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),
@@ -222,17 +152,17 @@ fun Sign_UpEmailScreen(navController: NavController){
 
             ) {
                 Text(
-                    text = "Sign up",
+                    text = "Continue",
                     fontSize = 18.sp
                 )
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Text(
                 text = buildAnnotatedString {
                     append("Or ")
-                    withStyle(style = SpanStyle(color = Color.White)) { append("sign in") }
+                    withStyle(style = SpanStyle(color = Color.White)) { append("sign up") }
                     append(" with")
                 },
                 color = green,
@@ -247,7 +177,7 @@ fun Sign_UpEmailScreen(navController: NavController){
                     .size(width = 100.dp, height = 50.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(Color(0xFFEDEDED))
-                    .clickable { println("Sign in with Google clicked") },
+                    .clickable { println("Sign un with Google clicked") },
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -257,7 +187,7 @@ fun Sign_UpEmailScreen(navController: NavController){
                 )
             }
 
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(25.dp))
 
             Text(
                 text = buildAnnotatedString {
@@ -267,8 +197,10 @@ fun Sign_UpEmailScreen(navController: NavController){
                 },
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.clickable { println("Navigate to Sign In") }
+                modifier = Modifier.clickable { println("Navigate to Sign Ip") }
             )
+
+
         }
 
     }

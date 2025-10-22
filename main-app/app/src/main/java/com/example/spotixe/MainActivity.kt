@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.spotixe.SignUpPages.Sign_UpEmailScreen
+import com.example.spotixe.SignUpPages.Sign_UpPhone1Screen
 import com.example.spotixe.StartPages.Start2Screen
 import com.example.spotixe.StartPages.Start3Screen
 import com.example.spotixe.StartPages.StartScreen
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
             SpotiXeTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = "sign_upEmail"
+                    startDestination = "sign_upPhone1"
                 ) {
                     composable("start1"){ StartScreen(navController) }
                     composable("start2"){Start2Screen(navController)}
@@ -35,6 +36,7 @@ class MainActivity : ComponentActivity() {
                     composable("sign_in2"){Sign_in2Screen(navController)}
                     composable("sign_in3"){Sign_in3Screen(navController) }
                     composable ("sign_upEmail"){Sign_UpEmailScreen(navController)}
+                    composable ("sign_upPhone1"){ Sign_UpPhone1Screen(navController) }
                 }
             }
         }

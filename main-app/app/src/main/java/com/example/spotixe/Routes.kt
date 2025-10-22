@@ -8,4 +8,6 @@ object Routes {
     const val Sign_in2="sign_in2"
     const val Sign_in3="sign_in3"
     const val Sign_UpEmail="sign_upEmail"
+    const val Sign_UpPhone1="sign_upPhone1"
+
 }
