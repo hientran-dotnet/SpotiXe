@@ -580,16 +580,22 @@ img {
 .quick-actions-card {
     background: white;
     border-radius: 12px;
-    padding: 24px;
+    padding: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
 }
 
 .quick-actions-header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 16px;
+    flex-shrink: 0;
 }
 
 .quick-actions-header h3 {
@@ -597,6 +603,7 @@ img {
     font-weight: 600;
     color: #1f2937;
     margin: 0;
+    white-space: nowrap;
 }
 
 .quick-actions-icon {
@@ -605,19 +612,17 @@ img {
 }
 
 .quick-actions-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    align-items: end;
 }
 
-/* Quick Action Buttons - Neutral with Color Reveal */
+/* Quick Action Buttons - Horizontal Layout */
 .quick-action-btn {
     background: white;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
-    padding: 14px 20px;
+    padding: 10px 16px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -625,9 +630,10 @@ img {
     cursor: pointer;
     text-decoration: none;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 14px;
     color: #1f2937;
     position: relative;
+    white-space: nowrap;
 }
 
 .quick-action-btn:focus-visible {
@@ -636,7 +642,7 @@ img {
 }
 
 .quick-action-btn i {
-    font-size: 20px;
+    font-size: 18px;
     transition: transform 0.3s ease;
 }
 
@@ -728,6 +734,29 @@ img {
     background: rgba(245, 158, 11, 0.15);
     border-color: #e5e7eb;
     transform: scale(0.98);
+}
+
+/* Responsive Quick Actions */
+@media (max-width: 1024px) {
+    .quick-actions-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .quick-actions-list {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .quick-actions-list {
+        flex-direction: column;
+    }
+    
+    .quick-action-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 /* Reduced Motion Support */
