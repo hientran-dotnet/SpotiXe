@@ -13,38 +13,60 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/main.css">
+
+    <!-- Google Material & Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <!-- Material Symbols Rounded -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+    <!-- Material Symbols Sharp -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" />
+
+        <!-- Favicon -->
+    <!-- Favicon cho mọi trình duyệt -->
+    <link rel="icon" type="image/png" href="../assets/img/logo-spotixe.png">
+
+    <!-- Favicon chuẩn hiện đại -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/img/favicon-16x16.png">
+
+    <!-- Dành cho iOS / iPadOS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/apple-touch-icon.png">
+
+    <!-- Dành cho Android Chrome -->
+    <link rel="manifest" href="../assets/img/site.webmanifest">
+
 </head>
 <body>
     <div class="app-wrapper">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-logo">
-                <i class="fas fa-music"></i>
-                <h2>SpotiXe</h2>
+                <img src="../assets/img/logo-spotixe.png" alt="SpotiXe" style="max-height: 60px; width: auto;"/>
+                <h2 class="sidebar-logo-text">SpotiXe</h2>
             </div>
             <nav class="sidebar-menu">
                 <a href="dashboard.html" class="sidebar-menu-item active">
-                    <i class="fas fa-chart-line"></i>
+                    <i class="material-symbols-outlined">equalizer</i>
                     <span>Dashboard</span>
                 </a>
                 <a href="songs.html" class="sidebar-menu-item">
-                    <i class="fas fa-music"></i>
+                    <i class="material-symbols-rounded">music_note</i>
                     <span>Songs</span>
                 </a>
                 <a href="artists.html" class="sidebar-menu-item">
-                    <i class="fas fa-user-music"></i>
+                    <i class="material-symbols-sharp">artist</i>
                     <span>Artists</span>
                 </a>
                 <a href="albums.html" class="sidebar-menu-item">
-                    <i class="fas fa-compact-disc"></i>
+                    <i class="material-symbols-rounded">album</i>
                     <span>Albums</span>
                 </a>
                 <a href="users.html" class="sidebar-menu-item">
-                    <i class="fas fa-users"></i>
+                    <i class="material-symbols-rounded">group</i>
                     <span>Users</span>
                 </a>
                 <a href="playlists.html" class="sidebar-menu-item">
-                    <i class="fas fa-list-ul"></i>
+                    <i class="material-symbols-rounded">playlist_play</i>
                     <span>Playlists</span>
                 </a>
             </nav>
@@ -56,19 +78,9 @@
             <header class="header" id="header">
                 <div class="header-left">
                     <i class="fas fa-bars menu-toggle" id="menuToggle"></i>
-                    <div class="header-search">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="globalSearch" placeholder="Search...">
-                    </div>
+                    
                 </div>
-                <div class="header-right">
-                    <div class="header-icon" id="themeToggle" title="Toggle Theme">
-                        <i class="fas fa-moon"></i>
-                    </div>
-                    <div class="header-icon">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">3</span>
-                    </div>
+                <div class="header-right">          
                     <div class="user-profile" id="userProfile">
                         <div class="user-avatar-placeholder">AD</div>
                         <div class="user-info">
@@ -99,118 +111,93 @@
 
             <!-- Page Content -->
             <main class="main-content">
-                <!-- Page Header -->
-                <div class="mb-4">
-                    <h1 style="font-size: 28px; font-weight: 700; color: var(--gray-800); margin-bottom: 5px;">
-                        Dashboard
-                    </h1>
-                    <p style="color: var(--gray-500); font-size: 14px;">
-                        Welcome back! Here's what's happening with your music streaming platform.
-                    </p>
-                </div>
-
                 <!-- Statistics Cards -->
-                <div class="d-grid grid-cols-4 gap-3 mb-4" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-                    <div class="stat-card">
-                        <div class="stat-card-icon primary">
-                            <i class="fas fa-music"></i>
+                <div class="d-grid gap-3 mb-4" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+                    <div class="stat-card" role="region" aria-labelledby="total-songs-label">
+                        <div class="stat-card-icon primary" aria-hidden="true">
+                            <i class="material-symbols-rounded">music_note</i>
                         </div>
-                        <div class="stat-card-value" id="totalSongs">0</div>
-                        <div class="stat-card-label">Total Songs</div>
+                        <div class="stat-card-value" id="totalSongs" aria-live="polite">0</div>
+                        <div class="stat-card-label" id="total-songs-label">Total Songs</div>
                         <div class="stat-card-change positive">
-                            <i class="fas fa-arrow-up"></i> 12% from last month
+                            <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                            <span>12% from last month</span>
                         </div>
                     </div>
 
-                    <div class="stat-card" style="border-left-color: var(--success);">
-                        <div class="stat-card-icon success">
-                            <i class="fas fa-user-music"></i>
+                    <div class="stat-card" role="region" aria-labelledby="total-artists-label">
+                        <div class="stat-card-icon success" aria-hidden="true">
+                            <i class="material-symbols-sharp">artist</i>
                         </div>
-                        <div class="stat-card-value" id="totalArtists">0</div>
-                        <div class="stat-card-label">Total Artists</div>
+                        <div class="stat-card-value" id="totalArtists" aria-live="polite">0</div>
+                        <div class="stat-card-label" id="total-artists-label">Total Artists</div>
                         <div class="stat-card-change positive">
-                            <i class="fas fa-arrow-up"></i> 8% from last month
+                            <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                            <span>8% from last month</span>
                         </div>
                     </div>
 
-                    <div class="stat-card" style="border-left-color: var(--info);">
-                        <div class="stat-card-icon info">
-                            <i class="fas fa-users"></i>
+                    <div class="stat-card" role="region" aria-labelledby="total-users-label">
+                        <div class="stat-card-icon info" aria-hidden="true">
+                            <i class="material-symbols-rounded">group</i>
                         </div>
-                        <div class="stat-card-value" id="totalUsers">0</div>
-                        <div class="stat-card-label">Total Users</div>
+                        <div class="stat-card-value" id="totalUsers" aria-live="polite">0</div>
+                        <div class="stat-card-label" id="total-users-label">Total Users</div>
                         <div class="stat-card-change positive">
-                            <i class="fas fa-arrow-up"></i> 24% from last month
+                            <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                            <span>24% from last month</span>
                         </div>
                     </div>
 
-                    <div class="stat-card" style="border-left-color: var(--warning);">
-                        <div class="stat-card-icon warning">
-                            <i class="fas fa-compact-disc"></i>
+                    <div class="stat-card" role="region" aria-labelledby="total-albums-label">
+                        <div class="stat-card-icon warning" aria-hidden="true">
+                            <i class="material-symbols-rounded">album</i>
                         </div>
-                        <div class="stat-card-value" id="totalAlbums">0</div>
-                        <div class="stat-card-label">Total Albums</div>
+                        <div class="stat-card-value" id="totalAlbums" aria-live="polite">0</div>
+                        <div class="stat-card-label" id="total-albums-label">Total Albums</div>
                         <div class="stat-card-change positive">
-                            <i class="fas fa-arrow-up"></i> 5% from last month
+                            <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                            <span>5% from last month</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Actions & Recent Activity -->
-                <div class="row g-3 mb-4">
-                    <!-- Quick Actions -->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <i class="fas fa-bolt me-2" style="color: var(--warning);"></i>
-                                    Quick Actions
-                                </h3>
-                            </div>
-                            <div class="card-body" style="display: flex; flex-direction: column; gap: 10px;">
-                                <a href="songs.html?action=add" class="btn btn-primary">
-                                    <i class="fas fa-plus"></i>
-                                    Add New Song
-                                </a>
-                                <a href="artists.html?action=add" class="btn btn-success">
-                                    <i class="fas fa-user-plus"></i>
-                                    Add New Artist
-                                </a>
-                                <a href="albums.html?action=add" class="btn" style="background-color: var(--info); color: white;">
-                                    <i class="fas fa-compact-disc"></i>
-                                    Create Album
-                                </a>
-                                <a href="playlists.html?action=add" class="btn btn-warning">
-                                    <i class="fas fa-list"></i>
-                                    Create Playlist
-                                </a>
-                            </div>
-                        </div>
+                <!-- Quick Actions - Horizontal Layout -->
+                <div class="quick-actions-card">
+                    <div class="quick-actions-header">
+                        <i class="fas fa-bolt quick-actions-icon" aria-hidden="true"></i>
+                        <h3>Quick Actions</h3>
                     </div>
-
-                    <!-- Recent Activity -->
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <i class="fas fa-clock me-2" style="color: var(--primary);"></i>
-                                    Recent Activity
-                                </h3>
-                            </div>
-                            <div class="card-body">
-                                <div id="recentActivity" style="max-height: 400px; overflow-y: auto;">
-                                    <!-- Activity items will be loaded here -->
-                                    <div class="loading-spinner">
-                                        <div class="spinner"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="quick-actions-list">
+                        <a href="songs.html?action=add" 
+                           class="quick-action-btn purple" 
+                           aria-label="Add a new song to the library">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                            <span>Add New Song</span>
+                        </a>
+                        <a href="artists.html?action=add" 
+                           class="quick-action-btn green" 
+                           aria-label="Add a new artist to the library">
+                            <i class="fas fa-user-plus" aria-hidden="true"></i>
+                            <span>Add New Artist</span>
+                        </a>
+                        <a href="albums.html?action=add" 
+                           class="quick-action-btn blue" 
+                           aria-label="Create a new album">
+                            <i class="fas fa-compact-disc" aria-hidden="true"></i>
+                            <span>Create Album</span>
+                        </a>
+                        <a href="playlists.html?action=add" 
+                           class="quick-action-btn orange" 
+                           aria-label="Create a new playlist">
+                            <i class="fas fa-list" aria-hidden="true"></i>
+                            <span>Create Playlist</span>
+                        </a>
                     </div>
                 </div>
 
                 <!-- Charts Row -->
-                <div class="row g-3">
+                <div class="row g-3"">
                     <!-- Most Played Songs -->
                     <div class="col-md-6">
                         <div class="card">
@@ -402,7 +389,6 @@
                 }
             }
         };
-
         // Initialize dashboard when page loads
         document.addEventListener('DOMContentLoaded', () => {
             Dashboard.init();
