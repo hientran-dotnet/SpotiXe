@@ -128,7 +128,7 @@ img {
 }
 
 .sidebar-logo i {
-    font-size: 36px;
+    font-size: 6px;
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -412,73 +412,359 @@ img {
     padding: 0;
 }
 
-/* Stat Cards */
+/* Stat Cards - Production Design */
 .stat-card {
     background: white;
-    border-radius: var(--radius-lg);
+    border-radius: 12px;
     padding: 24px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    border-left: 4px solid var(--primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
+.stat-card:hover::before {
+    opacity: 1;
+}
+
+.stat-card:hover .stat-card-icon {
+    transform: scale(1.05);
+}
+
+/* Icon container */
 .stat-card-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: var(--radius-md);
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    color: white;
-    margin-bottom: 15px;
+    font-size: 22px;
+    margin-bottom: 16px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
 }
 
 .stat-card-icon.primary {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
 }
 
 .stat-card-icon.success {
-    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
 }
 
 .stat-card-icon.warning {
-    background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
 }
 
 .stat-card-icon.info {
-    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
 }
 
+.stat-card::before {
+    background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.stat-card:has(.stat-card-icon.primary)::before {
+    color: #667eea;
+}
+
+.stat-card:has(.stat-card-icon.success)::before {
+    color: #10b981;
+}
+
+.stat-card:has(.stat-card-icon.warning)::before {
+    color: #f59e0b;
+}
+
+.stat-card:has(.stat-card-icon.info)::before {
+    color: #3b82f6;
+}
+
+/* Metric value */
 .stat-card-value {
     font-size: 32px;
     font-weight: 700;
-    color: var(--gray-800);
-    margin-bottom: 5px;
+    color: #1a202c;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
 }
 
+/* Label text */
 .stat-card-label {
     font-size: 14px;
-    color: var(--gray-500);
+    color: #4a5568;
     font-weight: 500;
+    opacity: 0.75;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
 }
 
+/* Growth indicator */
 .stat-card-change {
-    font-size: 12px;
-    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    letter-spacing: -0.01em;
 }
 
 .stat-card-change.positive {
-    color: var(--success);
+    color: #10b981;
 }
 
 .stat-card-change.negative {
-    color: var(--danger);
+    color: #ef4444;
+}
+
+.stat-card-change i {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .stat-card {
+        padding: 20px;
+    }
+    
+    .stat-card-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        margin-bottom: 14px;
+    }
+    
+    .stat-card-value {
+        font-size: 28px;
+    }
+    
+    .stat-card-label {
+        font-size: 13px;
+    }
+    
+    .stat-card-change {
+        font-size: 12px;
+    }
+}
+
+/* ==================== QUICK ACTIONS ==================== */
+.quick-actions-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.quick-actions-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.quick-actions-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.quick-actions-icon {
+    font-size: 20px;
+    color: #f59e0b;
+}
+
+.quick-actions-list {
+    align-items: end;
+}
+
+/* Quick Action Buttons - Horizontal Layout */
+.quick-action-btn {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 16px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    color: #1f2937;
+    position: relative;
+    white-space: nowrap;
+}
+
+.quick-action-btn:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.quick-action-btn i {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+/* Individual Button Icon Colors */
+.quick-action-btn.purple i {
+    color: #8b5cf6;
+}
+
+.quick-action-btn.green i {
+    color: #10b981;
+}
+
+.quick-action-btn.blue i {
+    color: #3b82f6;
+}
+
+.quick-action-btn.orange i {
+    color: #f59e0b;
+}
+
+/* Hover Effects - Purple (Border stays gray!) */
+.quick-action-btn.purple:hover {
+    /* background: rgba(139, 92, 246, 0.1); */
+    border-color: #e5e7eb;
+    box-shadow: 0 4px 6px rgba(139, 92, 246, 0.15);
+    transform: translateY(-1px);
+}
+
+.quick-action-btn.purple:hover i {
+    transform: scale(1.1);
+}
+
+/* Hover Effects - Green (Border stays gray!) */
+.quick-action-btn.green:hover {
+    /* background: rgba(16, 185, 129, 0.1); */
+    border-color: #e5e7eb;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.15);
+    transform: translateY(-1px);
+}
+
+.quick-action-btn.green:hover i {
+    transform: scale(1.1);
+}
+
+/* Hover Effects - Blue (Border stays gray!) */
+.quick-action-btn.blue:hover {
+    /* background: rgba(59, 130, 246, 0.1); */
+    border-color: #e5e7eb;
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.15);
+    transform: translateY(-1px);
+}
+
+.quick-action-btn.blue:hover i {
+    transform: scale(1.1);
+}
+
+/* Hover Effects - Orange (Border stays gray!) */
+.quick-action-btn.orange:hover {
+    /* background: rgba(245, 158, 11, 0.1); */
+    border-color: #e5e7eb;
+    box-shadow: 0 4px 6px rgba(245, 158, 11, 0.15);
+    transform: translateY(-1px);
+}
+
+.quick-action-btn.orange:hover i {
+    transform: scale(1.1);
+}
+
+/* Active States (Border stays gray!) */
+.quick-action-btn.purple:active {
+    /* background: rgba(139, 92, 246, 0.15); */
+    border-color: #e5e7eb;
+    transform: scale(0.98);
+}
+
+.quick-action-btn.green:active {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: #e5e7eb;
+    transform: scale(0.98);
+}
+
+.quick-action-btn.blue:active {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: #e5e7eb;
+    transform: scale(0.98);
+}
+
+.quick-action-btn.orange:active {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: #e5e7eb;
+    transform: scale(0.98);
+}
+
+/* Responsive Quick Actions */
+@media (max-width: 1024px) {
+    .quick-actions-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .quick-actions-list {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .quick-actions-list {
+        flex-direction: column;
+    }
+    
+    .quick-action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .quick-action-btn,
+    .quick-action-btn i {
+        transition: none;
+    }
 }
 
 /* ==================== BUTTONS ==================== */
