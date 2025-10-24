@@ -1,0 +1,379 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import {
+  Search,
+  Filter,
+  Plus,
+  MoreVertical,
+  Play,
+  Edit,
+  Trash2,
+  Star,
+  BarChart3,
+  Upload,
+  Grid,
+  List as ListIcon,
+} from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+import { Input, Select } from '@/components/ui/Input';
+import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/Table';
+import { Badge, StatusBadge } from '@/components/ui/Badge';
+import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/ui/Modal';
+import { formatNumber, formatDuration, formatDate } from '@/lib/utils';
+
+const mockTracks = [
+  {
+    id: 1,
+    title: 'Blinding Lights',
+    artist: 'The Weeknd',
+    album: 'After Hours',
+    genre: 'Pop',
+    duration: 200,
+    uploadDate: '2024-01-15',
+    streams: 2840000,
+    status: 'active',
+    cover: '🎵',
+  },
+  {
+    id: 2,
+    title: 'Shape of You',
+    artist: 'Ed Sheeran',
+    album: 'Divide',
+    genre: 'Pop',
+    duration: 233,
+    uploadDate: '2024-01-10',
+    streams: 2650000,
+    status: 'active',
+    cover: '🎵',
+  },
+  {
+    id: 3,
+    title: 'Someone Like You',
+    artist: 'Adele',
+    album: '21',
+    genre: 'Soul',
+    duration: 285,
+    uploadDate: '2024-01-08',
+    streams: 2340000,
+    status: 'active',
+    cover: '🎵',
+  },
+  {
+    id: 4,
+    title: 'New Track Demo',
+    artist: 'Indie Artist',
+    album: 'Single',
+    genre: 'Rock',
+    duration: 180,
+    uploadDate: '2024-01-20',
+    streams: 1200,
+    status: 'pending',
+    cover: '🎵',
+  },
+];
+
+const MusicManagement = () => {
+  const [activeTab, setActiveTab] = useState('all');
+  const [viewMode, setViewMode] = useState('list');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('all');
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [selectedTracks, setSelectedTracks] = useState([]);
+
+  const tabs = [
+    { id: 'all', label: 'All Tracks', count: 1234 },
+    { id: 'albums', label: 'Albums', count: 156 },
+    { id: 'singles', label: 'Singles', count: 432 },
+    { id: 'pending', label: 'Pending Approval', count: 12 },
+  ];
+
+  const genres = ['all', 'Pop', 'Rock', 'Hip Hop', 'Electronic', 'Jazz', 'Classical'];
+
+  const toggleTrackSelection = (trackId) => {
+    setSelectedTracks(prev =>
+      prev.includes(trackId)
+        ? prev.filter(id => id !== trackId)
+        : [...prev, trackId]
+    );
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Page Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="flex items-center justify-between"
+      >
+        <div>
+          <h1 className="text-3xl font-bold text-admin-text-primary">Music Management</h1>
+          <p className="text-admin-text-secondary mt-1">Manage your music library and track uploads</p>
+        </div>
+        <Button onClick={() => setShowUploadModal(true)}>
+          <Plus size={18} className="mr-2" />
+          Upload New Track
+        </Button>
+      </motion.div>
+
+      {/* Tabs */}
+      <Card>
+        <CardContent className="p-0">
+          <div className="flex items-center justify-between border-b border-admin-border-default overflow-x-auto">
+            <div className="flex">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-6 py-4 font-medium text-sm whitespace-nowrap transition-colors border-b-2 ${
+                    activeTab === tab.id
+                      ? 'text-spotify-green border-spotify-green'
+                      : 'text-admin-text-secondary border-transparent hover:text-admin-text-primary'
+                  }`}
+                >
+                  {tab.label}
+                  <span className="ml-2 px-2 py-0.5 rounded-full bg-admin-bg-hover text-xs">
+                    {tab.count}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Filters & Search */}
+      <Card>
+        <CardContent className="p-4">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <Input
+                icon={Search}
+                placeholder="Search tracks, artists, albums..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)}>
+              {genres.map((genre) => (
+                <option key={genre} value={genre}>
+                  {genre === 'all' ? 'All Genres' : genre}
+                </option>
+              ))}
+            </Select>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm">
+                <Filter size={18} className="mr-2" />
+                More Filters
+              </Button>
+              <div className="flex border border-admin-border-default rounded-lg overflow-hidden">
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 ${viewMode === 'list' ? 'bg-admin-bg-hover text-spotify-green' : 'text-admin-text-tertiary'}`}
+                >
+                  <ListIcon size={18} />
+                </button>
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 ${viewMode === 'grid' ? 'bg-admin-bg-hover text-spotify-green' : 'text-admin-text-tertiary'}`}
+                >
+                  <Grid size={18} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Bulk Actions */}
+          {selectedTracks.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-4 p-3 bg-admin-bg-hover rounded-lg flex items-center justify-between"
+            >
+              <span className="text-sm text-admin-text-primary">
+                {selectedTracks.length} track{selectedTracks.length > 1 ? 's' : ''} selected
+              </span>
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline">
+                  <Star size={16} className="mr-2" />
+                  Feature
+                </Button>
+                <Button size="sm" variant="outline">
+                  <Edit size={16} className="mr-2" />
+                  Edit
+                </Button>
+                <Button size="sm" variant="danger">
+                  <Trash2 size={16} className="mr-2" />
+                  Delete
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Tracks Table */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+      >
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow hover={false}>
+                  <TableHead className="w-12">
+                    <input
+                      type="checkbox"
+                      className="rounded border-admin-border-default bg-admin-bg-hover"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedTracks(mockTracks.map(t => t.id));
+                        } else {
+                          setSelectedTracks([]);
+                        }
+                      }}
+                    />
+                  </TableHead>
+                  <TableHead>Track</TableHead>
+                  <TableHead>Artist</TableHead>
+                  <TableHead>Album</TableHead>
+                  <TableHead>Genre</TableHead>
+                  <TableHead>Duration</TableHead>
+                  <TableHead>Upload Date</TableHead>
+                  <TableHead>Streams</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="w-12"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {mockTracks.map((track) => (
+                  <TableRow key={track.id}>
+                    <TableCell>
+                      <input
+                        type="checkbox"
+                        className="rounded border-admin-border-default bg-admin-bg-hover"
+                        checked={selectedTracks.includes(track.id)}
+                        onChange={() => toggleTrackSelection(track.id)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <div className="relative group">
+                          <div className="w-10 h-10 bg-gradient-primary rounded flex items-center justify-center text-lg">
+                            {track.cover}
+                          </div>
+                          <button className="absolute inset-0 bg-black/60 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Play size={14} fill="white" className="text-white" />
+                          </button>
+                        </div>
+                        <div>
+                          <p className="font-medium text-admin-text-primary">{track.title}</p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors">
+                        {track.artist}
+                      </span>
+                    </TableCell>
+                    <TableCell>{track.album}</TableCell>
+                    <TableCell>
+                      <Badge variant="default">{track.genre}</Badge>
+                    </TableCell>
+                    <TableCell>{formatDuration(track.duration)}</TableCell>
+                    <TableCell>{formatDate(track.uploadDate)}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">{formatNumber(track.streams)}</span>
+                        {track.streams > 1000000 && (
+                          <TrendingUp size={14} className="text-spotify-green" />
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <StatusBadge status={track.status} />
+                    </TableCell>
+                    <TableCell>
+                      <div className="relative group">
+                        <button className="p-1 hover:bg-admin-bg-hover rounded transition-colors">
+                          <MoreVertical size={18} className="text-admin-text-tertiary" />
+                        </button>
+                        <div className="absolute right-0 top-full mt-1 w-48 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+                          <div className="p-1">
+                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
+                              <Edit size={16} />
+                              Edit
+                            </button>
+                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
+                              <BarChart3 size={16} />
+                              Analytics
+                            </button>
+                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
+                              <Star size={16} />
+                              Feature Track
+                            </button>
+                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm">
+                              <Trash2 size={16} />
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+
+            {/* Pagination */}
+            <div className="p-4 border-t border-admin-border-default flex items-center justify-between">
+              <span className="text-sm text-admin-text-secondary">
+                Showing 1-10 of 1,234 tracks
+              </span>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm">Previous</Button>
+                <Button variant="outline" size="sm">Next</Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* Upload Modal */}
+      <Modal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} size="lg">
+        <ModalHeader onClose={() => setShowUploadModal(false)}>
+          <ModalTitle>Upload New Track</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
+          <div className="space-y-4">
+            <div className="border-2 border-dashed border-admin-border-default rounded-lg p-8 text-center hover:border-spotify-green transition-colors cursor-pointer">
+              <Upload size={48} className="mx-auto text-admin-text-tertiary mb-4" />
+              <p className="text-admin-text-primary font-medium">Drop your audio file here</p>
+              <p className="text-sm text-admin-text-tertiary mt-1">or click to browse (MP3, WAV, FLAC)</p>
+            </div>
+            <Input label="Track Title" placeholder="Enter track title" />
+            <Input label="Artist Name" placeholder="Enter artist name" />
+            <Input label="Album Name" placeholder="Enter album name" />
+            <Select label="Genre">
+              <option value="">Select genre</option>
+              {genres.filter(g => g !== 'all').map((genre) => (
+                <option key={genre} value={genre}>{genre}</option>
+              ))}
+            </Select>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="ghost" onClick={() => setShowUploadModal(false)}>
+            Cancel
+          </Button>
+          <Button>Upload Track</Button>
+        </ModalFooter>
+      </Modal>
+    </div>
+  );
+};
+
+export default MusicManagement;

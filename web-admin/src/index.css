@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-admin-border-default;
+  }
+  
+  body {
+    @apply bg-admin-bg-primary text-admin-text-primary font-sans antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .glass-morphism {
+    @apply bg-admin-bg-card bg-opacity-40 backdrop-blur-lg border border-admin-border-default;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  .gradient-spotify {
+    background: linear-gradient(135deg, #1DB954 0%, #1aa34a 100%);
+  }
+
+  .gradient-apple {
+    background: linear-gradient(135deg, #FA243C 0%, #d91f35 100%);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, #1DB954 0%, #0A84FF 100%);
+  }
+
+  .gradient-dark {
+    background: linear-gradient(180deg, #0a0a0a 0%, #121212 100%);
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #282828 #121212;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: #121212;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #282828;
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #3E3E3E;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
