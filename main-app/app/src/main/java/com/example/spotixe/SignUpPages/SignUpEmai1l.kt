@@ -23,7 +23,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -48,9 +47,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.R
+import com.example.spotixe.Routes
 
 @Composable
-fun Sign_UpEmailScreen(navController: NavController){
+fun Sign_UpEmail1Screen(navController: NavController){
     var green = Color(0xFF58BA47)
     var agreed by rememberSaveable { mutableStateOf(false) }
     Box(
@@ -109,7 +109,7 @@ fun Sign_UpEmailScreen(navController: NavController){
                 textAlign = TextAlign.Center
             )
 
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(20.dp))
 
             Text(
                 text = "Name",
@@ -164,53 +164,51 @@ fun Sign_UpEmailScreen(navController: NavController){
                     .clip(shape = RoundedCornerShape(12.dp))
             )
 
-            Spacer(Modifier.height(10.dp))
-
             // Password label
-            Text(
-                text = "Password",
-                color = green,
-                fontSize = 18.sp,
-                modifier = Modifier.align(Alignment.Start)
-            )
+//            Text(
+//                text = "Password",
+//                color = green,
+//                fontSize = 18.sp,
+//                modifier = Modifier.align(Alignment.Start)
+//            )
 
-            Spacer(Modifier.height(8.dp))
+//            Spacer(Modifier.height(8.dp))
+//
+//            // TextField cho Password
+//            TextField(
+//                value = "",
+//                onValueChange = {},
+//                colors = TextFieldDefaults.colors(
+//                    focusedContainerColor = Color(0xFF444444),
+//                    unfocusedContainerColor = Color(0xFF444444),
+//                    focusedIndicatorColor = Color.Transparent,
+//                    unfocusedIndicatorColor = Color.Transparent,
+//                    cursorColor = Color.White
+//                ),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .clip(shape = RoundedCornerShape(12.dp))
+//            )
+//
+//            Spacer(Modifier.height(6.dp))
+//
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth(),
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                TermsAndPolicyCheck(
+//                    checked = agreed,
+//                    onCheckedChange = { agreed = it },
+//                    modifier = Modifier.weight(1f)
+//                )
+//            }
 
-            // TextField cho Password
-            TextField(
-                value = "",
-                onValueChange = {},
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFF444444),
-                    unfocusedContainerColor = Color(0xFF444444),
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(12.dp))
-            )
 
-            Spacer(Modifier.height(6.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TermsAndPolicyCheck(
-                    checked = agreed,
-                    onCheckedChange = { agreed = it },
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.Sign_UpEmail2)},
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),
@@ -232,7 +230,7 @@ fun Sign_UpEmailScreen(navController: NavController){
             Text(
                 text = buildAnnotatedString {
                     append("Or ")
-                    withStyle(style = SpanStyle(color = Color.White)) { append("sign in") }
+                    withStyle(style = SpanStyle(color = Color.White)) { append("Continue") }
                     append(" with")
                 },
                 color = green,

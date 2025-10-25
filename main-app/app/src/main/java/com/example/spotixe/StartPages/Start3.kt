@@ -101,7 +101,7 @@ fun Start3Screen(navController: NavController){
             Spacer(Modifier.height(10.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_UpEmail)},
+                onClick = {navController.navigate(Routes.Sign_UpEmail1)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
