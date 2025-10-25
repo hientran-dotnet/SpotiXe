@@ -43,7 +43,7 @@ function App() {
     <div className="min-h-screen bg-spotify-black text-white antialiased">
       {/* Header */}
       <Header />
-
+      
       {/* Main Content */}
       <main>
         {/* Hero Section */}
