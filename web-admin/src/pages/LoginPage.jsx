@@ -1,226 +1,124 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Music, Mail, Lock, Eye, EyeOff, ShieldCheck } from 'lucide-react';
+import { Music, Shield } from 'lucide-react';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // No authentication logic - UI only
-    console.log('Login attempt with:', { email, password });
+  const handleSignIn = () => {
+    // TODO: Implement Google authentication logic
+    console.log('Sign in with Google clicked');
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#1a1a1a] relative overflow-hidden flex items-center justify-center p-4">
-      {/* Animated Background Elements */}
+    <div className="min-h-screen bg-admin-bg-primary flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Subtle background gradient - pure black theme */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-950 to-black" />
+      
+      {/* Minimal background element - single subtle orb */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient Orbs */}
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-spotify-green/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-apple-blue/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px]"></div>
-        
-        {/* Floating Music Notes */}
-        <div className="absolute top-20 left-1/4 text-spotify-green/20 animate-float">
-          <Music size={32} />
-        </div>
-        <div className="absolute bottom-40 right-1/3 text-spotify-green/20 animate-float-delayed">
-          <Music size={24} />
-        </div>
-        <div className="absolute top-1/2 left-1/4 text-apple-blue/20 animate-float">
-          <Music size={28} />
-        </div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-spotify-green/5 rounded-full blur-3xl" />
       </div>
 
       {/* Login Card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
+        transition={{ duration: 0.5 }}
         className="relative z-10 w-full max-w-md"
       >
-        {/* Glassmorphism Card */}
-        <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl shadow-black/50 p-8 relative overflow-hidden">
-          {/* Card Glow Effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-spotify-green/5 via-transparent to-apple-blue/5 rounded-2xl"></div>
-          <div className="absolute -inset-1 bg-gradient-to-r from-spotify-green/20 to-apple-blue/20 rounded-2xl blur-xl opacity-30"></div>
-          
-          {/* Content */}
-          <div className="relative z-10">
-            {/* Logo Section */}
+        {/* Clean Card - Match Dashboard Card Style */}
+        <div className="relative bg-admin-bg-card border border-admin-border-default rounded-2xl shadow-card overflow-hidden">
+          {/* Card Content */}
+          <div className="relative p-8 md:p-10">
+            {/* Logo */}
             <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col items-center mb-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4 }}
+              className="flex items-center justify-center mb-8"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-spotify-green to-apple-blue rounded-xl flex items-center justify-center shadow-lg shadow-spotify-green/30">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-spotify-green rounded-xl flex items-center justify-center">
                   <Music size={24} className="text-white" />
                 </div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-spotify-green to-apple-blue bg-clip-text text-transparent">
+                <span className="text-3xl font-bold text-admin-text-primary">
                   SpotiXe
-                </h1>
+                </span>
               </div>
-              <h2 className="text-2xl font-semibold text-white mb-2">
-                Sign in to Admin
-              </h2>
-              <p className="text-sm text-gray-400 text-center">
+            </motion.div>
+
+            {/* Title */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="text-center mb-8"
+            >
+              <h1 className="text-2xl md:text-3xl font-extrabold text-admin-text-primary mb-3 tracking-tight">
+                Sign in to SpotiXe Admin
+              </h1>
+              <p className="text-admin-text-secondary text-base font-medium">
                 Manage your music streaming platform
               </p>
             </motion.div>
 
-            {/* Login Form */}
-            <motion.form
+            {/* Sign In Button */}
+            <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              onSubmit={handleSubmit}
-              className="space-y-5"
+              transition={{ duration: 0.4, delay: 0.2 }}
+              onClick={handleSignIn}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full bg-spotify-green hover:brightness-110 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-3"
             >
-              {/* Email Input */}
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-gray-300 block">
-                  Email Address
-                </label>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail size={18} className="text-gray-400 group-focus-within:text-spotify-green transition-colors" />
-                  </div>
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="admin@spotixe.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-spotify-green/50 focus:border-spotify-green/50 transition-all duration-200 hover:bg-white/10"
-                    required
-                  />
-                </div>
-              </div>
+              {/* Google Icon (4 colors) */}
+              <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              <span className="text-lg">Sign In with Google</span>
+            </motion.button>
 
-              {/* Password Input */}
-              <div className="space-y-2">
-                <label htmlFor="password" className="text-sm font-medium text-gray-300 block">
-                  Password
-                </label>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Lock size={18} className="text-gray-400 group-focus-within:text-spotify-green transition-colors" />
-                  </div>
-                  <input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-12 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-spotify-green/50 focus:border-spotify-green/50 transition-all duration-200 hover:bg-white/10"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-spotify-green transition-colors"
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-              </div>
-
-              {/* Remember Me & Forgot Password */}
-              <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center gap-2 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 rounded border-white/10 bg-white/5 text-spotify-green focus:ring-spotify-green/50 focus:ring-offset-0 cursor-pointer"
-                  />
-                  <span className="text-gray-400 group-hover:text-gray-300 transition-colors">
-                    Remember me
-                  </span>
-                </label>
-                <a
-                  href="#"
-                  className="text-spotify-green hover:text-spotify-green/80 transition-colors font-medium"
-                >
-                  Forgot password?
-                </a>
-              </div>
-
-              {/* Sign In Button */}
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="submit"
-                className="w-full py-3.5 bg-gradient-to-r from-spotify-green to-green-500 text-white font-semibold rounded-xl shadow-lg shadow-spotify-green/30 hover:shadow-spotify-green/50 transition-all duration-300 hover:from-spotify-green/90 hover:to-green-500/90 flex items-center justify-center gap-2"
-              >
-                Sign In
-                <ShieldCheck size={18} />
-              </motion.button>
-            </motion.form>
-
-            {/* Security Notice */}
+            {/* Footer Text */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="mt-6 p-4 bg-white/5 border border-white/10 rounded-xl"
+              transition={{ duration: 0.4, delay: 0.3 }}
+              className="mt-8 text-center"
             >
-              <div className="flex items-start gap-3">
-                <ShieldCheck size={16} className="text-spotify-green mt-0.5 flex-shrink-0" />
-                <p className="text-xs text-gray-400 leading-relaxed">
-                  Only authorized domain accounts can sign in. Your credentials are encrypted and secured.
-                </p>
+              <div className="flex items-center justify-center gap-2 text-[13px] text-admin-text-secondary">
+                <Shield size={15} className="text-spotify-green flex-shrink-0" />
+                <p className="font-medium">Only authorized domain accounts can sign in.</p>
               </div>
-            </motion.div>
-
-            {/* Footer Links */}
-            <div className="mt-6 text-center">
-              <p className="text-xs text-gray-500">
-                Need access?{' '}
-                <a
-                  href="#"
-                  className="text-spotify-green hover:text-spotify-green/80 transition-colors font-medium"
-                >
-                  Contact Administrator
-                </a>
+              <p className="text-[13px] text-admin-text-tertiary mt-3 font-medium">
+                Protected by enterprise-grade security
               </p>
-            </div>
+            </motion.div>
           </div>
+
+          {/* Simple bottom accent line */}
+          <div className="h-1 bg-spotify-green" />
         </div>
 
-        {/* Version Badge */}
-        <div className="mt-6 text-center">
-          <p className="text-xs text-gray-600">
-            SpotiXe Admin Dashboard v1.0.0
-          </p>
-        </div>
+        {/* Additional info below card */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.4 }}
+          className="mt-6 text-center text-[13px] text-admin-text-tertiary"
+        >
+          <p className="font-medium">© 2025 SpotiXe. All rights reserved.</p>
+          <div className="flex items-center justify-center gap-4 mt-2">
+            <a href="#" className="hover:text-spotify-green transition-colors duration-200 font-medium">Privacy Policy</a>
+            <span>•</span>
+            <a href="#" className="hover:text-spotify-green transition-colors duration-200 font-medium">Terms of Service</a>
+            <span>•</span>
+            <a href="#" className="hover:text-spotify-green transition-colors duration-200 font-medium">Support</a>
+          </div>
+        </motion.div>
       </motion.div>
-
-      {/* Custom Animations */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .animate-float-delayed {
-          animation: float 6s ease-in-out infinite;
-          animation-delay: 2s;
-        }
-      `}</style>
     </div>
   );
 };
