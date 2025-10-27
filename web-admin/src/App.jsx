@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import MainLayout from './components/layout/MainLayout';
 import Dashboard from './pages/Dashboard';
 import MusicManagement from './pages/MusicManagement';
@@ -52,25 +53,27 @@ const Settings = () => (
 
 function App() {
   return (
-    <Routes>
-      {/* Login Route - No Layout */}
-      <Route path="/login" element={<LoginPage />} />
-      
-      {/* Dashboard Routes - With Layout */}
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="music" element={<MusicManagement />} />
-        <Route path="artists" element={<Artists />} />
-        <Route path="users" element={<Users />} />
-        <Route path="analytics" element={<Analytics />} />
-        <Route path="playlists" element={<Playlists />} />
-        <Route path="premium" element={<Premium />} />
-        <Route path="revenue" element={<Revenue />} />
-        <Route path="reports" element={<Reports />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Route>
-    </Routes>
+    <AuthProvider>
+      <Routes>
+        {/* Login Route - No Layout */}
+        <Route path="/login" element={<LoginPage />} />
+        
+        {/* Dashboard Routes - With Layout */}
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="music" element={<MusicManagement />} />
+          <Route path="artists" element={<Artists />} />
+          <Route path="users" element={<Users />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="playlists" element={<Playlists />} />
+          <Route path="premium" element={<Premium />} />
+          <Route path="revenue" element={<Revenue />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </AuthProvider>
   );
 }
 
