@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
 import { Search, Bell, Moon, Sun, User, LogOut, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useSidebarStore } from '@/store/sidebarStore';
+import { useAuth } from '@/context/AuthContext';
 
 const Header = () => {
   const { isCollapsed } = useSidebarStore();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const handleLogout = async () => {
+    setShowUserMenu(false);
+    const result = await logout();
+    if (result.success) {
+      navigate('/login');
+    }
+  };
 
   const notifications = [
     { id: 1, title: 'New user registered', time: '5 min ago', unread: true },
@@ -117,9 +129,19 @@ const Header = () => {
               className="flex items-center gap-2 p-1.5 hover:bg-admin-bg-hover rounded-lg transition-colors"
               aria-label="User menu"
             >
-              <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">AD</span>
-              </div>
+              {user?.photoURL ? (
+                <img 
+                  src={user.photoURL} 
+                  alt={user.displayName || 'User'} 
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-bold">
+                    {user?.displayName?.[0]?.toUpperCase() || 'AD'}
+                  </span>
+                </div>
+              )}
             </button>
 
             {/* User Dropdown */}
@@ -138,8 +160,12 @@ const Header = () => {
                     className="absolute right-0 mt-2 w-56 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-2xl overflow-hidden z-20"
                   >
                     <div className="p-4 border-b border-admin-border-default">
-                      <p className="font-semibold text-admin-text-primary">Admin User</p>
-                      <p className="text-sm text-admin-text-tertiary">admin@spotixe.com</p>
+                      <p className="font-semibold text-admin-text-primary">
+                        {user?.displayName || 'Admin User'}
+                      </p>
+                      <p className="text-sm text-admin-text-tertiary">
+                        {user?.email || 'admin@spotixe.com'}
+                      </p>
                     </div>
                     <div className="p-2">
                       <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded-lg transition-colors text-admin-text-secondary hover:text-admin-text-primary">
@@ -150,7 +176,10 @@ const Header = () => {
                         <Settings size={18} />
                         <span className="text-sm">Settings</span>
                       </button>
-                      <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded-lg transition-colors text-apple-red hover:text-apple-red/80">
+                      <button 
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded-lg transition-colors text-apple-red hover:text-apple-red/80"
+                      >
                         <LogOut size={18} />
                         <span className="text-sm">Logout</span>
                       </button>
