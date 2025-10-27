@@ -30,14 +30,14 @@ const Header = () => {
         {/* Search Bar */}
         <div className="flex-1 max-w-2xl">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" size={18} />
+            {/* <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" size={18} />
             <input
               type="text"
               placeholder="Search tracks, artists, users..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-admin-bg-hover border border-admin-border-default rounded-lg text-admin-text-primary placeholder:text-admin-text-tertiary focus:outline-none focus:ring-2 focus:ring-spotify-green focus:border-transparent transition-all"
-            />
+            /> */}
           </div>
         </div>
 
