@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import MusicManagement from './pages/MusicManagement';
 import Users from './pages/Users';
 import Analytics from './pages/Analytics';
+import LoginPage from './pages/LoginPage';
 
 // Placeholder components for remaining pages
 const Artists = () => (
@@ -52,6 +53,10 @@ const Settings = () => (
 function App() {
   return (
     <Routes>
+      {/* Login Page - Outside MainLayout (no sidebar/header) */}
+      <Route path="/login" element={<LoginPage />} />
+      
+      {/* Main App Routes - Inside MainLayout */}
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="music" element={<MusicManagement />} />
