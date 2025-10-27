@@ -12,7 +12,6 @@ Sao chép dự án từ kho lưu trữ:
 
 git clone https://github.com/hientran-dotnet/SpotiXe
 
-
 Mở dự án bằng Android Studio.
 
 Chờ hệ thống đồng bộ Gradle.
@@ -27,7 +26,6 @@ Di chuyển đến thư mục web admin:
 
 cd Spotixe-Web-Admin
 
-
 Mở bằng Visual Studio.
 
 Khôi phục các gói NuGet (tự động hoặc thủ công).
@@ -41,13 +39,11 @@ Chạy dự án ở chế độ phát triển:
 
 npm run dev
 
-
 (dành cho phần web nếu cần test local)
 
 Tạo file APK:
 
 ./gradlew assembleDebug
-
 
 Chạy ứng dụng trên máy ảo hoặc thiết bị thật từ Android Studio.
 
@@ -109,3 +105,7 @@ Giao diện: HTML, CSS, JavaScript, Bootstrap
 Xin gửi lời cảm ơn đến tất cả những người đã đóng góp vào dự án Spotixe.
 Dự án được lấy cảm hứng từ các ứng dụng nghe nhạc phổ biến, với mục tiêu mang đến một ví dụ thực tế trong việc kết nối ứng dụng Android (Kotlin) với web backend viết bằng C#.
 Cảm ơn cộng đồng mã nguồn mở vì những công cụ và thư viện tuyệt vời đã giúp hoàn thiện dự án này.
+
+## 🌐 Live Demo
+
+[![Deploy](https://img.shields.io/badge/Firebase%20Hosting-Live-blue)](https://site.spotixe.io.vn/)
