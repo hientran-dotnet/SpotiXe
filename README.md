@@ -1,3 +1,8 @@
+## 🌐 Live Demo
+
+[![Deploy](https://img.shields.io/badge/Site-Live-blue)](https://site.spotixe.io.vn/)
+[![Deploy](https://img.shields.io/badge/Admin-Live-blue)](https://dashboard.spotixe.io.vn/)
+
 🎵 Spotixe
 🧩 Giới thiệu
 
@@ -105,7 +110,3 @@ Giao diện: HTML, CSS, JavaScript, Bootstrap
 Xin gửi lời cảm ơn đến tất cả những người đã đóng góp vào dự án Spotixe.
 Dự án được lấy cảm hứng từ các ứng dụng nghe nhạc phổ biến, với mục tiêu mang đến một ví dụ thực tế trong việc kết nối ứng dụng Android (Kotlin) với web backend viết bằng C#.
 Cảm ơn cộng đồng mã nguồn mở vì những công cụ và thư viện tuyệt vời đã giúp hoàn thiện dự án này.
-
-## 🌐 Live Demo
-
-[![Deploy](https://img.shields.io/badge/Firebase%20Hosting-Live-blue)](https://site.spotixe.io.vn/)
