@@ -13,6 +13,7 @@ import {
   Upload,
   Grid,
   List as ListIcon,
+  TrendingUp,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -109,7 +110,6 @@ const MusicManagement = () => {
       >
         <div>
           <h1 className="text-3xl font-bold text-admin-text-primary">Music Management</h1>
-          <p className="text-admin-text-secondary mt-1">Manage your music library and track uploads</p>
         </div>
         <Button onClick={() => setShowUploadModal(true)}>
           <Plus size={18} className="mr-2" />

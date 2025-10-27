@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using MusicStreamingAPI.Entities;
+using MusicStreamingAPI.Repositories.Interfaces;
+using MusicStreamingAPI.Repositories.Implementations;
+using MusicStreamingAPI.Services.Interfaces;
+using MusicStreamingAPI.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +21,15 @@ builder.Services.AddDbContext<MusicStreamingDbContext>(options =>
         )
     )
 );
+
+// Configure AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
+
+// Register Repositories
+builder.Services.AddScoped<ISongRepository, SongRepository>();
+
+// Register Services
+builder.Services.AddScoped<ISongService, SongService>();
 
 // Configure CORS
 builder.Services.AddCors(options =>

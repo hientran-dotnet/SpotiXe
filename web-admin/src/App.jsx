@@ -1,10 +1,14 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
 import MainLayout from './components/layout/MainLayout';
 import Dashboard from './pages/Dashboard';
 import MusicManagement from './pages/MusicManagement';
 import Users from './pages/Users';
 import Analytics from './pages/Analytics';
+import LoginPage from './pages/LoginPage';
 
 // Placeholder components for remaining pages
 const Artists = () => (
@@ -51,21 +55,35 @@ const Settings = () => (
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="music" element={<MusicManagement />} />
-        <Route path="artists" element={<Artists />} />
-        <Route path="users" element={<Users />} />
-        <Route path="analytics" element={<Analytics />} />
-        <Route path="playlists" element={<Playlists />} />
-        <Route path="premium" element={<Premium />} />
-        <Route path="revenue" element={<Revenue />} />
-        <Route path="reports" element={<Reports />} />
-        <Route path="settings" element={<Settings />} />
+    <AuthProvider>
+      <Routes>
+        {/* Public Route - Login */}
+        <Route path="/login" element={
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        } />
+        
+        {/* Protected Routes - With Layout */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="music" element={<MusicManagement />} />
+            <Route path="artists" element={<Artists />} />
+            <Route path="users" element={<Users />} />
+            <Route path="analytics" element={<Analytics />} />
+            <Route path="playlists" element={<Playlists />} />
+            <Route path="premium" element={<Premium />} />
+            <Route path="revenue" element={<Revenue />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
+        </Route>
+
+        {/* Catch all - redirect to dashboard */}
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Route>
-    </Routes>
+      </Routes>
+    </AuthProvider>
   );
 }
 

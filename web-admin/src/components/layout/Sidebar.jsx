@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -14,6 +14,8 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  Calendar,
+  Clock,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebarStore } from '@/store/sidebarStore';
@@ -34,6 +36,16 @@ const navigation = [
 const Sidebar = () => {
   const location = useLocation();
   const { isCollapsed, toggle } = useSidebarStore();
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
+  // Update time every second
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <motion.aside
@@ -76,7 +88,7 @@ const Sidebar = () => {
           {navigation.map((item) => {
             const isActive = location.pathname === item.href;
             const Icon = item.icon;
-
+            
             return (
               <li key={item.name}>
                 <Link
@@ -114,20 +126,49 @@ const Sidebar = () => {
           })}
         </ul>
       </nav>
-
-      {/* User Profile (bottom) */}
+      {/* Date Time Display (bottom) */}
       <div className="p-3 border-t border-admin-border-default">
         <div className={cn(
-          'flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-admin-bg-hover transition-colors cursor-pointer',
-          isCollapsed && 'justify-center'
+          'px-3 py-3 rounded-lg bg-admin-bg-hover/50 border border-admin-border-default',
+          isCollapsed && 'px-2'
         )}>
-          <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-white text-sm font-bold">AD</span>
-          </div>
-          {!isCollapsed && (
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-admin-text-primary truncate">Admin User</p>
-              <p className="text-xs text-admin-text-tertiary truncate">admin@spotixe.com</p>
+          {!isCollapsed ? (
+            <div className="space-y-2">
+              {/* Time */}
+              <div className="flex items-center gap-2">
+                <Clock size={16} className="text-spotify-green flex-shrink-0" />
+                <span className="text-lg font-bold text-admin-text-primary tabular-nums">
+                  {currentDateTime.toLocaleTimeString('vi-VN', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false 
+                  })}
+                </span>
+              </div>
+              {/* Date */}
+              <div className="flex items-center gap-2">
+                <Calendar size={14} className="text-admin-text-tertiary flex-shrink-0" />
+                <span className="text-xs text-admin-text-secondary">
+                  {currentDateTime.toLocaleDateString('vi-VN', { 
+                    weekday: 'long',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                  })}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-1">
+              <Clock size={18} className="text-spotify-green" />
+              <span className="text-[10px] font-bold text-admin-text-primary tabular-nums">
+                {currentDateTime.toLocaleTimeString('vi-VN', { 
+                  hour: '2-digit', 
+                  minute: '2-digit',
+                  hour12: false 
+                })}
+              </span>
             </div>
           )}
         </div>

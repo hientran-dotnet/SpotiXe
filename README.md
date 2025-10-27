@@ -1,3 +1,8 @@
+## 🌐 Live Demo
+
+[![Deploy](https://img.shields.io/badge/Site-Live-blue)](https://site.spotixe.io.vn/)
+[![Deploy](https://img.shields.io/badge/Admin-Live-blue)](https://dashboard.spotixe.io.vn/)
+
 🎵 Spotixe
 🧩 Giới thiệu
 
@@ -11,7 +16,6 @@ Dự án còn bao gồm web admin được viết bằng C# (ASP.NET) dùng đ�
 Sao chép dự án từ kho lưu trữ:
 
 git clone https://github.com/hientran-dotnet/SpotiXe
-
 
 Mở dự án bằng Android Studio.
 
@@ -27,7 +31,6 @@ Di chuyển đến thư mục web admin:
 
 cd Spotixe-Web-Admin
 
-
 Mở bằng Visual Studio.
 
 Khôi phục các gói NuGet (tự động hoặc thủ công).
@@ -41,13 +44,11 @@ Chạy dự án ở chế độ phát triển:
 
 npm run dev
 
-
 (dành cho phần web nếu cần test local)
 
 Tạo file APK:
 
 ./gradlew assembleDebug
-
 
 Chạy ứng dụng trên máy ảo hoặc thiết bị thật từ Android Studio.
 

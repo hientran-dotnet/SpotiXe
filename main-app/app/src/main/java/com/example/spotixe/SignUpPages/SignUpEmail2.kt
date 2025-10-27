@@ -1,5 +1,6 @@
-package SignInPages
+package com.example.spotixe.SignUpPages
 
+import Components.TermsAndPolicyCheck
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,6 +28,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,8 +49,9 @@ import androidx.navigation.NavController
 import com.example.spotixe.R
 
 @Composable
-fun Sign_in1Screen(navController: NavController){
+fun Sign_UpEmail2Screen(navController: NavController){
     var green = Color(0xFF58BA47)
+    var agreed by rememberSaveable { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -55,9 +61,9 @@ fun Sign_in1Screen(navController: NavController){
     )
     {
         Row (
-                modifier = Modifier
-                    .padding(start = 15.dp)
-                    .statusBarsPadding(),
+            modifier = Modifier
+                .padding(start = 15.dp)
+                .statusBarsPadding(),
             horizontalArrangement = Arrangement.Start
         ){
             Box(
@@ -92,42 +98,14 @@ fun Sign_in1Screen(navController: NavController){
                 modifier = Modifier.height(180.dp)
             )
 
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(10.dp))
 
             Text(
-                "Sign in your account",
+                "Create your account",
                 fontSize = 35.sp,
                 fontWeight = FontWeight.Bold,
                 color = green,
                 textAlign = TextAlign.Center
-            )
-
-            Spacer(Modifier.height(40.dp))
-
-            // Email label
-            Text(
-                text = "Email",
-                color = green,
-                fontSize = 18.sp,
-                modifier = Modifier.align(Alignment.Start)
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            // TextField cho Email
-            TextField(
-                value = "",
-                onValueChange = {},
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFF444444),
-                    unfocusedContainerColor = Color(0xFF444444),
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.White,
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(12.dp))
             )
 
             Spacer(Modifier.height(20.dp))
@@ -158,16 +136,48 @@ fun Sign_in1Screen(navController: NavController){
                     .clip(shape = RoundedCornerShape(12.dp))
             )
 
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(8.dp ))
 
+            // RePassword label
             Text(
-                text = "Forgot password",
-                color = Color.White,
-                fontStyle = FontStyle.Italic,
-                modifier = Modifier
-                    .align(Alignment.Start)
-                    .clickable {}
+                text = "Confirm your password",
+                color = green,
+                fontSize = 18.sp,
+                modifier = Modifier.align(Alignment.Start)
             )
+
+            Spacer(Modifier.height(8.dp))
+
+            // TextField cho RePassword
+            TextField(
+                value = "",
+                onValueChange = {},
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFF444444),
+                    unfocusedContainerColor = Color(0xFF444444),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = Color.White
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(12.dp))
+            )
+
+            Spacer(Modifier.height(6.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TermsAndPolicyCheck(
+                    checked = agreed,
+                    onCheckedChange = { agreed = it },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
 
             Spacer(Modifier.height(20.dp))
 
@@ -184,12 +194,12 @@ fun Sign_in1Screen(navController: NavController){
 
             ) {
                 Text(
-                    text = "Sign in",
+                    text = "Sign up",
                     fontSize = 18.sp
-                    )
+                )
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Text(
                 text = buildAnnotatedString {
@@ -219,20 +229,18 @@ fun Sign_in1Screen(navController: NavController){
                 )
             }
 
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
             Text(
                 text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = green)) {append("Don't have account ?\n")}
+                    withStyle(style = SpanStyle(color = green)) {append("Already have account ?\n")}
                     withStyle(style = SpanStyle(color = green)) { append("Click here to ") }
                     withStyle(style = SpanStyle(color = Color.White, fontStyle = FontStyle.Italic)) { append("sign up") }
                 },
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.clickable { println("Navigate to Sign Up") }
+                modifier = Modifier.clickable { println("Navigate to Sign In") }
             )
-
-
         }
 
     }

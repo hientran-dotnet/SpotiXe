@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.example.spotixe.R
+import com.example.spotixe.Routes
 
 @Composable
 fun Start3Screen(navController: NavController){
@@ -77,7 +78,7 @@ fun Start3Screen(navController: NavController){
             Spacer(Modifier.height(140.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.Sign_UpPhone1)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -100,7 +101,7 @@ fun Start3Screen(navController: NavController){
             Spacer(Modifier.height(10.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.Sign_UpEmail1)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
