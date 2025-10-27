@@ -25,3 +25,6 @@ dist-ssr
 
 
 *.ps1
+
+.firebase/
+firebase-debug.log
