@@ -53,9 +53,11 @@ const LoginPage = () => {
               className="flex items-center justify-center mb-8"
             >
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-spotify-green rounded-xl flex items-center justify-center">
-                  <Music size={24} className="text-white" />
-                </div>
+                <img 
+                  src="/spotixe-logo.png" 
+                  alt="SpotiXe Logo" 
+                  className="w-16 h-16 rounded-xl"
+                />
                 <span className="text-3xl font-bold text-admin-text-primary">
                   SpotiXe
                 </span>
