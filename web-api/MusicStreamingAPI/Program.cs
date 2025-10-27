@@ -33,15 +33,15 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new() 
-    { 
-        Title = "SpotiXe Music Streaming API", 
+    c.SwaggerDoc("v1", new()
+    {
+        Title = "SpotiXe Music Streaming API",
         Version = "v1",
         Description = "ASP.NET Core Web API for SpotiXe Music Streaming Platform",
-        Contact = new() 
-        { 
+        Contact = new()
+        {
             Name = "SpotiXe Team",
-            Email = "support@spotixe.com"
+            Email = "support@spotixe.io.vn"
         }
     });
 });
