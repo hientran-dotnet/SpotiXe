@@ -153,13 +153,13 @@ const LoginPage = () => {
           className="mt-6 text-center text-[13px] text-admin-text-tertiary"
         >
           <p className="font-medium">© 2025 SpotiXe. All rights reserved.</p>
-          <div className="flex items-center justify-center gap-4 mt-2">
+          {/* <div className="flex items-center justify-center gap-4 mt-2">
             <a href="#" className="hover:text-spotify-green transition-colors duration-200 font-medium">Privacy Policy</a>
             <span>•</span>
             <a href="#" className="hover:text-spotify-green transition-colors duration-200 font-medium">Terms of Service</a>
             <span>•</span>
             <a href="#" className="hover:text-spotify-green transition-colors duration-200 font-medium">Support</a>
-          </div>
+          </div> */}
         </motion.div>
       </motion.div>
     </div>
