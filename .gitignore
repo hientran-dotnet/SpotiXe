@@ -308,3 +308,5 @@ docker-compose.override.yml
 # JetBrains Rider
 .idea/
 *.sln.DotSettings
+
+context/
