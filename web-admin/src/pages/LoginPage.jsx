@@ -14,12 +14,21 @@ const LoginPage = () => {
     setLoading(true);
     setError(null);
 
+    // Attempt Google sign-in
     const result = await signInWithGoogle();
 
     if (result.success) {
+      // ✅ Sign-in successful and domain authorized
       navigate('/');
     } else {
-      setError(result.error);
+      // ❌ Sign-in failed or domain unauthorized
+      if (result.unauthorized) {
+        // Show domain restriction error
+        setError('Access restricted to authorized domain users only.');
+      } else {
+        // Show general error
+        setError(result.error);
+      }
       setLoading(false);
     }
   };
@@ -135,9 +144,9 @@ const LoginPage = () => {
                 <Shield size={15} className="text-spotify-green flex-shrink-0" />
                 <p className="font-medium">Only authorized domain accounts can sign in.</p>
               </div>
-              <p className="text-[13px] text-admin-text-tertiary mt-3 font-medium">
+              {/* <p className="text-[13px] text-admin-text-tertiary mt-3 font-medium">
                 Protected by enterprise-grade security
-              </p>
+              </p> */}
             </motion.div>
           </div>
 
