@@ -53,10 +53,10 @@ const Settings = () => (
 function App() {
   return (
     <Routes>
-      {/* Login Page - Outside MainLayout (no sidebar/header) */}
+      {/* Login Route - No Layout */}
       <Route path="/login" element={<LoginPage />} />
       
-      {/* Main App Routes - Inside MainLayout */}
+      {/* Dashboard Routes - With Layout */}
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="music" element={<MusicManagement />} />
