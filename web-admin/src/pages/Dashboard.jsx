@@ -110,8 +110,8 @@ const Dashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <h1 className="text-3xl font-bold text-admin-text-primary">Welcome back, Admin! 👋</h1>
-        <p className="text-admin-text-secondary mt-1">{currentDate}</p>
+        {/* <h1 className="text-3xl font-bold text-admin-text-primary">Welcome back, Admin! 👋</h1>
+        <p className="text-admin-text-secondary mt-1">{currentDate}</p> */}
       </motion.div>
 
       {/* KPI Cards */}
