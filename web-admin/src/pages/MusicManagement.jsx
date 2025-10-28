@@ -237,14 +237,18 @@ const MusicManagement = () => {
                       }}
                     />
                   </TableHead>
-                  <TableHead>Track</TableHead>
+                  <TableHead>Cover</TableHead>
+                  <TableHead>Title</TableHead>
                   <TableHead>Artist</TableHead>
                   <TableHead>Album</TableHead>
                   <TableHead>Genre</TableHead>
                   <TableHead>Duration</TableHead>
-                  <TableHead>Upload Date</TableHead>
-                  <TableHead>Streams</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>Release</TableHead>
+                  <TableHead>Plays</TableHead>
+                  <TableHead>Likes</TableHead>
+                  <TableHead>Public</TableHead>
+                  <TableHead>Active</TableHead>
+                  <TableHead>Updated</TableHead>
                   <TableHead className="w-12"></TableHead>
                 </TableRow>
               </TableHeader>
