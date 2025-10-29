@@ -207,7 +207,7 @@ fun Sign_UpEmail1Screen(
 
             GoogleSignInButtonFirebase(
                 onSuccess = { user: FirebaseUser ->
-                    navController.navigate("home/${user.uid}") {
+                    navController.navigate("") {
                         popUpTo("login") { inclusive = true }
                         launchSingleTop = true
                     } },

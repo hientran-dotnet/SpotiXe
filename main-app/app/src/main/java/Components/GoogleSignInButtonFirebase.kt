@@ -34,7 +34,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 @Composable
 fun GoogleSignInButtonFirebase(
     modifier: Modifier = Modifier,
-//    text: String = "Sign in with Google",
     containerColor: Color = Color(0xFFE7ECF5),
     cornerRadius: Int = 12,
     onSuccess: (FirebaseUser) -> Unit,
@@ -44,8 +43,6 @@ fun GoogleSignInButtonFirebase(
     val activity = context as Activity
     val auth = remember { FirebaseAuth.getInstance() }
     var loading by remember { mutableStateOf(false) }
-    var userEmail by remember { mutableStateOf<String?>(null) }
-    var errorMsg by remember { mutableStateOf<String?>(null) }
 
     // Build GoogleSignInClient with default_web_client_id
     val webClientId = stringResource(id = R.string.default_web_client_id)
@@ -84,11 +81,6 @@ fun GoogleSignInButtonFirebase(
             loading = false
             onError(e)
         }
-    }
-    when {
-        userEmail != null -> Text("Xin chào: $userEmail", color = Color(0xFF2E7D32))
-
-        errorMsg != null -> Text("Lỗi: $errorMsg", color = Color.Red)
     }
 
     // UI Button

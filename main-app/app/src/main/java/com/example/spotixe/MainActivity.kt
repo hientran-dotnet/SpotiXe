@@ -13,7 +13,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.spotixe.SignUpPages.Sign_UpEmail1Screen
 import com.example.spotixe.SignUpPages.Sign_UpEmail2Screen
-import com.example.spotixe.SignUpPages.Sign_UpEmail3Screen
 import com.example.spotixe.SignUpPages.Sign_UpPhone1Screen
 import com.example.spotixe.SignUpPages.Sign_UpPhone2Screen
 import com.example.spotixe.StartPages.Start2Screen
@@ -40,7 +39,6 @@ class MainActivity : ComponentActivity() {
                     composable("sign_in3"){Sign_in3Screen(navController) }
                     composable ("sign_upEmail1"){ Sign_UpEmail1Screen(navController) }
                     composable ("sign_upEmail2"){ Sign_UpEmail2Screen(navController) }
-                    composable ("sign_upEmail3"){ Sign_UpEmail3Screen(navController) }
                     composable ("sign_upPhone1"){ Sign_UpPhone1Screen(navController) }
                     composable ("sign_upPhone2"){ Sign_UpPhone2Screen(navController) }
                 }

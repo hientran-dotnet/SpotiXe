@@ -14,7 +14,6 @@ object Routes {
     //-----SIGN UP-----
     const val Sign_UpEmail1="sign_upEmail1"
     const val Sign_UpEmail2="sign_upEmail2"
-    const val Sign_UpEmail3="sign_upEmail3"
     const val Sign_UpPhone1="sign_upPhone1"
     const val Sign_UpPhone2="sign_upPhone2"
 
