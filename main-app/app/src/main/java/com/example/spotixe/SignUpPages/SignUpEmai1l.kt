@@ -206,11 +206,9 @@ fun Sign_UpEmail1Screen(
             Spacer(modifier = Modifier.height(15.dp))
 
             GoogleSignInButtonFirebase(
-//                text = "Sign in with Google",
                 onSuccess = { user: FirebaseUser ->
-                    // Điều hướng tuỳ ý (tối đa tái sử dụng)
                     navController.navigate("home/${user.uid}") {
-                        popUpTo("login") { inclusive = true } // xoá màn login khỏi backstack
+                        popUpTo("login") { inclusive = true }
                         launchSingleTop = true
                     } },
                 onError = { e -> onError(e.message ?: "Unknown error") }
@@ -226,7 +224,7 @@ fun Sign_UpEmail1Screen(
                 },
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.clickable { println("Navigate to Sign In") }
+                modifier = Modifier.clickable { navController.navigate(Routes.Sign_in1) }
             )
         }
 
