@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.spotixe.AppMainPages.HomeScreen
 import com.example.spotixe.SignUpPages.Sign_UpEmail1Screen
 import com.example.spotixe.SignUpPages.Sign_UpEmail2Screen
 import com.example.spotixe.SignUpPages.Sign_UpPhone1Screen
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
             SpotiXeTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = "sign_upEmail1"
+                    startDestination = "home"
                 ) {
                     composable("start1"){ StartScreen(navController) }
                     composable("start2"){Start2Screen(navController)}
@@ -41,6 +42,7 @@ class MainActivity : ComponentActivity() {
                     composable ("sign_upEmail2"){ Sign_UpEmail2Screen(navController) }
                     composable ("sign_upPhone1"){ Sign_UpPhone1Screen(navController) }
                     composable ("sign_upPhone2"){ Sign_UpPhone2Screen(navController) }
+                    composable("home"){ HomeScreen(navController) }
                 }
             }
         }

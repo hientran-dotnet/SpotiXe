@@ -17,5 +17,6 @@ object Routes {
     const val Sign_UpPhone1="sign_upPhone1"
     const val Sign_UpPhone2="sign_upPhone2"
 
-
+    //-----MAIN PAGE-----
+    const val Home = "home"
 }
