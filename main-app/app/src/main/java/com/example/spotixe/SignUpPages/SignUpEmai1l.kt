@@ -1,5 +1,6 @@
 package com.example.spotixe.SignUpPages
 
+import Components.GoogleSignInButtonFirebase
 import Components.TermsAndPolicyCheck
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -48,9 +49,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.R
 import com.example.spotixe.Routes
+import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun Sign_UpEmail1Screen(navController: NavController){
+fun Sign_UpEmail1Screen(
+    navController: NavController,
+    onSignedIn: (FirebaseUser) -> Unit={},
+    onError: (String) -> Unit={}
+){
     var green = Color(0xFF58BA47)
     var agreed by rememberSaveable { mutableStateOf(false) }
     Box(
@@ -164,47 +170,6 @@ fun Sign_UpEmail1Screen(navController: NavController){
                     .clip(shape = RoundedCornerShape(12.dp))
             )
 
-            // Password label
-//            Text(
-//                text = "Password",
-//                color = green,
-//                fontSize = 18.sp,
-//                modifier = Modifier.align(Alignment.Start)
-//            )
-
-//            Spacer(Modifier.height(8.dp))
-//
-//            // TextField cho Password
-//            TextField(
-//                value = "",
-//                onValueChange = {},
-//                colors = TextFieldDefaults.colors(
-//                    focusedContainerColor = Color(0xFF444444),
-//                    unfocusedContainerColor = Color(0xFF444444),
-//                    focusedIndicatorColor = Color.Transparent,
-//                    unfocusedIndicatorColor = Color.Transparent,
-//                    cursorColor = Color.White
-//                ),
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .clip(shape = RoundedCornerShape(12.dp))
-//            )
-//
-//            Spacer(Modifier.height(6.dp))
-//
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth(),
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                TermsAndPolicyCheck(
-//                    checked = agreed,
-//                    onCheckedChange = { agreed = it },
-//                    modifier = Modifier.weight(1f)
-//                )
-//            }
-
-
             Spacer(Modifier.height(20.dp))
 
             Button(
@@ -240,20 +205,16 @@ fun Sign_UpEmail1Screen(navController: NavController){
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            Box(
-                modifier = Modifier
-                    .size(width = 100.dp, height = 50.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(Color(0xFFEDEDED))
-                    .clickable { println("Sign in with Google clicked") },
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.google_logo),
-                    contentDescription = "Google Logo",
-                    modifier = Modifier.size(30.dp)
-                )
-            }
+            GoogleSignInButtonFirebase(
+//                text = "Sign in with Google",
+                onSuccess = { user: FirebaseUser ->
+                    // Điều hướng tuỳ ý (tối đa tái sử dụng)
+                    navController.navigate("home/${user.uid}") {
+                        popUpTo("login") { inclusive = true } // xoá màn login khỏi backstack
+                        launchSingleTop = true
+                    } },
+                onError = { e -> onError(e.message ?: "Unknown error") }
+            )
 
             Spacer(modifier = Modifier.height(15.dp))
 

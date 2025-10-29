@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
             SpotiXeTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = "sign_upEmail3"
+                    startDestination = "sign_upEmail1"
                 ) {
                     composable("start1"){ StartScreen(navController) }
                     composable("start2"){Start2Screen(navController)}
