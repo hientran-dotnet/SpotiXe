@@ -14,6 +14,7 @@ import {
   Grid,
   List as ListIcon,
   TrendingUp,
+  Heart,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -21,56 +22,74 @@ import { Input, Select } from '@/components/ui/Input';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/Table';
 import { Badge, StatusBadge } from '@/components/ui/Badge';
 import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/ui/Modal';
+import { Switch } from '@/components/ui/Switch';
 import { formatNumber, formatDuration, formatDate } from '@/lib/utils';
+import { formatDistanceToNow } from 'date-fns';
 
 const mockTracks = [
   {
     id: 1,
     title: 'Blinding Lights',
-    artist: 'The Weeknd',
+    artists: ['The Weeknd'],
     album: 'After Hours',
     genre: 'Pop',
     duration: 200,
-    uploadDate: '2024-01-15',
-    streams: 2840000,
-    status: 'active',
-    cover: '🎵',
+    releaseDate: new Date('2024-03-12'),
+    plays: 2840000,
+    likes: 458000,
+    isPublic: true,
+    isActive: true,
+    isExplicit: false,
+    updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+    coverUrl: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=64&h=64&fit=crop',
   },
   {
     id: 2,
     title: 'Shape of You',
-    artist: 'Ed Sheeran',
+    artists: ['Ed Sheeran'],
     album: 'Divide',
     genre: 'Pop',
     duration: 233,
-    uploadDate: '2024-01-10',
-    streams: 2650000,
-    status: 'active',
-    cover: '🎵',
+    releaseDate: new Date('2024-01-17'),
+    plays: 2650000,
+    likes: 392000,
+    isPublic: true,
+    isActive: true,
+    isExplicit: true,
+    updatedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+    coverUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=64&h=64&fit=crop',
   },
   {
     id: 3,
     title: 'Someone Like You',
-    artist: 'Adele',
+    artists: ['Adele', 'Rick Rubin'],
     album: '21',
     genre: 'Soul',
     duration: 285,
-    uploadDate: '2024-01-08',
-    streams: 2340000,
-    status: 'active',
-    cover: '🎵',
+    releaseDate: new Date('2024-02-28'),
+    plays: 2340000,
+    likes: 521000,
+    isPublic: true,
+    isActive: true,
+    isExplicit: false,
+    updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+    coverUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=64&h=64&fit=crop',
   },
   {
     id: 4,
     title: 'New Track Demo',
-    artist: 'Indie Artist',
+    artists: ['Indie Artist', 'Feat. Unknown'],
     album: 'Single',
     genre: 'Rock',
     duration: 180,
-    uploadDate: '2024-01-20',
-    streams: 1200,
-    status: 'pending',
-    cover: '🎵',
+    releaseDate: new Date('2024-10-20'),
+    plays: 1200,
+    likes: 89,
+    isPublic: false,
+    isActive: false,
+    isExplicit: true,
+    updatedAt: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
+    coverUrl: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=64&h=64&fit=crop',
   },
 ];
 
@@ -81,6 +100,7 @@ const MusicManagement = () => {
   const [selectedGenre, setSelectedGenre] = useState('all');
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedTracks, setSelectedTracks] = useState([]);
+  const [tracks, setTracks] = useState(mockTracks);
 
   const tabs = [
     { id: 'all', label: 'All Tracks', count: 1234 },
@@ -97,6 +117,35 @@ const MusicManagement = () => {
         ? prev.filter(id => id !== trackId)
         : [...prev, trackId]
     );
+  };
+
+  const handleTogglePublic = (trackId) => {
+    setTracks(prev =>
+      prev.map(track =>
+        track.id === trackId ? { ...track, isPublic: !track.isPublic } : track
+      )
+    );
+  };
+
+  const handleToggleActive = (trackId) => {
+    setTracks(prev =>
+      prev.map(track =>
+        track.id === trackId ? { ...track, isActive: !track.isActive } : track
+      )
+    );
+  };
+
+  const getGenreColor = (genre) => {
+    const colors = {
+      Pop: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
+      Rock: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+      Soul: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+      'Hip Hop': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+      Electronic: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+      Jazz: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+      Classical: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
+    };
+    return colors[genre] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
   };
 
   return (
@@ -230,7 +279,7 @@ const MusicManagement = () => {
                       className="rounded border-admin-border-default bg-admin-bg-hover"
                       onChange={(e) => {
                         if (e.target.checked) {
-                          setSelectedTracks(mockTracks.map(t => t.id));
+                          setSelectedTracks(tracks.map(t => t.id));
                         } else {
                           setSelectedTracks([]);
                         }
@@ -253,8 +302,9 @@ const MusicManagement = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {mockTracks.map((track) => (
+                {tracks.map((track) => (
                   <TableRow key={track.id}>
+                    {/* Checkbox */}
                     <TableCell>
                       <input
                         type="checkbox"
@@ -263,43 +313,111 @@ const MusicManagement = () => {
                         onChange={() => toggleTrackSelection(track.id)}
                       />
                     </TableCell>
+
+                    {/* Cover */}
                     <TableCell>
-                      <div className="flex items-center gap-3">
-                        <div className="relative group">
-                          <div className="w-10 h-10 bg-gradient-primary rounded flex items-center justify-center text-lg">
-                            {track.cover}
-                          </div>
-                          <button className="absolute inset-0 bg-black/60 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Play size={14} fill="white" className="text-white" />
-                          </button>
-                        </div>
-                        <div>
-                          <p className="font-medium text-admin-text-primary">{track.title}</p>
-                        </div>
+                      <div className="w-12 h-12 rounded-full overflow-hidden bg-admin-bg-hover transition-transform hover:scale-110 cursor-pointer">
+                        <img
+                          src={track.coverUrl}
+                          alt={track.title}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <span className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors">
-                        {track.artist}
-                      </span>
-                    </TableCell>
-                    <TableCell>{track.album}</TableCell>
-                    <TableCell>
-                      <Badge variant="default">{track.genre}</Badge>
-                    </TableCell>
-                    <TableCell>{formatDuration(track.duration)}</TableCell>
-                    <TableCell>{formatDate(track.uploadDate)}</TableCell>
+
+                    {/* Title */}
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <span className="font-medium">{formatNumber(track.streams)}</span>
-                        {track.streams > 1000000 && (
-                          <TrendingUp size={14} className="text-spotify-green" />
+                        <span className="font-semibold text-admin-text-primary">
+                          {track.title}
+                        </span>
+                        {track.isExplicit && (
+                          <Badge variant="default" className="text-[10px] px-1.5 py-0">
+                            E
+                          </Badge>
                         )}
                       </div>
                     </TableCell>
+
+                    {/* Artist */}
                     <TableCell>
-                      <StatusBadge status={track.status} />
+                      <span className="text-admin-text-secondary text-sm">
+                        {track.artists.join(', ')}
+                      </span>
                     </TableCell>
+
+                    {/* Album */}
+                    <TableCell>
+                      <span className="text-admin-text-tertiary text-sm italic">
+                        {track.album}
+                      </span>
+                    </TableCell>
+
+                    {/* Genre */}
+                    <TableCell>
+                      <Badge className={`border ${getGenreColor(track.genre)}`}>
+                        {track.genre}
+                      </Badge>
+                    </TableCell>
+
+                    {/* Duration */}
+                    <TableCell>
+                      <span className="text-admin-text-secondary text-sm font-mono">
+                        {formatDuration(track.duration)}
+                      </span>
+                    </TableCell>
+
+                    {/* Release */}
+                    <TableCell>
+                      <span className="text-admin-text-secondary text-sm">
+                        {formatDate(track.releaseDate)}
+                      </span>
+                    </TableCell>
+
+                    {/* Plays */}
+                    <TableCell>
+                      <div className="flex items-center gap-1.5">
+                        <Play size={14} className="text-spotify-green" />
+                        <span className="text-admin-text-primary text-sm font-medium">
+                          {formatNumber(track.plays)}
+                        </span>
+                      </div>
+                    </TableCell>
+
+                    {/* Likes */}
+                    <TableCell>
+                      <div className="flex items-center gap-1.5">
+                        <Heart size={14} className="text-apple-red" />
+                        <span className="text-admin-text-primary text-sm font-medium">
+                          {formatNumber(track.likes)}
+                        </span>
+                      </div>
+                    </TableCell>
+
+                    {/* Public */}
+                    <TableCell>
+                      <Switch
+                        checked={track.isPublic}
+                        onChange={() => handleTogglePublic(track.id)}
+                      />
+                    </TableCell>
+
+                    {/* Active */}
+                    <TableCell>
+                      <Switch
+                        checked={track.isActive}
+                        onChange={() => handleToggleActive(track.id)}
+                      />
+                    </TableCell>
+
+                    {/* Updated */}
+                    <TableCell>
+                      <span className="text-admin-text-tertiary text-xs">
+                        {formatDistanceToNow(track.updatedAt, { addSuffix: true })}
+                      </span>
+                    </TableCell>
+
+                    {/* Action Menu */}
                     <TableCell>
                       <div className="relative group">
                         <button className="p-1 hover:bg-admin-bg-hover rounded transition-colors">
