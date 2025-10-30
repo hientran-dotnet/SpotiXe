@@ -63,12 +63,10 @@ const Sidebar = () => {
         >
           {!isCollapsed && (
             <>
-              <img 
-                src="/spotixe-logo.png" 
-                alt="SpotiXe Logo" 
-                className="w-8 h-8 rounded-lg"
-              />
-              <span className="text-xl font-bold text-admin-text-primary">
+              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+                <Music size={18} className="text-white" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-spotify-green to-apple-blue bg-clip-text text-transparent">
                 SpotiXe
               </span>
             </>

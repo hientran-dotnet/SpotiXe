@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { Loader2 } from 'lucide-react';
 
 const PrivateRoute = () => {
-  const { user, loading, domainAuthorized } = useAuth();
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -17,8 +17,7 @@ const PrivateRoute = () => {
     );
   }
 
-  // Check both user existence and domain authorization
-  return (user && domainAuthorized) ? <Outlet /> : <Navigate to="/login" replace />;
+  return user ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

@@ -9,6 +9,7 @@ import MusicManagement from './pages/MusicManagement';
 import Users from './pages/Users';
 import Analytics from './pages/Analytics';
 import LoginPage from './pages/LoginPage';
+
 // Placeholder components for remaining pages
 const Artists = () => (
   <div className="text-admin-text-primary">
@@ -35,7 +36,6 @@ const Revenue = () => (
   <div className="text-admin-text-primary">
     <h1 className="text-3xl font-bold">Revenue Dashboard</h1>
     <p className="text-admin-text-secondary mt-2">Revenue analytics page coming soon...</p>
-    
   </div>
 );
 
@@ -50,7 +50,6 @@ const Settings = () => (
   <div className="text-admin-text-primary">
     <h1 className="text-3xl font-bold">Settings</h1>
     <p className="text-admin-text-secondary mt-2">Settings page coming soon...</p>
-    
   </div>
 );
 
@@ -80,6 +79,7 @@ function App() {
             <Route path="settings" element={<Settings />} />
           </Route>
         </Route>
+
         {/* Catch all - redirect to dashboard */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import {
   Search,
   Filter,
@@ -14,7 +16,7 @@ import {
   Grid,
   List as ListIcon,
   TrendingUp,
-  Heart,
+  Loader2,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -22,76 +24,60 @@ import { Input, Select } from '@/components/ui/Input';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/Table';
 import { Badge, StatusBadge } from '@/components/ui/Badge';
 import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/ui/Modal';
-import { Switch } from '@/components/ui/Switch';
 import { formatNumber, formatDuration, formatDate } from '@/lib/utils';
-import { formatDistanceToNow } from 'date-fns';
+import { getAllSongs } from "@/services/api/songs";
 
-const mockTracks = [
-  {
-    id: 1,
-    title: 'Blinding Lights',
-    artists: ['The Weeknd'],
-    album: 'After Hours',
-    genre: 'Pop',
-    duration: 200,
-    releaseDate: new Date('2024-03-12'),
-    plays: 2840000,
-    likes: 458000,
-    isPublic: true,
-    isActive: true,
-    isExplicit: false,
-    updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
-    coverUrl: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=64&h=64&fit=crop',
-  },
-  {
-    id: 2,
-    title: 'Shape of You',
-    artists: ['Ed Sheeran'],
-    album: 'Divide',
-    genre: 'Pop',
-    duration: 233,
-    releaseDate: new Date('2024-01-17'),
-    plays: 2650000,
-    likes: 392000,
-    isPublic: true,
-    isActive: true,
-    isExplicit: true,
-    updatedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
-    coverUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=64&h=64&fit=crop',
-  },
-  {
-    id: 3,
-    title: 'Someone Like You',
-    artists: ['Adele', 'Rick Rubin'],
-    album: '21',
-    genre: 'Soul',
-    duration: 285,
-    releaseDate: new Date('2024-02-28'),
-    plays: 2340000,
-    likes: 521000,
-    isPublic: true,
-    isActive: true,
-    isExplicit: false,
-    updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
-    coverUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=64&h=64&fit=crop',
-  },
-  {
-    id: 4,
-    title: 'New Track Demo',
-    artists: ['Indie Artist', 'Feat. Unknown'],
-    album: 'Single',
-    genre: 'Rock',
-    duration: 180,
-    releaseDate: new Date('2024-10-20'),
-    plays: 1200,
-    likes: 89,
-    isPublic: false,
-    isActive: false,
-    isExplicit: true,
-    updatedAt: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
-    coverUrl: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=64&h=64&fit=crop',
-  },
-];
+
+// const mockTracks = [
+//   {
+//     id: 1,
+//     title: 'Blinding Lights',
+//     artist: 'The Weeknd',
+//     album: 'After Hours',
+//     genre: 'Pop',
+//     duration: 200,
+//     uploadDate: '2024-01-15',
+//     streams: 2840000,
+//     status: 'active',
+//     cover: '🎵',
+//   },
+//   {
+//     id: 2,
+//     title: 'Shape of You',
+//     artist: 'Ed Sheeran',
+//     album: 'Divide',
+//     genre: 'Pop',
+//     duration: 233,
+//     uploadDate: '2024-01-10',
+//     streams: 2650000,
+//     status: 'active',
+//     cover: '🎵',
+//   },
+//   {
+//     id: 3,
+//     title: 'Someone Like You',
+//     artist: 'Adele',
+//     album: '21',
+//     genre: 'Soul',
+//     duration: 285,
+//     uploadDate: '2024-01-08',
+//     streams: 2340000,
+//     status: 'active',
+//     cover: '🎵',
+//   },
+//   {
+//     id: 4,
+//     title: 'New Track Demo',
+//     artist: 'Indie Artist',
+//     album: 'Single',
+//     genre: 'Rock',
+//     duration: 180,
+//     uploadDate: '2024-01-20',
+//     streams: 1200,
+//     status: 'pending',
+//     cover: '🎵',
+//   },
+// ];
 
 const MusicManagement = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -100,10 +86,57 @@ const MusicManagement = () => {
   const [selectedGenre, setSelectedGenre] = useState('all');
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedTracks, setSelectedTracks] = useState([]);
-  const [tracks, setTracks] = useState(mockTracks);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Fetch songs using React Query
+  const { 
+    data: songsData = [], 
+    isLoading, 
+    isError, 
+    error 
+  } = useQuery({
+    queryKey: ['songs', 'all'],
+    queryFn: getAllSongs,
+    staleTime: 60000, // 60 seconds
+  });
+
+  // Show toast on error
+  React.useEffect(() => {
+    if (isError) {
+      toast.error(error?.response?.data?.message || error?.message || 'Failed to fetch songs');
+    }
+  }, [isError, error]);
+
+  // Filter và phân trang client-side
+  const filteredTracks = useMemo(() => {
+    let filtered = songsData;
+
+    // Filter by search query (title)
+    if (searchQuery) {
+      filtered = filtered.filter(track => 
+        track.title?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Filter by genre
+    if (selectedGenre && selectedGenre !== 'all') {
+      filtered = filtered.filter(track => track.genre === selectedGenre);
+    }
+
+    return filtered;
+  }, [songsData, searchQuery, selectedGenre]);
+
+  // Pagination
+  const paginatedTracks = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredTracks.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredTracks, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredTracks.length / itemsPerPage);
 
   const tabs = [
-    { id: 'all', label: 'All Tracks', count: 1234 },
+    { id: 'all', label: 'All Tracks', count: songsData.length },
     { id: 'albums', label: 'Albums', count: 156 },
     { id: 'singles', label: 'Singles', count: 432 },
     { id: 'pending', label: 'Pending Approval', count: 12 },
@@ -119,34 +152,18 @@ const MusicManagement = () => {
     );
   };
 
-  const handleTogglePublic = (trackId) => {
-    setTracks(prev =>
-      prev.map(track =>
-        track.id === trackId ? { ...track, isPublic: !track.isPublic } : track
-      )
-    );
+  const handlePreviousPage = () => {
+    setCurrentPage(prev => Math.max(prev - 1, 1));
   };
 
-  const handleToggleActive = (trackId) => {
-    setTracks(prev =>
-      prev.map(track =>
-        track.id === trackId ? { ...track, isActive: !track.isActive } : track
-      )
-    );
+  const handleNextPage = () => {
+    setCurrentPage(prev => Math.min(prev + 1, totalPages));
   };
 
-  const getGenreColor = (genre) => {
-    const colors = {
-      Pop: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
-      Rock: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-      Soul: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-      'Hip Hop': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-      Electronic: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
-      Jazz: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-      Classical: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
-    };
-    return colors[genre] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
-  };
+  // Reset page when filters change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedGenre]);
 
   return (
     <div className="space-y-6">
@@ -270,196 +287,197 @@ const MusicManagement = () => {
       >
         <Card>
           <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow hover={false}>
-                  <TableHead className="w-12">
-                    <input
-                      type="checkbox"
-                      className="rounded border-admin-border-default bg-admin-bg-hover"
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedTracks(tracks.map(t => t.id));
-                        } else {
-                          setSelectedTracks([]);
-                        }
-                      }}
-                    />
-                  </TableHead>
-                  <TableHead>Cover</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Artist</TableHead>
-                  <TableHead>Album</TableHead>
-                  <TableHead>Genre</TableHead>
-                  <TableHead>Duration</TableHead>
-                  <TableHead>Release</TableHead>
-                  <TableHead>Plays</TableHead>
-                  <TableHead>Likes</TableHead>
-                  <TableHead>Public</TableHead>
-                  <TableHead>Active</TableHead>
-                  <TableHead>Updated</TableHead>
-                  <TableHead className="w-12"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {tracks.map((track) => (
-                  <TableRow key={track.id}>
-                    {/* Checkbox */}
-                    <TableCell>
-                      <input
-                        type="checkbox"
-                        className="rounded border-admin-border-default bg-admin-bg-hover"
-                        checked={selectedTracks.includes(track.id)}
-                        onChange={() => toggleTrackSelection(track.id)}
-                      />
-                    </TableCell>
-
-                    {/* Cover */}
-                    <TableCell>
-                      <div className="w-12 h-12 rounded-full overflow-hidden bg-admin-bg-hover transition-transform hover:scale-110 cursor-pointer">
-                        <img
-                          src={track.coverUrl}
-                          alt={track.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </TableCell>
-
-                    {/* Title */}
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-admin-text-primary">
-                          {track.title}
-                        </span>
-                        {track.isExplicit && (
-                          <Badge variant="default" className="text-[10px] px-1.5 py-0">
-                            E
-                          </Badge>
-                        )}
-                      </div>
-                    </TableCell>
-
-                    {/* Artist */}
-                    <TableCell>
-                      <span className="text-admin-text-secondary text-sm">
-                        {track.artists.join(', ')}
-                      </span>
-                    </TableCell>
-
-                    {/* Album */}
-                    <TableCell>
-                      <span className="text-admin-text-tertiary text-sm italic">
-                        {track.album}
-                      </span>
-                    </TableCell>
-
-                    {/* Genre */}
-                    <TableCell>
-                      <Badge className={`border ${getGenreColor(track.genre)}`}>
-                        {track.genre}
-                      </Badge>
-                    </TableCell>
-
-                    {/* Duration */}
-                    <TableCell>
-                      <span className="text-admin-text-secondary text-sm font-mono">
-                        {formatDuration(track.duration)}
-                      </span>
-                    </TableCell>
-
-                    {/* Release */}
-                    <TableCell>
-                      <span className="text-admin-text-secondary text-sm">
-                        {formatDate(track.releaseDate)}
-                      </span>
-                    </TableCell>
-
-                    {/* Plays */}
-                    <TableCell>
-                      <div className="flex items-center gap-1.5">
-                        <Play size={14} className="text-spotify-green" />
-                        <span className="text-admin-text-primary text-sm font-medium">
-                          {formatNumber(track.plays)}
-                        </span>
-                      </div>
-                    </TableCell>
-
-                    {/* Likes */}
-                    <TableCell>
-                      <div className="flex items-center gap-1.5">
-                        <Heart size={14} className="text-apple-red" />
-                        <span className="text-admin-text-primary text-sm font-medium">
-                          {formatNumber(track.likes)}
-                        </span>
-                      </div>
-                    </TableCell>
-
-                    {/* Public */}
-                    <TableCell>
-                      <Switch
-                        checked={track.isPublic}
-                        onChange={() => handleTogglePublic(track.id)}
-                      />
-                    </TableCell>
-
-                    {/* Active */}
-                    <TableCell>
-                      <Switch
-                        checked={track.isActive}
-                        onChange={() => handleToggleActive(track.id)}
-                      />
-                    </TableCell>
-
-                    {/* Updated */}
-                    <TableCell>
-                      <span className="text-admin-text-tertiary text-xs">
-                        {formatDistanceToNow(track.updatedAt, { addSuffix: true })}
-                      </span>
-                    </TableCell>
-
-                    {/* Action Menu */}
-                    <TableCell>
-                      <div className="relative group">
-                        <button className="p-1 hover:bg-admin-bg-hover rounded transition-colors">
-                          <MoreVertical size={18} className="text-admin-text-tertiary" />
-                        </button>
-                        <div className="absolute right-0 top-full mt-1 w-48 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
-                          <div className="p-1">
-                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
-                              <Edit size={16} />
-                              Edit
-                            </button>
-                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
-                              <BarChart3 size={16} />
-                              Analytics
-                            </button>
-                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
-                              <Star size={16} />
-                              Feature Track
-                            </button>
-                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm">
-                              <Trash2 size={16} />
-                              Delete
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-
-            {/* Pagination */}
-            <div className="p-4 border-t border-admin-border-default flex items-center justify-between">
-              <span className="text-sm text-admin-text-secondary">
-                Showing 1-10 of 1,234 tracks
-              </span>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm">Previous</Button>
-                <Button variant="outline" size="sm">Next</Button>
+            {/* Loading State */}
+            {isLoading && (
+              <div className="flex items-center justify-center py-20">
+                <div className="flex flex-col items-center gap-4">
+                  <Loader2 size={48} className="text-spotify-green animate-spin" />
+                  <p className="text-admin-text-secondary">Loading songs...</p>
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* Error State */}
+            {isError && !isLoading && (
+              <div className="flex items-center justify-center py-20">
+                <div className="text-center">
+                  <p className="text-apple-red font-medium mb-2">Failed to load songs</p>
+                  <p className="text-admin-text-tertiary text-sm">
+                    {error?.response?.data?.message || error?.message || 'An error occurred'}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Data Table */}
+            {!isLoading && !isError && (
+              <>
+                <Table>
+                  <TableHeader>
+                    <TableRow hover={false}>
+                      <TableHead className="w-12">
+                        <input
+                          type="checkbox"
+                          className="rounded border-admin-border-default bg-admin-bg-hover"
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedTracks(paginatedTracks.map(t => t.songId));
+                            } else {
+                              setSelectedTracks([]);
+                            }
+                          }}
+                        />
+                      </TableHead>
+                      <TableHead>Track</TableHead>
+                      <TableHead>Artist</TableHead>
+                      <TableHead>Album</TableHead>
+                      <TableHead>Genre</TableHead>
+                      <TableHead>Duration</TableHead>
+                      <TableHead>Release Date</TableHead>
+                      <TableHead>Streams</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="w-12"></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {paginatedTracks.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={10} className="text-center py-12">
+                          <p className="text-admin-text-tertiary">
+                            {searchQuery || selectedGenre !== 'all' 
+                              ? 'No tracks found matching your filters' 
+                              : 'No tracks available'}
+                          </p>
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      paginatedTracks.map((track) => (
+                        <TableRow key={track.songId}>
+                          <TableCell>
+                            <input
+                              type="checkbox"
+                              className="rounded border-admin-border-default bg-admin-bg-hover"
+                              checked={selectedTracks.includes(track.songId)}
+                              onChange={() => toggleTrackSelection(track.songId)}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-3">
+                              <div className="relative group">
+                                <div className="w-10 h-10 bg-gradient-primary rounded flex items-center justify-center text-lg">
+                                  {track.coverImageUrl ? (
+                                    <img 
+                                      src={track.coverImageUrl} 
+                                      alt={track.title}
+                                      className="w-full h-full object-cover rounded"
+                                    />
+                                  ) : (
+                                    '🎵'
+                                  )}
+                                </div>
+                                <button className="absolute inset-0 bg-black/60 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                  <Play size={14} fill="white" className="text-white" />
+                                </button>
+                              </div>
+                              <div>
+                                <p className="font-medium text-admin-text-primary">
+                                  {track.title || '-'}
+                                </p>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors">
+                              {track.artistName || '-'}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            {track.albumTitle || '-'}
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="default">{track.genre || '-'}</Badge>
+                          </TableCell>
+                          <TableCell>
+                            {track.duration ? formatDuration(track.duration) : '-'}
+                          </TableCell>
+                          <TableCell>
+                            {track.releaseDate ? formatDate(track.releaseDate) : '-'}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">
+                                {track.playCount ? formatNumber(track.playCount) : '0'}
+                              </span>
+                              {track.playCount > 1000000 && (
+                                <TrendingUp size={14} className="text-spotify-green" />
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <StatusBadge status={track.isActive ? 'active' : 'inactive'} />
+                          </TableCell>
+                          <TableCell>
+                            <div className="relative group">
+                              <button className="p-1 hover:bg-admin-bg-hover rounded transition-colors">
+                                <MoreVertical size={18} className="text-admin-text-tertiary" />
+                              </button>
+                              <div className="absolute right-0 top-full mt-1 w-48 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+                                <div className="p-1">
+                                  <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
+                                    <Edit size={16} />
+                                    Edit
+                                  </button>
+                                  <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
+                                    <BarChart3 size={16} />
+                                    Analytics
+                                  </button>
+                                  <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
+                                    <Star size={16} />
+                                    Feature Track
+                                  </button>
+                                  <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm">
+                                    <Trash2 size={16} />
+                                    Delete
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+
+                {/* Pagination */}
+                <div className="p-4 border-t border-admin-border-default flex items-center justify-between">
+                  <span className="text-sm text-admin-text-secondary">
+                    Showing {filteredTracks.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}-{Math.min(currentPage * itemsPerPage, filteredTracks.length)} of {filteredTracks.length} tracks
+                  </span>
+                  <div className="flex gap-2 items-center">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={handlePreviousPage}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </Button>
+                    <span className="text-sm text-admin-text-secondary px-2">
+                      Page {currentPage} of {totalPages || 1}
+                    </span>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={handleNextPage}
+                      disabled={currentPage >= totalPages}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
           </CardContent>
         </Card>
       </motion.div>
