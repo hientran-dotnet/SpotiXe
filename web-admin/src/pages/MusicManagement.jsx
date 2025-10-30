@@ -287,145 +287,15 @@ const MusicManagement = () => {
       >
         <Card>
           <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow hover={false}>
-                  <TableHead className="w-12">
-                    <input
-                      type="checkbox"
-                      className="rounded border-admin-border-default bg-admin-bg-hover"
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedTracks(mockTracks.map(t => t.id));
-                        } else {
-                          setSelectedTracks([]);
-                        }
-                      }}
-                    />
-                  </TableHead>
-                  <TableHead>Cover</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Artist</TableHead>
-                  <TableHead>Album</TableHead>
-                  <TableHead>Genre</TableHead>
-                  <TableHead>Duration</TableHead>
-                  <TableHead>Release</TableHead>
-                  <TableHead>Plays</TableHead>
-                  <TableHead>Likes</TableHead>
-                  <TableHead>Public</TableHead>
-                  <TableHead>Active</TableHead>
-                  <TableHead>Updated</TableHead>
-                  <TableHead className="w-12"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {mockTracks.map((track) => (
-                  <TableRow key={track.id}>
-                    <TableCell>
-                      <input
-                        type="checkbox"
-                        className="rounded border-admin-border-default bg-admin-bg-hover"
-                        checked={selectedTracks.includes(track.id)}
-                        onChange={() => toggleTrackSelection(track.id)}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <div className="relative group">
-                          <div className="w-10 h-10 bg-gradient-primary rounded flex items-center justify-center text-lg">
-                            {track.cover}
-                          </div>
-                          <button className="absolute inset-0 bg-black/60 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Play size={14} fill="white" className="text-white" />
-                          </button>
-                        </div>
-                        <div>
-                          <p className="font-medium text-admin-text-primary">{track.title}</p>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors">
-                        {track.artist}
-                      </span>
-                    </TableCell>
-                    <TableCell>{track.album}</TableCell>
-                    <TableCell>
-                      <Badge variant="default">{track.genre}</Badge>
-                    </TableCell>
-                    <TableCell>{formatDuration(track.duration)}</TableCell>
-                    <TableCell>{formatDate(track.uploadDate)}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">{formatNumber(track.streams)}</span>
-                        {track.streams > 1000000 && (
-                          <TrendingUp size={14} className="text-spotify-green" />
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <StatusBadge status={track.status} />
-                    </TableCell>
-                    <TableCell>
-                      <div className="relative group">
-                        <button className="p-1 hover:bg-admin-bg-hover rounded transition-colors">
-                          <MoreVertical size={18} className="text-admin-text-tertiary" />
-                        </button>
-                        <div className="absolute right-0 top-full mt-1 w-48 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
-                          <div className="p-1">
-                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
-                              <Edit size={16} />
-                              Edit
-                            </button>
-                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
-                              <BarChart3 size={16} />
-                              Analytics
-                            </button>
-                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
-                              <Star size={16} />
-                              Feature Track
-                            </button>
-                            <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm">
-                              <Trash2 size={16} />
-                              Delete
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-
-            {/* Pagination */}
-            <div className="p-4 border-t border-admin-border-default flex items-center justify-between">
-                  <span className="text-sm text-admin-text-secondary">
-                    Showing {filteredTracks.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}-{Math.min(currentPage * itemsPerPage, filteredTracks.length)} of {filteredTracks.length} tracks
-                  </span>
-                  <div className="flex gap-2 items-center">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={handlePreviousPage}
-                      disabled={currentPage === 1}
-                    >
-                      Previous
-                    </Button>
-                    <span className="text-sm text-admin-text-secondary px-2">
-                      Page {currentPage} of {totalPages || 1}
-                    </span>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={handleNextPage}
-                      disabled={currentPage >= totalPages}
-                    >
-                      Next
-                    </Button>
-                  </div>
+            {/* Loading State */}
+            {isLoading && (
+              <div className="flex items-center justify-center py-20">
+                <div className="flex flex-col items-center gap-4">
+                  <Loader2 size={48} className="text-spotify-green animate-spin" />
+                  <p className="text-admin-text-secondary">Loading songs...</p>
+                </div>
               </div>
-
+            )}
 
             {/* Error State */}
             {isError && !isLoading && (

@@ -14,21 +14,12 @@ const LoginPage = () => {
     setLoading(true);
     setError(null);
 
-    // Attempt Google sign-in
     const result = await signInWithGoogle();
 
     if (result.success) {
-      // ✅ Sign-in successful and domain authorized
       navigate('/');
     } else {
-      // ❌ Sign-in failed or domain unauthorized
-      if (result.unauthorized) {
-        // Show domain restriction error
-        setError('Access restricted to authorized domain users only.');
-      } else {
-        // Show general error
-        setError(result.error);
-      }
+      setError(result.error);
       setLoading(false);
     }
   };
@@ -62,11 +53,9 @@ const LoginPage = () => {
               className="flex items-center justify-center mb-8"
             >
               <div className="flex items-center gap-3">
-                <img 
-                  src="/spotixe-logo.png" 
-                  alt="SpotiXe Logo" 
-                  className="w-16 h-16 rounded-xl"
-                />
+                <div className="w-12 h-12 bg-spotify-green rounded-xl flex items-center justify-center">
+                  <Music size={24} className="text-white" />
+                </div>
                 <span className="text-3xl font-bold text-admin-text-primary">
                   SpotiXe
                 </span>
@@ -144,9 +133,9 @@ const LoginPage = () => {
                 <Shield size={15} className="text-spotify-green flex-shrink-0" />
                 <p className="font-medium">Only authorized domain accounts can sign in.</p>
               </div>
-              {/* <p className="text-[13px] text-admin-text-tertiary mt-3 font-medium">
+              <p className="text-[13px] text-admin-text-tertiary mt-3 font-medium">
                 Protected by enterprise-grade security
-              </p> */}
+              </p>
             </motion.div>
           </div>
 
@@ -162,13 +151,13 @@ const LoginPage = () => {
           className="mt-6 text-center text-[13px] text-admin-text-tertiary"
         >
           <p className="font-medium">© 2025 SpotiXe. All rights reserved.</p>
-          {/* <div className="flex items-center justify-center gap-4 mt-2">
+          <div className="flex items-center justify-center gap-4 mt-2">
             <a href="#" className="hover:text-spotify-green transition-colors duration-200 font-medium">Privacy Policy</a>
             <span>•</span>
             <a href="#" className="hover:text-spotify-green transition-colors duration-200 font-medium">Terms of Service</a>
             <span>•</span>
             <a href="#" className="hover:text-spotify-green transition-colors duration-200 font-medium">Support</a>
-          </div> */}
+          </div>
         </motion.div>
       </motion.div>
     </div>
