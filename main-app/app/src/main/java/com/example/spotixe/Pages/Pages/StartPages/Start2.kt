@@ -1,4 +1,4 @@
-package com.example.spotixe.StartPages
+package com.example.spotixe.Pages.Pages.StartPages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,7 +30,7 @@ import com.example.spotixe.R
 import com.example.spotixe.Routes
 
 @Composable
-fun Start3Screen(navController: NavController){
+fun Start2Screen(navController: NavController){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -70,7 +70,6 @@ fun Start3Screen(navController: NavController){
                 color = Color.White,
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
-
                 textAlign = TextAlign.Center,
                 lineHeight = 50.sp
             )
@@ -78,7 +77,7 @@ fun Start3Screen(navController: NavController){
             Spacer(Modifier.height(140.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_UpPhone1)},
+                onClick = {navController.navigate(Routes.Sign_in2)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -90,7 +89,7 @@ fun Start3Screen(navController: NavController){
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
                 Text(
-                    "Sign up by phone",
+                    "Continue with phone",
                     color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -101,7 +100,7 @@ fun Start3Screen(navController: NavController){
             Spacer(Modifier.height(10.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_UpEmail1)},
+                onClick = {navController.navigate(Routes.Sign_in1)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -113,7 +112,7 @@ fun Start3Screen(navController: NavController){
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
                 Text(
-                    "Sign up by email",
+                    "Continue with email",
                     color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -152,7 +151,7 @@ fun Start3Screen(navController: NavController){
                     }
 
                     Text(
-                        text = "Sign up with Google",
+                        text = "Continue with Google",
                         color = Color.Black,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,

@@ -1,9 +1,5 @@
-package com.example.spotixe.StartPages
+package com.example.spotixe.Pages.Pages.StartPages
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,10 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.spotixe.ui.theme.SpotiXeTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -34,17 +26,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import SignInPages.Sign_in1Screen
-import SignInPages.Sign_in2Screen
-import SignInPages.Sign_in3Screen
 import com.example.spotixe.R
 import com.example.spotixe.Routes
-import com.example.spotixe.StartPages.Start2Screen
-import com.example.spotixe.StartPages.Start3Screen
 
 @Composable
-fun StartScreen(navController: NavController){
-    var green = Color(0xFF58BA47)
+fun Start3Screen(navController: NavController){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -53,7 +39,7 @@ fun StartScreen(navController: NavController){
                     colors = listOf(
                         Color(0xFF000000),
                         Color(0xFF031508),
-                        green
+                        Color(0xFF58BA47)
                     ),
                     start = Offset(1000f, 0f),
                     end = Offset(0f, 1800f)
@@ -92,7 +78,7 @@ fun StartScreen(navController: NavController){
             Spacer(Modifier.height(140.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Start2)},
+                onClick = {navController.navigate(Routes.Sign_UpPhone1)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -104,7 +90,7 @@ fun StartScreen(navController: NavController){
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
                 Text(
-                    "I already have account",
+                    "Sign up by phone",
                     color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -115,7 +101,7 @@ fun StartScreen(navController: NavController){
             Spacer(Modifier.height(10.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Start3)},
+                onClick = {navController.navigate(Routes.Sign_UpEmail1)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -127,12 +113,52 @@ fun StartScreen(navController: NavController){
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
                 Text(
-                    "Sign up free",
+                    "Sign up by email",
                     color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
+            }
+
+            Spacer(Modifier.height(10.dp))
+
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(65.dp)
+                    .padding(bottom = 10.dp)
+                    .padding(start = 20.dp)
+                    .padding(end = 20.dp)
+                    .imePadding(),
+                shape = RoundedCornerShape(28.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.align(Alignment.CenterStart)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.google_logo),
+                            contentDescription = "Google Logo",
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+
+                    Text(
+                        text = "Sign up with Google",
+                        color = Color.Black,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }

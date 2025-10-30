@@ -1,4 +1,4 @@
-package com.example.spotixe.StartPages
+package com.example.spotixe.Pages.Pages.StartPages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,7 +30,8 @@ import com.example.spotixe.R
 import com.example.spotixe.Routes
 
 @Composable
-fun Start2Screen(navController: NavController){
+fun StartScreen(navController: NavController){
+    var green = Color(0xFF58BA47)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +40,7 @@ fun Start2Screen(navController: NavController){
                     colors = listOf(
                         Color(0xFF000000),
                         Color(0xFF031508),
-                        Color(0xFF58BA47)
+                        green
                     ),
                     start = Offset(1000f, 0f),
                     end = Offset(0f, 1800f)
@@ -70,6 +71,7 @@ fun Start2Screen(navController: NavController){
                 color = Color.White,
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
+
                 textAlign = TextAlign.Center,
                 lineHeight = 50.sp
             )
@@ -77,7 +79,7 @@ fun Start2Screen(navController: NavController){
             Spacer(Modifier.height(140.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_in2)},
+                onClick = {navController.navigate(Routes.Start2)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -89,7 +91,7 @@ fun Start2Screen(navController: NavController){
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
                 Text(
-                    "Continue with phone",
+                    "I already have account",
                     color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -100,7 +102,7 @@ fun Start2Screen(navController: NavController){
             Spacer(Modifier.height(10.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_in1)},
+                onClick = {navController.navigate(Routes.Start3)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -112,52 +114,12 @@ fun Start2Screen(navController: NavController){
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
             ) {
                 Text(
-                    "Continue with email",
+                    "Sign up free",
                     color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
-            }
-
-            Spacer(Modifier.height(10.dp))
-
-            Button(
-                onClick = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(65.dp)
-                    .padding(bottom = 10.dp)
-                    .padding(start = 20.dp)
-                    .padding(end = 20.dp)
-                    .imePadding(),
-                shape = RoundedCornerShape(28.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDDDDDD))
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.align(Alignment.CenterStart)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.google_logo),
-                            contentDescription = "Google Logo",
-                            modifier = Modifier.size(30.dp)
-                        )
-                    }
-
-                    Text(
-                        text = "Continue with Google",
-                        color = Color.Black,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-                }
             }
         }
     }

@@ -19,5 +19,8 @@ object Routes {
 
     //-----MAIN PAGE-----
     const val Home = "home"
-    const val Explore="explore"
+    const val Explore = "explore"
+    const val Search = "search"
+    const val User = "user"
+
 }

@@ -1,7 +1,5 @@
-package com.example.spotixe.SignUpPages
+package com.example.spotixe.Pages.Pages.SignUpPages
 
-import Components.GoogleSignInButtonFirebase
-import Components.TermsAndPolicyCheck
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +18,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Button
@@ -29,10 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,22 +37,18 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.R
-import com.google.firebase.auth.FirebaseUser
+import com.example.spotixe.Routes
 
 @Composable
-fun Sign_UpEmail2Screen(
-    navController: NavController,
-    onSignedIn: (FirebaseUser) -> Unit={},
-    onError: (String) -> Unit={}
-){
+fun Sign_UpPhone1Screen(navController: NavController){
     var green = Color(0xFF58BA47)
-    var agreed by rememberSaveable { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -104,7 +95,7 @@ fun Sign_UpEmail2Screen(
                 modifier = Modifier.height(180.dp)
             )
 
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(20.dp))
 
             Text(
                 "Create your account",
@@ -114,11 +105,12 @@ fun Sign_UpEmail2Screen(
                 textAlign = TextAlign.Center
             )
 
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(40.dp))
 
-            // Password label
+
+            // Phone number label
             Text(
-                text = "Password",
+                text = "Phone number",
                 color = green,
                 fontSize = 18.sp,
                 modifier = Modifier.align(Alignment.Start)
@@ -126,7 +118,7 @@ fun Sign_UpEmail2Screen(
 
             Spacer(Modifier.height(8.dp))
 
-            // TextField cho Password
+            // TextField cho Phone number
             TextField(
                 value = "",
                 onValueChange = {},
@@ -135,60 +127,20 @@ fun Sign_UpEmail2Screen(
                     unfocusedContainerColor = Color(0xFF444444),
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.White
-                ),
+                    cursorColor = Color.White,
+
+                    ),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(shape = RoundedCornerShape(12.dp))
+
             )
-
-            Spacer(Modifier.height(8.dp ))
-
-            // RePassword label
-            Text(
-                text = "Confirm your password",
-                color = green,
-                fontSize = 18.sp,
-                modifier = Modifier.align(Alignment.Start)
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            // TextField cho RePassword
-            TextField(
-                value = "",
-                onValueChange = {},
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFF444444),
-                    unfocusedContainerColor = Color(0xFF444444),
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(12.dp))
-            )
-
-            Spacer(Modifier.height(6.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TermsAndPolicyCheck(
-                    checked = agreed,
-                    onCheckedChange = { agreed = it },
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
 
             Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.Sign_UpPhone2)},
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),
@@ -200,17 +152,17 @@ fun Sign_UpEmail2Screen(
 
             ) {
                 Text(
-                    text = "Sign up",
+                    text = "Continue",
                     fontSize = 18.sp
                 )
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Text(
                 text = buildAnnotatedString {
                     append("Or ")
-                    withStyle(style = SpanStyle(color = Color.White)) { append("sign in") }
+                    withStyle(style = SpanStyle(color = Color.White)) { append("sign up") }
                     append(" with")
                 },
                 color = green,
@@ -220,16 +172,22 @@ fun Sign_UpEmail2Screen(
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            GoogleSignInButtonFirebase(
-                onSuccess = { user: FirebaseUser ->
-                    navController.navigate("") {
-                        popUpTo("login") { inclusive = true }
-                        launchSingleTop = true
-                    } },
-                onError = { e -> onError(e.message ?: "Unknown error") }
-            )
+            Box(
+                modifier = Modifier
+                    .size(width = 100.dp, height = 50.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFFEDEDED))
+                    .clickable { println("Sign un with Google clicked") },
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.google_logo),
+                    contentDescription = "Google Logo",
+                    modifier = Modifier.size(30.dp)
+                )
+            }
 
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(25.dp))
 
             Text(
                 text = buildAnnotatedString {
@@ -239,8 +197,10 @@ fun Sign_UpEmail2Screen(
                 },
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.clickable { println("Navigate to Sign In") }
+                modifier = Modifier.clickable { println("Navigate to Sign Ip") }
             )
+
+
         }
 
     }

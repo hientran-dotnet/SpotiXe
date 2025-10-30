@@ -1,25 +1,26 @@
 package com.example.spotixe
 
-import SignInPages.Sign_in1Screen
-import SignInPages.Sign_in2Screen
-import SignInPages.Sign_in3Screen
+import com.example.spotixe.Pages.Pages.SignInPages.Sign_in1Screen
+import com.example.spotixe.Pages.Pages.SignInPages.Sign_in2Screen
+import com.example.spotixe.Pages.Pages.SignInPages.Sign_in3Screen
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.spotixe.AppMainPages.ExploreScreen
-import com.example.spotixe.AppMainPages.HomeScreen
-import com.example.spotixe.SignUpPages.Sign_UpEmail1Screen
-import com.example.spotixe.SignUpPages.Sign_UpEmail2Screen
-import com.example.spotixe.SignUpPages.Sign_UpPhone1Screen
-import com.example.spotixe.SignUpPages.Sign_UpPhone2Screen
-import com.example.spotixe.StartPages.Start2Screen
-import com.example.spotixe.StartPages.Start3Screen
-import com.example.spotixe.StartPages.StartScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.ExploreScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.HomeScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.SearchScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.UserScreen
+import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpEmail1Screen
+import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpEmail2Screen
+import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpPhone1Screen
+import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpPhone2Screen
+import com.example.spotixe.Pages.Pages.StartPages.Start2Screen
+import com.example.spotixe.Pages.Pages.StartPages.Start3Screen
+import com.example.spotixe.Pages.Pages.StartPages.StartScreen
 import com.example.spotixe.ui.theme.SpotiXeTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,7 +32,7 @@ class MainActivity : ComponentActivity() {
             SpotiXeTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = "explore"
+                    startDestination = "user"
                 ) {
                     composable("start1"){ StartScreen(navController) }
                     composable("start2"){Start2Screen(navController)}
@@ -45,6 +46,8 @@ class MainActivity : ComponentActivity() {
                     composable ("sign_upPhone2"){ Sign_UpPhone2Screen(navController) }
                     composable("home"){ HomeScreen(navController) }
                     composable("explore"){ ExploreScreen(navController) }
+                    composable("search"){ SearchScreen(navController) }
+                    composable("user"){ UserScreen(navController) }
                 }
             }
         }

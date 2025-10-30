@@ -1,4 +1,4 @@
-package SignInPages
+package com.example.spotixe.Pages.Pages.SignInPages
 
 import Components.GoogleSignInButtonFirebase
 import androidx.compose.foundation.Image
@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Button
@@ -38,22 +37,20 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.R
-import com.example.spotixe.Routes
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun Sign_in2Screen(
+fun Sign_in1Screen(
     navController: NavController,
     onSignedIn: (FirebaseUser) -> Unit={},
     onError: (String) -> Unit={}
-){
+    ){
     var green = Color(0xFF58BA47)
     Box(
         modifier = Modifier
@@ -64,9 +61,9 @@ fun Sign_in2Screen(
     )
     {
         Row (
-            modifier = Modifier
-                .padding(start = 15.dp)
-                .statusBarsPadding(),
+                modifier = Modifier
+                    .padding(start = 15.dp)
+                    .statusBarsPadding(),
             horizontalArrangement = Arrangement.Start
         ){
             Box(
@@ -113,10 +110,9 @@ fun Sign_in2Screen(
 
             Spacer(Modifier.height(40.dp))
 
-
-            // Phone number label
+            // Email label
             Text(
-                text = "Phone number",
+                text = "Email",
                 color = green,
                 fontSize = 18.sp,
                 modifier = Modifier.align(Alignment.Start)
@@ -124,7 +120,7 @@ fun Sign_in2Screen(
 
             Spacer(Modifier.height(8.dp))
 
-            // TextField cho Phone number
+            // TextField cho Email
             TextField(
                 value = "",
                 onValueChange = {},
@@ -134,13 +130,38 @@ fun Sign_in2Screen(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     cursorColor = Color.White,
-
                 ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(shape = RoundedCornerShape(12.dp))
+            )
 
+            Spacer(Modifier.height(20.dp))
+
+            // Password label
+            Text(
+                text = "Password",
+                color = green,
+                fontSize = 18.sp,
+                modifier = Modifier.align(Alignment.Start)
+            )
+
+            Spacer(Modifier.height(8.dp))
+
+            // TextField cho Password
+            TextField(
+                value = "",
+                onValueChange = {},
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFF444444),
+                    unfocusedContainerColor = Color(0xFF444444),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = Color.White
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(12.dp))
             )
 
             Spacer(Modifier.height(10.dp))
@@ -157,7 +178,7 @@ fun Sign_in2Screen(
             Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_in3)},
+                onClick = {},
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),
@@ -169,9 +190,9 @@ fun Sign_in2Screen(
 
             ) {
                 Text(
-                    text = "Continue",
+                    text = "Sign in",
                     fontSize = 18.sp
-                )
+                    )
             }
 
             Spacer(modifier = Modifier.height(40.dp))

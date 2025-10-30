@@ -1,4 +1,4 @@
-package com.example.spotixe.SignUpPages
+package com.example.spotixe.Pages.Pages.SignUpPages
 
 import Components.GoogleSignInButtonFirebase
 import Components.TermsAndPolicyCheck
@@ -48,11 +48,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.R
-import com.example.spotixe.Routes
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun Sign_UpEmail1Screen(
+fun Sign_UpEmail2Screen(
     navController: NavController,
     onSignedIn: (FirebaseUser) -> Unit={},
     onError: (String) -> Unit={}
@@ -117,8 +116,9 @@ fun Sign_UpEmail1Screen(
 
             Spacer(Modifier.height(20.dp))
 
+            // Password label
             Text(
-                text = "Name",
+                text = "Password",
                 color = green,
                 fontSize = 18.sp,
                 modifier = Modifier.align(Alignment.Start)
@@ -126,7 +126,7 @@ fun Sign_UpEmail1Screen(
 
             Spacer(Modifier.height(8.dp))
 
-            // TextField cho Name
+            // TextField cho Password
             TextField(
                 value = "",
                 onValueChange = {},
@@ -135,18 +135,18 @@ fun Sign_UpEmail1Screen(
                     unfocusedContainerColor = Color(0xFF444444),
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.White,
+                    cursorColor = Color.White
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(shape = RoundedCornerShape(12.dp))
             )
 
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(8.dp ))
 
-            // Email label
+            // RePassword label
             Text(
-                text = "Email",
+                text = "Confirm your password",
                 color = green,
                 fontSize = 18.sp,
                 modifier = Modifier.align(Alignment.Start)
@@ -154,7 +154,7 @@ fun Sign_UpEmail1Screen(
 
             Spacer(Modifier.height(8.dp))
 
-            // TextField cho Email
+            // TextField cho RePassword
             TextField(
                 value = "",
                 onValueChange = {},
@@ -163,17 +163,32 @@ fun Sign_UpEmail1Screen(
                     unfocusedContainerColor = Color(0xFF444444),
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.White,
+                    cursorColor = Color.White
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(shape = RoundedCornerShape(12.dp))
             )
+
+            Spacer(Modifier.height(6.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TermsAndPolicyCheck(
+                    checked = agreed,
+                    onCheckedChange = { agreed = it },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
 
             Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_UpEmail2)},
+                onClick = {},
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),
@@ -195,7 +210,7 @@ fun Sign_UpEmail1Screen(
             Text(
                 text = buildAnnotatedString {
                     append("Or ")
-                    withStyle(style = SpanStyle(color = Color.White)) { append("Continue") }
+                    withStyle(style = SpanStyle(color = Color.White)) { append("sign in") }
                     append(" with")
                 },
                 color = green,
@@ -224,7 +239,7 @@ fun Sign_UpEmail1Screen(
                 },
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.clickable { navController.navigate(Routes.Sign_in1) }
+                modifier = Modifier.clickable { println("Navigate to Sign In") }
             )
         }
 
