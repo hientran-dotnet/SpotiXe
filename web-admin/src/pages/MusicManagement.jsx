@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import {
   Search,
@@ -81,6 +81,7 @@ import { getAllSongs } from "@/services/api/songs";
 // ];
 
 const MusicManagement = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
   const [viewMode, setViewMode] = useState('list');
   const [searchQuery, setSearchQuery] = useState('');
@@ -178,9 +179,9 @@ const MusicManagement = () => {
         <div>
           <h1 className="text-3xl font-bold text-admin-text-primary">Music Management</h1>
         </div>
-        <Button onClick={() => setShowUploadModal(true)}>
+        <Button onClick={() => navigate('/songs/create')}>
           <Plus size={18} className="mr-2" />
-          Upload New Track
+          Create New Song
         </Button>
       </motion.div>
 

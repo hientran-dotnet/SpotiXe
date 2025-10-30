@@ -7,6 +7,7 @@ import MainLayout from './components/layout/MainLayout';
 import Dashboard from './pages/Dashboard';
 import MusicManagement from './pages/MusicManagement';
 import SongDetail from './pages/SongDetail';
+import CreateSong from './pages/CreateSong';
 import Users from './pages/Users';
 import Analytics from './pages/Analytics';
 import LoginPage from './pages/LoginPage';
@@ -70,6 +71,7 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="music" element={<MusicManagement />} />
+            <Route path="songs/create" element={<CreateSong />} />
             <Route path="songs/:id" element={<SongDetail />} />
             <Route path="artists" element={<Artists />} />
             <Route path="users" element={<Users />} />
