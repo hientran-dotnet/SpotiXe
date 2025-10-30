@@ -28,9 +28,11 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 // Register Repositories
 builder.Services.AddScoped<ISongRepository, SongRepository>();
+builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 
 // Register Services
 builder.Services.AddScoped<ISongService, SongService>();
+builder.Services.AddScoped<IArtistService, ArtistService>();
 
 // Configure CORS
 builder.Services.AddCors(options =>
