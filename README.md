@@ -56,28 +56,6 @@ Web Admin
 
 Chạy trực tiếp bằng Visual Studio (IIS Express).
 
-🌿 Quy tắc làm việc với Git
-Đặt tên nhánh (Branch)
-
-Nhánh tính năng: feature/[mieu-ta-ngan]
-→ Ví dụ: feature/them-man-hinh-dang-nhap
-
-Nhánh sửa lỗi: fix/[mieu-ta-ngan]
-→ Ví dụ: fix/loi-phat-nhac
-
-Tạo Pull Request (PR)
-
-Tạo PR vào nhánh dev → Khi hoàn thành tính năng và sẵn sàng kiểm thử.
-
-Tạo PR vào nhánh master → Khi phiên bản đã ổn định và sẵn sàng phát hành.
-
-Đặt tên PR
-
-Ví dụ:
-
-[Feature] Thêm màn hình đăng nhập
-[Fix] Sửa lỗi load bài hát
-
 🧠 Công nghệ sử dụng
 Ứng dụng Android
 
