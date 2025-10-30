@@ -214,8 +214,10 @@ const MusicManagement = () => {
       {/* Filters & Search */}
       <Card>
         <CardContent className="p-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Search - 2 columns on desktop */}
+            <div className="md:col-span-1 lg:col-span-2">
               <Input
                 icon={Search}
                 placeholder="Search tracks, artists, albums..."
@@ -223,32 +225,16 @@ const MusicManagement = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)}>
-              {genres.map((genre) => (
-                <option key={genre} value={genre}>
-                  {genre === 'all' ? 'All Genres' : genre}
-                </option>
-              ))}
-            </Select>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                <Filter size={18} className="mr-2" />
-                More Filters
-              </Button>
-              <div className="flex border border-admin-border-default rounded-lg overflow-hidden">
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 ${viewMode === 'list' ? 'bg-admin-bg-hover text-spotify-green' : 'text-admin-text-tertiary'}`}
-                >
-                  <ListIcon size={18} />
-                </button>
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 ${viewMode === 'grid' ? 'bg-admin-bg-hover text-spotify-green' : 'text-admin-text-tertiary'}`}
-                >
-                  <Grid size={18} />
-                </button>
-              </div>
+            
+            {/* Genre filter - 1 column */}
+            <div>
+              <Select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)}>
+                {genres.map((genre) => (
+                  <option key={genre} value={genre}>
+                    {genre === 'all' ? 'All Genres' : genre}
+                  </option>
+                ))}
+              </Select>
             </div>
           </div>
 
