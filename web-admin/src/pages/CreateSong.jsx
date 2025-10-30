@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import {
   Upload,
@@ -17,6 +17,11 @@ import {
   Users,
   Disc,
   Settings,
+  Search,
+  Check,
+  ChevronDown,
+  Link as LinkIcon,
+  AlertCircle,
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Input, Textarea, Select } from '@/components/ui/Input';
@@ -31,6 +36,26 @@ const CreateSong = () => {
   const [audioFile, setAudioFile] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
   const [coverPreview, setCoverPreview] = useState(null);
+  
+  // Autocomplete states
+  const [artistSearch, setArtistSearch] = useState('');
+  const [albumSearch, setAlbumSearch] = useState('');
+  const [showArtistDropdown, setShowArtistDropdown] = useState(false);
+  const [showAlbumDropdown, setShowAlbumDropdown] = useState(false);
+  const [selectedArtist, setSelectedArtist] = useState(null);
+  const [selectedAlbum, setSelectedAlbum] = useState(null);
+  const artistInputRef = useRef(null);
+  const albumInputRef = useRef(null);
+  const artistDropdownRef = useRef(null);
+  const albumDropdownRef = useRef(null);
+
+  // Audio URL state
+  const [audioUrl, setAudioUrl] = useState('');
+  const [isValidUrl, setIsValidUrl] = useState(false);
+  
+  // Cover Image URL state
+  const [coverUrl, setCoverUrl] = useState('');
+  const [isValidCoverUrl, setIsValidCoverUrl] = useState(false);
 
   const {
     register,
@@ -74,6 +99,149 @@ const CreateSong = () => {
     queryKey: ['albums'],
     queryFn: getAllAlbums,
   });
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        artistDropdownRef.current &&
+        !artistDropdownRef.current.contains(event.target) &&
+        !artistInputRef.current?.contains(event.target)
+      ) {
+        setShowArtistDropdown(false);
+      }
+      if (
+        albumDropdownRef.current &&
+        !albumDropdownRef.current.contains(event.target) &&
+        !albumInputRef.current?.contains(event.target)
+      ) {
+        setShowAlbumDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Filter artists based on search
+  const filteredArtists = React.useMemo(() => {
+    if (!artistSearch.trim()) return artists;
+    
+    const searchLower = artistSearch.toLowerCase();
+    const startsWith = [];
+    const contains = [];
+    
+    artists.forEach((artist) => {
+      const name = (artist.artistName || artist.name || '').toLowerCase();
+      if (name.startsWith(searchLower)) {
+        startsWith.push(artist);
+      } else if (name.includes(searchLower)) {
+        contains.push(artist);
+      }
+    });
+    
+    return [...startsWith, ...contains];
+  }, [artists, artistSearch]);
+
+  // Filter albums based on search
+  const filteredAlbums = React.useMemo(() => {
+    if (!albumSearch.trim()) return albums;
+    
+    const searchLower = albumSearch.toLowerCase();
+    const startsWith = [];
+    const contains = [];
+    
+    albums.forEach((album) => {
+      const title = (album.albumTitle || album.title || '').toLowerCase();
+      if (title.startsWith(searchLower)) {
+        startsWith.push(album);
+      } else if (title.includes(searchLower)) {
+        contains.push(album);
+      }
+    });
+    
+    return [...startsWith, ...contains];
+  }, [albums, albumSearch]);
+
+  // Highlight matched text
+  const highlightMatch = (text, search) => {
+    if (!search.trim()) return text;
+    
+    const regex = new RegExp(`(${search})`, 'gi');
+    const parts = text.split(regex);
+    
+    return parts.map((part, index) =>
+      regex.test(part) ? (
+        <span key={index} className="bg-spotify-green/30 font-semibold">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
+  // Handle artist selection
+  const handleArtistSelect = (artist) => {
+    setSelectedArtist(artist);
+    setArtistSearch(artist.artistName || artist.name);
+    setValue('artistId', artist.artistId.toString());
+    setShowArtistDropdown(false);
+  };
+
+  // Handle album selection
+  const handleAlbumSelect = (album) => {
+    setSelectedAlbum(album);
+    setAlbumSearch(album.albumTitle || album.title);
+    setValue('albumId', album.albumId.toString());
+    setShowAlbumDropdown(false);
+  };
+
+  // Validate URL
+  const validateUrl = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  // Handle audio URL change
+  const handleAudioUrlChange = (e) => {
+    const url = e.target.value;
+    setAudioUrl(url);
+    
+    const isValid = validateUrl(url);
+    setIsValidUrl(isValid);
+    
+    if (isValid) {
+      setValue('audioFileUrl', url);
+      setValue('streamingUrl', `${url}?quality=adaptive`);
+      setValue('lowQualityUrl', `${url}?quality=low`);
+      setValue('mediumQualityUrl', `${url}?quality=medium`);
+      setValue('highQualityUrl', `${url}?quality=high`);
+      setValue('losslessQualityUrl', `${url}?quality=lossless`);
+      
+      // Extract format from URL
+      const urlParts = url.split('.');
+      const format = urlParts[urlParts.length - 1].split('?')[0].toLowerCase();
+      setValue('audioFormat', format);
+    }
+  };
+
+  // Handle cover image URL change
+  const handleCoverUrlChange = (e) => {
+    const url = e.target.value;
+    setCoverUrl(url);
+    
+    const isValid = validateUrl(url);
+    setIsValidCoverUrl(isValid);
+    
+    if (isValid) {
+      setValue('coverImageUrl', url);
+    }
+  };
 
   // Create mutation
   const createMutation = useMutation({
@@ -179,13 +347,21 @@ const CreateSong = () => {
 
   // Form submission
   const onSubmit = async (data) => {
-    // Validate required files
-    if (!audioFile) {
-      toast.error('Please upload an audio file');
+    // Validate artist selection
+    if (!selectedArtist) {
+      toast.error('Please select an artist');
       return;
     }
-    if (!coverImage) {
-      toast.error('Please upload a cover image');
+    
+    // Validate audio URL
+    if (!audioUrl || !isValidUrl) {
+      toast.error('Please enter a valid audio file URL');
+      return;
+    }
+    
+    // Validate cover image URL
+    if (!coverUrl || !isValidCoverUrl) {
+      toast.error('Please enter a valid cover image URL');
       return;
     }
 
@@ -206,7 +382,7 @@ const CreateSong = () => {
       coverImageUrl: data.coverImageUrl,
       lyrics: data.lyrics || null,
       genre: data.genre,
-      fileSize: data.fileSize,
+      fileSize: data.fileSize || 0,
       audioFormat: data.audioFormat,
       bitrate: parseInt(data.bitrate) || null,
       lowQualityUrl: data.lowQualityUrl || null,
@@ -255,10 +431,6 @@ const CreateSong = () => {
             <ArrowLeft size={18} className="mr-2" />
             Back to Music List
           </Button>
-          <h1 className="text-3xl font-bold text-admin-text-primary">Create New Song</h1>
-          <p className="text-admin-text-secondary mt-1">
-            Add a new song to your music library
-          </p>
         </div>
       </motion.div>
 
@@ -276,9 +448,9 @@ const CreateSong = () => {
                   <Music className="text-spotify-green" size={24} />
                   Basic Information
                 </CardTitle>
-                <CardDescription>
+                {/* <CardDescription>
                   Enter the basic details of the song
-                </CardDescription>
+                </CardDescription> */}
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Title */}
@@ -304,20 +476,76 @@ const CreateSong = () => {
                   <label className="block text-sm font-medium text-admin-text-secondary mb-2">
                     Artist <span className="text-apple-red">*</span>
                   </label>
-                  <Select
-                    {...register('artistId', { required: 'Artist is required' })}
-                    error={errors.artistId?.message}
-                    disabled={loadingArtists}
-                  >
-                    <option value="">
-                      {loadingArtists ? 'Loading artists...' : 'Select an artist'}
-                    </option>
-                    {artists.map((artist) => (
-                      <option key={artist.artistId} value={artist.artistId}>
-                        {artist.artistName || artist.name}
-                      </option>
-                    ))}
-                  </Select>
+                  <div className="relative" ref={artistInputRef}>
+                    <div className="relative">
+                      <Search 
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" 
+                        size={18} 
+                      />
+                      <Input
+                        value={artistSearch}
+                        onChange={(e) => {
+                          setArtistSearch(e.target.value);
+                          setShowArtistDropdown(true);
+                          setSelectedArtist(null);
+                          setValue('artistId', '');
+                        }}
+                        onFocus={() => setShowArtistDropdown(true)}
+                        placeholder={loadingArtists ? 'Loading artists...' : 'Search for an artist...'}
+                        disabled={loadingArtists}
+                      />
+                      {selectedArtist && (
+                        <Check 
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-spotify-green" 
+                          size={18} 
+                        />
+                      )}
+                      {!selectedArtist && artistSearch && (
+                        <ChevronDown 
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" 
+                          size={18} 
+                        />
+                      )}
+                    </div>
+                    
+                    <AnimatePresence>
+                      {showArtistDropdown && !loadingArtists && (
+                        <motion.div
+                          ref={artistDropdownRef}
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute z-50 w-full mt-2 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                        >
+                          {filteredArtists.length > 0 ? (
+                            <div className="py-1">
+                              {filteredArtists.map((artist) => (
+                                <div
+                                  key={artist.artistId}
+                                  onClick={() => handleArtistSelect(artist)}
+                                  className="px-4 py-2.5 hover:bg-admin-bg-hover cursor-pointer transition-colors flex items-center gap-2"
+                                >
+                                  <Users size={16} className="text-admin-text-tertiary flex-shrink-0" />
+                                  <span className="text-sm text-admin-text-primary">
+                                    {highlightMatch(artist.artistName || artist.name, artistSearch)}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="px-4 py-8 text-center text-admin-text-tertiary text-sm">
+                              No artists found
+                            </div>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    
+                    {errors.artistId && (
+                      <p className="text-apple-red text-sm mt-1">{errors.artistId.message}</p>
+                    )}
+                  </div>
                 </div>
 
                 {/* Album */}
@@ -325,19 +553,74 @@ const CreateSong = () => {
                   <label className="block text-sm font-medium text-admin-text-secondary mb-2">
                     Album (Optional)
                   </label>
-                  <Select
-                    {...register('albumId')}
-                    disabled={loadingAlbums}
-                  >
-                    <option value="">
-                      {loadingAlbums ? 'Loading albums...' : 'Select an album (optional)'}
-                    </option>
-                    {albums.map((album) => (
-                      <option key={album.albumId} value={album.albumId}>
-                        {album.albumTitle || album.title}
-                      </option>
-                    ))}
-                  </Select>
+                  <div className="relative" ref={albumInputRef}>
+                    <div className="relative">
+                      <Search 
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" 
+                        size={18} 
+                      />
+                      <Input
+                        value={albumSearch}
+                        onChange={(e) => {
+                          setAlbumSearch(e.target.value);
+                          setShowAlbumDropdown(true);
+                          if (!e.target.value) {
+                            setSelectedAlbum(null);
+                            setValue('albumId', '');
+                          }
+                        }}
+                        onFocus={() => setShowAlbumDropdown(true)}
+                        placeholder={loadingAlbums ? 'Loading albums...' : 'Search for an album...'}
+                        disabled={loadingAlbums}
+                      />
+                      {selectedAlbum && (
+                        <Check 
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-spotify-green" 
+                          size={18} 
+                        />
+                      )}
+                      {!selectedAlbum && albumSearch && (
+                        <ChevronDown 
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" 
+                          size={18} 
+                        />
+                      )}
+                    </div>
+                    
+                    <AnimatePresence>
+                      {showAlbumDropdown && !loadingAlbums && (
+                        <motion.div
+                          ref={albumDropdownRef}
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute z-50 w-full mt-2 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                        >
+                          {filteredAlbums.length > 0 ? (
+                            <div className="py-1">
+                              {filteredAlbums.map((album) => (
+                                <div
+                                  key={album.albumId}
+                                  onClick={() => handleAlbumSelect(album)}
+                                  className="px-4 py-2.5 hover:bg-admin-bg-hover cursor-pointer transition-colors flex items-center gap-2"
+                                >
+                                  <Disc size={16} className="text-admin-text-tertiary flex-shrink-0" />
+                                  <span className="text-sm text-admin-text-primary">
+                                    {highlightMatch(album.albumTitle || album.title, albumSearch)}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="px-4 py-8 text-center text-admin-text-tertiary text-sm">
+                              No albums found
+                            </div>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
 
                 {/* Genre */}
@@ -424,46 +707,46 @@ const CreateSong = () => {
                   <FileAudio className="text-spotify-green" size={24} />
                   Audio Files
                 </CardTitle>
-                <CardDescription>
+                {/* <CardDescription>
                   Upload audio file and configure quality URLs
-                </CardDescription>
+                </CardDescription> */}
               </CardHeader>
               <CardContent className="space-y-4">
-                {/* Main Audio File */}
+                {/* Main Audio URL */}
                 <div>
                   <label className="block text-sm font-medium text-admin-text-secondary mb-2">
-                    Main Audio File <span className="text-apple-red">*</span>
+                    Audio File URL <span className="text-apple-red">*</span>
                   </label>
-                  <div
-                    className="border-2 border-dashed border-admin-border-default rounded-lg p-6 text-center hover:border-spotify-green transition-colors cursor-pointer bg-admin-bg-hover"
-                    onClick={() => document.getElementById('audio-upload').click()}
-                  >
-                    <input
-                      id="audio-upload"
-                      type="file"
-                      accept=".mp3,.wav,.flac,audio/*"
-                      onChange={handleAudioUpload}
-                      className="hidden"
+                  <div className="relative">
+                    <LinkIcon 
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" 
+                      size={18} 
                     />
-                    <Upload size={48} className="mx-auto text-admin-text-tertiary mb-4" />
-                    {audioFile ? (
-                      <div>
-                        <p className="text-admin-text-primary font-medium">{audioFile.name}</p>
-                        <p className="text-sm text-admin-text-tertiary mt-1">
-                          {(audioFile.size / 1024 / 1024).toFixed(2)} MB
-                        </p>
-                      </div>
-                    ) : (
-                      <div>
-                        <p className="text-admin-text-primary font-medium">
-                          Drop your audio file here
-                        </p>
-                        <p className="text-sm text-admin-text-tertiary mt-1">
-                          or click to browse (MP3, WAV, FLAC - Max 50MB)
-                        </p>
+                    <Input
+                      value={audioUrl}
+                      onChange={handleAudioUrlChange}
+                      placeholder="https://audio.spotixe.io.vn/songs/your-song.mp3"
+                      // className="pl-10 pr-10"
+                    />
+                    {audioUrl && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        {isValidUrl ? (
+                          <Check className="text-spotify-green" size={18} />
+                        ) : (
+                          <AlertCircle className="text-apple-red" size={18} />
+                        )}
                       </div>
                     )}
                   </div>
+                  {audioUrl && !isValidUrl && (
+                    <p className="text-apple-red text-sm mt-1">Please enter a valid URL</p>
+                  )}
+                  {audioUrl && isValidUrl && (
+                    <p className="text-spotify-green text-sm mt-1 flex items-center gap-1">
+                      <Check size={14} />
+                      Valid URL - Quality URLs auto-filled
+                    </p>
+                  )}
                 </div>
 
                 {/* Bitrate */}
@@ -527,51 +810,56 @@ const CreateSong = () => {
                   <ImageIcon className="text-spotify-green" size={24} />
                   Media & Content
                 </CardTitle>
-                <CardDescription>
+                {/* <CardDescription>
                   Upload cover image and add lyrics
-                </CardDescription>
+                </CardDescription> */}
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Cover Image */}
                 <div>
                   <label className="block text-sm font-medium text-admin-text-secondary mb-2">
-                    Cover Image <span className="text-apple-red">*</span>
+                    Cover Image URL <span className="text-apple-red">*</span>
                   </label>
-                  <div
-                    className="border-2 border-dashed border-admin-border-default rounded-lg p-6 text-center hover:border-spotify-green transition-colors cursor-pointer bg-admin-bg-hover"
-                    onClick={() => document.getElementById('cover-upload').click()}
-                  >
-                    <input
-                      id="cover-upload"
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      onChange={handleCoverUpload}
-                      className="hidden"
+                  <div className="relative">
+                    <ImageIcon 
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary pointer-events-none" 
+                      size={18} 
                     />
-                    {coverPreview ? (
-                      <div className="flex flex-col items-center">
-                        <img
-                          src={coverPreview}
-                          alt="Cover preview"
-                          className="w-48 h-48 object-cover rounded-lg mb-3"
-                        />
-                        <p className="text-admin-text-primary font-medium">{coverImage?.name}</p>
-                        <p className="text-sm text-admin-text-tertiary mt-1">
-                          {(coverImage?.size / 1024).toFixed(2)} KB
-                        </p>
-                      </div>
-                    ) : (
-                      <div>
-                        <ImageIcon size={48} className="mx-auto text-admin-text-tertiary mb-4" />
-                        <p className="text-admin-text-primary font-medium">
-                          Drop cover image here
-                        </p>
-                        <p className="text-sm text-admin-text-tertiary mt-1">
-                          or click to browse (JPG, PNG, WebP - Max 5MB)
-                        </p>
+                    <Input
+                      value={coverUrl}
+                      onChange={handleCoverUrlChange}
+                      placeholder="https://image.spotixe.io.vn/covers/your-cover.jpg"
+                      // className="pl-10"
+                    />
+                    {coverUrl && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                        {isValidCoverUrl ? (
+                          <Check className="text-spotify-green" size={18} />
+                        ) : (
+                          <AlertCircle className="text-apple-red" size={18} />
+                        )}
                       </div>
                     )}
                   </div>
+                  {coverUrl && !isValidCoverUrl && (
+                    <p className="text-apple-red text-sm mt-1">Please enter a valid URL</p>
+                  )}
+                  {coverUrl && isValidCoverUrl && (
+                    <div className="mt-3">
+                      <p className="text-spotify-green text-sm mb-2 flex items-center gap-1">
+                        <Check size={14} />
+                        Valid URL - Preview:
+                      </p>
+                      <img
+                        src={coverUrl}
+                        alt="Cover preview"
+                        className="w-48 h-48 object-cover rounded-lg border-2 border-spotify-green/30"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* Lyrics */}
@@ -601,9 +889,9 @@ const CreateSong = () => {
                   <Settings className="text-spotify-green" size={24} />
                   Publishing Settings
                 </CardTitle>
-                <CardDescription>
+                {/* <CardDescription>
                   Configure visibility and copyright settings
-                </CardDescription>
+                </CardDescription> */}
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Is Public */}
