@@ -10,11 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-// Configure DbContext with SQL Server
+// Configure DbContext with MySQL
 builder.Services.AddDbContext<MusicStreamingDbContext>(options =>
-    options.UseSqlServer(
+    options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        sqlServerOptions => sqlServerOptions.EnableRetryOnFailure(
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")),
+        mySqlOptions => mySqlOptions.EnableRetryOnFailure(
             maxRetryCount: 5,
             maxRetryDelay: TimeSpan.FromSeconds(30),
             errorNumbersToAdd: null
@@ -27,9 +28,11 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 // Register Repositories
 builder.Services.AddScoped<ISongRepository, SongRepository>();
+builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 
 // Register Services
 builder.Services.AddScoped<ISongService, SongService>();
+builder.Services.AddScoped<IArtistService, ArtistService>();
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -59,22 +62,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// 🔹 Đọc port Render cấp
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+// Only configure URLs when PORT environment variable is set (e.g., on Render)
+// Otherwise, use launchSettings.json configuration for local development
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
 
 var app = builder.Build();
 
-// Swagger cho mọi môi trường (tùy chọn)
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "SpotiXe API V1");
-    c.RoutePrefix = string.Empty; // Swagger ở root
+    c.RoutePrefix = string.Empty;
 });
-
-// ❌ Render không hỗ trợ HTTPS trong container
-// app.UseHttpsRedirection();  <-- bỏ dòng này đi
 
 app.UseCors("AllowAll");
 
@@ -99,8 +102,8 @@ app.MapGet("/api/health/database", async (MusicStreamingDbContext dbContext) =>
         return Results.Ok(new
         {
             Status = "Connected",
-            Database = "SpotiXe",
-            Server = "HIENTRAN",
+            Database = "railway",
+            Server = "Railway MySQL (tramway.proxy.rlwy.net:13930)",
             Timestamp = DateTime.UtcNow,
             Statistics = new
             {

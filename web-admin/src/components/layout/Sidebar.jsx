@@ -22,7 +22,7 @@ import { useSidebarStore } from '@/store/sidebarStore';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Home },
-  { name: 'Music Management', href: '/music', icon: Music },
+  { name: 'Music', href: '/music', icon: Music },
   { name: 'Artists & Albums', href: '/artists', icon: Mic2 },
   { name: 'Users', href: '/users', icon: Users },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
@@ -56,22 +56,26 @@ const Sidebar = () => {
     >
       {/* Logo */}
       <div className="h-16 flex items-center justify-between px-6 border-b border-admin-border-default">
-        <motion.div
-          animate={{ opacity: isCollapsed ? 0 : 1 }}
-          transition={{ duration: 0.2 }}
-          className="flex items-center gap-2"
-        >
-          {!isCollapsed && (
-            <>
-              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <Music size={18} className="text-white" />
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-spotify-green to-apple-blue bg-clip-text text-transparent">
-                SpotiXe
-              </span>
-            </>
-          )}
-        </motion.div>
+        <div className="flex items-center gap-3">
+          {/* Logo - always visible */}
+          <img 
+            src="/spotixe-logo.png" 
+            alt="SpotiXe Logo" 
+            className={cn(
+              "rounded-lg transition-all duration-300",
+              isCollapsed ? "w-8 h-8" : "w-10 h-10"
+            )}
+          />
+          
+          {/* Text - hidden when collapsed */}
+          <motion.span
+            animate={{ opacity: isCollapsed ? 0 : 1, width: isCollapsed ? 0 : 'auto' }}
+            transition={{ duration: 0.2 }}
+            className="text-xl font-bold bg-gradient-to-r from-spotify-green to-apple-blue bg-clip-text text-transparent overflow-hidden whitespace-nowrap"
+          >
+            {!isCollapsed && 'SpotiXe'}
+          </motion.span>
+        </div>
 
         <button
           onClick={toggle}

@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import {
   Search,
@@ -80,6 +81,7 @@ import { getAllSongs } from "@/services/api/songs";
 // ];
 
 const MusicManagement = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
   const [viewMode, setViewMode] = useState('list');
   const [searchQuery, setSearchQuery] = useState('');
@@ -177,9 +179,9 @@ const MusicManagement = () => {
         <div>
           <h1 className="text-3xl font-bold text-admin-text-primary">Music Management</h1>
         </div>
-        <Button onClick={() => setShowUploadModal(true)}>
+        <Button onClick={() => navigate('/songs/create')}>
           <Plus size={18} className="mr-2" />
-          Upload New Track
+          Create New Song
         </Button>
       </motion.div>
 
@@ -380,19 +382,31 @@ const MusicManagement = () => {
                                 </button>
                               </div>
                               <div>
-                                <p className="font-medium text-admin-text-primary">
+                                <Link
+                                  to={`/songs/${track.songId}`}
+                                  className="font-medium text-admin-text-primary hover:text-spotify-green cursor-pointer transition-colors hover:underline"
+                                  aria-label={`View details for ${track.title}`}
+                                >
                                   {track.title || '-'}
-                                </p>
+                                </Link>
                               </div>
                             </div>
                           </TableCell>
                           <TableCell>
-                            <span className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors">
+                            <Link
+                              to={`/songs/${track.songId}`}
+                              className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors hover:underline"
+                            >
                               {track.artistName || '-'}
-                            </span>
+                            </Link>
                           </TableCell>
                           <TableCell>
-                            {track.albumTitle || '-'}
+                            <Link
+                              to={`/songs/${track.songId}`}
+                              className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors hover:underline"
+                            >
+                              {track.albumTitle || '-'}
+                            </Link>
                           </TableCell>
                           <TableCell>
                             <Badge variant="default">{track.genre || '-'}</Badge>
@@ -426,14 +440,6 @@ const MusicManagement = () => {
                                   <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
                                     <Edit size={16} />
                                     Edit
-                                  </button>
-                                  <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
-                                    <BarChart3 size={16} />
-                                    Analytics
-                                  </button>
-                                  <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
-                                    <Star size={16} />
-                                    Feature Track
                                   </button>
                                   <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm">
                                     <Trash2 size={16} />

@@ -44,21 +44,17 @@ public class SongCreateDto
     [Range(0, int.MaxValue, ErrorMessage = "Bitrate must be non-negative")]
     public int? Bitrate { get; set; }
 
-    // Quality URLs
+    // Quality URLs (Optional - no URL validation to allow null)
     [MaxLength(500, ErrorMessage = "Low quality URL cannot exceed 500 characters")]
-    [Url(ErrorMessage = "Invalid low quality URL format")]
     public string? LowQualityUrl { get; set; }
 
     [MaxLength(500, ErrorMessage = "Medium quality URL cannot exceed 500 characters")]
-    [Url(ErrorMessage = "Invalid medium quality URL format")]
     public string? MediumQualityUrl { get; set; }
 
     [MaxLength(500, ErrorMessage = "High quality URL cannot exceed 500 characters")]
-    [Url(ErrorMessage = "Invalid high quality URL format")]
     public string? HighQualityUrl { get; set; }
 
     [MaxLength(500, ErrorMessage = "Lossless quality URL cannot exceed 500 characters")]
-    [Url(ErrorMessage = "Invalid lossless quality URL format")]
     public string? LosslessQualityUrl { get; set; }
 
     [Required(ErrorMessage = "Artist ID is required")]
