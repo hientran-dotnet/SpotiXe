@@ -191,9 +191,9 @@ public class ArtistService : IArtistService
             }
 
             await _repository.DeleteAsync(id);
-            
+
             _logger.LogInformation("Soft deleted artist with ID: {ArtistId}", id);
-            
+
             return true;
         }
         catch (Exception ex)
@@ -303,9 +303,9 @@ public class ArtistService : IArtistService
         try
         {
             var validatedLimit = limit < 1 ? 10 : (limit > 100 ? 100 : limit);
-            
+
             var trendingArtists = await _repository.GetTrendingArtistsAsync(validatedLimit);
-            
+
             return _mapper.Map<List<ArtistResponse>>(trendingArtists);
         }
         catch (Exception ex)
@@ -320,9 +320,9 @@ public class ArtistService : IArtistService
         try
         {
             var validatedLimit = limit < 1 ? 50 : (limit > 100 ? 100 : limit);
-            
+
             var topArtists = await _repository.GetTopArtistsByFollowersAsync(validatedLimit);
-            
+
             return _mapper.Map<List<ArtistResponse>>(topArtists);
         }
         catch (Exception ex)
