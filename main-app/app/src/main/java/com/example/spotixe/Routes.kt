@@ -19,4 +19,5 @@ object Routes {
 
     //-----MAIN PAGE-----
     const val Home = "home"
+    const val Explore="explore"
 }

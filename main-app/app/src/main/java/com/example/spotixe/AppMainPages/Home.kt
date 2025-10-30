@@ -2,11 +2,12 @@ package com.example.spotixe.AppMainPages
 
 import Components.GoogleSignInButtonFirebase
 import Components.RecentlyPlayedItem
-import Components.SongCard
+import Components.SongCardRow
 import Components.TermsAndPolicyCheck
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,8 +24,10 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Person
@@ -64,11 +67,13 @@ import com.example.spotixe.Data.recentlyPlayed
 import com.example.spotixe.Data.Song
 @Composable
 fun HomeScreen(navController: NavController) {
+    val scrollState = rememberScrollState()
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .statusBarsPadding()
+                .verticalScroll(scrollState)
         ) {
 
 
@@ -139,7 +144,7 @@ fun HomeScreen(navController: NavController) {
                 contentPadding = PaddingValues(horizontal = 12.dp)
             ) {
                 items(topPicks.size) { i ->
-                    SongCard(song = topPicks[i])
+                    SongCardRow(song = topPicks[i])
                 }
             }
 
@@ -154,6 +159,86 @@ fun HomeScreen(navController: NavController) {
             ) {
                 Text(
                     text = "Recently Played",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "See All",
+                    color = Color(0xFF1DB954),
+                    modifier = Modifier.clickable { /* navController.navigate("recently_all") */ }
+                )
+            }
+
+            Spacer(Modifier.height(10.dp))
+
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                contentPadding = PaddingValues(horizontal = 12.dp)
+            ) {
+                items(
+                    items = recentlyPlayed,
+                    key = { it.id }
+                ) { song ->
+                    RecentlyPlayedItem(
+                        song = song,
+                        onClickItem = { /* nav to detail */ },
+                        onPlayClick  = { /* start player */ }
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(18.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "IDK",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "See All",
+                    color = Color(0xFF1DB954),
+                    modifier = Modifier.clickable { /* navController.navigate("recently_all") */ }
+                )
+            }
+
+            Spacer(Modifier.height(10.dp))
+
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                contentPadding = PaddingValues(horizontal = 12.dp)
+            ) {
+                items(
+                    items = recentlyPlayed,
+                    key = { it.id }
+                ) { song ->
+                    RecentlyPlayedItem(
+                        song = song,
+                        onClickItem = { /* nav to detail */ },
+                        onPlayClick  = { /* start player */ }
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(18.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "IDK2",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
