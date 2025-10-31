@@ -20,6 +20,7 @@ import {
   CheckCircle,
   XCircle,
   Loader2,
+  Edit,
 } from 'lucide-react';
 import { getSongById } from '@/services/api/songs';
 import { 
@@ -220,9 +221,16 @@ const SongDetail = () => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3 pt-4">
+                  <Button
+                    variant="default"
+                    onClick={() => navigate(`/songs/${id}/edit`)}
+                  >
+                    <Edit size={18} className="mr-2" />
+                    Edit Song
+                  </Button>
                   {song.streamingUrl && (
                     <Button
-                      variant="default"
+                      variant="outline"
                       onClick={() => window.open(song.streamingUrl, '_blank')}
                     >
                       <Radio size={18} className="mr-2" />

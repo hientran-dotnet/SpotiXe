@@ -16,14 +16,14 @@ public interface IArtistService
     Task<ArtistResponse> CreateArtistAsync(CreateArtistRequest request);
     Task<ArtistResponse> UpdateArtistAsync(long id, UpdateArtistRequest request);
     Task<bool> DeleteArtistAsync(long id);
-    
+
     // Artist content
     Task<PagedResult<SongResponse>> GetArtistSongsAsync(long artistId, int page, int pageSize, string? sortBy);
     Task<PagedResult<AlbumResponse>> GetArtistAlbumsAsync(long artistId, int page, int pageSize);
-    
+
     // Statistics
     Task<ArtistStatisticsResponse?> GetArtistStatisticsAsync(long id);
-    
+
     // Special queries
     Task<List<ArtistResponse>> GetTrendingArtistsAsync(int limit);
     Task<List<ArtistResponse>> GetTopArtistsAsync(int limit);

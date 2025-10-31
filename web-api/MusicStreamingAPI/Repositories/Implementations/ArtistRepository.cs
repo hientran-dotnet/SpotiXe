@@ -19,10 +19,10 @@ public class ArtistRepository : IArtistRepository
     }
 
     public async Task<IEnumerable<Artist>> GetAllAsync(
-        int page, 
-        int pageSize, 
-        string? searchTerm, 
-        string? country, 
+        int page,
+        int pageSize,
+        string? searchTerm,
+        string? country,
         int? debutYear,
         bool? isActive,
         string sortBy,
@@ -56,7 +56,7 @@ public class ArtistRepository : IArtistRepository
         // Apply sorting
         query = sortBy.ToLower() switch
         {
-            "name" => sortOrder.ToLower() == "desc" 
+            "name" => sortOrder.ToLower() == "desc"
                 ? query.OrderByDescending(a => a.Name)
                 : query.OrderBy(a => a.Name),
             "totalfollowers" => sortOrder.ToLower() == "desc"
@@ -79,8 +79,8 @@ public class ArtistRepository : IArtistRepository
     }
 
     public async Task<int> GetTotalCountAsync(
-        string? searchTerm, 
-        string? country, 
+        string? searchTerm,
+        string? country,
         int? debutYear,
         bool? isActive)
     {
@@ -126,19 +126,19 @@ public class ArtistRepository : IArtistRepository
 
         _context.Artists.Add(artist);
         await _context.SaveChangesAsync();
-        
+
         _logger.LogInformation("Created new artist with ID: {ArtistId}, Name: {Name}", artist.ArtistId, artist.Name);
-        
+
         return artist;
     }
 
     public async Task UpdateAsync(Artist artist)
     {
         artist.UpdatedAt = DateTime.UtcNow;
-        
+
         _context.Artists.Update(artist);
         await _context.SaveChangesAsync();
-        
+
         _logger.LogInformation("Updated artist with ID: {ArtistId}", artist.ArtistId);
     }
 
@@ -149,10 +149,10 @@ public class ArtistRepository : IArtistRepository
         {
             artist.DeletedAt = DateTime.UtcNow;
             artist.UpdatedAt = DateTime.UtcNow;
-            
+
             _context.Artists.Update(artist);
             await _context.SaveChangesAsync();
-            
+
             _logger.LogInformation("Soft deleted artist with ID: {ArtistId}", id);
         }
     }

@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import {
-  Upload,
   Music,
   Image as ImageIcon,
   Save,
@@ -13,7 +12,6 @@ import {
   ArrowLeft,
   Loader2,
   FileAudio,
-  Calendar,
   Users,
   Disc,
   Settings,
@@ -23,19 +21,20 @@ import {
   Link as LinkIcon,
   AlertCircle,
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Input, Textarea, Select } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { createSong } from '@/services/api/songs';
+import { getSongById } from '@/services/api/songs';
+import { updateSong } from '@/services/api/songs';
 import { getAllArtists } from '@/services/api/artists';
 import { getAllAlbums } from '@/services/api/albums';
 
-const CreateSong = () => {
+const UpdateSong = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [audioFile, setAudioFile] = useState(null);
-  const [coverImage, setCoverImage] = useState(null);
-  const [coverPreview, setCoverPreview] = useState(null);
+  
+  console.log('UpdateSong rendered, ID:', id);
   
   // Autocomplete states
   const [artistSearch, setArtistSearch] = useState('');
@@ -62,14 +61,14 @@ const CreateSong = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
+    reset,
   } = useForm({
     defaultValues: {
       title: '',
       artistId: '',
       albumId: '',
       genre: '',
-      releaseDate: new Date().toISOString().split('T')[0],
+      releaseDate: '',
       durationMinutes: '',
       durationSeconds: '',
       audioFileUrl: '',
@@ -85,7 +84,15 @@ const CreateSong = () => {
       losslessQualityUrl: '',
       isPublic: true,
       hasCopyright: true,
+      isActive: true,
     },
+  });
+
+  // Fetch song details
+  const { data: song, isLoading: loadingSong, error: songError } = useQuery({
+    queryKey: ['song', id],
+    queryFn: () => getSongById(id),
+    enabled: !!id,
   });
 
   // Fetch artists
@@ -99,6 +106,68 @@ const CreateSong = () => {
     queryKey: ['albums'],
     queryFn: getAllAlbums,
   });
+
+  // Populate form when song data is loaded
+  useEffect(() => {
+    if (song) {
+      // Calculate minutes and seconds from duration
+      const minutes = Math.floor(song.duration / 60);
+      const seconds = song.duration % 60;
+
+      // Set form values
+      setValue('title', song.title || '');
+      setValue('artistId', song.artistId?.toString() || '');
+      setValue('albumId', song.albumId?.toString() || '');
+      setValue('genre', song.genre || '');
+      setValue('releaseDate', song.releaseDate ? song.releaseDate.split('T')[0] : '');
+      setValue('durationMinutes', minutes.toString());
+      setValue('durationSeconds', seconds.toString());
+      setValue('audioFileUrl', song.audioFileUrl || '');
+      setValue('streamingUrl', song.streamingUrl || '');
+      setValue('coverImageUrl', song.coverImageUrl || '');
+      setValue('lyrics', song.lyrics || '');
+      setValue('fileSize', song.fileSize || 0);
+      setValue('audioFormat', song.audioFormat || '');
+      setValue('bitrate', song.bitrate?.toString() || '');
+      setValue('lowQualityUrl', song.lowQualityUrl || '');
+      setValue('mediumQualityUrl', song.mediumQualityUrl || '');
+      setValue('highQualityUrl', song.highQualityUrl || '');
+      setValue('losslessQualityUrl', song.losslessQualityUrl || '');
+      setValue('isPublic', song.isPublic ?? true);
+      setValue('hasCopyright', song.hasCopyright ?? true);
+      setValue('isActive', song.isActive ?? true);
+
+      // Set audio URL
+      if (song.audioFileUrl) {
+        setAudioUrl(song.audioFileUrl);
+        setIsValidUrl(true);
+      }
+
+      // Set cover URL
+      if (song.coverImageUrl) {
+        setCoverUrl(song.coverImageUrl);
+        setIsValidCoverUrl(true);
+      }
+
+      // Find and set selected artist
+      if (song.artistId && artists.length > 0) {
+        const artist = artists.find(a => a.artistId === song.artistId);
+        if (artist) {
+          setSelectedArtist(artist);
+          setArtistSearch(artist.artistName || artist.name || '');
+        }
+      }
+
+      // Find and set selected album
+      if (song.albumId && albums.length > 0) {
+        const album = albums.find(a => a.albumId === song.albumId);
+        if (album) {
+          setSelectedAlbum(album);
+          setAlbumSearch(album.albumTitle || album.title || '');
+        }
+      }
+    }
+  }, [song, artists, albums, setValue]);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -243,100 +312,19 @@ const CreateSong = () => {
     }
   };
 
-  // Create mutation
-  const createMutation = useMutation({
-    mutationFn: createSong,
+  // Update mutation
+  const updateMutation = useMutation({
+    mutationFn: (payload) => updateSong(id, payload),
     onSuccess: () => {
-      toast.success('Song created successfully!');
+      toast.success('Song updated successfully!');
       queryClient.invalidateQueries(['songs']);
+      queryClient.invalidateQueries(['song', id]);
       navigate('/music');
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message || 'Failed to create song');
+      toast.error(error?.response?.data?.message || 'Failed to update song');
     },
   });
-
-  // Handle audio file upload
-  const handleAudioUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Validate file type
-    const allowedTypes = ['audio/mpeg', 'audio/wav', 'audio/flac', 'audio/mp3'];
-    if (!allowedTypes.includes(file.type) && !file.name.match(/\.(mp3|wav|flac)$/i)) {
-      toast.error('Please upload a valid audio file (MP3, WAV, or FLAC)');
-      return;
-    }
-
-    // Validate file size (max 50MB)
-    const maxSize = 50 * 1024 * 1024; // 50MB
-    if (file.size > maxSize) {
-      toast.error('Audio file size must be less than 50MB');
-      return;
-    }
-
-    setAudioFile(file);
-
-    // Fake URL generation
-    const fakeUrl = `https://cdn.spotixe.com/audio/${Date.now()}_${file.name}`;
-    setValue('audioFileUrl', fakeUrl);
-    setValue('streamingUrl', `${fakeUrl}?quality=adaptive`);
-    setValue('fileSize', file.size);
-    
-    // Extract audio format
-    const format = file.name.split('.').pop().toLowerCase();
-    setValue('audioFormat', format);
-
-    // Auto-fill quality URLs
-    setValue('lowQualityUrl', `${fakeUrl}?quality=low`);
-    setValue('mediumQualityUrl', `${fakeUrl}?quality=medium`);
-    setValue('highQualityUrl', `${fakeUrl}?quality=high`);
-    setValue('losslessQualityUrl', `${fakeUrl}?quality=lossless`);
-
-    // Try to extract duration from audio file
-    const audio = new Audio();
-    audio.src = URL.createObjectURL(file);
-    audio.addEventListener('loadedmetadata', () => {
-      const duration = Math.floor(audio.duration);
-      const minutes = Math.floor(duration / 60);
-      const seconds = duration % 60;
-      setValue('durationMinutes', minutes.toString());
-      setValue('durationSeconds', seconds.toString());
-    });
-  };
-
-  // Handle cover image upload
-  const handleCoverUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    if (!allowedTypes.includes(file.type)) {
-      toast.error('Please upload a valid image file (JPG, PNG, or WebP)');
-      return;
-    }
-
-    // Validate file size (max 5MB)
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    if (file.size > maxSize) {
-      toast.error('Image file size must be less than 5MB');
-      return;
-    }
-
-    setCoverImage(file);
-
-    // Create preview
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setCoverPreview(reader.result);
-    };
-    reader.readAsDataURL(file);
-
-    // Fake URL generation
-    const fakeUrl = `https://cdn.spotixe.com/covers/${Date.now()}_${file.name}`;
-    setValue('coverImageUrl', fakeUrl);
-  };
 
   // Convert MM:SS to seconds
   const convertToSeconds = (minutes, seconds) => {
@@ -393,9 +381,10 @@ const CreateSong = () => {
       albumId: data.albumId ? parseInt(data.albumId) : null,
       isPublic: data.isPublic,
       hasCopyright: data.hasCopyright,
+      isActive: data.isActive,
     };
 
-    createMutation.mutate(payload);
+    updateMutation.mutate(payload);
   };
 
   const genres = [
@@ -412,6 +401,68 @@ const CreateSong = () => {
     'EDM',
     'Soul',
   ];
+
+  // Loading state
+  if (loadingSong) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-spotify-green mx-auto mb-4" />
+          <p className="text-admin-text-secondary">Loading song details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (songError) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Card className="max-w-md">
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <AlertCircle className="w-12 h-12 text-apple-red mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-admin-text-primary mb-2">
+                Failed to Load Song
+              </h3>
+              <p className="text-admin-text-secondary mb-4">
+                {songError?.message || 'An error occurred while loading the song.'}
+              </p>
+              <Button onClick={() => navigate('/music')}>
+                <ArrowLeft size={18} className="mr-2" />
+                Back to Music List
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Not found state
+  if (!song) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Card className="max-w-md">
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <Music className="w-12 h-12 text-admin-text-tertiary mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-admin-text-primary mb-2">
+                Song Not Found
+              </h3>
+              <p className="text-admin-text-secondary mb-4">
+                The song you're looking for doesn't exist.
+              </p>
+              <Button onClick={() => navigate('/music')}>
+                <ArrowLeft size={18} className="mr-2" />
+                Back to Music List
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 pb-8">
@@ -431,6 +482,9 @@ const CreateSong = () => {
             <ArrowLeft size={18} className="mr-2" />
             Back to Music List
           </Button>
+          <h1 className="text-2xl font-bold text-admin-text-primary">
+            Edit Song: {song.title}
+          </h1>
         </div>
       </motion.div>
 
@@ -448,9 +502,6 @@ const CreateSong = () => {
                   <Music className="text-spotify-green" size={24} />
                   Basic Information
                 </CardTitle>
-                {/* <CardDescription>
-                  Enter the basic details of the song
-                </CardDescription> */}
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Title */}
@@ -479,7 +530,7 @@ const CreateSong = () => {
                   <div className="relative" ref={artistInputRef}>
                     <div className="relative">
                       <Search 
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" 
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary pointer-events-none" 
                         size={18} 
                       />
                       <Input
@@ -496,13 +547,13 @@ const CreateSong = () => {
                       />
                       {selectedArtist && (
                         <Check 
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-spotify-green" 
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-spotify-green pointer-events-none" 
                           size={18} 
                         />
                       )}
                       {!selectedArtist && artistSearch && (
                         <ChevronDown 
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" 
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary pointer-events-none" 
                           size={18} 
                         />
                       )}
@@ -556,7 +607,7 @@ const CreateSong = () => {
                   <div className="relative" ref={albumInputRef}>
                     <div className="relative">
                       <Search 
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" 
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary pointer-events-none" 
                         size={18} 
                       />
                       <Input
@@ -571,17 +622,18 @@ const CreateSong = () => {
                         }}
                         onFocus={() => setShowAlbumDropdown(true)}
                         placeholder={loadingAlbums ? 'Loading albums...' : 'Search for an album...'}
+                        // className="pl-10"
                         disabled={loadingAlbums}
                       />
                       {selectedAlbum && (
                         <Check 
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-spotify-green" 
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-spotify-green pointer-events-none" 
                           size={18} 
                         />
                       )}
                       {!selectedAlbum && albumSearch && (
                         <ChevronDown 
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" 
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary pointer-events-none" 
                           size={18} 
                         />
                       )}
@@ -707,9 +759,6 @@ const CreateSong = () => {
                   <FileAudio className="text-spotify-green" size={24} />
                   Audio Files
                 </CardTitle>
-                {/* <CardDescription>
-                  Upload audio file and configure quality URLs
-                </CardDescription> */}
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Main Audio URL */}
@@ -719,17 +768,17 @@ const CreateSong = () => {
                   </label>
                   <div className="relative">
                     <LinkIcon 
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary" 
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-admin-text-tertiary pointer-events-none" 
                       size={18} 
                     />
                     <Input
                       value={audioUrl}
                       onChange={handleAudioUrlChange}
                       placeholder="https://audio.spotixe.io.vn/songs/your-song.mp3"
-                      // className="pl-10 pr-10"
+                    //   className="pl-10"
                     />
                     {audioUrl && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                         {isValidUrl ? (
                           <Check className="text-spotify-green" size={18} />
                         ) : (
@@ -810,9 +859,6 @@ const CreateSong = () => {
                   <ImageIcon className="text-spotify-green" size={24} />
                   Media & Content
                 </CardTitle>
-                {/* <CardDescription>
-                  Upload cover image and add lyrics
-                </CardDescription> */}
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Cover Image */}
@@ -829,7 +875,7 @@ const CreateSong = () => {
                       value={coverUrl}
                       onChange={handleCoverUrlChange}
                       placeholder="https://image.spotixe.io.vn/covers/your-cover.jpg"
-                      // className="pl-10"
+                    //   className="pl-10"
                     />
                     {coverUrl && (
                       <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -889,9 +935,6 @@ const CreateSong = () => {
                   <Settings className="text-spotify-green" size={24} />
                   Publishing Settings
                 </CardTitle>
-                {/* <CardDescription>
-                  Configure visibility and copyright settings
-                </CardDescription> */}
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Is Public */}
@@ -935,6 +978,27 @@ const CreateSong = () => {
                     </p>
                   </div>
                 </div>
+
+                {/* Is Active */}
+                <div className="flex items-center gap-3 p-4 bg-admin-bg-hover rounded-lg">
+                  <input
+                    type="checkbox"
+                    id="isActive"
+                    {...register('isActive')}
+                    className="w-5 h-5 rounded border-admin-border-default text-spotify-green focus:ring-2 focus:ring-spotify-green cursor-pointer"
+                  />
+                  <div className="flex-1">
+                    <label
+                      htmlFor="isActive"
+                      className="text-sm font-medium text-admin-text-primary cursor-pointer"
+                    >
+                      Song is active
+                    </label>
+                    <p className="text-xs text-admin-text-tertiary mt-0.5">
+                      Active songs are available for streaming
+                    </p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -951,24 +1015,24 @@ const CreateSong = () => {
             type="button"
             variant="outline"
             onClick={() => navigate('/music')}
-            disabled={createMutation.isPending}
+            disabled={updateMutation.isPending}
           >
             <X size={18} className="mr-2" />
             Cancel
           </Button>
           <Button
             type="submit"
-            disabled={createMutation.isPending}
+            disabled={updateMutation.isPending}
           >
-            {createMutation.isPending ? (
+            {updateMutation.isPending ? (
               <>
                 <Loader2 size={18} className="mr-2 animate-spin" />
-                Creating...
+                Updating...
               </>
             ) : (
               <>
                 <Save size={18} className="mr-2" />
-                Create Song
+                Update Song
               </>
             )}
           </Button>
@@ -978,4 +1042,4 @@ const CreateSong = () => {
   );
 };
 
-export default CreateSong;
+export default UpdateSong;

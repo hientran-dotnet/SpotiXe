@@ -17,6 +17,7 @@ namespace MusicStreamingAPI.Entities;
 public partial class Song
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long SongId { get; set; }
 
     [StringLength(255)]

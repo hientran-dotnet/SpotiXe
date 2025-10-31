@@ -12,7 +12,6 @@ const MainLayout = () => {
     <div className="min-h-screen bg-admin-bg-primary">
       <Sidebar />
       <Header />
-      
       <motion.main
         animate={{ 
           marginLeft: isCollapsed ? '80px' : '260px',
