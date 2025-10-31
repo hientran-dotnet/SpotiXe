@@ -423,7 +423,10 @@ const MusicManagement = () => {
                               </button>
                               <div className="absolute right-0 top-full mt-1 w-48 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                                 <div className="p-1">
-                                  <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
+                                  <button 
+                                    onClick={() => navigate(`/songs/${track.songId}/edit`)}
+                                    className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm"
+                                  >
                                     <Edit size={16} />
                                     Edit
                                   </button>
