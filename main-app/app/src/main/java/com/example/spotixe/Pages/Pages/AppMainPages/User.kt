@@ -1,5 +1,6 @@
 package com.example.spotixe.Pages.Pages.AppMainPages
 
+import Components.BackButton
 import Components.ExploreSection
 import Components.GenresSection
 import androidx.compose.foundation.Image
@@ -74,23 +75,10 @@ fun UserScreen(
                     .padding(top = 12.dp, start = 8.dp, end = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(
-                    modifier = Modifier
-                        .padding(start = 8.dp)
-                        .size(40.dp)
-                        .clickable { navController.popBackStack() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBackIosNew,
-                        contentDescription = "Back",
-                        tint = Color(0xFF58BA47),
-                        modifier = Modifier
-                            .size(40.dp)
-                            .padding(6.dp)
-                    )
-                }
+                BackButton(navController)
+
                 Spacer(Modifier.width(110.dp))
+
                 Text(
                     text = "User",
                     fontSize = 28.sp,
