@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import {
@@ -25,8 +25,10 @@ import { Input, Select } from '@/components/ui/Input';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/Table';
 import { Badge, StatusBadge } from '@/components/ui/Badge';
 import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/ui/Modal';
+import { ConfirmDeleteSong } from '@/components/ui/ConfirmDeleteSong';
 import { formatNumber, formatDuration, formatDate } from '@/lib/utils';
 import { getAllSongs } from "@/services/api/songs";
+import { deleteSong } from "@/services/api/songs/deleteSong";
 
 
 // const mockTracks = [
@@ -82,6 +84,7 @@ import { getAllSongs } from "@/services/api/songs";
 
 const MusicManagement = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('all');
   const [viewMode, setViewMode] = useState('list');
   const [searchQuery, setSearchQuery] = useState('');
@@ -89,6 +92,7 @@ const MusicManagement = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedTracks, setSelectedTracks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, songId: null, songTitle: '' });
   const itemsPerPage = 10;
 
   // Fetch songs using React Query
@@ -109,6 +113,33 @@ const MusicManagement = () => {
       toast.error(error?.response?.data?.message || error?.message || 'Failed to fetch songs');
     }
   }, [isError, error]);
+
+  // Delete song mutation
+  const deleteMutation = useMutation({
+    mutationFn: (songId) => deleteSong(songId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['songs']);
+      toast.success('Song deleted successfully');
+      setDeleteModal({ isOpen: false, songId: null, songTitle: '' });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete song');
+    },
+  });
+
+  const handleDeleteClick = (songId, songTitle) => {
+    setDeleteModal({ isOpen: true, songId, songTitle });
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteModal.songId) {
+      deleteMutation.mutate(deleteModal.songId);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModal({ isOpen: false, songId: null, songTitle: '' });
+  };
 
   // Filter và phân trang client-side
   const filteredTracks = useMemo(() => {
@@ -430,7 +461,10 @@ const MusicManagement = () => {
                                     <Edit size={16} />
                                     Edit
                                   </button>
-                                  <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm">
+                                  <button 
+                                    onClick={() => handleDeleteClick(track.songId, track.title)}
+                                    className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm"
+                                  >
                                     <Trash2 size={16} />
                                     Delete
                                   </button>
@@ -507,6 +541,15 @@ const MusicManagement = () => {
           <Button>Upload Track</Button>
         </ModalFooter>
       </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmDeleteSong
+        isOpen={deleteModal.isOpen}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        songTitle={deleteModal.songTitle}
+        isDeleting={deleteMutation.isPending}
+      />
     </div>
   );
 };
