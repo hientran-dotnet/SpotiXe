@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import {
@@ -25,8 +25,11 @@ import { Input, Select } from '@/components/ui/Input';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/Table';
 import { Badge, StatusBadge } from '@/components/ui/Badge';
 import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/ui/Modal';
+import { ConfirmDeleteSong } from '@/components/ui/ConfirmDeleteSong';
+import { ConfirmBulkDelete } from '@/components/ui/ConfirmBulkDelete';
 import { formatNumber, formatDuration, formatDate } from '@/lib/utils';
 import { getAllSongs } from "@/services/api/songs";
+import { deleteSong } from "@/services/api/songs/deleteSong";
 
 
 // const mockTracks = [
@@ -82,6 +85,7 @@ import { getAllSongs } from "@/services/api/songs";
 
 const MusicManagement = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('all');
   const [viewMode, setViewMode] = useState('list');
   const [searchQuery, setSearchQuery] = useState('');
@@ -89,6 +93,8 @@ const MusicManagement = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedTracks, setSelectedTracks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, songId: null, songTitle: '' });
+  const [bulkDeleteModal, setBulkDeleteModal] = useState({ isOpen: false, count: 0 });
   const itemsPerPage = 10;
 
   // Fetch songs using React Query
@@ -109,6 +115,65 @@ const MusicManagement = () => {
       toast.error(error?.response?.data?.message || error?.message || 'Failed to fetch songs');
     }
   }, [isError, error]);
+
+  // Delete song mutation
+  const deleteMutation = useMutation({
+    mutationFn: (songId) => deleteSong(songId),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['songs']);
+      toast.success('Song deleted successfully');
+      setDeleteModal({ isOpen: false, songId: null, songTitle: '' });
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete song');
+    },
+  });
+
+  const handleDeleteClick = (songId, songTitle) => {
+    setDeleteModal({ isOpen: true, songId, songTitle });
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteModal.songId) {
+      deleteMutation.mutate(deleteModal.songId);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModal({ isOpen: false, songId: null, songTitle: '' });
+  };
+
+  // Bulk delete mutation
+  const bulkDeleteMutation = useMutation({
+    mutationFn: async (songIds) => {
+      // Delete all songs in parallel
+      const deletePromises = songIds.map(id => deleteSong(id));
+      return await Promise.all(deletePromises);
+    },
+    onSuccess: (data, songIds) => {
+      queryClient.invalidateQueries(['songs']);
+      toast.success(`Successfully deleted ${songIds.length} song${songIds.length > 1 ? 's' : ''}`);
+      setBulkDeleteModal({ isOpen: false, count: 0 });
+      setSelectedTracks([]); // Clear selection
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete songs');
+    },
+  });
+
+  const handleBulkDeleteClick = () => {
+    setBulkDeleteModal({ isOpen: true, count: selectedTracks.length });
+  };
+
+  const handleBulkDeleteConfirm = () => {
+    if (selectedTracks.length > 0) {
+      bulkDeleteMutation.mutate(selectedTracks);
+    }
+  };
+
+  const handleBulkDeleteCancel = () => {
+    setBulkDeleteModal({ isOpen: false, count: 0 });
+  };
 
   // Filter và phân trang client-side
   const filteredTracks = useMemo(() => {
@@ -214,8 +279,10 @@ const MusicManagement = () => {
       {/* Filters & Search */}
       <Card>
         <CardContent className="p-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Search - 2 columns on desktop */}
+            <div className="md:col-span-1 lg:col-span-2">
               <Input
                 icon={Search}
                 placeholder="Search tracks, artists, albums..."
@@ -223,32 +290,16 @@ const MusicManagement = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)}>
-              {genres.map((genre) => (
-                <option key={genre} value={genre}>
-                  {genre === 'all' ? 'All Genres' : genre}
-                </option>
-              ))}
-            </Select>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                <Filter size={18} className="mr-2" />
-                More Filters
-              </Button>
-              <div className="flex border border-admin-border-default rounded-lg overflow-hidden">
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 ${viewMode === 'list' ? 'bg-admin-bg-hover text-spotify-green' : 'text-admin-text-tertiary'}`}
-                >
-                  <ListIcon size={18} />
-                </button>
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 ${viewMode === 'grid' ? 'bg-admin-bg-hover text-spotify-green' : 'text-admin-text-tertiary'}`}
-                >
-                  <Grid size={18} />
-                </button>
-              </div>
+            
+            {/* Genre filter - 1 column */}
+            <div>
+              <Select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)}>
+                {genres.map((genre) => (
+                  <option key={genre} value={genre}>
+                    {genre === 'all' ? 'All Genres' : genre}
+                  </option>
+                ))}
+              </Select>
             </div>
           </div>
 
@@ -263,17 +314,12 @@ const MusicManagement = () => {
                 {selectedTracks.length} track{selectedTracks.length > 1 ? 's' : ''} selected
               </span>
               <div className="flex gap-2">
-                <Button size="sm" variant="outline">
-                  <Star size={16} className="mr-2" />
-                  Feature
-                </Button>
-                <Button size="sm" variant="outline">
-                  <Edit size={16} className="mr-2" />
-                  Edit
-                </Button>
-                <Button size="sm" variant="danger">
+                <Button
+                  variant="danger"
+                  onClick={handleBulkDeleteClick}
+                >
                   <Trash2 size={16} className="mr-2" />
-                  Delete
+                  Delete Selected
                 </Button>
               </div>
             </motion.div>
@@ -437,11 +483,17 @@ const MusicManagement = () => {
                               </button>
                               <div className="absolute right-0 top-full mt-1 w-48 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                                 <div className="p-1">
-                                  <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm">
+                                  <button 
+                                    onClick={() => navigate(`/songs/${track.songId}/edit`)}
+                                    className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm"
+                                  >
                                     <Edit size={16} />
                                     Edit
                                   </button>
-                                  <button className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm">
+                                  <button 
+                                    onClick={() => handleDeleteClick(track.songId, track.title)}
+                                    className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm"
+                                  >
                                     <Trash2 size={16} />
                                     Delete
                                   </button>
@@ -518,6 +570,24 @@ const MusicManagement = () => {
           <Button>Upload Track</Button>
         </ModalFooter>
       </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmDeleteSong
+        isOpen={deleteModal.isOpen}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        songTitle={deleteModal.songTitle}
+        isDeleting={deleteMutation.isPending}
+      />
+
+      {/* Bulk Delete Confirmation Modal */}
+      <ConfirmBulkDelete
+        isOpen={bulkDeleteModal.isOpen}
+        onClose={handleBulkDeleteCancel}
+        onConfirm={handleBulkDeleteConfirm}
+        count={bulkDeleteModal.count}
+        isDeleting={bulkDeleteMutation.isPending}
+      />
     </div>
   );
 };

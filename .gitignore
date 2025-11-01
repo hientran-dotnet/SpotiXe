@@ -344,3 +344,4 @@ firebase-debug.log
 
 .env
 
+output/

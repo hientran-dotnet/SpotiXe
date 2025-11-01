@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import {
@@ -20,8 +20,11 @@ import {
   CheckCircle,
   XCircle,
   Loader2,
+  Edit,
+  Trash2,
 } from 'lucide-react';
 import { getSongById } from '@/services/api/songs';
+import { deleteSong } from '@/services/api/songs/deleteSong';
 import { 
   formatDuration, 
   formatDateTime, 
@@ -32,10 +35,13 @@ import {
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
+import { ConfirmDeleteSong } from '@/components/ui/ConfirmDeleteSong';
 
 const SongDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Fetch song details
   const { 
@@ -55,6 +61,23 @@ const SongDetail = () => {
       toast.error(error?.response?.data?.message || error?.message || 'Failed to fetch song details');
     }
   }, [isError, error]);
+
+  // Delete song mutation
+  const deleteMutation = useMutation({
+    mutationFn: () => deleteSong(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['songs']);
+      toast.success('Song deleted successfully');
+      navigate('/music');
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete song');
+    },
+  });
+
+  const handleDeleteConfirm = () => {
+    deleteMutation.mutate();
+  };
 
   // Loading State
   if (isLoading) {
@@ -220,9 +243,24 @@ const SongDetail = () => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3 pt-4">
+                  <Button
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
+                    onClick={() => navigate(`/songs/${id}/edit`)}
+                  >
+                    <Edit size={18} className="mr-2" />
+                    Edit Song
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => setShowDeleteModal(true)}
+                    >
+                    <Trash2 size={18} className="mr-2" />
+                    Delete Song
+                  </Button>
                   {song.streamingUrl && (
                     <Button
-                      variant="default"
+                      variant="outline"
                       onClick={() => window.open(song.streamingUrl, '_blank')}
                     >
                       <Radio size={18} className="mr-2" />
@@ -496,6 +534,15 @@ const SongDetail = () => {
           </CardContent>
         </Card>
       </motion.div>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmDeleteSong
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeleteConfirm}
+        songTitle={song?.title}
+        isDeleting={deleteMutation.isPending}
+      />
     </div>
   );
 };
