@@ -254,7 +254,7 @@ const SongDetail = () => {
                   <Button
                     variant="danger"
                     onClick={() => setShowDeleteModal(true)}
-                  >
+                    >
                     <Trash2 size={18} className="mr-2" />
                     Delete Song
                   </Button>
