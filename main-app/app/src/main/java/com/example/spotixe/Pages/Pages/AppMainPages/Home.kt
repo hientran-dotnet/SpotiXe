@@ -1,5 +1,6 @@
 package com.example.spotixe.Pages.Pages.AppMainPages
 
+import Components.BottomBar
 import Components.RecentlyPlayedItem
 import Components.SongCardRow
 import androidx.compose.foundation.clickable
@@ -18,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PersonPin
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -31,13 +33,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.spotixe.Data.topPicks
 import com.example.spotixe.Data.recentlyPlayed
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavHostController) {
     val scrollState = rememberScrollState()
-    Scaffold { innerPadding ->
+    Scaffold (
+        bottomBar = { BottomBar(navController) }
+    ){ innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -61,7 +66,7 @@ fun HomeScreen(navController: NavController) {
                 )
 
                 Icon(
-                    imageVector = Icons.Rounded.Person,
+                    imageVector = Icons.Default.PersonPin,
                     contentDescription = "Profile",
                     modifier = Modifier.size(40.dp)
                 )

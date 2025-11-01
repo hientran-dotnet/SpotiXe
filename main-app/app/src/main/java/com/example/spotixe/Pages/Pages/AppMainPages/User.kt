@@ -1,6 +1,7 @@
 package com.example.spotixe.Pages.Pages.AppMainPages
 
 import Components.BackButton
+import Components.BottomBar
 import Components.ExploreSection
 import Components.GenresSection
 import androidx.compose.foundation.Image
@@ -55,13 +56,17 @@ import com.example.spotixe.Data.genres
 import com.example.spotixe.Data.recentlyPlayed
 import com.example.spotixe.Data.topPicks
 import com.example.spotixe.R
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
 
 @Composable
 fun UserScreen(
-    navController: NavController,
+    navController: NavHostController,
 ){
 
-    Scaffold { innerPadding ->
+    Scaffold (
+        bottomBar = { BottomBar(navController) }
+    ){ innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)

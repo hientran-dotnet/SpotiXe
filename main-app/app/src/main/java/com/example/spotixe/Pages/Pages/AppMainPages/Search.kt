@@ -1,6 +1,7 @@
 package com.example.spotixe.Pages.Pages.AppMainPages
 
 import Components.BackButton
+import Components.BottomBar
 import Components.GenresSection
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,15 +39,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.spotixe.Data.genres
 
 @Composable
 fun SearchScreen(
-    navController: NavController,
+    navController: NavHostController,
 ) {
     var text by rememberSaveable { mutableStateOf("") }
 
-    Scaffold { innerPadding ->
+    Scaffold (
+        bottomBar = { BottomBar(navController) }
+    ){ innerPadding ->
 
         Column (
             modifier = Modifier
