@@ -26,6 +26,7 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@
 import { Badge, StatusBadge } from '@/components/ui/Badge';
 import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/ui/Modal';
 import { ConfirmDeleteSong } from '@/components/ui/ConfirmDeleteSong';
+import { ConfirmBulkDelete } from '@/components/ui/ConfirmBulkDelete';
 import { formatNumber, formatDuration, formatDate } from '@/lib/utils';
 import { getAllSongs } from "@/services/api/songs";
 import { deleteSong } from "@/services/api/songs/deleteSong";
@@ -93,6 +94,7 @@ const MusicManagement = () => {
   const [selectedTracks, setSelectedTracks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, songId: null, songTitle: '' });
+  const [bulkDeleteModal, setBulkDeleteModal] = useState({ isOpen: false, count: 0 });
   const itemsPerPage = 10;
 
   // Fetch songs using React Query
@@ -139,6 +141,38 @@ const MusicManagement = () => {
 
   const handleDeleteCancel = () => {
     setDeleteModal({ isOpen: false, songId: null, songTitle: '' });
+  };
+
+  // Bulk delete mutation
+  const bulkDeleteMutation = useMutation({
+    mutationFn: async (songIds) => {
+      // Delete all songs in parallel
+      const deletePromises = songIds.map(id => deleteSong(id));
+      return await Promise.all(deletePromises);
+    },
+    onSuccess: (data, songIds) => {
+      queryClient.invalidateQueries(['songs']);
+      toast.success(`Successfully deleted ${songIds.length} song${songIds.length > 1 ? 's' : ''}`);
+      setBulkDeleteModal({ isOpen: false, count: 0 });
+      setSelectedTracks([]); // Clear selection
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete songs');
+    },
+  });
+
+  const handleBulkDeleteClick = () => {
+    setBulkDeleteModal({ isOpen: true, count: selectedTracks.length });
+  };
+
+  const handleBulkDeleteConfirm = () => {
+    if (selectedTracks.length > 0) {
+      bulkDeleteMutation.mutate(selectedTracks);
+    }
+  };
+
+  const handleBulkDeleteCancel = () => {
+    setBulkDeleteModal({ isOpen: false, count: 0 });
   };
 
   // Filter và phân trang client-side
@@ -280,17 +314,12 @@ const MusicManagement = () => {
                 {selectedTracks.length} track{selectedTracks.length > 1 ? 's' : ''} selected
               </span>
               <div className="flex gap-2">
-                <Button size="sm" variant="outline">
-                  <Star size={16} className="mr-2" />
-                  Feature
-                </Button>
-                <Button size="sm" variant="outline">
-                  <Edit size={16} className="mr-2" />
-                  Edit
-                </Button>
-                <Button size="sm" variant="danger">
+                <Button
+                  variant="danger"
+                  onClick={handleBulkDeleteClick}
+                >
                   <Trash2 size={16} className="mr-2" />
-                  Delete
+                  Delete Selected
                 </Button>
               </div>
             </motion.div>
@@ -549,6 +578,15 @@ const MusicManagement = () => {
         onConfirm={handleDeleteConfirm}
         songTitle={deleteModal.songTitle}
         isDeleting={deleteMutation.isPending}
+      />
+
+      {/* Bulk Delete Confirmation Modal */}
+      <ConfirmBulkDelete
+        isOpen={bulkDeleteModal.isOpen}
+        onClose={handleBulkDeleteCancel}
+        onConfirm={handleBulkDeleteConfirm}
+        count={bulkDeleteModal.count}
+        isDeleting={bulkDeleteMutation.isPending}
       />
     </div>
   );
