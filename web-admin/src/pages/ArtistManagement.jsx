@@ -15,6 +15,9 @@ import {
   Globe,
   Calendar,
   UserCheck,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -35,6 +38,7 @@ const ArtistManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, artistId: null, artistName: '' });
   const [bulkDeleteModal, setBulkDeleteModal] = useState({ isOpen: false, count: 0 });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const itemsPerPage = 10;
 
   // Fetch artists using React Query
@@ -114,7 +118,7 @@ const ArtistManagement = () => {
     setBulkDeleteModal({ isOpen: false, count: 0 });
   };
 
-  // Filter and pagination client-side
+  // Filter and sort client-side
   const filteredArtists = useMemo(() => {
     let filtered = artistsData;
 
@@ -131,8 +135,32 @@ const ArtistManagement = () => {
       filtered = filtered.filter(artist => artist.country === selectedCountry);
     }
 
+    // Apply sorting
+    if (sortConfig.key) {
+      filtered = [...filtered].sort((a, b) => {
+        let aValue = a[sortConfig.key];
+        let bValue = b[sortConfig.key];
+
+        // Handle null/undefined values
+        if (aValue == null) return 1;
+        if (bValue == null) return -1;
+
+        // Convert to lowercase for string comparison
+        if (typeof aValue === 'string') aValue = aValue.toLowerCase();
+        if (typeof bValue === 'string') bValue = bValue.toLowerCase();
+
+        if (aValue < bValue) {
+          return sortConfig.direction === 'asc' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortConfig.direction === 'asc' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
     return filtered;
-  }, [artistsData, searchQuery, selectedCountry]);
+  }, [artistsData, searchQuery, selectedCountry, sortConfig]);
 
   // Pagination
   const paginatedArtists = useMemo(() => {
@@ -154,6 +182,24 @@ const ArtistManagement = () => {
         ? prev.filter(id => id !== artistId)
         : [...prev, artistId]
     );
+  };
+
+  // Handle column sorting
+  const handleSort = (key) => {
+    setSortConfig(prev => ({
+      key,
+      direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
+
+  // Get sort icon for column
+  const getSortIcon = (key) => {
+    if (sortConfig.key !== key) {
+      return <ArrowUpDown size={14} className="text-admin-text-tertiary" />;
+    }
+    return sortConfig.direction === 'asc' 
+      ? <ArrowUp size={14} className="text-spotify-green" />
+      : <ArrowDown size={14} className="text-spotify-green" />;
   };
 
   const handlePreviousPage = () => {
@@ -195,49 +241,61 @@ const ArtistManagement = () => {
         transition={{ duration: 0.3, delay: 0.1 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-6"
       >
-        <Card>
+        <Card className="hover:shadow-xl transition-shadow duration-300 cursor-pointer group">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-admin-text-tertiary mb-1">Total Artists</p>
-                <p className="text-2xl font-bold text-admin-text-primary">
+                <p className="text-sm text-admin-text-tertiary mb-2">Total Artists</p>
+                <p className="text-5xl font-bold text-admin-text-primary mb-1">
                   {formatNumber(artistsData.length)}
                 </p>
+                <p className="text-xs text-spotify-green flex items-center gap-1">
+                  <TrendingUp size={12} />
+                  +2 from last month
+                </p>
               </div>
-              <div className="w-12 h-12 rounded-full bg-spotify-green/20 flex items-center justify-center">
-                <Users size={24} className="text-spotify-green" />
+              <div className="w-14 h-14 rounded-full bg-spotify-green/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Users size={28} className="text-spotify-green" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-xl transition-shadow duration-300 cursor-pointer group">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-admin-text-tertiary mb-1">Active Artists</p>
-                <p className="text-2xl font-bold text-admin-text-primary">
+                <p className="text-sm text-admin-text-tertiary mb-2">Active Artists</p>
+                <p className="text-5xl font-bold text-admin-text-primary mb-1">
                   {formatNumber(artistsData.filter(a => a.isActive).length)}
                 </p>
+                <p className="text-xs text-spotify-green flex items-center gap-1">
+                  <TrendingUp size={12} />
+                  +5 from last month
+                </p>
               </div>
-              <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                <UserCheck size={24} className="text-blue-500" />
+              <div className="w-14 h-14 rounded-full bg-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <UserCheck size={28} className="text-blue-500" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-xl transition-shadow duration-300 cursor-pointer group">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-admin-text-tertiary mb-1">Countries</p>
-                <p className="text-2xl font-bold text-admin-text-primary">
+                <p className="text-sm text-admin-text-tertiary mb-2">Countries</p>
+                <p className="text-5xl font-bold text-admin-text-primary mb-1">
                   {countries.filter(c => c !== 'all').length}
                 </p>
+                <p className="text-xs text-blue-400 flex items-center gap-1">
+                  <Globe size={12} />
+                  Worldwide reach
+                </p>
               </div>
-              <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
-                <Globe size={24} className="text-purple-500" />
+              <div className="w-14 h-14 rounded-full bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Globe size={28} className="text-purple-500" />
               </div>
             </div>
           </CardContent>
@@ -246,21 +304,29 @@ const ArtistManagement = () => {
 
       {/* Filters & Search */}
       <Card>
-        <CardContent className="p-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Search */}
-            <div>
-              <Input
-                icon={Search}
-                placeholder="Search by name or country..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Search - Larger and more prominent */}
+            <div className="md:col-span-2">
+              <div className="relative">
+                <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-admin-text-tertiary pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder="Search artists by name or country..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 bg-admin-bg-hover border border-admin-border-default rounded-lg text-admin-text-primary placeholder-admin-text-tertiary focus:outline-none focus:ring-2 focus:ring-spotify-green focus:border-transparent transition-all text-base"
+                />
+              </div>
             </div>
 
             {/* Country filter */}
             <div>
-              <Select value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)}>
+              <Select 
+                value={selectedCountry} 
+                onChange={(e) => setSelectedCountry(e.target.value)}
+                className="py-3"
+              >
                 {countries.map((country) => (
                   <option key={country} value={country}>
                     {country === 'all' ? 'All Countries' : country}
@@ -344,10 +410,42 @@ const ArtistManagement = () => {
                           }}
                         />
                       </TableHead>
-                      <TableHead>Artist</TableHead>
-                      <TableHead>Country</TableHead>
-                      <TableHead>Debut Year</TableHead>
-                      <TableHead>Total Followers</TableHead>
+                      <TableHead 
+                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
+                        onClick={() => handleSort('name')}
+                      >
+                        <div className="flex items-center gap-2">
+                          Artist
+                          {getSortIcon('name')}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
+                        onClick={() => handleSort('country')}
+                      >
+                        <div className="flex items-center gap-2">
+                          Country
+                          {getSortIcon('country')}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
+                        onClick={() => handleSort('debutYear')}
+                      >
+                        <div className="flex items-center gap-2">
+                          Debut Year
+                          {getSortIcon('debutYear')}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
+                        onClick={() => handleSort('totalFollowers')}
+                      >
+                        <div className="flex items-center gap-2">
+                          Total Followers
+                          {getSortIcon('totalFollowers')}
+                        </div>
+                      </TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead className="w-12"></TableHead>
                     </TableRow>
