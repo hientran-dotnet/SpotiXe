@@ -18,6 +18,9 @@ import {
   List as ListIcon,
   TrendingUp,
   Loader2,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -95,6 +98,7 @@ const MusicManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, songId: null, songTitle: '' });
   const [bulkDeleteModal, setBulkDeleteModal] = useState({ isOpen: false, count: 0 });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const itemsPerPage = 10;
 
   // Fetch songs using React Query
@@ -175,7 +179,7 @@ const MusicManagement = () => {
     setBulkDeleteModal({ isOpen: false, count: 0 });
   };
 
-  // Filter và phân trang client-side
+  // Filter và sort client-side
   const filteredTracks = useMemo(() => {
     let filtered = songsData;
 
@@ -191,8 +195,32 @@ const MusicManagement = () => {
       filtered = filtered.filter(track => track.genre === selectedGenre);
     }
 
+    // Apply sorting
+    if (sortConfig.key) {
+      filtered = [...filtered].sort((a, b) => {
+        let aValue = a[sortConfig.key];
+        let bValue = b[sortConfig.key];
+
+        // Handle null/undefined values
+        if (aValue == null) return 1;
+        if (bValue == null) return -1;
+
+        // Convert to lowercase for string comparison
+        if (typeof aValue === 'string') aValue = aValue.toLowerCase();
+        if (typeof bValue === 'string') bValue = bValue.toLowerCase();
+
+        if (aValue < bValue) {
+          return sortConfig.direction === 'asc' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortConfig.direction === 'asc' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
     return filtered;
-  }, [songsData, searchQuery, selectedGenre]);
+  }, [songsData, searchQuery, selectedGenre, sortConfig]);
 
   // Pagination
   const paginatedTracks = useMemo(() => {
@@ -217,6 +245,24 @@ const MusicManagement = () => {
         ? prev.filter(id => id !== trackId)
         : [...prev, trackId]
     );
+  };
+
+  // Handle column sorting
+  const handleSort = (key) => {
+    setSortConfig(prev => ({
+      key,
+      direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
+
+  // Get sort icon for column
+  const getSortIcon = (key) => {
+    if (sortConfig.key !== key) {
+      return <ArrowUpDown size={14} className="text-admin-text-tertiary" />;
+    }
+    return sortConfig.direction === 'asc' 
+      ? <ArrowUp size={14} className="text-spotify-green" />
+      : <ArrowDown size={14} className="text-spotify-green" />;
   };
 
   const handlePreviousPage = () => {
@@ -278,17 +324,20 @@ const MusicManagement = () => {
 
       {/* Filters & Search */}
       <Card>
-        <CardContent className="p-4">
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search - 2 columns on desktop */}
-            <div className="md:col-span-1 lg:col-span-2">
-              <Input
-                icon={Search}
-                placeholder="Search tracks, artists, albums..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+            <div className="md:col-span-2">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-admin-text-tertiary" size={20} />
+                <input
+                  type="text"
+                  placeholder="Search tracks, artists, albums..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 bg-admin-bg-hover border border-admin-border-default rounded-lg text-admin-text-primary placeholder-admin-text-tertiary focus:outline-none focus:ring-2 focus:ring-spotify-green focus:border-transparent transition-all text-base"
+                />
+              </div>
             </div>
             
             {/* Genre filter - 1 column */}
@@ -376,13 +425,61 @@ const MusicManagement = () => {
                           }}
                         />
                       </TableHead>
-                      <TableHead>Track</TableHead>
-                      <TableHead>Artist</TableHead>
-                      <TableHead>Album</TableHead>
+                      <TableHead 
+                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
+                        onClick={() => handleSort('title')}
+                      >
+                        <div className="flex items-center gap-2">
+                          Track
+                          {getSortIcon('title')}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
+                        onClick={() => handleSort('artistName')}
+                      >
+                        <div className="flex items-center gap-2">
+                          Artist
+                          {getSortIcon('artistName')}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
+                        onClick={() => handleSort('albumTitle')}
+                      >
+                        <div className="flex items-center gap-2">
+                          Album
+                          {getSortIcon('albumTitle')}
+                        </div>
+                      </TableHead>
                       <TableHead>Genre</TableHead>
-                      <TableHead>Duration</TableHead>
-                      <TableHead>Release Date</TableHead>
-                      <TableHead>Streams</TableHead>
+                      <TableHead 
+                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
+                        onClick={() => handleSort('duration')}
+                      >
+                        <div className="flex items-center gap-2">
+                          Duration
+                          {getSortIcon('duration')}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
+                        onClick={() => handleSort('releaseDate')}
+                      >
+                        <div className="flex items-center gap-2">
+                          Release Date
+                          {getSortIcon('releaseDate')}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
+                        onClick={() => handleSort('playCount')}
+                      >
+                        <div className="flex items-center gap-2">
+                          Streams
+                          {getSortIcon('playCount')}
+                        </div>
+                      </TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead className="w-12"></TableHead>
                     </TableRow>
@@ -465,7 +562,7 @@ const MusicManagement = () => {
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
-                              <span className="font-medium">
+                              <span className="font-medium text-admin-text-primary">
                                 {track.playCount ? formatNumber(track.playCount) : '0'}
                               </span>
                               {track.playCount > 1000000 && (
