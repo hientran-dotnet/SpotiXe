@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@firebase/analytics": "^0.10.19",
     "@tanstack/react-query": "^5.12.2",
     "@tanstack/react-table": "^8.10.7",
     "axios": "^1.6.2",
@@ -23,6 +24,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.48.2",
     "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^6.20.0",
     "recharts": "^2.10.3",
     "tailwind-merge": "^2.1.0",

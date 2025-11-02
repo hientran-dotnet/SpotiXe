@@ -17,6 +17,7 @@ namespace MusicStreamingAPI.Entities;
 public partial class Song
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long SongId { get; set; }
 
     [StringLength(255)]
@@ -75,9 +76,15 @@ public partial class Song
 
     public DateTime? CreatedAt { get; set; }
 
+    public long? CreatedBy { get; set; }
+
     public DateTime? UpdatedAt { get; set; }
 
+    public long? UpdatedBy { get; set; }
+
     public DateTime? DeletedAt { get; set; }
+
+    public long? DeletedBy { get; set; }
 
     [ForeignKey("AlbumId")]
     [InverseProperty("Songs")]

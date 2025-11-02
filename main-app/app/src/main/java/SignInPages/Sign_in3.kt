@@ -1,5 +1,6 @@
 package SignInPages
 
+import Components.GoogleSignInButtonFirebase
 import Components.OtpInputField
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -45,9 +46,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.R
+import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun Sign_in3Screen(navController: NavController){
+fun Sign_in3Screen(
+    navController: NavController,
+    onSignedIn: (FirebaseUser) -> Unit={},
+    onError: (String) -> Unit={}
+    ){
     var green = Color(0xFF58BA47)
     var otpValue = rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
@@ -179,20 +185,14 @@ fun Sign_in3Screen(navController: NavController){
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            Box(
-                modifier = Modifier
-                    .size(width = 100.dp, height = 50.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(Color(0xFFEDEDED))
-                    .clickable { println("Sign in with Google clicked") },
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.google_logo),
-                    contentDescription = "Google Logo",
-                    modifier = Modifier.size(30.dp)
-                )
-            }
+            GoogleSignInButtonFirebase(
+                onSuccess = { user: FirebaseUser ->
+                    navController.navigate("") {
+                        popUpTo("login") { inclusive = true }
+                        launchSingleTop = true
+                    } },
+                onError = { e -> onError(e.message ?: "Unknown error") }
+            )
 
             Spacer(modifier = Modifier.height(25.dp))
 

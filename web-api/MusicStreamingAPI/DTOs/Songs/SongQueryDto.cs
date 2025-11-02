@@ -18,8 +18,6 @@ public class SongQueryDto
     public long? AlbumId { get; set; }
     public bool? IsPublic { get; set; }
     public bool? IsActive { get; set; }
-    public DateOnly? ReleaseDateFrom { get; set; }
-    public DateOnly? ReleaseDateTo { get; set; }
 
     // Sorting
     public string SortBy { get; set; } = "CreatedAt"; // Title, ReleaseDate, PlayCount, LikeCount, CreatedAt

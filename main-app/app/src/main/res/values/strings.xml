@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SpotiXe</string>
+    <string name="default_web_client_id">814326272937-an4u5sk1ha7i2obmo6pmve43td63o1pq.apps.googleusercontent.com</string>
+
 </resources>
