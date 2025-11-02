@@ -23,7 +23,7 @@ import { useSidebarStore } from '@/store/sidebarStore';
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Home },
   { name: 'Music', href: '/music', icon: Music },
-  { name: 'Artists & Albums', href: '/artists', icon: Mic2 },
+  { name: 'Artists', href: '/artists', icon: Mic2 },
   { name: 'Users', href: '/users', icon: Users },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'Playlists', href: '/playlists', icon: ListMusic },

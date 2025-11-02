@@ -5,19 +5,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import {
   Search,
-  Filter,
   Plus,
   MoreVertical,
-  Play,
   Edit,
   Trash2,
-  Star,
-  BarChart3,
-  Upload,
-  Grid,
-  List as ListIcon,
+  Users,
   TrendingUp,
   Loader2,
+  Globe,
+  Calendar,
+  UserCheck,
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
@@ -27,160 +24,101 @@ import { Button } from '@/components/ui/Button';
 import { Input, Select } from '@/components/ui/Input';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/Table';
 import { Badge, StatusBadge } from '@/components/ui/Badge';
-import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/ui/Modal';
 import { ConfirmDeleteSong } from '@/components/ui/ConfirmDeleteSong';
 import { ConfirmBulkDelete } from '@/components/ui/ConfirmBulkDelete';
-import { formatNumber, formatDuration, formatDate } from '@/lib/utils';
-import { getAllSongs } from "@/services/api/songs";
-import { deleteSong } from "@/services/api/songs/deleteSong";
+import { formatNumber, formatDate } from '@/lib/utils';
+import { getAllArtists, deleteArtist } from '@/services/api/artists';
 
-
-// const mockTracks = [
-//   {
-//     id: 1,
-//     title: 'Blinding Lights',
-//     artist: 'The Weeknd',
-//     album: 'After Hours',
-//     genre: 'Pop',
-//     duration: 200,
-//     uploadDate: '2024-01-15',
-//     streams: 2840000,
-//     status: 'active',
-//     cover: '🎵',
-//   },
-//   {
-//     id: 2,
-//     title: 'Shape of You',
-//     artist: 'Ed Sheeran',
-//     album: 'Divide',
-//     genre: 'Pop',
-//     duration: 233,
-//     uploadDate: '2024-01-10',
-//     streams: 2650000,
-//     status: 'active',
-//     cover: '🎵',
-//   },
-//   {
-//     id: 3,
-//     title: 'Someone Like You',
-//     artist: 'Adele',
-//     album: '21',
-//     genre: 'Soul',
-//     duration: 285,
-//     uploadDate: '2024-01-08',
-//     streams: 2340000,
-//     status: 'active',
-//     cover: '🎵',
-//   },
-//   {
-//     id: 4,
-//     title: 'New Track Demo',
-//     artist: 'Indie Artist',
-//     album: 'Single',
-//     genre: 'Rock',
-//     duration: 180,
-//     uploadDate: '2024-01-20',
-//     streams: 1200,
-//     status: 'pending',
-//     cover: '🎵',
-//   },
-// ];
-
-const MusicManagement = () => {
+const ArtistManagement = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState('all');
-  const [viewMode, setViewMode] = useState('list');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('all');
-  const [showUploadModal, setShowUploadModal] = useState(false);
-  const [selectedTracks, setSelectedTracks] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('all');
+  const [selectedArtists, setSelectedArtists] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [deleteModal, setDeleteModal] = useState({ isOpen: false, songId: null, songTitle: '' });
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, artistId: null, artistName: '' });
   const [bulkDeleteModal, setBulkDeleteModal] = useState({ isOpen: false, count: 0 });
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [itemsPerPage, setItemsPerPage] = useState(10);  // Dynamic pageSize
 
-  // Fetch songs using React Query with server-side pagination
-  const { 
-    data: songsResponse,
-    isLoading, 
-    isError, 
-    error 
+  // Fetch artists using React Query with server-side pagination
+  const {
+    data: artistsResponse,
+    isLoading,
+    isError,
+    error
   } = useQuery({
-    queryKey: ['songs', currentPage, itemsPerPage],
-    queryFn: () => getAllSongs(currentPage, itemsPerPage),
+    queryKey: ['artists', currentPage, itemsPerPage],
+    queryFn: () => getAllArtists({ pageNumber: currentPage, pageSize: itemsPerPage }),
     staleTime: 60000, // 60 seconds
+    keepPreviousData: true,  // Keep old data while fetching new page
   });
 
-  // Extract pagination data from response
-  const { 
-    items: songsData = [], 
-    totalCount = 0, 
-    totalPages = 0, 
-    hasNext = false, 
-    hasPrevious = false 
-  } = songsResponse || {};
+  // Extract data from paginated response
+  const artistsData = artistsResponse?.items || [];
+  const totalCount = artistsResponse?.totalCount || 0;
+  const totalPages = artistsResponse?.totalPages || 1;
+  const hasNext = artistsResponse?.hasNext || false;
+  const hasPrevious = artistsResponse?.hasPrevious || false;
 
   // Show toast on error
   React.useEffect(() => {
     if (isError) {
-      toast.error(error?.response?.data?.message || error?.message || 'Failed to fetch songs');
+      toast.error(error?.response?.data?.message || error?.message || 'Failed to fetch artists');
     }
   }, [isError, error]);
 
-  // Delete song mutation
+  // Delete artist mutation
   const deleteMutation = useMutation({
-    mutationFn: (songId) => deleteSong(songId),
+    mutationFn: (artistId) => deleteArtist(artistId),
     onSuccess: () => {
-      queryClient.invalidateQueries(['songs']);
-      toast.success('Song deleted successfully');
-      setDeleteModal({ isOpen: false, songId: null, songTitle: '' });
+      queryClient.invalidateQueries(['artists']);
+      toast.success('Artist deleted successfully');
+      setDeleteModal({ isOpen: false, artistId: null, artistName: '' });
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete song');
+      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete artist');
     },
   });
 
-  const handleDeleteClick = (songId, songTitle) => {
-    setDeleteModal({ isOpen: true, songId, songTitle });
+  const handleDeleteClick = (artistId, artistName) => {
+    setDeleteModal({ isOpen: true, artistId, artistName });
   };
 
   const handleDeleteConfirm = () => {
-    if (deleteModal.songId) {
-      deleteMutation.mutate(deleteModal.songId);
+    if (deleteModal.artistId) {
+      deleteMutation.mutate(deleteModal.artistId);
     }
   };
 
   const handleDeleteCancel = () => {
-    setDeleteModal({ isOpen: false, songId: null, songTitle: '' });
+    setDeleteModal({ isOpen: false, artistId: null, artistName: '' });
   };
 
   // Bulk delete mutation
   const bulkDeleteMutation = useMutation({
-    mutationFn: async (songIds) => {
-      // Delete all songs in parallel
-      const deletePromises = songIds.map(id => deleteSong(id));
+    mutationFn: async (artistIds) => {
+      const deletePromises = artistIds.map(id => deleteArtist(id));
       return await Promise.all(deletePromises);
     },
-    onSuccess: (data, songIds) => {
-      queryClient.invalidateQueries(['songs']);
-      toast.success(`Successfully deleted ${songIds.length} song${songIds.length > 1 ? 's' : ''}`);
+    onSuccess: (data, artistIds) => {
+      queryClient.invalidateQueries(['artists']);
+      toast.success(`Successfully deleted ${artistIds.length} artist${artistIds.length > 1 ? 's' : ''}`);
       setBulkDeleteModal({ isOpen: false, count: 0 });
-      setSelectedTracks([]); // Clear selection
+      setSelectedArtists([]);
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete songs');
+      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete artists');
     },
   });
 
   const handleBulkDeleteClick = () => {
-    setBulkDeleteModal({ isOpen: true, count: selectedTracks.length });
+    setBulkDeleteModal({ isOpen: true, count: selectedArtists.length });
   };
 
   const handleBulkDeleteConfirm = () => {
-    if (selectedTracks.length > 0) {
-      bulkDeleteMutation.mutate(selectedTracks);
+    if (selectedArtists.length > 0) {
+      bulkDeleteMutation.mutate(selectedArtists);
     }
   };
 
@@ -188,20 +126,21 @@ const MusicManagement = () => {
     setBulkDeleteModal({ isOpen: false, count: 0 });
   };
 
-  // Filter và sort client-side (trên dữ liệu đã được server phân trang)
-  const filteredTracks = useMemo(() => {
-    let filtered = songsData;
+  // Client-side filter and sort (on current page data only)
+  const filteredArtists = useMemo(() => {
+    let filtered = artistsData;
 
-    // Filter by search query (title)
+    // Filter by search query (name)
     if (searchQuery) {
-      filtered = filtered.filter(track => 
-        track.title?.toLowerCase().includes(searchQuery.toLowerCase())
+      filtered = filtered.filter(artist =>
+        artist.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        artist.country?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Filter by genre
-    if (selectedGenre && selectedGenre !== 'all') {
-      filtered = filtered.filter(track => track.genre === selectedGenre);
+    // Filter by country
+    if (selectedCountry && selectedCountry !== 'all') {
+      filtered = filtered.filter(artist => artist.country === selectedCountry);
     }
 
     // Apply sorting
@@ -229,25 +168,22 @@ const MusicManagement = () => {
     }
 
     return filtered;
-  }, [songsData, searchQuery, selectedGenre, sortConfig]);
+  }, [artistsData, searchQuery, selectedCountry, sortConfig]);
 
-  // Server-side pagination: không cần slice, backend đã trả về đúng số items
-  const displayedTracks = filteredTracks;
+  // Use filtered data directly (no client-side pagination)
+  const displayedArtists = filteredArtists;
 
-  const tabs = [
-    { id: 'all', label: 'All Tracks', count: totalCount },  // Use totalCount from backend
-    { id: 'albums', label: 'Albums', count: 156 },
-    { id: 'singles', label: 'Singles', count: 432 },
-    { id: 'pending', label: 'Pending Approval', count: 12 },
-  ];
+  // Extract unique countries for filter
+  const countries = useMemo(() => {
+    const uniqueCountries = [...new Set(artistsData.map(a => a.country).filter(Boolean))];
+    return ['all', ...uniqueCountries.sort()];
+  }, [artistsData]);
 
-  const genres = ['all', 'Pop', 'Rock', 'Hip Hop', 'Electronic', 'Jazz', 'Classical'];
-
-  const toggleTrackSelection = (trackId) => {
-    setSelectedTracks(prev =>
-      prev.includes(trackId)
-        ? prev.filter(id => id !== trackId)
-        : [...prev, trackId]
+  const toggleArtistSelection = (artistId) => {
+    setSelectedArtists(prev =>
+      prev.includes(artistId)
+        ? prev.filter(id => id !== artistId)
+        : [...prev, artistId]
     );
   };
 
@@ -280,7 +216,7 @@ const MusicManagement = () => {
   // Reset page when filters change
   React.useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedGenre, itemsPerPage]);  // Reset khi đổi pageSize
+  }, [searchQuery, selectedCountry, itemsPerPage]);  // Reset khi đổi pageSize
 
   // Handle page size change
   const handlePageSizeChange = (e) => {
@@ -298,64 +234,111 @@ const MusicManagement = () => {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-admin-text-primary">Music Management</h1>
+          <h1 className="text-3xl font-bold text-admin-text-primary">Artist Management</h1>
+          {/* <p className="text-admin-text-tertiary mt-1">Manage artists, view statistics, and more</p> */}
         </div>
-        <Button onClick={() => navigate('/songs/create')}>
+        <Button onClick={() => navigate('/artists/create')}>
           <Plus size={18} className="mr-2" />
-          Create New Song
+          Add New Artist
         </Button>
       </motion.div>
 
-      {/* Tabs */}
-      <Card>
-        <CardContent className="p-0">
-          <div className="flex items-center justify-between border-b border-admin-border-default overflow-x-auto">
-            <div className="flex">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-6 py-4 font-medium text-sm whitespace-nowrap transition-colors border-b-2 ${
-                    activeTab === tab.id
-                      ? 'text-spotify-green border-spotify-green'
-                      : 'text-admin-text-secondary border-transparent hover:text-admin-text-primary'
-                  }`}
-                >
-                  {tab.label}
-                  <span className="ml-2 px-2 py-0.5 rounded-full bg-admin-bg-hover text-xs">
-                    {tab.count}
-                  </span>
-                </button>
-              ))}
+      {/* Statistics Cards */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+      >
+        <Card className="hover:shadow-xl transition-shadow duration-300 cursor-pointer group">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-admin-text-tertiary mb-2">Total Artists</p>
+                <p className="text-5xl font-bold text-admin-text-primary mb-1">
+                  {formatNumber(totalCount)}
+                </p>
+                <p className="text-xs text-spotify-green flex items-center gap-1">
+                  <TrendingUp size={12} />
+                  +2 from last month
+                </p>
+              </div>
+              <div className="w-14 h-14 rounded-full bg-spotify-green/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Users size={28} className="text-spotify-green" />
+              </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-xl transition-shadow duration-300 cursor-pointer group">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-admin-text-tertiary mb-2">Active Artists</p>
+                <p className="text-5xl font-bold text-admin-text-primary mb-1">
+                  {formatNumber(artistsData.filter(a => a.isActive).length)}
+                </p>
+                <p className="text-xs text-spotify-green flex items-center gap-1">
+                  <TrendingUp size={12} />
+                  +5 from last month
+                </p>
+              </div>
+              <div className="w-14 h-14 rounded-full bg-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <UserCheck size={28} className="text-blue-500" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-xl transition-shadow duration-300 cursor-pointer group">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-admin-text-tertiary mb-2">Countries</p>
+                <p className="text-5xl font-bold text-admin-text-primary mb-1">
+                  {countries.filter(c => c !== 'all').length}
+                </p>
+                <p className="text-xs text-blue-400 flex items-center gap-1">
+                  <Globe size={12} />
+                  Worldwide reach
+                </p>
+              </div>
+              <div className="w-14 h-14 rounded-full bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Globe size={28} className="text-purple-500" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
       {/* Filters & Search */}
       <Card>
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Search - 2 columns on desktop */}
+            {/* Search - Larger and more prominent */}
             <div className="md:col-span-2">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-admin-text-tertiary" size={20} />
+                <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-admin-text-tertiary pointer-events-none" />
                 <input
                   type="text"
-                  placeholder="Search tracks, artists, albums..."
+                  placeholder="Search artists by name or country..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-4 py-3 bg-admin-bg-hover border border-admin-border-default rounded-lg text-admin-text-primary placeholder-admin-text-tertiary focus:outline-none focus:ring-2 focus:ring-spotify-green focus:border-transparent transition-all text-base"
                 />
               </div>
             </div>
-            
-            {/* Genre filter - 1 column */}
+
+            {/* Country filter */}
             <div>
-              <Select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)}>
-                {genres.map((genre) => (
-                  <option key={genre} value={genre}>
-                    {genre === 'all' ? 'All Genres' : genre}
+              <Select 
+                value={selectedCountry} 
+                onChange={(e) => setSelectedCountry(e.target.value)}
+                className="py-3"
+              >
+                {countries.map((country) => (
+                  <option key={country} value={country}>
+                    {country === 'all' ? 'All Countries' : country}
                   </option>
                 ))}
               </Select>
@@ -363,18 +346,19 @@ const MusicManagement = () => {
           </div>
 
           {/* Bulk Actions */}
-          {selectedTracks.length > 0 && (
+          {selectedArtists.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               className="mt-4 p-3 bg-admin-bg-hover rounded-lg flex items-center justify-between"
             >
               <span className="text-sm text-admin-text-primary">
-                {selectedTracks.length} track{selectedTracks.length > 1 ? 's' : ''} selected
+                {selectedArtists.length} artist{selectedArtists.length > 1 ? 's' : ''} selected
               </span>
               <div className="flex gap-2">
                 <Button
                   variant="danger"
+                  size="sm"
                   onClick={handleBulkDeleteClick}
                 >
                   <Trash2 size={16} className="mr-2" />
@@ -386,7 +370,7 @@ const MusicManagement = () => {
         </CardContent>
       </Card>
 
-      {/* Tracks Table */}
+      {/* Artists Table */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -399,7 +383,7 @@ const MusicManagement = () => {
               <div className="flex items-center justify-center py-20">
                 <div className="flex flex-col items-center gap-4">
                   <Loader2 size={48} className="text-spotify-green animate-spin" />
-                  <p className="text-admin-text-secondary">Loading songs...</p>
+                  <p className="text-admin-text-secondary">Loading artists...</p>
                 </div>
               </div>
             )}
@@ -408,7 +392,7 @@ const MusicManagement = () => {
             {isError && !isLoading && (
               <div className="flex items-center justify-center py-20">
                 <div className="text-center">
-                  <p className="text-apple-red font-medium mb-2">Failed to load songs</p>
+                  <p className="text-apple-red font-medium mb-2">Failed to load artists</p>
                   <p className="text-admin-text-tertiary text-sm">
                     {error?.response?.data?.message || error?.message || 'An error occurred'}
                   </p>
@@ -428,66 +412,47 @@ const MusicManagement = () => {
                           className="rounded border-admin-border-default bg-admin-bg-hover"
                           onChange={(e) => {
                             if (e.target.checked) {
-                              setSelectedTracks(displayedTracks.map(t => t.songId));
+                              setSelectedArtists(displayedArtists.map(a => a.artistId));
                             } else {
-                              setSelectedTracks([]);
+                              setSelectedArtists([]);
                             }
                           }}
                         />
                       </TableHead>
                       <TableHead 
                         className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('title')}
-                      >
-                        <div className="flex items-center gap-2">
-                          Track
-                          {getSortIcon('title')}
-                        </div>
-                      </TableHead>
-                      <TableHead 
-                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('artistName')}
+                        onClick={() => handleSort('name')}
                       >
                         <div className="flex items-center gap-2">
                           Artist
-                          {getSortIcon('artistName')}
+                          {getSortIcon('name')}
                         </div>
                       </TableHead>
                       <TableHead 
                         className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('albumTitle')}
+                        onClick={() => handleSort('country')}
                       >
                         <div className="flex items-center gap-2">
-                          Album
-                          {getSortIcon('albumTitle')}
-                        </div>
-                      </TableHead>
-                      <TableHead>Genre</TableHead>
-                      <TableHead 
-                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('duration')}
-                      >
-                        <div className="flex items-center gap-2">
-                          Duration
-                          {getSortIcon('duration')}
+                          Country
+                          {getSortIcon('country')}
                         </div>
                       </TableHead>
                       <TableHead 
                         className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('releaseDate')}
+                        onClick={() => handleSort('debutYear')}
                       >
                         <div className="flex items-center gap-2">
-                          Release Date
-                          {getSortIcon('releaseDate')}
+                          Debut Year
+                          {getSortIcon('debutYear')}
                         </div>
                       </TableHead>
                       <TableHead 
                         className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('playCount')}
+                        onClick={() => handleSort('totalFollowers')}
                       >
                         <div className="flex items-center gap-2">
-                          Streams
-                          {getSortIcon('playCount')}
+                          Total Followers
+                          {getSortIcon('totalFollowers')}
                         </div>
                       </TableHead>
                       <TableHead>Status</TableHead>
@@ -495,93 +460,70 @@ const MusicManagement = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {displayedTracks.length === 0 ? (
+                    {displayedArtists.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={10} className="text-center py-12">
+                        <TableCell colSpan={7} className="text-center py-12">
                           <p className="text-admin-text-tertiary">
-                            {searchQuery || selectedGenre !== 'all' 
-                              ? 'No tracks found matching your filters' 
-                              : 'No tracks available'}
+                            {searchQuery || selectedCountry !== 'all'
+                              ? 'No artists found matching your filters'
+                              : 'No artists available'}
                           </p>
                         </TableCell>
                       </TableRow>
                     ) : (
-                      displayedTracks.map((track) => (
-                        <TableRow key={track.songId}>
+                      displayedArtists.map((artist) => (
+                        <TableRow key={artist.artistId}>
                           <TableCell>
                             <input
                               type="checkbox"
                               className="rounded border-admin-border-default bg-admin-bg-hover"
-                              checked={selectedTracks.includes(track.songId)}
-                              onChange={() => toggleTrackSelection(track.songId)}
+                              checked={selectedArtists.includes(artist.artistId)}
+                              onChange={() => toggleArtistSelection(artist.artistId)}
                             />
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-3">
-                              <div className="relative group">
-                                <div className="w-10 h-10 bg-gradient-primary rounded flex items-center justify-center text-lg">
-                                  {track.coverImageUrl ? (
-                                    <img 
-                                      src={track.coverImageUrl} 
-                                      alt={track.title}
-                                      className="w-full h-full object-cover rounded"
-                                    />
-                                  ) : (
-                                    '🎵'
-                                  )}
-                                </div>
-                                <button className="absolute inset-0 bg-black/60 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <Play size={14} fill="white" className="text-white" />
-                                </button>
+                              <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center text-lg font-bold text-white">
+                                {artist.name?.charAt(0)?.toUpperCase() || 'A'}
                               </div>
                               <div>
                                 <Link
-                                  to={`/songs/${track.songId}`}
+                                  to={`/artists/${artist.artistId}`}
                                   className="font-medium text-admin-text-primary hover:text-spotify-green cursor-pointer transition-colors hover:underline"
-                                  aria-label={`View details for ${track.title}`}
                                 >
-                                  {track.title || '-'}
+                                  {artist.name || '-'}
                                 </Link>
                               </div>
                             </div>
                           </TableCell>
                           <TableCell>
-                            <Link
-                              to={`/songs/${track.songId}`}
-                              className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors hover:underline"
-                            >
-                              {track.artistName || '-'}
-                            </Link>
-                          </TableCell>
-                          <TableCell>
-                            <Link
-                              to={`/songs/${track.songId}`}
-                              className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors hover:underline"
-                            >
-                              {track.albumTitle || '-'}
-                            </Link>
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="default">{track.genre || '-'}</Badge>
-                          </TableCell>
-                          <TableCell>
-                            {track.duration ? formatDuration(track.duration) : '-'}
-                          </TableCell>
-                          <TableCell>
-                            {track.releaseDate ? formatDate(track.releaseDate) : '-'}
+                            <div className="flex items-center gap-2">
+                              <Globe size={16} className="text-admin-text-tertiary" />
+                              <span className="text-admin-text-secondary">
+                                {artist.country || '-'}
+                              </span>
+                            </div>
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
-                              <span className="font-medium text-admin-text-primary">
-                                {track.playCount ? formatNumber(track.playCount) : '0'}
+                              <Calendar size={16} className="text-admin-text-tertiary" />
+                              <span className="text-admin-text-secondary">
+                                {artist.debutYear || '-'}
                               </span>
-                              {track.playCount > 1000000 && (
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">
+                                {artist.totalFollowers ? formatNumber(artist.totalFollowers) : '0'}
+                              </span>
+                              {artist.totalFollowers > 100000 && (
                                 <TrendingUp size={14} className="text-spotify-green" />
                               )}
                             </div>
                           </TableCell>
                           <TableCell>
-                            <StatusBadge status={track.isActive ? 'active' : 'inactive'} />
+                            <StatusBadge status={artist.isActive ? 'active' : 'inactive'} />
                           </TableCell>
                           <TableCell>
                             <div className="relative group">
@@ -590,15 +532,15 @@ const MusicManagement = () => {
                               </button>
                               <div className="absolute right-0 top-full mt-1 w-48 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                                 <div className="p-1">
-                                  <button 
-                                    onClick={() => navigate(`/songs/${track.songId}/edit`)}
+                                  <button
+                                    onClick={() => navigate(`/artists/${artist.artistId}/edit`)}
                                     className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm"
                                   >
                                     <Edit size={16} />
                                     Edit
                                   </button>
-                                  <button 
-                                    onClick={() => handleDeleteClick(track.songId, track.title)}
+                                  <button
+                                    onClick={() => handleDeleteClick(artist.artistId, artist.name)}
                                     className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm"
                                   >
                                     <Trash2 size={16} />
@@ -618,7 +560,7 @@ const MusicManagement = () => {
                 <div className="p-4 border-t border-admin-border-default flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <span className="text-sm text-admin-text-secondary">
-                      Showing {totalCount > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}-{Math.min(currentPage * itemsPerPage, totalCount)} of {totalCount} tracks
+                      Showing {totalCount > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}-{Math.min(currentPage * itemsPerPage, totalCount)} of {totalCount} artists
                     </span>
                     
                     {/* Page Size Selector */}
@@ -638,8 +580,8 @@ const MusicManagement = () => {
                   </div>
                   
                   <div className="flex gap-2 items-center">
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={handlePreviousPage}
                       disabled={!hasPrevious}
@@ -649,8 +591,8 @@ const MusicManagement = () => {
                     <span className="text-sm text-admin-text-secondary px-2">
                       Page {currentPage} of {totalPages || 1}
                     </span>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={handleNextPage}
                       disabled={!hasNext}
@@ -665,43 +607,12 @@ const MusicManagement = () => {
         </Card>
       </motion.div>
 
-      {/* Upload Modal */}
-      <Modal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} size="lg">
-        <ModalHeader onClose={() => setShowUploadModal(false)}>
-          <ModalTitle>Upload New Track</ModalTitle>
-        </ModalHeader>
-        <ModalBody>
-          <div className="space-y-4">
-            <div className="border-2 border-dashed border-admin-border-default rounded-lg p-8 text-center hover:border-spotify-green transition-colors cursor-pointer">
-              <Upload size={48} className="mx-auto text-admin-text-tertiary mb-4" />
-              <p className="text-admin-text-primary font-medium">Drop your audio file here</p>
-              <p className="text-sm text-admin-text-tertiary mt-1">or click to browse (MP3, WAV, FLAC)</p>
-            </div>
-            <Input label="Track Title" placeholder="Enter track title" />
-            <Input label="Artist Name" placeholder="Enter artist name" />
-            <Input label="Album Name" placeholder="Enter album name" />
-            <Select label="Genre">
-              <option value="">Select genre</option>
-              {genres.filter(g => g !== 'all').map((genre) => (
-                <option key={genre} value={genre}>{genre}</option>
-              ))}
-            </Select>
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="ghost" onClick={() => setShowUploadModal(false)}>
-            Cancel
-          </Button>
-          <Button>Upload Track</Button>
-        </ModalFooter>
-      </Modal>
-
       {/* Delete Confirmation Modal */}
       <ConfirmDeleteSong
         isOpen={deleteModal.isOpen}
         onClose={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
-        songTitle={deleteModal.songTitle}
+        songTitle={deleteModal.artistName}
         isDeleting={deleteMutation.isPending}
       />
 
@@ -717,4 +628,4 @@ const MusicManagement = () => {
   );
 };
 
-export default MusicManagement;
+export default ArtistManagement;
