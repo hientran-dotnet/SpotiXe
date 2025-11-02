@@ -99,19 +99,28 @@ const MusicManagement = () => {
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, songId: null, songTitle: '' });
   const [bulkDeleteModal, setBulkDeleteModal] = useState({ isOpen: false, count: 0 });
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);  // Dynamic pageSize
 
-  // Fetch songs using React Query
+  // Fetch songs using React Query with server-side pagination
   const { 
-    data: songsData = [], 
+    data: songsResponse,
     isLoading, 
     isError, 
     error 
   } = useQuery({
-    queryKey: ['songs', 'all'],
-    queryFn: getAllSongs,
+    queryKey: ['songs', currentPage, itemsPerPage],
+    queryFn: () => getAllSongs(currentPage, itemsPerPage),
     staleTime: 60000, // 60 seconds
   });
+
+  // Extract pagination data from response
+  const { 
+    items: songsData = [], 
+    totalCount = 0, 
+    totalPages = 0, 
+    hasNext = false, 
+    hasPrevious = false 
+  } = songsResponse || {};
 
   // Show toast on error
   React.useEffect(() => {
@@ -179,7 +188,7 @@ const MusicManagement = () => {
     setBulkDeleteModal({ isOpen: false, count: 0 });
   };
 
-  // Filter và sort client-side
+  // Filter và sort client-side (trên dữ liệu đã được server phân trang)
   const filteredTracks = useMemo(() => {
     let filtered = songsData;
 
@@ -222,16 +231,11 @@ const MusicManagement = () => {
     return filtered;
   }, [songsData, searchQuery, selectedGenre, sortConfig]);
 
-  // Pagination
-  const paginatedTracks = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredTracks.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredTracks, currentPage, itemsPerPage]);
-
-  const totalPages = Math.ceil(filteredTracks.length / itemsPerPage);
+  // Server-side pagination: không cần slice, backend đã trả về đúng số items
+  const displayedTracks = filteredTracks;
 
   const tabs = [
-    { id: 'all', label: 'All Tracks', count: songsData.length },
+    { id: 'all', label: 'All Tracks', count: totalCount },  // Use totalCount from backend
     { id: 'albums', label: 'Albums', count: 156 },
     { id: 'singles', label: 'Singles', count: 432 },
     { id: 'pending', label: 'Pending Approval', count: 12 },
@@ -276,7 +280,13 @@ const MusicManagement = () => {
   // Reset page when filters change
   React.useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedGenre]);
+  }, [searchQuery, selectedGenre, itemsPerPage]);  // Reset khi đổi pageSize
+
+  // Handle page size change
+  const handlePageSizeChange = (e) => {
+    setItemsPerPage(Number(e.target.value));
+    setCurrentPage(1);  // Reset về page 1
+  };
 
   return (
     <div className="space-y-6">
@@ -418,7 +428,7 @@ const MusicManagement = () => {
                           className="rounded border-admin-border-default bg-admin-bg-hover"
                           onChange={(e) => {
                             if (e.target.checked) {
-                              setSelectedTracks(paginatedTracks.map(t => t.songId));
+                              setSelectedTracks(displayedTracks.map(t => t.songId));
                             } else {
                               setSelectedTracks([]);
                             }
@@ -485,7 +495,7 @@ const MusicManagement = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {paginatedTracks.length === 0 ? (
+                    {displayedTracks.length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={10} className="text-center py-12">
                           <p className="text-admin-text-tertiary">
@@ -496,7 +506,7 @@ const MusicManagement = () => {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      paginatedTracks.map((track) => (
+                      displayedTracks.map((track) => (
                         <TableRow key={track.songId}>
                           <TableCell>
                             <input
@@ -606,15 +616,33 @@ const MusicManagement = () => {
 
                 {/* Pagination */}
                 <div className="p-4 border-t border-admin-border-default flex items-center justify-between">
-                  <span className="text-sm text-admin-text-secondary">
-                    Showing {filteredTracks.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}-{Math.min(currentPage * itemsPerPage, filteredTracks.length)} of {filteredTracks.length} tracks
-                  </span>
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm text-admin-text-secondary">
+                      Showing {totalCount > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}-{Math.min(currentPage * itemsPerPage, totalCount)} of {totalCount} tracks
+                    </span>
+                    
+                    {/* Page Size Selector */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm text-admin-text-tertiary">Show:</label>
+                      <Select 
+                        value={itemsPerPage} 
+                        onChange={handlePageSizeChange}
+                        className="w-20 py-1.5 text-sm"
+                      >
+                        <option value={10}>10</option>
+                        <option value={20}>20</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                      </Select>
+                    </div>
+                  </div>
+                  
                   <div className="flex gap-2 items-center">
                     <Button 
                       variant="outline" 
                       size="sm"
                       onClick={handlePreviousPage}
-                      disabled={currentPage === 1}
+                      disabled={!hasPrevious}
                     >
                       Previous
                     </Button>
@@ -625,7 +653,7 @@ const MusicManagement = () => {
                       variant="outline" 
                       size="sm"
                       onClick={handleNextPage}
-                      disabled={currentPage >= totalPages}
+                      disabled={!hasNext}
                     >
                       Next
                     </Button>

@@ -39,19 +39,27 @@ const ArtistManagement = () => {
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, artistId: null, artistName: '' });
   const [bulkDeleteModal, setBulkDeleteModal] = useState({ isOpen: false, count: 0 });
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);  // Dynamic pageSize
 
-  // Fetch artists using React Query
+  // Fetch artists using React Query with server-side pagination
   const {
-    data: artistsData = [],
+    data: artistsResponse,
     isLoading,
     isError,
     error
   } = useQuery({
-    queryKey: ['artists', 'all'],
-    queryFn: getAllArtists,
+    queryKey: ['artists', currentPage, itemsPerPage],
+    queryFn: () => getAllArtists({ pageNumber: currentPage, pageSize: itemsPerPage }),
     staleTime: 60000, // 60 seconds
+    keepPreviousData: true,  // Keep old data while fetching new page
   });
+
+  // Extract data from paginated response
+  const artistsData = artistsResponse?.items || [];
+  const totalCount = artistsResponse?.totalCount || 0;
+  const totalPages = artistsResponse?.totalPages || 1;
+  const hasNext = artistsResponse?.hasNext || false;
+  const hasPrevious = artistsResponse?.hasPrevious || false;
 
   // Show toast on error
   React.useEffect(() => {
@@ -118,7 +126,7 @@ const ArtistManagement = () => {
     setBulkDeleteModal({ isOpen: false, count: 0 });
   };
 
-  // Filter and sort client-side
+  // Client-side filter and sort (on current page data only)
   const filteredArtists = useMemo(() => {
     let filtered = artistsData;
 
@@ -162,13 +170,8 @@ const ArtistManagement = () => {
     return filtered;
   }, [artistsData, searchQuery, selectedCountry, sortConfig]);
 
-  // Pagination
-  const paginatedArtists = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredArtists.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredArtists, currentPage, itemsPerPage]);
-
-  const totalPages = Math.ceil(filteredArtists.length / itemsPerPage);
+  // Use filtered data directly (no client-side pagination)
+  const displayedArtists = filteredArtists;
 
   // Extract unique countries for filter
   const countries = useMemo(() => {
@@ -213,7 +216,13 @@ const ArtistManagement = () => {
   // Reset page when filters change
   React.useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedCountry]);
+  }, [searchQuery, selectedCountry, itemsPerPage]);  // Reset khi đổi pageSize
+
+  // Handle page size change
+  const handlePageSizeChange = (e) => {
+    setItemsPerPage(Number(e.target.value));
+    setCurrentPage(1);  // Reset về page 1
+  };
 
   return (
     <div className="space-y-6">
@@ -247,7 +256,7 @@ const ArtistManagement = () => {
               <div>
                 <p className="text-sm text-admin-text-tertiary mb-2">Total Artists</p>
                 <p className="text-5xl font-bold text-admin-text-primary mb-1">
-                  {formatNumber(artistsData.length)}
+                  {formatNumber(totalCount)}
                 </p>
                 <p className="text-xs text-spotify-green flex items-center gap-1">
                   <TrendingUp size={12} />
@@ -403,7 +412,7 @@ const ArtistManagement = () => {
                           className="rounded border-admin-border-default bg-admin-bg-hover"
                           onChange={(e) => {
                             if (e.target.checked) {
-                              setSelectedArtists(paginatedArtists.map(a => a.artistId));
+                              setSelectedArtists(displayedArtists.map(a => a.artistId));
                             } else {
                               setSelectedArtists([]);
                             }
@@ -451,7 +460,7 @@ const ArtistManagement = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {paginatedArtists.length === 0 ? (
+                    {displayedArtists.length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={7} className="text-center py-12">
                           <p className="text-admin-text-tertiary">
@@ -462,7 +471,7 @@ const ArtistManagement = () => {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      paginatedArtists.map((artist) => (
+                      displayedArtists.map((artist) => (
                         <TableRow key={artist.artistId}>
                           <TableCell>
                             <input
@@ -549,15 +558,33 @@ const ArtistManagement = () => {
 
                 {/* Pagination */}
                 <div className="p-4 border-t border-admin-border-default flex items-center justify-between">
-                  <span className="text-sm text-admin-text-secondary">
-                    Showing {filteredArtists.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}-{Math.min(currentPage * itemsPerPage, filteredArtists.length)} of {filteredArtists.length} artists
-                  </span>
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm text-admin-text-secondary">
+                      Showing {totalCount > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}-{Math.min(currentPage * itemsPerPage, totalCount)} of {totalCount} artists
+                    </span>
+                    
+                    {/* Page Size Selector */}
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm text-admin-text-tertiary">Show:</label>
+                      <Select 
+                        value={itemsPerPage} 
+                        onChange={handlePageSizeChange}
+                        className="w-20 py-1.5 text-sm"
+                      >
+                        <option value={10}>10</option>
+                        <option value={20}>20</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                      </Select>
+                    </div>
+                  </div>
+                  
                   <div className="flex gap-2 items-center">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={handlePreviousPage}
-                      disabled={currentPage === 1}
+                      disabled={!hasPrevious}
                     >
                       Previous
                     </Button>
@@ -568,7 +595,7 @@ const ArtistManagement = () => {
                       variant="outline"
                       size="sm"
                       onClick={handleNextPage}
-                      disabled={currentPage >= totalPages}
+                      disabled={!hasNext}
                     >
                       Next
                     </Button>
