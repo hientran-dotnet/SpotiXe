@@ -65,16 +65,6 @@ public class SongRepository : ISongRepository
                 queryable = queryable.Where(s => s.IsActive == query.IsActive.Value);
             }
 
-            if (query.ReleaseDateFrom.HasValue)
-            {
-                queryable = queryable.Where(s => s.ReleaseDate >= query.ReleaseDateFrom.Value);
-            }
-
-            if (query.ReleaseDateTo.HasValue)
-            {
-                queryable = queryable.Where(s => s.ReleaseDate <= query.ReleaseDateTo.Value);
-            }
-
             // Get total count before pagination
             var totalCount = await queryable.CountAsync();
 
