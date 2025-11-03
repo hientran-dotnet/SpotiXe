@@ -1,4 +1,4 @@
-# Build stage
+######## Build stage ########
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
@@ -13,15 +13,12 @@ COPY . .
 WORKDIR /src/SpotiXeApi
 RUN dotnet publish "SpotiXeApi.csproj" -c Release -o /app/out
 
-# Runtime stage
+######## Runtime stage ########
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/out .
 
-# Entry point script to honor $PORT on Render
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Default container port; Render will set $PORT at runtime
+# .NET 8 uses 8080 by default in containers, keep explicit for clarity
 EXPOSE 8080
-ENTRYPOINT ["/entrypoint.sh"]
+ENV ASPNETCORE_URLS=http://+:8080
+ENTRYPOINT ["dotnet", "SpotiXeApi.dll"]
