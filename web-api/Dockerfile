@@ -10,8 +10,7 @@ RUN dotnet restore "SpotiXeApi/SpotiXeApi.csproj"
 COPY . .
 
 # Publish the app
-WORKDIR /src/SpotiXeApi
-RUN dotnet publish "SpotiXeApi.csproj" -c Release -o /app/out
+RUN dotnet publish "SpotiXeApi/SpotiXeApi.csproj" -c Release -o /app/out
 
 ######## Runtime stage ########
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
