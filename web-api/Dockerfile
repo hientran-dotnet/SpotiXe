@@ -1,4 +1,5 @@
 ######## Build stage ########
+# THIS IS THE ROOT DOCKERFILE - UPDATED VERSION
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
