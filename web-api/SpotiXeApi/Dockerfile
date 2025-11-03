@@ -3,8 +3,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore as distinct layers for better caching
-COPY ["src/SpotiXeApi/SpotiXeApi.csproj", "src/SpotiXeApi/"]
-RUN dotnet restore "src/SpotiXeApi/SpotiXeApi.csproj"
+COPY ["SpotiXeApi/SpotiXeApi.csproj", "SpotiXeApi/"]
+RUN dotnet restore "SpotiXeApi/SpotiXeApi.csproj"
 
 # Copy the rest of the source
 COPY . .
