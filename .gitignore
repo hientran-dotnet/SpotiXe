@@ -309,8 +309,6 @@ docker-compose.override.yml
 .idea/
 *.sln.DotSettings
 
-context/
-
 # Logs
 logs
 *.log
@@ -344,3 +342,4 @@ firebase-debug.log
 
 .env
 
+output/
