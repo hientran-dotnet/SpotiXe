@@ -8,7 +8,7 @@ using System.Linq;
 namespace SpotiXeApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/playlists")]
 public class PlaylistsController : ControllerBase
 {
     private readonly SpotiXeDbContext _context;
