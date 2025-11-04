@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -63,16 +64,24 @@ import androidx.navigation.NavHostController
 fun UserScreen(
     navController: NavHostController,
 ){
-
-    Scaffold (
-        bottomBar = { BottomBar(navController) }
-    ){ innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
-                .fillMaxSize()
-        ) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF121212))
+    ){
+        Scaffold (
+            containerColor = Color.Transparent,
+            contentWindowInsets = WindowInsets(0),
+            bottomBar = { BottomBar(navController) }
+        ){ innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+                    .background(Color(0xFF121212))
+                    .fillMaxSize()
+                    .statusBarsPadding()
+            ) {
             // Header
             Row(
                 modifier = Modifier
@@ -113,10 +122,10 @@ fun UserScreen(
                         )
                     ),
                 contentAlignment = Alignment.Center
-            ){
-                Column (
+            ) {
+                Column(
                     horizontalAlignment = Alignment.CenterHorizontally
-                ){
+                ) {
                     Image(
                         painter = painterResource(R.drawable.spotixe_logo),
                         contentDescription = null,
@@ -133,10 +142,10 @@ fun UserScreen(
                         Text(
                             "Sửa hồ sơ",
                             color = Color.White
-                        )
+                            )
+                        }
                     }
                 }
-
             }
         }
     }

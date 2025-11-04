@@ -3,6 +3,7 @@ package com.example.spotixe.Pages.Pages.AppMainPages
 import Components.BackButton
 import Components.BottomBar
 import Components.GenresSection
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,7 +20,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Divider
@@ -48,85 +52,92 @@ fun SearchScreen(
 ) {
     var text by rememberSaveable { mutableStateOf("") }
 
-    Scaffold (
-        bottomBar = { BottomBar(navController) }
-    ){ innerPadding ->
-
-        Column (
-            modifier = Modifier
-                .padding(innerPadding)
-                .statusBarsPadding()
-                .fillMaxSize(),
-        ){
-
-            //header
-            Row(
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF121212))
+    ){
+        Scaffold (
+            containerColor = Color.Transparent,
+            contentWindowInsets = WindowInsets(0),
+            bottomBar = { BottomBar(navController) }
+        ) { innerPadding ->
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp, start = 8.dp, end = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(innerPadding)
+                    .background(Color(0xFF121212))
+                    .fillMaxSize()
+                    .statusBarsPadding()
             ) {
 
-                BackButton(navController)
-
-                Spacer(Modifier.width(90.dp))
-
-                Text(
-                    text = "Tìm kiếm",
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF58BA47)
-                )
-            }
-
-            Spacer(Modifier.height(8.dp))
-            Divider(color = Color.White.copy(alpha = 0.2f))
-            Spacer(Modifier.height(16.dp))
-
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
+                //header
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    placeholder = { Text("Thông tin nhập", color = Color(0xFF9E9E9E)) },
-                    singleLine = true,
-                    shape = RoundedCornerShape(24.dp),
-                    colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color(0xFFB0BEC5),
-                        unfocusedIndicatorColor = Color(0xFFB0BEC5),
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        cursorColor = Color.White,
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White
+                        .padding(top = 12.dp, start = 8.dp, end = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    BackButton(navController)
+
+                    Spacer(Modifier.width(90.dp))
+
+                    Text(
+                        text = "Tìm kiếm",
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF58BA47)
                     )
-                )
-            }
-            Spacer(Modifier.height(16.dp))
-
-            //body
-            LazyColumn(
-
-                contentPadding = PaddingValues(bottom = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(0.dp)
-            ) {
-                GenresSection(
-                    title = "Khám phá theo thể loại",
-                    items = genres
-                ) { genre ->
-                    // TODO: navController.navigate(...)
                 }
 
+                Spacer(Modifier.height(8.dp))
+                Divider(color = Color.White.copy(alpha = 0.2f))
+                Spacer(Modifier.height(16.dp))
+
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    OutlinedTextField(
+                        value = text,
+                        onValueChange = { text = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        placeholder = { Text("Thông tin nhập", color = Color(0xFF9E9E9E)) },
+                        singleLine = true,
+                        shape = RoundedCornerShape(24.dp),
+                        colors = TextFieldDefaults.colors(
+                            focusedIndicatorColor = Color(0xFFB0BEC5),
+                            unfocusedIndicatorColor = Color(0xFFB0BEC5),
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            cursorColor = Color.White,
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White
+                        )
+                    )
+                }
+                Spacer(Modifier.height(16.dp))
+
+                //body
+                LazyColumn(
+
+                    contentPadding = PaddingValues(bottom = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(0.dp)
+                ) {
+                    GenresSection(
+                        title = "Khám phá theo thể loại",
+                        items = genres
+                    ) { genre ->
+                        // TODO: navController.navigate(...)
+                    }
+
+                }
             }
         }
-
 
     }
 }

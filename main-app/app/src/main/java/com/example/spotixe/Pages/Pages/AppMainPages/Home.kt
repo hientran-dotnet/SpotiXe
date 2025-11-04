@@ -3,12 +3,16 @@ package com.example.spotixe.Pages.Pages.AppMainPages
 import Components.BottomBar
 import Components.RecentlyPlayedItem
 import Components.SongCardRow
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,209 +43,224 @@ import com.example.spotixe.Data.recentlyPlayed
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
-    val scrollState = rememberScrollState()
-    Scaffold (
-        bottomBar = { BottomBar(navController) }
-    ){ innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .statusBarsPadding()
-                .verticalScroll(scrollState)
-        ) {
-
-
-            Row(
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF121212))
+    ){
+        Scaffold (
+            containerColor = Color.Transparent,
+            contentWindowInsets = WindowInsets(0),
+            bottomBar = { BottomBar(navController) }
+        ){ innerPadding ->
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-                    .padding(horizontal = 10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+                    .background(Color(0xFF121212))
+                    .fillMaxSize()
+                    .statusBarsPadding()
             ) {
-                Text(
-                    "Listen Now",
-                    fontSize = 35.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Icon(
-                    imageVector = Icons.Default.PersonPin,
-                    contentDescription = "Profile",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                color = Color(0xFF161616),
-                thickness = 1.dp
-            )
 
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Text(
-                    "Top Pick",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
+                Row(
                     modifier = Modifier
-                        .padding(start = 8.dp, end = 8.dp)
-                )
-            }
+                        .fillMaxWidth()
+                        .height(80.dp)
+                        .padding(horizontal = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "Listen Now",
+                        fontSize = 35.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Text(
-                    "More from everyday",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Gray,
+                    Icon(
+                        imageVector = Icons.Default.PersonPin,
+                        contentDescription = "Profile",
+                        modifier = Modifier.size(40.dp),
+                        tint = Color.White
+                    )
+                }
+
+                Divider(
                     modifier = Modifier
-                        .padding(start = 8.dp, end = 8.dp)
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    color = Color(0xFF161616),
+                    thickness = 1.dp
                 )
-            }
 
-            Spacer(Modifier.height(6.dp))
 
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                horizontalArrangement = Arrangement.spacedBy(14.dp),
-                contentPadding = PaddingValues(horizontal = 12.dp)
-            ) {
-                items(topPicks.size) { i ->
-                    SongCardRow(song = topPicks[i])
-                }
-            }
-
-            Spacer(Modifier.height(18.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Recently Played",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "See All",
-                    color = Color(0xFF1DB954),
-                    modifier = Modifier.clickable { /* navController.navigate("recently_all") */ }
-                )
-            }
-
-            Spacer(Modifier.height(10.dp))
-
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(horizontal = 12.dp)
-            ) {
-                items(
-                    items = recentlyPlayed,
-                    key = { it.id }
-                ) { song ->
-                    RecentlyPlayedItem(
-                        song = song,
-                        onClickItem = { /* nav to detail */ },
-                        onPlayClick  = { /* start player */ }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        "Top Pick",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier
+                            .padding(start = 8.dp, end = 8.dp)
                     )
                 }
-            }
 
-            Spacer(Modifier.height(18.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "IDK",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "See All",
-                    color = Color(0xFF1DB954),
-                    modifier = Modifier.clickable { /* navController.navigate("recently_all") */ }
-                )
-            }
-
-            Spacer(Modifier.height(10.dp))
-
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(horizontal = 12.dp)
-            ) {
-                items(
-                    items = recentlyPlayed,
-                    key = { it.id }
-                ) { song ->
-                    RecentlyPlayedItem(
-                        song = song,
-                        onClickItem = { /* nav to detail */ },
-                        onPlayClick  = { /* start player */ }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        "More from everyday",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Gray,
+                        modifier = Modifier
+                            .padding(start = 8.dp, end = 8.dp)
                     )
                 }
-            }
 
-            Spacer(Modifier.height(18.dp))
+                Spacer(Modifier.height(6.dp))
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "IDK2",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "See All",
-                    color = Color(0xFF1DB954),
-                    modifier = Modifier.clickable { /* navController.navigate("recently_all") */ }
-                )
-            }
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(14.dp),
+                    contentPadding = PaddingValues(horizontal = 12.dp)
+                ) {
+                    items(topPicks.size) { i ->
+                        SongCardRow(song = topPicks[i])
+                    }
+                }
 
-            Spacer(Modifier.height(10.dp))
+                Spacer(Modifier.height(18.dp))
 
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(horizontal = 12.dp)
-            ) {
-                items(
-                    items = recentlyPlayed,
-                    key = { it.id }
-                ) { song ->
-                    RecentlyPlayedItem(
-                        song = song,
-                        onClickItem = { /* nav to detail */ },
-                        onPlayClick  = { /* start player */ }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Recently Played",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "See All",
+                        color = Color(0xFF1DB954),
+                        modifier = Modifier.clickable { /* navController.navigate("recently_all") */ }
                     )
                 }
-            }
 
+                Spacer(Modifier.height(10.dp))
+
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(horizontal = 12.dp)
+                ) {
+                    items(
+                        items = recentlyPlayed,
+                        key = { it.id }
+                    ) { song ->
+                        RecentlyPlayedItem(
+                            song = song,
+                            onClickItem = { /* nav to detail */ },
+                            onPlayClick  = { /* start player */ }
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(18.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "IDK",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "See All",
+                        color = Color(0xFF1DB954),
+                        modifier = Modifier.clickable { /* navController.navigate("recently_all") */ }
+                    )
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(horizontal = 12.dp)
+                ) {
+                    items(
+                        items = recentlyPlayed,
+                        key = { it.id }
+                    ) { song ->
+                        RecentlyPlayedItem(
+                            song = song,
+                            onClickItem = { /* nav to detail */ },
+                            onPlayClick  = { /* start player */ }
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(18.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "IDK2",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "See All",
+                        color = Color(0xFF1DB954),
+                        modifier = Modifier.clickable { /* navController.navigate("recently_all") */ }
+                    )
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(horizontal = 12.dp)
+                ) {
+                    items(
+                        items = recentlyPlayed,
+                        key = { it.id }
+                    ) { song ->
+                        RecentlyPlayedItem(
+                            song = song,
+                            onClickItem = { /* nav to detail */ },
+                            onPlayClick  = { /* start player */ }
+                        )
+                    }
+                }
+
+            }
         }
     }
 }

@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.androidx.compose.runtime)
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation("com.googlecode.libphonenumber:libphonenumber:8.13.38")

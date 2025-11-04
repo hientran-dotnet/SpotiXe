@@ -1,5 +1,6 @@
 package com.example.spotixe
 
+import Components.SetSystemBars
 import com.example.spotixe.Pages.Pages.SignInPages.Sign_in1Screen
 import com.example.spotixe.Pages.Pages.SignInPages.Sign_in2Screen
 import com.example.spotixe.Pages.Pages.SignInPages.Sign_in3Screen
@@ -7,6 +8,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,12 +30,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             val navController: NavHostController = rememberNavController()
             SpotiXeTheme {
+                SetSystemBars()
                 NavHost(
                     navController = navController,
-                    startDestination = "user"
+                    startDestination = "home"
                 ) {
                     composable("start1"){ StartScreen(navController) }
                     composable("start2"){Start2Screen(navController)}
