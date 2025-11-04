@@ -1,7 +1,9 @@
-package Components
+package Components.Card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -14,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
 import com.example.spotixe.Data.Song
 
 
@@ -28,6 +32,8 @@ fun SongCardRow(
             .height(330.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(Color(0xFF1A1A1A))
+            .border((1.dp), Color(0x332E2E2E), RoundedCornerShape(20.dp))
+            .clickable{}
     ) {
         // Cover
         Image(
@@ -36,7 +42,7 @@ fun SongCardRow(
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RoundedCornerShape(20.dp)),
-            contentScale = androidx.compose.ui.layout.ContentScale.Crop
+            contentScale = ContentScale.Crop
         )
 
         // Gradient tối ở đáy để đọc chữ
@@ -46,7 +52,7 @@ fun SongCardRow(
                 .fillMaxWidth()
                 .height(96.dp)
                 .background(
-                    brush = androidx.compose.ui.graphics.Brush.verticalGradient(
+                    brush = Brush.verticalGradient(
                         colors = listOf(Color.Transparent, Color(0xCC000000))
                     )
                 )

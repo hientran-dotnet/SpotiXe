@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 SetSystemBars()
                 NavHost(
                     navController = navController,
-                    startDestination = "home"
+                    startDestination = "explore"
                 ) {
                     composable("start1"){ StartScreen(navController) }
                     composable("start2"){Start2Screen(navController)}

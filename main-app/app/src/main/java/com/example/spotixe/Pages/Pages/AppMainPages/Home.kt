@@ -1,8 +1,8 @@
 package com.example.spotixe.Pages.Pages.AppMainPages
 
 import Components.BottomBar
-import Components.RecentlyPlayedItem
-import Components.SongCardRow
+import Components.Card.RecentlyPlayedItem
+import Components.Card.SongCardRow
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,9 +24,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PersonPin
-import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,10 +36,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.spotixe.Data.topPicks
 import com.example.spotixe.Data.recentlyPlayed
+import com.example.spotixe.Routes
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
@@ -78,12 +78,18 @@ fun HomeScreen(navController: NavHostController) {
                         color = Color.White
                     )
 
-                    Icon(
-                        imageVector = Icons.Default.PersonPin,
-                        contentDescription = "Profile",
-                        modifier = Modifier.size(40.dp),
-                        tint = Color.White
-                    )
+                    IconButton(
+                        onClick = { navController.navigate(Routes.User) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PersonPin,
+                            contentDescription = "Profile",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(40.dp)
+                        )
+                    }
+
                 }
 
                 Divider(

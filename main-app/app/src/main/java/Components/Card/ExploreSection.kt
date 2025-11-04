@@ -1,31 +1,19 @@
-package Components
+package Components.Card
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.spotixe.Data.recentlyPlayed
-import com.example.spotixe.Data.topPicks
-import Components.ExploreSection
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Divider
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.text.font.FontWeight
 import com.example.spotixe.Data.Song
 import com.example.spotixe.Data.chunkByFour
-import Components.SongCardColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
@@ -73,15 +61,7 @@ fun ExploreSection(
 
                     SongCardColumn(song = song)
 
-                    if (index != group.lastIndex) {
-                        Divider(
-                            modifier = Modifier
-                                .padding(start = 80.dp)
-                                .fillMaxWidth(),
-                            color = Color(0xFF242424),
-                            thickness = 1.dp
-                        )
-                    }
+                    Spacer(Modifier.height(10.dp))
                 }
             }
         }
@@ -104,7 +84,9 @@ fun ExploreSection(
                             else Color.Gray.copy(alpha = 0.4f)
                         )
                 )
+
             }
         }
+
     }
 }

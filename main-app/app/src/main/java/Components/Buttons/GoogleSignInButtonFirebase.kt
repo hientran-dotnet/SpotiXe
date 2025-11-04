@@ -1,4 +1,4 @@
-package Components
+package Components.Buttons
 
 import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult

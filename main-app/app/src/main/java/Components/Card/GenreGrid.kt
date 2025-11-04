@@ -1,4 +1,4 @@
-package Components
+package Components.Card
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
@@ -41,7 +41,10 @@ fun LazyListScope.GenresSection(
         ) {
             GenreCard(genre = row[0], modifier = Modifier.weight(1f), onClick = { onClickGenre })
             if (row.size > 1) {
-                GenreCard(genre = row[1], modifier = Modifier.weight(1f), onClick = { onClickGenre })
+                GenreCard(
+                    genre = row[1],
+                    modifier = Modifier.weight(1f),
+                    onClick = { onClickGenre })
             } else {
                 Spacer(Modifier.weight(1f))
             }

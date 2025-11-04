@@ -1,7 +1,8 @@
-package Components
+package Components.Card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,10 +23,10 @@ import com.example.spotixe.Data.Song
 
 @Composable
 fun RecentlyPlayedItem(
-    song: com.example.spotixe.Data.Song,
+    song: Song,
     modifier: Modifier = Modifier,
-    onClickItem: (com.example.spotixe.Data.Song) -> Unit = {},
-    onPlayClick: (com.example.spotixe.Data.Song) -> Unit = {}
+    onClickItem: (Song) -> Unit = {},
+    onPlayClick: (Song) -> Unit = {}
 ) {
     Row(
         modifier = modifier
@@ -34,6 +35,7 @@ fun RecentlyPlayedItem(
             .clip(RoundedCornerShape(12.dp))
             .background(Color(0xFF121212))
             .clickable { onClickItem(song) }
+            .border(1.dp, Color(0x802E2E2E), RoundedCornerShape(12.dp))
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

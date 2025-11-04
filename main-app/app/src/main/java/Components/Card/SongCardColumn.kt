@@ -1,8 +1,7 @@
-package Components
+package Components.Card
 
-import android.R.attr.onClick
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Text
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import com.example.spotixe.Data.Song
 
@@ -29,15 +27,14 @@ import com.example.spotixe.Data.Song
 @Composable
 fun SongCardColumn(
     song: Song,
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .height(140.dp),
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
             .clickable {  }
+            .border(1.dp, Color(0x802E2E2E), RoundedCornerShape(12.dp))
+            .padding(top = 5.dp)
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -62,16 +59,16 @@ fun SongCardColumn(
 
         Spacer(modifier = Modifier.weight(1f))
 
-//        FilledIconButton(
-//            onClick = {  },
-//            modifier = Modifier.size(36.dp),
-//            colors = IconButtonDefaults.filledIconButtonColors(
-//                containerColor = Color(0xFF1DB954),
-//                contentColor = Color.Black
-//            )
-//        ) {
-//            Icon(Icons.Rounded.PlayArrow, contentDescription = null)
-//        }
+        FilledIconButton(
+            onClick = {  },
+            modifier = Modifier.size(36.dp),
+            colors = IconButtonDefaults.filledIconButtonColors(
+                containerColor = Color(0xFF1DB954),
+                contentColor = Color.Black
+            )
+        ) {
+            Icon(Icons.Rounded.PlayArrow, contentDescription = null)
+        }
     }
 
 }

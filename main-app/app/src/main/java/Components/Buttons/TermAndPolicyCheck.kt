@@ -1,4 +1,4 @@
-package Components
+package Components.Buttons
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

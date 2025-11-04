@@ -1,7 +1,7 @@
 package com.example.spotixe.Pages.Pages.SignUpPages
 
-import Components.GoogleSignInButtonFirebase
-import Components.TermsAndPolicyCheck
+import Components.Buttons.GoogleSignInButtonFirebase
+import Components.Buttons.TermsAndPolicyCheck
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -1,6 +1,6 @@
 package com.example.spotixe.Pages.Pages.SignInPages
 
-import Components.GoogleSignInButtonFirebase
+import Components.Buttons.GoogleSignInButtonFirebase
 import Components.OtpInputField
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Button
