@@ -1,21 +1,22 @@
-# ============= BUILD STAGE =============
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy everything and build the project
-COPY . .
-RUN dotnet publish -c Release -o /app/out
+# Copy csproj and restore dependencies
+COPY SpotiXeApi/*.csproj SpotiXeApi/
+RUN dotnet restore "SpotiXeApi/SpotiXeApi.csproj"
 
-# ============= RUNTIME STAGE =============
+# Copy the rest of the source code
+COPY . .
+RUN dotnet publish "SpotiXeApi/SpotiXeApi.csproj" -c Release -o /app/out
+
+# ================= RUNTIME STAGE =================
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 
-# Copy the published output from the build stage
 COPY --from=build /app/out .
 
-# Expose the port Render will use
-ENV ASPNETCORE_URLS=http://+:10000
+# Render sets the PORT env variable automatically, so use it dynamically
+ENV ASPNETCORE_URLS=http://+:${PORT}
 EXPOSE 10000
 
-# Start the API
-ENTRYPOINT ["dotnet", "SpotiXeApi/SpotiXeApi.dll"]
+ENTRYPOINT ["dotnet", "SpotiXeApi.dll"]
