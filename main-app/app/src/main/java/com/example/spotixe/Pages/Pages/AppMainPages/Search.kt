@@ -72,8 +72,6 @@ fun SearchScreen(
 
                     BackButton(navController)
 
-                    Spacer(Modifier.width(90.dp))
-
                     Text(
                         text = "Tìm kiếm",
                         fontSize = 28.sp,

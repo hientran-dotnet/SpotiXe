@@ -68,10 +68,8 @@ fun UserScreen(
             ) {
                 BackButton(navController)
 
-                Spacer(Modifier.width(110.dp))
-
                 Text(
-                    text = "User",
+                    text = "Tài khoản",
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF58BA47),

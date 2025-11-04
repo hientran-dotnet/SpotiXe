@@ -51,10 +51,8 @@ fun ExploreScreen(navController: NavHostController) {
 
                     BackButton(navController)
 
-                    Spacer(Modifier.width(120.dp))
-
                     Text(
-                        text = "Explore",
+                        text = "Khám phá",
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF58BA47)

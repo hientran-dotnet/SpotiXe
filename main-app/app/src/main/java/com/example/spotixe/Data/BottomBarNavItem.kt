@@ -1,6 +1,7 @@
 package com.example.spotixe.Data
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Album
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -18,7 +19,7 @@ object BottomBarNavData {
         BottomBarNavItem("Home", Icons.Filled.Home, "home"),
         BottomBarNavItem("Explore", Icons.Filled.Album, "explore"),
         BottomBarNavItem("Search", Icons.Filled.Search, "search"),
-        BottomBarNavItem("User", Icons.Filled.Person, "user")
+        BottomBarNavItem("User", Icons.Filled.AccountCircle, "user")
     )
 }
 

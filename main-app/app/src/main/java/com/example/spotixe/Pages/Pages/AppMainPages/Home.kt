@@ -23,6 +23,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.PersonPin
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -82,7 +83,7 @@ fun HomeScreen(navController: NavHostController) {
                         onClick = { navController.navigate(Routes.User) }
                     ) {
                         Icon(
-                            imageVector = Icons.Default.PersonPin,
+                            imageVector = Icons.Default.AccountCircle,
                             contentDescription = "Profile",
                             tint = Color.White,
                             modifier = Modifier
