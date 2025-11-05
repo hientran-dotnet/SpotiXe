@@ -9,11 +9,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.spotixe.Pages.Pages.AppMainPages.ExploreScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.HomeScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SearchScreen
@@ -28,6 +37,10 @@ import com.example.spotixe.Pages.Pages.StartPages.Start3Screen
 import com.example.spotixe.Pages.Pages.StartPages.StartScreen
 import com.example.spotixe.ui.theme.SpotiXeTheme
 import androidx.navigation.navigation
+import com.example.spotixe.Data.SongRepository
+import com.example.spotixe.Pages.Pages.AppMainPages.SongMoreScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.SongViewScreen
+
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +80,7 @@ class MainActivity : ComponentActivity() {
 
                     // MAIN GRAPH
                     navigation(
-                        startDestination = MainRoute.Explore,
+                        startDestination = MainRoute.Home,
                         route = Graph.MAIN
                     ) {
                         composable(MainRoute.Home) { HomeScreen(navController) }
@@ -75,6 +88,34 @@ class MainActivity : ComponentActivity() {
                         composable(MainRoute.Search) { SearchScreen(navController) }
                         composable(MainRoute.User) { UserScreen(navController) }
                         composable(MainRoute.UserDetail) { UserDetailScreen(navController) }
+                        composable(
+                            route = MainRoute.SongView,
+                            arguments = listOf(navArgument("songId") { type = NavType.StringType })
+                        ) { backStackEntry ->
+                            val songId = backStackEntry.arguments?.getString("songId") ?: return@composable
+
+                            // Lấy dữ liệu bài hát theo id (VD gộp 2 list demo hiện có)
+                            val song = remember(songId) { SongRepository.get(songId) }
+
+                            if (song != null) {
+                                SongViewScreen(navController, song)
+                            } else {
+                                // fallback đơn giản
+                                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                    Text("Song not found", color = Color.White)
+                                }
+                            }
+                        }
+                        composable(
+                            route = MainRoute.SongViewMore,
+                            arguments = listOf(navArgument("songId") { type = NavType.StringType })
+                        ) { be ->
+                            val songId = be.arguments?.getString("songId") ?: return@composable
+                            val song = SongRepository.get(songId)
+                            if (song != null) {
+                                SongMoreScreen(navController, song)
+                            }
+                        }
                     }
                 }
 

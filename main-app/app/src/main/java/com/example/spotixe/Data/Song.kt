@@ -39,3 +39,9 @@ val recentlyPlayed: List<Song> = listOf(
     Song("rp12","Forever Outsider","Evergrey","2021", R.drawable.spotixe_logo),
     Song("rp13","Forever Outsider","Evergrey","2021", R.drawable.spotixe_logo),
 )
+
+
+object SongRepository {
+    val all: List<Song> get() = recentlyPlayed + topPicks
+    fun get(id: String) = all.firstOrNull { it.id == id }
+}

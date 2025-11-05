@@ -19,12 +19,16 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import com.example.spotixe.Data.Song
+import com.example.spotixe.Data.recentlyPlayed
+import androidx.navigation.NavController
+import com.example.spotixe.MainRoute
 
 
 @Composable
 fun SongCardRow(
     song: Song,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     Box(
         modifier = modifier
@@ -33,7 +37,9 @@ fun SongCardRow(
             .clip(RoundedCornerShape(20.dp))
             .background(Color(0xFF1A1A1A))
             .border((1.dp), Color(0x332E2E2E), RoundedCornerShape(20.dp))
-            .clickable{}
+            .clickable {
+                navController.navigate(MainRoute.songView(song.id))
+            }
     ) {
         // Cover
         Image(

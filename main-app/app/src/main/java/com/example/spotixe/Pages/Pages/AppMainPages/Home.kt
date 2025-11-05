@@ -145,7 +145,7 @@ fun HomeScreen(navController: NavHostController) {
                     contentPadding = PaddingValues(horizontal = 12.dp)
                 ) {
                     items(topPicks.size) { i ->
-                        SongCardRow(song = topPicks[i])
+                        SongCardRow(song = topPicks[i], navController = navController)
                     }
                 }
 
@@ -184,8 +184,8 @@ fun HomeScreen(navController: NavHostController) {
                     ) { song ->
                         RecentlyPlayedItem(
                             song = song,
-                            onClickItem = { /* nav to detail */ },
-                            onPlayClick  = { /* start player */ }
+                            onClickItem = { navController.navigate(MainRoute.songView(song.id)) },
+                            onPlayClick  = { navController.navigate(MainRoute.songView(song.id))}
                         )
                     }
                 }
@@ -225,8 +225,8 @@ fun HomeScreen(navController: NavHostController) {
                     ) { song ->
                         RecentlyPlayedItem(
                             song = song,
-                            onClickItem = { /* nav to detail */ },
-                            onPlayClick  = { /* start player */ }
+                            onClickItem = { navController.navigate(MainRoute.songView(song.id)) },
+                            onPlayClick  = { navController.navigate(MainRoute.songView(song.id)) }
                         )
                     }
                 }
@@ -266,8 +266,8 @@ fun HomeScreen(navController: NavHostController) {
                     ) { song ->
                         RecentlyPlayedItem(
                             song = song,
-                            onClickItem = { /* nav to detail */ },
-                            onPlayClick  = { /* start player */ }
+                            onClickItem = { navController.navigate(MainRoute.songView(song.id)) },
+                            onPlayClick  = {navController.navigate(MainRoute.songView(song.id)) }
                         )
                     }
                 }

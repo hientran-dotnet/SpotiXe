@@ -27,5 +27,12 @@ object MainRoute {
     const val Search  = "search"
     const val User    = "user"
     const val UserDetail = "user_detail"
+
+    // Song View (có songId)
+    const val SongView = "main/song/view/{songId}"
+    fun songView(songId: String) = "main/song/view/$songId"
+    // Song View More (có songId)
+    const val SongViewMore = "main/song/view_more/{songId}"
+    fun songViewMore(songId: String) = "main/song/view_more/$songId"
 }
 
