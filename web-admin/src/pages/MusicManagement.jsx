@@ -1,720 +1,406 @@
-import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Link, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import {
-  Search,
-  Filter,
-  Plus,
-  MoreVertical,
-  Play,
-  Edit,
-  Trash2,
-  Star,
-  BarChart3,
-  Upload,
-  Grid,
-  List as ListIcon,
-  TrendingUp,
-  Loader2,
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-} from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Input, Select } from '@/components/ui/Input';
-import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/Table';
-import { Badge, StatusBadge } from '@/components/ui/Badge';
-import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/ui/Modal';
-import { ConfirmDeleteSong } from '@/components/ui/ConfirmDeleteSong';
-import { ConfirmBulkDelete } from '@/components/ui/ConfirmBulkDelete';
-import { formatNumber, formatDuration, formatDate } from '@/lib/utils';
-import { getAllSongs } from "@/services/api/songs";
-import { deleteSong } from "@/services/api/songs/deleteSong";
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import { Upload, Filter, MoreVertical, Play, Edit, ArrowLeft, Trash2, TrendingUp, Download, Plus } from 'lucide-react'
+import { motion } from 'framer-motion'
+import Button from '@components/common/Button'
+import Card from '@components/common/Card'
+import { StatusBadge } from '@components/common/Badge'
+import { TableSkeleton } from '@components/common/LoadingScreen'
+import Modal, { ModalFooter } from '@components/common/Modal'
+import Input, { Select } from '@components/common/Input'
+import { formatNumber, formatDuration, formatCurrency } from '@utils/helpers'
+import mockApi from '@services/mockApi'
+import { format } from 'date-fns'
+import toast from 'react-hot-toast'
 
+export default function MusicManagement() {
+  const navigate = useNavigate()
+  const [page, setPage] = useState(1)
+  const [selectedTab, setSelectedTab] = useState('all')
+  const [showUploadModal, setShowUploadModal] = useState(false)
+  const [showFilters, setShowFilters] = useState(false)
+  const [selectedTracks, setSelectedTracks] = useState([])
+  const [filters, setFilters] = useState({
+    genre: '',
+    status: '',
+    dateRange: '',
+  })
 
-// const mockTracks = [
-//   {
-//     id: 1,
-//     title: 'Blinding Lights',
-//     artist: 'The Weeknd',
-//     album: 'After Hours',
-//     genre: 'Pop',
-//     duration: 200,
-//     uploadDate: '2024-01-15',
-//     streams: 2840000,
-//     status: 'active',
-//     cover: '🎵',
-//   },
-//   {
-//     id: 2,
-//     title: 'Shape of You',
-//     artist: 'Ed Sheeran',
-//     album: 'Divide',
-//     genre: 'Pop',
-//     duration: 233,
-//     uploadDate: '2024-01-10',
-//     streams: 2650000,
-//     status: 'active',
-//     cover: '🎵',
-//   },
-//   {
-//     id: 3,
-//     title: 'Someone Like You',
-//     artist: 'Adele',
-//     album: '21',
-//     genre: 'Soul',
-//     duration: 285,
-//     uploadDate: '2024-01-08',
-//     streams: 2340000,
-//     status: 'active',
-//     cover: '🎵',
-//   },
-//   {
-//     id: 4,
-//     title: 'New Track Demo',
-//     artist: 'Indie Artist',
-//     album: 'Single',
-//     genre: 'Rock',
-//     duration: 180,
-//     uploadDate: '2024-01-20',
-//     streams: 1200,
-//     status: 'pending',
-//     cover: '🎵',
-//   },
-// ];
-
-const MusicManagement = () => {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState('all');
-  const [viewMode, setViewMode] = useState('list');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('all');
-  const [showUploadModal, setShowUploadModal] = useState(false);
-  const [selectedTracks, setSelectedTracks] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [deleteModal, setDeleteModal] = useState({ isOpen: false, songId: null, songTitle: '' });
-  const [bulkDeleteModal, setBulkDeleteModal] = useState({ isOpen: false, count: 0 });
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const [itemsPerPage, setItemsPerPage] = useState(10);  // Dynamic pageSize
-
-  // Fetch songs using React Query with server-side pagination
-  const { 
-    data: songsResponse,
-    isLoading, 
-    isError, 
-    error 
-  } = useQuery({
-    queryKey: ['songs', currentPage, itemsPerPage],
-    queryFn: () => getAllSongs(currentPage, itemsPerPage),
-    staleTime: 60000, // 60 seconds
-  });
-
-  // Extract pagination data from response
-  const { 
-    items: songsData = [], 
-    totalCount = 0, 
-    totalPages = 0, 
-    hasNext = false, 
-    hasPrevious = false 
-  } = songsResponse || {};
-
-  // Show toast on error
-  React.useEffect(() => {
-    if (isError) {
-      toast.error(error?.response?.data?.message || error?.message || 'Failed to fetch songs');
-    }
-  }, [isError, error]);
-
-  // Delete song mutation
-  const deleteMutation = useMutation({
-    mutationFn: (songId) => deleteSong(songId),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['songs']);
-      toast.success('Song deleted successfully');
-      setDeleteModal({ isOpen: false, songId: null, songTitle: '' });
-    },
-    onError: (error) => {
-      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete song');
-    },
-  });
-
-  const handleDeleteClick = (songId, songTitle) => {
-    setDeleteModal({ isOpen: true, songId, songTitle });
-  };
-
-  const handleDeleteConfirm = () => {
-    if (deleteModal.songId) {
-      deleteMutation.mutate(deleteModal.songId);
-    }
-  };
-
-  const handleDeleteCancel = () => {
-    setDeleteModal({ isOpen: false, songId: null, songTitle: '' });
-  };
-
-  // Bulk delete mutation
-  const bulkDeleteMutation = useMutation({
-    mutationFn: async (songIds) => {
-      // Delete all songs in parallel
-      const deletePromises = songIds.map(id => deleteSong(id));
-      return await Promise.all(deletePromises);
-    },
-    onSuccess: (data, songIds) => {
-      queryClient.invalidateQueries(['songs']);
-      toast.success(`Successfully deleted ${songIds.length} song${songIds.length > 1 ? 's' : ''}`);
-      setBulkDeleteModal({ isOpen: false, count: 0 });
-      setSelectedTracks([]); // Clear selection
-    },
-    onError: (error) => {
-      toast.error(error?.response?.data?.message || error?.message || 'Failed to delete songs');
-    },
-  });
-
-  const handleBulkDeleteClick = () => {
-    setBulkDeleteModal({ isOpen: true, count: selectedTracks.length });
-  };
-
-  const handleBulkDeleteConfirm = () => {
-    if (selectedTracks.length > 0) {
-      bulkDeleteMutation.mutate(selectedTracks);
-    }
-  };
-
-  const handleBulkDeleteCancel = () => {
-    setBulkDeleteModal({ isOpen: false, count: 0 });
-  };
-
-  // Filter và sort client-side (trên dữ liệu đã được server phân trang)
-  const filteredTracks = useMemo(() => {
-    let filtered = songsData;
-
-    // Filter by search query (title)
-    if (searchQuery) {
-      filtered = filtered.filter(track => 
-        track.title?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    // Filter by genre
-    if (selectedGenre && selectedGenre !== 'all') {
-      filtered = filtered.filter(track => track.genre === selectedGenre);
-    }
-
-    // Apply sorting
-    if (sortConfig.key) {
-      filtered = [...filtered].sort((a, b) => {
-        let aValue = a[sortConfig.key];
-        let bValue = b[sortConfig.key];
-
-        // Handle null/undefined values
-        if (aValue == null) return 1;
-        if (bValue == null) return -1;
-
-        // Convert to lowercase for string comparison
-        if (typeof aValue === 'string') aValue = aValue.toLowerCase();
-        if (typeof bValue === 'string') bValue = bValue.toLowerCase();
-
-        if (aValue < bValue) {
-          return sortConfig.direction === 'asc' ? -1 : 1;
-        }
-        if (aValue > bValue) {
-          return sortConfig.direction === 'asc' ? 1 : -1;
-        }
-        return 0;
-      });
-    }
-
-    return filtered;
-  }, [songsData, searchQuery, selectedGenre, sortConfig]);
-
-  // Server-side pagination: không cần slice, backend đã trả về đúng số items
-  const displayedTracks = filteredTracks;
+  const { data, isLoading } = useQuery({
+    queryKey: ['tracks', page, filters],
+    queryFn: () => mockApi.getTracks(page, 20, filters),
+  })
 
   const tabs = [
-    { id: 'all', label: 'All Tracks', count: totalCount },  // Use totalCount from backend
-    { id: 'albums', label: 'Albums', count: 156 },
-    { id: 'singles', label: 'Singles', count: 432 },
-    { id: 'pending', label: 'Pending Approval', count: 12 },
-  ];
+    { id: 'all', label: 'All Tracks', count: data?.total || 0 },
+    // { id: 'albums', label: 'Albums', count: 234 },
+    // { id: 'singles', label: 'Singles', count: 567 },
+    // { id: 'pending', label: 'Pending Approval', count: 23 },
+  ]
 
-  const genres = ['all', 'Pop', 'Rock', 'Hip Hop', 'Electronic', 'Jazz', 'Classical'];
-
-  const toggleTrackSelection = (trackId) => {
+  const handleSelectTrack = (trackId) => {
     setSelectedTracks(prev =>
       prev.includes(trackId)
         ? prev.filter(id => id !== trackId)
         : [...prev, trackId]
-    );
-  };
+    )
+  }
 
-  // Handle column sorting
-  const handleSort = (key) => {
-    setSortConfig(prev => ({
-      key,
-      direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
-    }));
-  };
-
-  // Get sort icon for column
-  const getSortIcon = (key) => {
-    if (sortConfig.key !== key) {
-      return <ArrowUpDown size={14} className="text-admin-text-tertiary" />;
+  const handleSelectAll = () => {
+    if (selectedTracks.length === data?.data.length) {
+      setSelectedTracks([])
+    } else {
+      setSelectedTracks(data?.data.map(track => track.id) || [])
     }
-    return sortConfig.direction === 'asc' 
-      ? <ArrowUp size={14} className="text-spotify-green" />
-      : <ArrowDown size={14} className="text-spotify-green" />;
-  };
+  }
 
-  const handlePreviousPage = () => {
-    setCurrentPage(prev => Math.max(prev - 1, 1));
-  };
+  const handleDelete = (trackId) => {
+    toast.success('Track deleted successfully')
+  }
 
-  const handleNextPage = () => {
-    setCurrentPage(prev => Math.min(prev + 1, totalPages));
-  };
+  const handleBulkAction = (action) => {
+    toast.success(`${action} applied to ${selectedTracks.length} tracks`)
+    setSelectedTracks([])
+  }
 
-  // Reset page when filters change
-  React.useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery, selectedGenre, itemsPerPage]);  // Reset khi đổi pageSize
-
-  // Handle page size change
-  const handlePageSizeChange = (e) => {
-    setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1);  // Reset về page 1
-  };
+  const handleRowClick = (trackId, e) => {
+    // Don't navigate if clicking on checkbox, action button, or inside action menu
+    if (
+      e.target.closest('input[type="checkbox"]') ||
+      e.target.closest('.action-menu') ||
+      e.target.closest('button')
+    ) {
+      return
+    }
+    navigate(`/songs/${trackId}`)
+  }
 
   return (
-    <div className="space-y-6">
-      {/* Page Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="flex items-center justify-between"
-      >
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-admin-text-primary">Music Management</h1>
+          <h1 className="text-3xl font-bold text-text-primary mb-2">
+            Quản lý bài hát
+          </h1>
         </div>
-        <Button onClick={() => navigate('/songs/create')}>
-          <Plus size={18} className="mr-2" />
-          Create New Song
+        <Button
+          icon={Plus}
+          iconPosition="left"
+          onClick={() => navigate('/songs/add')}
+        >
+          Thêm bài hát
         </Button>
-      </motion.div>
+      </div>
 
       {/* Tabs */}
-      <Card>
-        <CardContent className="p-0">
-          <div className="flex items-center justify-between border-b border-admin-border-default overflow-x-auto">
-            <div className="flex">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-6 py-4 font-medium text-sm whitespace-nowrap transition-colors border-b-2 ${
-                    activeTab === tab.id
-                      ? 'text-spotify-green border-spotify-green'
-                      : 'text-admin-text-secondary border-transparent hover:text-admin-text-primary'
-                  }`}
-                >
-                  {tab.label}
-                  <span className="ml-2 px-2 py-0.5 rounded-full bg-admin-bg-hover text-xs">
-                    {tab.count}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="flex flex-wrap gap-2 border-b border-border">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setSelectedTab(tab.id)}
+            className={`px-4 py-2 font-medium transition-all ${
+              selectedTab === tab.id
+                ? 'text-spotify-green border-b-2 border-spotify-green'
+                : 'text-text-secondary hover:text-text-primary'
+            }`}
+          >
+            {tab.label}
+            <span className="ml-2 text-sm">({tab.count})</span>
+          </button>
+        ))}
+      </div>
 
-      {/* Filters & Search */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Search - 2 columns on desktop */}
-            <div className="md:col-span-2">
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-admin-text-tertiary" size={20} />
-                <input
-                  type="text"
-                  placeholder="Search tracks, artists, albums..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-admin-bg-hover border border-admin-border-default rounded-lg text-admin-text-primary placeholder-admin-text-tertiary focus:outline-none focus:ring-2 focus:ring-spotify-green focus:border-transparent transition-all text-base"
-                />
-              </div>
-            </div>
-            
-            {/* Genre filter - 1 column */}
-            <div>
-              <Select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)}>
-                {genres.map((genre) => (
-                  <option key={genre} value={genre}>
-                    {genre === 'all' ? 'All Genres' : genre}
-                  </option>
-                ))}
-              </Select>
-            </div>
-          </div>
-
-          {/* Bulk Actions */}
-          {selectedTracks.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-4 p-3 bg-admin-bg-hover rounded-lg flex items-center justify-between"
+      {/* Filters & Bulk Actions */}
+      <Card className="p-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="secondary"
+              size="sm"
+              icon={Filter}
+              onClick={() => setShowFilters(!showFilters)}
             >
-              <span className="text-sm text-admin-text-primary">
-                {selectedTracks.length} track{selectedTracks.length > 1 ? 's' : ''} selected
-              </span>
-              <div className="flex gap-2">
+              Filters
+            </Button>
+            {selectedTracks.length > 0 && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-text-secondary">
+                  {selectedTracks.length} selected
+                </span>
                 <Button
-                  variant="danger"
-                  onClick={handleBulkDeleteClick}
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => handleBulkAction('Delete')}
                 >
-                  <Trash2 size={16} className="mr-2" />
-                  Delete Selected
+                  Delete
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => handleBulkAction('Feature')}
+                >
+                  Feature
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => handleBulkAction('Export')}
+                >
+                  Export
                 </Button>
               </div>
-            </motion.div>
-          )}
-        </CardContent>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <Select
+              options={[
+                { value: '10', label: '10 / page' },
+                { value: '20', label: '20 / page' },
+                { value: '50', label: '50 / page' },
+              ]}
+              className="w-30"
+            />
+          </div>
+        </div>
+
+        {/* Filter Panel */}
+        {showFilters && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mt-4 pt-4 border-t border-border grid grid-cols-1 md:grid-cols-4 gap-4"
+          >
+            <Select
+              label="Genre"
+              options={[
+                { value: '', label: 'All Genres' },
+                { value: 'pop', label: 'Pop' },
+                { value: 'rock', label: 'Rock' },
+                { value: 'hip-hop', label: 'Hip Hop' },
+                { value: 'electronic', label: 'Electronic' },
+              ]}
+              value={filters.genre}
+              onChange={(e) => setFilters({ ...filters, genre: e.target.value })}
+            />
+            <Select
+              label="Status"
+              options={[
+                { value: '', label: 'All Status' },
+                { value: 'active', label: 'Active' },
+                { value: 'pending', label: 'Pending' },
+                { value: 'approved', label: 'Approved' },
+              ]}
+              value={filters.status}
+              onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+            />
+            <Select
+              label="Date Range"
+              options={[
+                { value: '', label: 'All Time' },
+                { value: 'today', label: 'Today' },
+                { value: 'week', label: 'This Week' },
+                { value: 'month', label: 'This Month' },
+              ]}
+              value={filters.dateRange}
+              onChange={(e) => setFilters({ ...filters, dateRange: e.target.value })}
+            />
+            <div className="flex items-end gap-2">
+              <Button variant="secondary" size="md" className="flex-1">
+                Apply
+              </Button>
+              <Button
+                variant="ghost"
+                size="md"
+                onClick={() => setFilters({ genre: '', status: '', dateRange: '' })}
+              >
+                Reset
+              </Button>
+            </div>
+          </motion.div>
+        )}
       </Card>
 
       {/* Tracks Table */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.2 }}
-      >
-        <Card>
-          <CardContent className="p-0">
-            {/* Loading State */}
-            {isLoading && (
-              <div className="flex items-center justify-center py-20">
-                <div className="flex flex-col items-center gap-4">
-                  <Loader2 size={48} className="text-spotify-green animate-spin" />
-                  <p className="text-admin-text-secondary">Loading songs...</p>
-                </div>
-              </div>
-            )}
-
-            {/* Error State */}
-            {isError && !isLoading && (
-              <div className="flex items-center justify-center py-20">
-                <div className="text-center">
-                  <p className="text-apple-red font-medium mb-2">Failed to load songs</p>
-                  <p className="text-admin-text-tertiary text-sm">
-                    {error?.response?.data?.message || error?.message || 'An error occurred'}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Data Table */}
-            {!isLoading && !isError && (
-              <>
-                <Table>
-                  <TableHeader>
-                    <TableRow hover={false}>
-                      <TableHead className="w-12">
+      <Card className="p-0 overflow-hidden">
+        {isLoading ? (
+          <div className="p-6">
+            <TableSkeleton rows={10} columns={8} />
+          </div>
+        ) : (
+          <>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-bg-secondary">
+                  <tr>
+                    <th className="px-4 py-3">
+                      <input
+                        type="checkbox"
+                        checked={selectedTracks.length === data?.data.length}
+                        onChange={handleSelectAll}
+                        className="w-4 h-4 rounded border-border bg-bg-tertiary"
+                      />
+                    </th>
+                    <th className="px-4 py-3 pl-12 text-xs font-medium text-text-tertiary uppercase text-left">
+                      Track
+                    </th>
+                    <th className="px-4 py-3 text-xs font-medium text-text-tertiary uppercase text-left">
+                      Artist
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-text-tertiary uppercase">
+                      Album
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-text-tertiary uppercase">
+                      Genre
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-text-tertiary uppercase">
+                      Duration
+                    </th>
+                    {/* <th className="text-left px-4 py-3 text-xs font-medium text-text-tertiary uppercase">
+                      Streams
+                    </th> */}
+                    <th className="text-left px-4 py-3 text-xs font-medium text-text-tertiary uppercase">
+                      Upload Date
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-text-tertiary uppercase">
+                      Status
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-text-tertiary uppercase">
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {data?.data.map((track) => (
+                    <tr
+                      key={track.id}
+                      onClick={(e) => handleRowClick(track.id, e)}
+                      className="hover:bg-bg-hover transition-colors group cursor-pointer"
+                    >
+                      <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                         <input
                           type="checkbox"
-                          className="rounded border-admin-border-default bg-admin-bg-hover"
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setSelectedTracks(displayedTracks.map(t => t.songId));
-                            } else {
-                              setSelectedTracks([]);
-                            }
-                          }}
+                          checked={selectedTracks.includes(track.id)}
+                          onChange={() => handleSelectTrack(track.id)}
+                          className="w-4 h-4 rounded border-border bg-bg-tertiary"
                         />
-                      </TableHead>
-                      <TableHead 
-                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('title')}
-                      >
-                        <div className="flex items-center gap-2">
-                          Track
-                          {getSortIcon('title')}
-                        </div>
-                      </TableHead>
-                      <TableHead 
-                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('artistName')}
-                      >
-                        <div className="flex items-center gap-2">
-                          Artist
-                          {getSortIcon('artistName')}
-                        </div>
-                      </TableHead>
-                      <TableHead 
-                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('albumTitle')}
-                      >
-                        <div className="flex items-center gap-2">
-                          Album
-                          {getSortIcon('albumTitle')}
-                        </div>
-                      </TableHead>
-                      <TableHead>Genre</TableHead>
-                      <TableHead 
-                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('duration')}
-                      >
-                        <div className="flex items-center gap-2">
-                          Duration
-                          {getSortIcon('duration')}
-                        </div>
-                      </TableHead>
-                      <TableHead 
-                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('releaseDate')}
-                      >
-                        <div className="flex items-center gap-2">
-                          Release Date
-                          {getSortIcon('releaseDate')}
-                        </div>
-                      </TableHead>
-                      <TableHead 
-                        className="cursor-pointer select-none hover:text-spotify-green transition-colors"
-                        onClick={() => handleSort('playCount')}
-                      >
-                        <div className="flex items-center gap-2">
-                          Streams
-                          {getSortIcon('playCount')}
-                        </div>
-                      </TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="w-12"></TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {displayedTracks.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={10} className="text-center py-12">
-                          <p className="text-admin-text-tertiary">
-                            {searchQuery || selectedGenre !== 'all' 
-                              ? 'No tracks found matching your filters' 
-                              : 'No tracks available'}
-                          </p>
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      displayedTracks.map((track) => (
-                        <TableRow key={track.songId}>
-                          <TableCell>
-                            <input
-                              type="checkbox"
-                              className="rounded border-admin-border-default bg-admin-bg-hover"
-                              checked={selectedTracks.includes(track.songId)}
-                              onChange={() => toggleTrackSelection(track.songId)}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                          <div className="relative group/play flex-shrink-0">
+                            <img
+                              src={track.thumbnail}
+                              alt={track.title}
+                              className="w-12 h-12 rounded object-cover"
                             />
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-3">
-                              <div className="relative group">
-                                <div className="w-10 h-10 bg-gradient-primary rounded flex items-center justify-center text-lg">
-                                  {track.coverImageUrl ? (
-                                    <img 
-                                      src={track.coverImageUrl} 
-                                      alt={track.title}
-                                      className="w-full h-full object-cover rounded"
-                                    />
-                                  ) : (
-                                    '🎵'
-                                  )}
-                                </div>
-                                <button className="absolute inset-0 bg-black/60 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <Play size={14} fill="white" className="text-white" />
-                                </button>
-                              </div>
-                              <div>
-                                <Link
-                                  to={`/songs/${track.songId}`}
-                                  className="font-medium text-admin-text-primary hover:text-spotify-green cursor-pointer transition-colors hover:underline"
-                                  aria-label={`View details for ${track.title}`}
-                                >
-                                  {track.title || '-'}
-                                </Link>
-                              </div>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <Link
-                              to={`/songs/${track.songId}`}
-                              className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors hover:underline"
+                            {/* <div className="absolute inset-0 bg-black/60 rounded flex items-center justify-center opacity-0 group-hover/play:opacity-100 transition-opacity">
+                              <Play className="w-5 h-5 text-white" />
+                            </div> */}
+                          </div>
+                          <div className="flex flex-col">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                navigate(`/songs/${track.id}`)
+                              }}
+                              className="font-medium text-text-primary hover:text-spotify-green transition-colors text-left"
                             >
-                              {track.artistName || '-'}
-                            </Link>
-                          </TableCell>
-                          <TableCell>
-                            <Link
-                              to={`/songs/${track.songId}`}
-                              className="text-admin-text-secondary hover:text-spotify-green cursor-pointer transition-colors hover:underline"
-                            >
-                              {track.albumTitle || '-'}
-                            </Link>
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="default">{track.genre || '-'}</Badge>
-                          </TableCell>
-                          <TableCell>
-                            {track.duration ? formatDuration(track.duration) : '-'}
-                          </TableCell>
-                          <TableCell>
-                            {track.releaseDate ? formatDate(track.releaseDate) : '-'}
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium text-admin-text-primary">
-                                {track.playCount ? formatNumber(track.playCount) : '0'}
-                              </span>
-                              {track.playCount > 1000000 && (
-                                <TrendingUp size={14} className="text-spotify-green" />
-                              )}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <StatusBadge status={track.isActive ? 'active' : 'inactive'} />
-                          </TableCell>
-                          <TableCell>
-                            <div className="relative group">
-                              <button className="p-1 hover:bg-admin-bg-hover rounded transition-colors">
-                                <MoreVertical size={18} className="text-admin-text-tertiary" />
+                              {track.title}
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-text-secondary">
+                        {track.artist}
+                      </td>
+                      <td className="px-4 py-3 text-text-secondary">
+                        {track.album}
+                      </td>
+                      <td className="px-4 py-3 text-text-secondary">
+                        {track.genre}
+                      </td>
+                      <td className="px-4 py-3 text-text-secondary">
+                        {formatDuration(track.duration)}
+                      </td>
+                      {/* <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-text-primary">
+                            {formatNumber(track.streams)}
+                          </span>
+                          <TrendingUp className="w-4 h-4 text-spotify-green" />
+                        </div>
+                      </td> */}
+                      <td className="px-4 py-3 text-text-secondary">
+                        {format(new Date(track.uploadDate), 'MMM d, yyyy')}
+                      </td>
+                      <td className="px-4 py-3">
+                        <StatusBadge status={track.status} />
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="relative group/action action-menu" onClick={(e) => e.stopPropagation()}>
+                          <button className="p-1.5 hover:bg-bg-hover rounded transition-colors">
+                            <MoreVertical className="w-4 h-4 text-text-tertiary" />
+                          </button>
+                          
+                          {/* Dropdown Menu - Shows on hover */}
+                          <div className="absolute right-0 top-full mt-1 w-48 bg-bg-card border border-border rounded-lg shadow-xl opacity-0 invisible group-hover/action:opacity-100 group-hover/action:visible transition-all z-20">
+                            <div className="p-1">
+                              <button 
+                                onClick={() => {
+                                  navigate(`/songs/${track.id}/edit`)
+                                }}
+                                className="w-full flex items-center gap-3 px-3 py-2 hover:bg-bg-hover rounded text-text-secondary hover:text-text-primary text-sm transition-colors"
+                              >
+                                <Edit className="w-4 h-4" />
+                                Edit
                               </button>
-                              <div className="absolute right-0 top-full mt-1 w-48 bg-admin-bg-card border border-admin-border-default rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
-                                <div className="p-1">
-                                  <button 
-                                    onClick={() => navigate(`/songs/${track.songId}/edit`)}
-                                    className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-admin-text-secondary hover:text-admin-text-primary text-sm"
-                                  >
-                                    <Edit size={16} />
-                                    Edit
-                                  </button>
-                                  <button 
-                                    onClick={() => handleDeleteClick(track.songId, track.title)}
-                                    className="w-full flex items-center gap-3 px-3 py-2 hover:bg-admin-bg-hover rounded text-apple-red text-sm"
-                                  >
-                                    <Trash2 size={16} />
-                                    Delete
-                                  </button>
-                                </div>
-                              </div>
+                              <button 
+                                onClick={() => {
+                                  handleDelete(track.id)
+                                }}
+                                className="w-full flex items-center gap-3 px-3 py-2 hover:bg-bg-hover rounded text-apple-red text-sm transition-colors"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                                Delete
+                              </button>
                             </div>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    )}
-                  </TableBody>
-                </Table>
-
-                {/* Pagination */}
-                <div className="p-4 border-t border-admin-border-default flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm text-admin-text-secondary">
-                      Showing {totalCount > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}-{Math.min(currentPage * itemsPerPage, totalCount)} of {totalCount} tracks
-                    </span>
-                    
-                    {/* Page Size Selector */}
-                    <div className="flex items-center gap-2">
-                      <label className="text-sm text-admin-text-tertiary">Show:</label>
-                      <Select 
-                        value={itemsPerPage} 
-                        onChange={handlePageSizeChange}
-                        className="w-20 py-1.5 text-sm"
-                      >
-                        <option value={10}>10</option>
-                        <option value={20}>20</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                      </Select>
-                    </div>
-                  </div>
-                  
-                  <div className="flex gap-2 items-center">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={handlePreviousPage}
-                      disabled={!hasPrevious}
-                    >
-                      Previous
-                    </Button>
-                    <span className="text-sm text-admin-text-secondary px-2">
-                      Page {currentPage} of {totalPages || 1}
-                    </span>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={handleNextPage}
-                      disabled={!hasNext}
-                    >
-                      Next
-                    </Button>
-                  </div>
-                </div>
-              </>
-            )}
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      {/* Upload Modal */}
-      <Modal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} size="lg">
-        <ModalHeader onClose={() => setShowUploadModal(false)}>
-          <ModalTitle>Upload New Track</ModalTitle>
-        </ModalHeader>
-        <ModalBody>
-          <div className="space-y-4">
-            <div className="border-2 border-dashed border-admin-border-default rounded-lg p-8 text-center hover:border-spotify-green transition-colors cursor-pointer">
-              <Upload size={48} className="mx-auto text-admin-text-tertiary mb-4" />
-              <p className="text-admin-text-primary font-medium">Drop your audio file here</p>
-              <p className="text-sm text-admin-text-tertiary mt-1">or click to browse (MP3, WAV, FLAC)</p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <Input label="Track Title" placeholder="Enter track title" />
-            <Input label="Artist Name" placeholder="Enter artist name" />
-            <Input label="Album Name" placeholder="Enter album name" />
-            <Select label="Genre">
-              <option value="">Select genre</option>
-              {genres.filter(g => g !== 'all').map((genre) => (
-                <option key={genre} value={genre}>{genre}</option>
-              ))}
-            </Select>
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="ghost" onClick={() => setShowUploadModal(false)}>
-            Cancel
-          </Button>
-          <Button>Upload Track</Button>
-        </ModalFooter>
-      </Modal>
 
-      {/* Delete Confirmation Modal */}
-      <ConfirmDeleteSong
-        isOpen={deleteModal.isOpen}
-        onClose={handleDeleteCancel}
-        onConfirm={handleDeleteConfirm}
-        songTitle={deleteModal.songTitle}
-        isDeleting={deleteMutation.isPending}
-      />
-
-      {/* Bulk Delete Confirmation Modal */}
-      <ConfirmBulkDelete
-        isOpen={bulkDeleteModal.isOpen}
-        onClose={handleBulkDeleteCancel}
-        onConfirm={handleBulkDeleteConfirm}
-        count={bulkDeleteModal.count}
-        isDeleting={bulkDeleteMutation.isPending}
-      />
+            {/* Pagination */}
+            <div className="px-6 py-4 border-t border-border flex items-center justify-between">
+              <p className="text-sm text-text-secondary">
+                Showing {((page - 1) * 20) + 1} to {Math.min(page * 20, data?.total || 0)} of {data?.total || 0} tracks
+              </p>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={page >= (data?.totalPages || 1)}
+                  onClick={() => setPage(page + 1)}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          </>
+        )}
+      </Card>
     </div>
-  );
-};
-
-export default MusicManagement;
+  )
+}
