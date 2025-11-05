@@ -1,12 +1,14 @@
 package com.example.spotixe
 
 import Components.SetSystemBars
+import android.os.Build
 import com.example.spotixe.Pages.Pages.SignInPages.Sign_in1Screen
 import com.example.spotixe.Pages.Pages.SignInPages.Sign_in2Screen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -27,6 +29,7 @@ import com.example.spotixe.Pages.Pages.StartPages.StartScreen
 import com.example.spotixe.ui.theme.SpotiXeTheme
 import androidx.navigation.navigation
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -64,7 +67,7 @@ class MainActivity : ComponentActivity() {
 
                     // MAIN GRAPH
                     navigation(
-                        startDestination = MainRoute.Home,
+                        startDestination = MainRoute.Explore,
                         route = Graph.MAIN
                     ) {
                         composable(MainRoute.Home) { HomeScreen(navController) }

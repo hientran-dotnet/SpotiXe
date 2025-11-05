@@ -1,6 +1,7 @@
 package Components.Card
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -27,15 +28,19 @@ import com.example.spotixe.Data.Song
 @Composable
 fun SongCardColumn(
     song: Song,
+    modifier: Modifier = Modifier
 ) {
+    val shape = RoundedCornerShape(12.dp)
+
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(100.dp)
-            .clickable {  }
-            .border(1.dp, Color(0x802E2E2E), RoundedCornerShape(12.dp))
-            .padding(top = 5.dp)
-            .padding(horizontal = 12.dp),
+            .clip(shape)
+            .background(Color(0xFF171717))
+            .border(1.dp, Color(0x332E2E2E), shape)
+            .clickable { }
+            .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(

@@ -50,17 +50,16 @@ fun ExploreSection(
                 .padding(horizontal = 8.dp),
             pageSpacing = 16.dp
         ) { page ->
+            val group = grouped[page]
 
             Column(
-                modifier = Modifier
-                    .width(IntrinsicSize.Max)
+                modifier = Modifier.fillMaxWidth()
             ) {
-                val group = grouped[page]
-
-                group.forEachIndexed { index, song ->
-
-                    SongCardColumn(song = song)
-
+                group.forEach { song ->
+                    SongCardColumn(
+                        song = song,
+                        modifier = Modifier.fillMaxWidth()
+                    )
                     Spacer(Modifier.height(10.dp))
                 }
             }
