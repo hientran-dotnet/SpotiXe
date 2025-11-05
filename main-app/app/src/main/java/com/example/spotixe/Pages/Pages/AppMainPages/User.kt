@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -16,13 +17,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import Components.BottomBar
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,62 +49,45 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.spotixe.R
 import androidx.navigation.NavHostController
 import com.example.spotixe.MainRoute
-
+import com.example.spotixe.R
 
 @Composable
-fun UserScreen(
-    navController: NavHostController,
-){
+fun UserScreen(navController: NavHostController) {
+    val playlists = listOf(
+        PlaylistUi("LoL songs", "17 Songs", R.drawable.spotixe_logo),
+        PlaylistUi("Liked songs", "17 Songs", R.drawable.spotixe_logo, liked = true),
+        PlaylistUi("Pop", "17 Songs", R.drawable.spotixe_logo),
+        PlaylistUi("Rock", "17 Songs", R.drawable.spotixe_logo),
+    )
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121212))
     ){
-        Scaffold (
-            containerColor = Color.Transparent,
-            contentWindowInsets = WindowInsets(0),
-            bottomBar = { BottomBar(navController) }
-        ){ innerPadding ->
-            Column(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())
-                    .background(Color(0xFF121212))
-                    .fillMaxSize()
-                    .statusBarsPadding()
-            ) {
-            // Header
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp, start = 8.dp, end = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                BackButton(navController)
 
-                Text(
-                    text = "Tài khoản",
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF58BA47),
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            Spacer(Modifier.height(4.dp))
-
-            Divider(color = Color.White.copy(alpha = 0.2f))
-
+    }
+    Scaffold(
+        containerColor = Color.Transparent,
+        contentWindowInsets = WindowInsets(0),
+        bottomBar = { BottomBar(navController) }
+    ) { inner ->
+        // Tất cả phần trên dùng Column
+        Column(
+            modifier = Modifier
+                .padding(inner)
+                .fillMaxSize()
+                .background(Color(0xFF121212))
+                .statusBarsPadding()
+        ) {
+            // ===== Header gradient + avatar + nút Sửa hồ sơ + thống kê =====
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(350.dp)
+                    .height(320.dp)
                     .background(
                         Brush.linearGradient(
                             listOf(
@@ -95,35 +96,124 @@ fun UserScreen(
                                 Color(0xFF58BA47).copy(alpha = 0.9f)
                             ),
                             start = Offset(600f, 0f),
-                            end   = Offset(0f, 800f)
+                            end = Offset(0f, 800f)
                         )
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
                         painter = painterResource(R.drawable.spotixe_logo),
                         contentDescription = null,
-                        modifier = Modifier
-                            .size(200.dp)
+                        modifier = Modifier.size(140.dp)
                     )
-
+                    Text(
+                        "Nguyễn Văn A",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier.padding(top = 8.dp, bottom = 10.dp)
+                    )
                     Button(
-                        onClick = {navController.navigate(MainRoute.UserDetail)},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF545252),
-                        )
+                        onClick = { navController.navigate(MainRoute.UserDetail) },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF545252))
+                    ) { Text("Sửa hồ sơ", color = Color.White) }
+
+                    Spacer(Modifier.height(16.dp))
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            "Sửa hồ sơ",
-                            color = Color.White
-                            )
-                        }
+                        StatBlock("23", "Danh sách", Modifier.weight(1f))
+                        StatBlock("58", "Theo dõi", Modifier.weight(1f))
+                        StatBlock("43", "Đang theo dõi", Modifier.weight(1f))
                     }
                 }
             }
+
+            // ===== Title “Danh sách” (vẫn ở Column) =====
+            Text(
+                text = "Danh sách",
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+            )
+            Divider(color = Color.White.copy(alpha = 0.15f))
+
+            // ===== Chỉ phần List dùng LazyColumn =====
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f), // chiếm phần còn lại để list cuộn riêng
+                contentPadding = PaddingValues(bottom = 100.dp) // tránh đè BottomBar/mini player
+            ) {
+                items(playlists) { p ->
+                    PlaylistRow(
+                        data = p,
+                        onClick = {
+                            // ví dụ: navController.navigate("main/playlist/${id}")
+                        }
+                    )
+                }
+                item { Spacer(Modifier.height(16.dp)) }
+            }
         }
+    }
+}
+
+@Composable
+private fun StatBlock(value: String, label: String, modifier: Modifier = Modifier) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
+        Text(value, color = Color(0xFF58BA47), fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+        Spacer(Modifier.height(2.dp))
+        Text(label, color = Color.White.copy(alpha = 0.8f), fontSize = 12.sp)
+    }
+}
+
+private data class PlaylistUi(
+    val title: String,
+    val subtitle: String,
+    val coverRes: Int,
+    val liked: Boolean = false
+)
+
+@Composable
+private fun PlaylistRow(data: PlaylistUi, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(data.coverRes),
+            contentDescription = null,
+            modifier = Modifier.size(44.dp)
+        )
+        Spacer(Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (data.liked) {
+                    Icon(
+                        imageVector = Icons.Filled.Favorite,
+                        contentDescription = null,
+                        tint = Color(0xFF58BA47),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(Modifier.width(6.dp))
+                }
+                Text(data.title, color = Color.White, fontSize = 15.sp, fontWeight = FontWeight.Medium)
+            }
+            Text(data.subtitle, color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
+        }
+        Icon(
+            imageVector = Icons.Filled.ChevronRight,
+            contentDescription = null,
+            tint = Color.White.copy(alpha = 0.7f)
+        )
     }
 }
