@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spotixe.R
 import androidx.navigation.NavHostController
+import com.example.spotixe.Routes
 
 @Composable
 fun UserScreen(
@@ -109,7 +110,7 @@ fun UserScreen(
                     )
 
                     Button(
-                        onClick = {},
+                        onClick = {navController.navigate(Routes.UserDetail)},
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF545252),
                         )

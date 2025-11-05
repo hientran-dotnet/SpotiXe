@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.spotixe.Pages.Pages.AppMainPages.ExploreScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.HomeScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SearchScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.UserDetailScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.UserScreen
 import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpEmail1Screen
 import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpEmail2Screen
@@ -53,6 +54,7 @@ class MainActivity : ComponentActivity() {
                     composable("explore"){ ExploreScreen(navController) }
                     composable("search"){ SearchScreen(navController) }
                     composable("user"){ UserScreen(navController) }
+                    composable ("user_detail"){ UserDetailScreen(navController)}
                 }
             }
         }

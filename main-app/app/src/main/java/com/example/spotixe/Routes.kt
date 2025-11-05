@@ -22,5 +22,6 @@ object Routes {
     const val Explore = "explore"
     const val Search = "search"
     const val User = "user"
+    const val UserDetail="user_detail"
 
 }

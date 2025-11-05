@@ -79,9 +79,13 @@ fun HomeScreen(navController: NavHostController) {
                         color = Color.White
                     )
 
-                    IconButton(
-                        onClick = { navController.navigate(Routes.User) }
-                    ) {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .size(40.dp)
+                            .clickable { navController.navigate(Routes.User) },
+                        contentAlignment = Alignment.Center
+                    ){
                         Icon(
                             imageVector = Icons.Default.AccountCircle,
                             contentDescription = "Profile",
