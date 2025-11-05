@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.R
-import com.example.spotixe.Routes
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
@@ -157,7 +156,7 @@ fun Sign_in2Screen(
             Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_in3)},
+                onClick = {navController.navigate("")},
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),

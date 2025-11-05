@@ -40,7 +40,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.spotixe.Data.topPicks
 import com.example.spotixe.Data.recentlyPlayed
-import com.example.spotixe.Routes
+import com.example.spotixe.Graph
+import com.example.spotixe.MainRoute
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
@@ -83,7 +84,7 @@ fun HomeScreen(navController: NavHostController) {
                         modifier = Modifier
                             .padding(start = 8.dp)
                             .size(40.dp)
-                            .clickable { navController.navigate(Routes.User) },
+                            .clickable {navController.navigate(MainRoute.User) },
                         contentAlignment = Alignment.Center
                     ){
                         Icon(

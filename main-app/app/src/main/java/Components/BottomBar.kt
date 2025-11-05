@@ -16,6 +16,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.spotixe.Data.BottomBarNavData
+import com.example.spotixe.Graph
 
 @Composable
 fun BottomBar(
@@ -47,7 +48,7 @@ fun BottomBar(
                         navController.navigate(item.routes) {
                             launchSingleTop = true
                             restoreState = true
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
+                            popUpTo(Graph.MAIN) { saveState = true }
                         }
                     },
                     icon = { Icon(imageVector = item.icon, contentDescription = item.label) },

@@ -1,27 +1,31 @@
 package com.example.spotixe
+object Graph {
+    const val START = "graph_start"
+    const val AUTH  = "graph_auth"
+    const val MAIN  = "graph_main"
+}
 
-object Routes {
-    //-----START-----
-    const val Start1 ="start1"
+object StartRoute {
+    const val Start1 = "start1"
     const val Start2 = "start2"
     const val Start3 = "start3"
-
-    //-----SIGN IN-----
-    const val Sign_in1="sign_in1"
-    const val Sign_in2="sign_in2"
-    const val Sign_in3="sign_in3"
-
-    //-----SIGN UP-----
-    const val Sign_UpEmail1="sign_upEmail1"
-    const val Sign_UpEmail2="sign_upEmail2"
-    const val Sign_UpPhone1="sign_upPhone1"
-    const val Sign_UpPhone2="sign_upPhone2"
-
-    //-----MAIN PAGE-----
-    const val Home = "home"
-    const val Explore = "explore"
-    const val Search = "search"
-    const val User = "user"
-    const val UserDetail="user_detail"
-
 }
+
+object AuthRoute {
+    const val SignIn1 = "sign_in1"
+    const val SignIn2 = "sign_in2"
+    // bạn có sign_in3 thì thêm
+    const val SignUpEmail1 = "sign_upEmail1"
+    const val SignUpEmail2 = "sign_upEmail2"
+    const val SignUpPhone1 = "sign_upPhone1"
+    const val SignUpPhone2 = "sign_upPhone2"
+}
+
+object MainRoute {
+    const val Home    = "home"
+    const val Explore = "explore"
+    const val Search  = "search"
+    const val User    = "user"
+    const val UserDetail = "user_detail"
+}
+

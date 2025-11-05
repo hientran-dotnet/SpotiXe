@@ -43,8 +43,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.spotixe.AuthRoute
 import com.example.spotixe.R
-import com.example.spotixe.Routes
 
 @Composable
 fun Sign_UpPhone1Screen(navController: NavController){
@@ -140,7 +140,7 @@ fun Sign_UpPhone1Screen(navController: NavController){
             Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_UpPhone2)},
+                onClick = {navController.navigate(AuthRoute.SignUpPhone2)},
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),

@@ -3,7 +3,6 @@ package com.example.spotixe
 import Components.SetSystemBars
 import com.example.spotixe.Pages.Pages.SignInPages.Sign_in1Screen
 import com.example.spotixe.Pages.Pages.SignInPages.Sign_in2Screen
-import com.example.spotixe.Pages.Pages.SignInPages.Sign_in3Screen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,7 +25,7 @@ import com.example.spotixe.Pages.Pages.StartPages.Start2Screen
 import com.example.spotixe.Pages.Pages.StartPages.Start3Screen
 import com.example.spotixe.Pages.Pages.StartPages.StartScreen
 import com.example.spotixe.ui.theme.SpotiXeTheme
-
+import androidx.navigation.navigation
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,24 +37,44 @@ class MainActivity : ComponentActivity() {
                 SetSystemBars()
                 NavHost(
                     navController = navController,
-                    startDestination = "explore"
+                    startDestination = Graph.MAIN
                 ) {
-                    composable("start1"){ StartScreen(navController) }
-                    composable("start2"){Start2Screen(navController)}
-                    composable("start3"){ Start3Screen(navController) }
-                    composable("sign_in1"){Sign_in1Screen(navController)}
-                    composable("sign_in2"){Sign_in2Screen(navController)}
-                    composable("sign_in3"){Sign_in3Screen(navController) }
-                    composable ("sign_upEmail1"){ Sign_UpEmail1Screen(navController) }
-                    composable ("sign_upEmail2"){ Sign_UpEmail2Screen(navController) }
-                    composable ("sign_upPhone1"){ Sign_UpPhone1Screen(navController) }
-                    composable ("sign_upPhone2"){ Sign_UpPhone2Screen(navController) }
-                    composable("home"){ HomeScreen(navController) }
-                    composable("explore"){ ExploreScreen(navController) }
-                    composable("search"){ SearchScreen(navController) }
-                    composable("user"){ UserScreen(navController) }
-                    composable ("user_detail"){ UserDetailScreen(navController)}
+                    // START GRAPH
+                    navigation(
+                        startDestination = StartRoute.Start1,
+                        route = Graph.START
+                    ) {
+                        composable(StartRoute.Start1) { StartScreen(navController) }
+                        composable(StartRoute.Start2) { Start2Screen(navController) }
+                        composable(StartRoute.Start3) { Start3Screen(navController) }
+                    }
+
+                    // AUTH GRAPH
+                    navigation(
+                        startDestination = AuthRoute.SignIn1,
+                        route = Graph.AUTH
+                    ) {
+                        composable(AuthRoute.SignIn1) { Sign_in1Screen(navController) }
+                        composable(AuthRoute.SignIn2) { Sign_in2Screen(navController) }
+                        composable(AuthRoute.SignUpEmail1) { Sign_UpEmail1Screen(navController) }
+                        composable(AuthRoute.SignUpEmail2) { Sign_UpEmail2Screen(navController) }
+                        composable(AuthRoute.SignUpPhone1) { Sign_UpPhone1Screen(navController) }
+                        composable(AuthRoute.SignUpPhone2) { Sign_UpPhone2Screen(navController) }
+                    }
+
+                    // MAIN GRAPH
+                    navigation(
+                        startDestination = MainRoute.Home,
+                        route = Graph.MAIN
+                    ) {
+                        composable(MainRoute.Home) { HomeScreen(navController) }
+                        composable(MainRoute.Explore) { ExploreScreen(navController) }
+                        composable(MainRoute.Search) { SearchScreen(navController) }
+                        composable(MainRoute.User) { UserScreen(navController) }
+                        composable(MainRoute.UserDetail) { UserDetailScreen(navController) }
+                    }
                 }
+
             }
         }
     }

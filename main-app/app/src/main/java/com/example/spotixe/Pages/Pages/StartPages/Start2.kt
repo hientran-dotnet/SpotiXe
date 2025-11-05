@@ -26,8 +26,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.example.spotixe.AuthRoute
 import com.example.spotixe.R
-import com.example.spotixe.Routes
 
 @Composable
 fun Start2Screen(navController: NavController){
@@ -77,7 +77,7 @@ fun Start2Screen(navController: NavController){
             Spacer(Modifier.height(140.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_in2)},
+                onClick = {navController.navigate(AuthRoute.SignIn2)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
@@ -100,7 +100,7 @@ fun Start2Screen(navController: NavController){
             Spacer(Modifier.height(10.dp))
 
             Button(
-                onClick = {navController.navigate(Routes.Sign_in1)},
+                onClick = {navController.navigate(AuthRoute.SignIn1)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)
