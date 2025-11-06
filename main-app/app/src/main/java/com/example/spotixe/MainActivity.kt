@@ -38,7 +38,7 @@ import com.example.spotixe.Pages.Pages.StartPages.StartScreen
 import com.example.spotixe.ui.theme.SpotiXeTheme
 import androidx.navigation.navigation
 import com.example.spotixe.Data.SongRepository
-import com.example.spotixe.Pages.Pages.AppMainPages.PlaylistScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.SongPlaylistScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SongMoreScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SongViewScreen
 
@@ -126,14 +126,14 @@ class MainActivity : ComponentActivity() {
                             val nextList = remember(songId) { SongRepository.all.filter { it.id != songId } }
 
                             if (current != null) {
-                                PlaylistScreen(
+                                SongPlaylistScreen(
                                     navController = navController,
                                     current = current,
                                     playingNext = nextList
                                 )
                             } else {
                                 // fallback đơn giản
-                                PlaylistScreen(navController, current = SongRepository.all.first(), playingNext = SongRepository.all.drop(1))
+                                SongPlaylistScreen(navController, current = SongRepository.all.first(), playingNext = SongRepository.all.drop(1))
                             }
                         }
                     }

@@ -10,17 +10,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Lyrics
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.LibraryBooks
-import androidx.compose.material.icons.outlined.PlaylistAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -34,13 +29,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.spotixe.Data.Song
-import com.example.spotixe.Data.SongRepository
 import com.example.spotixe.MainRoute
 import com.example.spotixe.R
 
+// thêm các import layout cần thiết
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.material.icons.filled.Favorite
 
 @Composable
-fun PlaylistScreen(
+fun SongPlaylistScreen(
     navController: NavHostController,
     current: Song,
     playingNext: List<Song>
@@ -51,7 +49,7 @@ fun PlaylistScreen(
 
     Scaffold(
         containerColor = Color(0xFF121212),
-        contentWindowInsets = WindowInsets(0)
+        contentWindowInsets = WindowInsets(0) // ta sẽ tự xử lý insets bên dưới
     ) { inner ->
         Column(
             Modifier
@@ -60,7 +58,7 @@ fun PlaylistScreen(
                 .statusBarsPadding()
                 .padding(horizontal = 16.dp)
         ) {
-            // Header back
+            // ===== Header =====
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -68,12 +66,10 @@ fun PlaylistScreen(
                     .padding(vertical = 8.dp)
             ) {
                 BackButton(navController)
-
                 Spacer(Modifier.weight(1f))
-
             }
 
-            // Current song (cover + title + actions hàng icon)
+            // ===== Current song =====
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -103,36 +99,36 @@ fun PlaylistScreen(
                             modifier = Modifier.size(34.dp)
                         )
                     }
-
                     Image(
                         painter = painterResource(R.drawable.list_clicked),
                         contentDescription = "playlist",
                         modifier = Modifier
                             .size(34.dp)
-                            .offset( y = 8.dp)
-                            .background(Color(0xFF558BA47), shape = RoundedCornerShape(8.dp))
+                            .offset(y = 8.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(Color(0xFF58BA47), shape = RoundedCornerShape(8.dp))
                     )
 
-                    IconButton(onClick = { /* queue */ }) {
-                        Icon(
-                            imageVector = Icons.Default.Lyrics,
-                            contentDescription = null,
-                            tint = Color(0xFF58BA47),
-                            modifier = Modifier.size(34.dp)
-                        )
-                    }
+//                    IconButton(onClick = { /* lyrics */ }) {
+//                        Icon(
+//                            imageVector = androidx.compose.material.icons.Icons.Outlined.LibraryBooks,
+//                            contentDescription = null,
+//                            tint = Color(0xFF58BA47),
+//                            modifier = Modifier.size(34.dp)
+//                        )
+//                    }
                 }
             }
 
             Spacer(Modifier.height(12.dp))
             Text("Playing Next", color = Color.White.copy(0.85f), fontSize = 13.sp)
 
-            // Danh sách hàng tiếp theo
+            // ===== Danh sách: để "ngắn lại" & không bị footer che =====
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                contentPadding = PaddingValues(vertical = 8.dp)
+                contentPadding = PaddingValues(bottom = 120.dp) // chừa chỗ cho progress + controls
             ) {
                 items(playingNext) { s ->
                     NextRow(
@@ -142,50 +138,58 @@ fun PlaylistScreen(
                 }
             }
 
-            // Progress Bar Placeholder
-            LinearProgressIndicator(
-                progress = { 0.3f }, // You can replace this with actual progress
+            // ===== Footer: progress + controls =====
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(4.dp)
-                    .clip(RoundedCornerShape(2.dp)),
-                color = MaterialTheme.colorScheme.primary,
-                trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-            )
-
-            Row(Modifier.fillMaxWidth()) {
-                Text(formatTime((position * 286).toInt()), color = Color.White.copy(0.7f), fontSize = 12.sp)
-                Spacer(Modifier.weight(1f))
-                Text("-" + formatTime(286 - (position * 286).toInt()), color = Color.White.copy(0.7f), fontSize = 12.sp)
-            }
-
-            Spacer(Modifier.height(4.dp))
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
+                    .windowInsetsPadding(WindowInsets.navigationBars) // chừa safe-area đáy
+                    .padding(bottom = 12.dp) // đẩy footer lên một chút để không "tụt"
             ) {
-                IconButton(onClick = { /* prev */ }) {
-                    Icon(Icons.Filled.SkipPrevious, null, tint = Color.White, modifier = Modifier.size(28.dp))
+                LinearProgressIndicator(
+                    progress = { position }, // thay bằng progress thật nếu có
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(4.dp)
+                        .clip(RoundedCornerShape(2.dp)),
+                    color = Color(0xFF58BA47),
+                    trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                )
+
+                Row(Modifier.fillMaxWidth()) {
+                    Text(formatTime((position * 286).toInt()), color = Color.White.copy(0.7f), fontSize = 12.sp)
+                    Spacer(Modifier.weight(1f))
+                    Text("-" + formatTime(286 - (position * 286).toInt()), color = Color.White.copy(0.7f), fontSize = 12.sp)
                 }
-                FilledTonalButton(
-                    onClick = { isPlaying = !isPlaying },
-                    colors = ButtonDefaults.filledTonalButtonColors(containerColor = Color.White),
-                    modifier = Modifier.size(64.dp),
-                    shape = CircleShape,
-                    contentPadding = PaddingValues(0.dp)
+
+                Spacer(Modifier.height(4.dp))
+
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        imageVector = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                        contentDescription = null,
-                        tint = Color.Black,
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-                IconButton(onClick = { /* next */ }) {
-                    Icon(Icons.Filled.SkipNext, null, tint = Color.White, modifier = Modifier.size(28.dp))
+                    IconButton(onClick = { /* prev */ }) {
+                        Icon(Icons.Filled.SkipPrevious, null, tint = Color.White, modifier = Modifier.size(28.dp))
+                    }
+                    FilledTonalButton(
+                        onClick = { isPlaying = !isPlaying },
+                        colors = ButtonDefaults.filledTonalButtonColors(containerColor = Color.White),
+                        modifier = Modifier.size(64.dp),      // GIỮ nguyên kích thước gốc của bạn
+                        shape = CircleShape,
+                        contentPadding = PaddingValues(0.dp)
+                    ) {
+                        Icon(
+                            imageVector = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                            contentDescription = null,
+                            tint = Color.Black,
+                            modifier = Modifier.size(28.dp)   // GIỮ nguyên kích thước gốc
+                        )
+                    }
+                    IconButton(onClick = { /* next */ }) {
+                        Icon(Icons.Filled.SkipNext, null, tint = Color.White, modifier = Modifier.size(28.dp))
+                    }
                 }
             }
         }
@@ -215,7 +219,7 @@ private fun NextRow(song: Song, onClick: () -> Unit) {
             Text(song.title, color = Color.White, fontSize = 15.sp, maxLines = 1)
             Text(song.artist, color = Color.White.copy(0.7f), fontSize = 12.sp, maxLines = 1)
         }
-        Icon(Icons.Default.MoreVert, null, tint = Color.White.copy(0.7f))
+        Icon(Icons.Filled.MoreVert, null, tint = Color.White.copy(0.7f))
     }
 }
 

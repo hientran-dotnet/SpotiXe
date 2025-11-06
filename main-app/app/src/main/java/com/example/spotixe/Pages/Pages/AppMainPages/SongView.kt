@@ -150,7 +150,7 @@ fun SongViewScreen(
                     .fillMaxWidth()
                     .height(4.dp)
                     .clip(RoundedCornerShape(2.dp)),
-                color = MaterialTheme.colorScheme.primary,
+                color = Color(0xFF58BA47),
                 trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
             )
             Row(Modifier.fillMaxWidth()) {
@@ -236,36 +236,36 @@ fun SongViewScreen(
                         .offset( y = 8.dp)
                 )
 
-                IconButton(onClick = { /* queue */ }) {
-                    Icon(
-                        imageVector = Icons.Default.Lyrics,
-                        contentDescription = null,
-                        tint = Color(0xFF58BA47),
-                        modifier = Modifier.size(34.dp)
-                    )
-                }
+//                IconButton(onClick = { /* queue */ }) {
+//                    Icon(
+//                        imageVector = Icons.Default.Lyrics,
+//                        contentDescription = null,
+//                        tint = Color(0xFF58BA47),
+//                        modifier = Modifier.size(34.dp)
+//                    )
+//                }
             }
 
             Spacer(Modifier.height(8.dp))
 
-            // Lyrics panel (green card)
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color(0xFF58BA47))
-                    .padding(12.dp)
-            ) {
-                Text("Lyrics", color = Color.Black, fontWeight = FontWeight.SemiBold)
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    "[Verse 1]\nWhat's in your heart? What's left to give?\nWhen everything's broken, chasin' the wind",
-                    color = Color.Black,
-                    lineHeight = 18.sp
-                )
-            }
-
-            Spacer(Modifier.height(12.dp))
+//            // Lyrics panel (green card)
+//            Column(
+//                Modifier
+//                    .fillMaxWidth()
+//                    .clip(RoundedCornerShape(12.dp))
+//                    .background(Color(0xFF58BA47))
+//                    .padding(12.dp)
+//            ) {
+//                Text("Lyrics", color = Color.Black, fontWeight = FontWeight.SemiBold)
+//                Spacer(Modifier.height(8.dp))
+//                Text(
+//                    "[Verse 1]\nWhat's in your heart? What's left to give?\nWhen everything's broken, chasin' the wind",
+//                    color = Color.Black,
+//                    lineHeight = 18.sp
+//                )
+//            }
+//
+//            Spacer(Modifier.height(12.dp))
         }
     }
 }
