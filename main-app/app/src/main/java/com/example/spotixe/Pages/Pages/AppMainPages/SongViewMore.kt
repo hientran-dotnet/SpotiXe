@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.Person
@@ -19,6 +20,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,6 +48,7 @@ fun SongMoreScreen(
     onAddToPlaylist: () -> Unit = {},
     onAddToQueue: () -> Unit = {}
 ) {
+    var isLiked by remember { mutableStateOf(false) }
     Scaffold(
         containerColor = Color(0xFF121212),
         contentWindowInsets = WindowInsets(0)
@@ -98,16 +104,16 @@ fun SongMoreScreen(
 
             // Options
             OptionRow(
+                onClick = {  isLiked = !isLiked  },
                 icon = {
                     Icon(
-                        imageVector = Icons.Outlined.FavoriteBorder,
-                        contentDescription = null,
-                        tint = Color.White,
+                        imageVector = if (isLiked) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        contentDescription = if (isLiked) "Liked" else "Not liked",
+                        tint = Color(0xFF58BA47),
                         modifier = Modifier.size(28.dp)
                     )
                 },
                 text = "Like",
-                onClick = onLike,
                 rowHeight = 64.dp,
                 textSize = 18.sp
             )
@@ -117,7 +123,7 @@ fun SongMoreScreen(
                     Icon(
                         imageVector = Icons.Outlined.Person,
                         contentDescription = null,
-                        tint = Color.White,
+                        tint = Color(0xFF58BA47),
                         modifier = Modifier.size(28.dp)
                     )
                 },
@@ -132,7 +138,7 @@ fun SongMoreScreen(
                     Icon(
                         imageVector = Icons.Outlined.LibraryMusic,
                         contentDescription = null,
-                        tint = Color.White,
+                        tint = Color(0xFF58BA47),
                         modifier = Modifier.size(28.dp)
                     )
                 },
@@ -147,7 +153,7 @@ fun SongMoreScreen(
                     Icon(
                         imageVector = Icons.Outlined.QueueMusic,
                         contentDescription = null,
-                        tint = Color.White,
+                        tint = Color(0xFF58BA47),
                         modifier = Modifier.size(28.dp)
                     )
                 },

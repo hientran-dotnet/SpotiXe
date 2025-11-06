@@ -1,8 +1,10 @@
 package com.example.spotixe.Pages.Pages.AppMainPages
 
 import Components.Buttons.BackButton
+import android.R.attr.contentDescription
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -52,11 +55,15 @@ import androidx.navigation.NavHostController
 import com.example.spotixe.Data.Song
 import com.example.spotixe.R
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Lyrics
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.PlaylistAddCircle
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import com.example.spotixe.MainRoute
 
 
@@ -66,6 +73,7 @@ fun SongViewScreen(
     song: Song
 ) {
     var isPlaying by remember { mutableStateOf(true) }
+    var isLiked by remember { mutableStateOf(false) }
     var position by remember { mutableFloatStateOf(0.2f) }
 
     Scaffold(
@@ -107,8 +115,22 @@ fun SongViewScreen(
             // Title + artist + more
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.weight(1f)) {
-                    Text(song.title, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.SemiBold, maxLines = 1)
-                    Text("${song.artist}", color = Color.White.copy(0.7f), fontSize = 13.sp, maxLines = 1)
+                    Text(song.title,
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        modifier = Modifier
+                            .padding(bottom = 4.dp)
+                    )
+
+                    Text("${song.artist}",
+                        color = Color.White.copy(0.7f),
+                        fontSize = 13.sp,
+                        maxLines = 1,
+                        modifier = Modifier
+                            .padding(bottom = 10.dp)
+                    )
                 }
                 IconButton(onClick = { navController.navigate(MainRoute.songViewMore(song.id)) }) {
                     Icon(
@@ -120,21 +142,31 @@ fun SongViewScreen(
                 }
             }
 
-            // Seekbar + time
-            Slider(
-                value = position,
-                onValueChange = { position = it },
-                modifier = Modifier.fillMaxWidth(),
-                colors = SliderDefaults.colors(
-                    thumbColor = Color(0xFF58BA47),
-                    activeTrackColor = Color(0xFF58BA47),
-                    inactiveTrackColor = Color.White.copy(0.2f)
-                )
+
+            // Progress Bar Placeholder
+            LinearProgressIndicator(
+                progress = { 0.3f }, // You can replace this with actual progress
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(4.dp)
+                    .clip(RoundedCornerShape(2.dp)),
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
             )
             Row(Modifier.fillMaxWidth()) {
-                Text(formatTime( (position * 286).toInt() ), color = Color.White.copy(0.7f), fontSize = 12.sp) // demo 4:46 = 286s
+                Text(
+                    formatTime( (position * 286).toInt() ),
+                    color = Color.White.copy(0.7f),
+                    fontSize = 12.sp
+                ) // demo 4:46 = 286s
+
                 Spacer(Modifier.weight(1f))
-                Text("-${formatTime(286 - (position * 286).toInt())}", color = Color.White.copy(0.7f), fontSize = 12.sp)
+
+                Text(
+                    "-${formatTime(286 - (position * 286).toInt())}",
+                    color = Color.White.copy(0.7f),
+                    fontSize = 12.sp
+                )
             }
 
             Spacer(Modifier.height(8.dp))
@@ -186,14 +218,31 @@ fun SongViewScreen(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                IconButton(onClick = { /* like */ }) {
-                    Icon(painterResource(R.drawable.heart), contentDescription = null, tint = Color(0xFF58BA47), modifier = Modifier.size(34.dp))
+                IconButton(onClick = { isLiked = !isLiked }) {
+                    Icon(
+                        imageVector = if (isLiked) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        contentDescription = if (isLiked) "Liked" else "Not liked",
+                        tint = Color(0xFF58BA47),
+                        modifier = Modifier.size(34.dp)
+                    )
                 }
-                IconButton(onClick = { /* lyrics toggle */ }) {
-                    Icon(imageVector = Icons.Default.PlaylistAddCircle, contentDescription = null, tint = Color(0xFF58BA47), modifier = Modifier.size(34.dp))
-                }
+
+                Image(
+                    painter = painterResource(R.drawable.list),
+                    contentDescription = "playlist",
+                    modifier = Modifier
+                        .size(34.dp)
+                        .clickable{ navController.navigate(MainRoute.playlist(song.id)) }
+                        .offset( y = 8.dp)
+                )
+
                 IconButton(onClick = { /* queue */ }) {
-                    Icon(imageVector = Icons.Default.Lyrics, contentDescription = null, tint = Color(0xFF58BA47), modifier = Modifier.size(34.dp))
+                    Icon(
+                        imageVector = Icons.Default.Lyrics,
+                        contentDescription = null,
+                        tint = Color(0xFF58BA47),
+                        modifier = Modifier.size(34.dp)
+                    )
                 }
             }
 

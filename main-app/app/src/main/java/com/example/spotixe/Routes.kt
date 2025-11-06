@@ -34,5 +34,8 @@ object MainRoute {
     // Song View More (có songId)
     const val SongViewMore = "main/song/view_more/{songId}"
     fun songViewMore(songId: String) = "main/song/view_more/$songId"
+    // Song View Playlist (có songId)
+    const val Playlist  = "main/playlist/{songId}"
+    fun playlist(songId: String) = "main/playlist/$songId"
 }
 

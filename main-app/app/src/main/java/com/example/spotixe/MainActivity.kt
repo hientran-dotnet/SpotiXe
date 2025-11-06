@@ -38,6 +38,7 @@ import com.example.spotixe.Pages.Pages.StartPages.StartScreen
 import com.example.spotixe.ui.theme.SpotiXeTheme
 import androidx.navigation.navigation
 import com.example.spotixe.Data.SongRepository
+import com.example.spotixe.Pages.Pages.AppMainPages.PlaylistScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SongMoreScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SongViewScreen
 
@@ -114,6 +115,25 @@ class MainActivity : ComponentActivity() {
                             val song = SongRepository.get(songId)
                             if (song != null) {
                                 SongMoreScreen(navController, song)
+                            }
+                        }
+                        composable(
+                            route = MainRoute.Playlist,
+                            arguments = listOf(navArgument("songId") { type = NavType.StringType })
+                        ) { be ->
+                            val songId = be.arguments?.getString("songId") ?: return@composable
+                            val current = SongRepository.get(songId)
+                            val nextList = remember(songId) { SongRepository.all.filter { it.id != songId } }
+
+                            if (current != null) {
+                                PlaylistScreen(
+                                    navController = navController,
+                                    current = current,
+                                    playingNext = nextList
+                                )
+                            } else {
+                                // fallback đơn giản
+                                PlaylistScreen(navController, current = SongRepository.all.first(), playingNext = SongRepository.all.drop(1))
                             }
                         }
                     }
