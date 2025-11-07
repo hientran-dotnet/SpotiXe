@@ -1,24 +1,25 @@
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { Upload, Filter, MoreVertical, Play, Edit, ArrowLeft, Trash2, TrendingUp, Download, Plus } from 'lucide-react'
+import { Filter, MoreVertical, Edit, Trash2, Plus } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Button from '@components/common/Button'
 import Card from '@components/common/Card'
-import { StatusBadge } from '@components/common/Badge'
+import ConfirmDialog from '@components/common/ConfirmDialog'
 import { TableSkeleton } from '@components/common/LoadingScreen'
-import Modal, { ModalFooter } from '@components/common/Modal'
-import Input, { Select } from '@components/common/Input'
-import { formatNumber, formatDuration, formatCurrency } from '@utils/helpers'
-import mockApi from '@services/mockApi'
-import { format } from 'date-fns'
+import { Select } from '@components/common/Input'
+import { formatDuration } from '@utils/helpers'
+import { getAllSongs, deleteSong } from '@services/api/songService'
+import { formatDate, getStatusColor } from '../lib/formatters'
 import toast from 'react-hot-toast'
 
 export default function MusicManagement() {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const [page, setPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(10) // Mặc định 10 mỗi trang
   const [selectedTab, setSelectedTab] = useState('all')
-  const [showUploadModal, setShowUploadModal] = useState(false)
+  // const [showUploadModal, setShowUploadModal] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
   const [selectedTracks, setSelectedTracks] = useState([])
   const [filters, setFilters] = useState({
@@ -26,11 +27,37 @@ export default function MusicManagement() {
     status: '',
     dateRange: '',
   })
-
-  const { data, isLoading } = useQuery({
-    queryKey: ['tracks', page, filters],
-    queryFn: () => mockApi.getTracks(page, 20, filters),
+  
+  // Confirm dialog states
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [itemToDelete, setItemToDelete] = useState(null)
+  const [isDeleting, setIsDeleting] = useState(false)
+  
+  // Dropdown menu states
+  const [openDropdown, setOpenDropdown] = useState(null)
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 })
+  // Fetch songs from API
+  const { data: songsData, isLoading } = useQuery({
+    queryKey: ['songs'],
+    queryFn: getAllSongs,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
   })
+
+  // Transform API data to match existing structure
+  const totalSongs = songsData?.length || 0
+  const totalPages = Math.ceil(totalSongs / itemsPerPage)
+  
+  // Paginate data
+  const startIndex = (page - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const paginatedSongs = songsData?.slice(startIndex, endIndex) || []
+  
+  const data = {
+    data: paginatedSongs,
+    total: totalSongs,
+    totalPages: totalPages,
+  }
 
   const tabs = [
     { id: 'all', label: 'All Tracks', count: data?.total || 0 },
@@ -51,17 +78,70 @@ export default function MusicManagement() {
     if (selectedTracks.length === data?.data.length) {
       setSelectedTracks([])
     } else {
-      setSelectedTracks(data?.data.map(track => track.id) || [])
+      setSelectedTracks(data?.data.map(track => track.songId) || [])
     }
   }
 
-  const handleDelete = (trackId) => {
-    toast.success('Track deleted successfully')
+  // Open delete dialog for single track
+  const handleDeleteClick = (track) => {
+    setItemToDelete({ 
+      type: 'single', 
+      id: track.songId, 
+      title: track.title 
+    })
+    setShowDeleteDialog(true)
+  }
+
+  // Open delete dialog for multiple tracks
+  const handleBulkDeleteClick = () => {
+    const tracksToDelete = data?.data.filter(track => 
+      selectedTracks.includes(track.songId)
+    ) || []
+    
+    setItemToDelete({ 
+      type: 'bulk', 
+      ids: selectedTracks,
+      titles: tracksToDelete.map(t => t.title)
+    })
+    setShowDeleteDialog(true)
+  }
+
+  // Execute delete
+  const handleConfirmDelete = async () => {
+    setIsDeleting(true)
+    try {
+      if (itemToDelete.type === 'single') {
+        // Delete single track
+        await deleteSong(itemToDelete.id)
+        toast.success('Đã xóa bài hát thành công!')
+      } else {
+        // Delete multiple tracks
+        await Promise.all(
+          itemToDelete.ids.map(id => deleteSong(id))
+        )
+        toast.success(`Đã xóa ${itemToDelete.ids.length} bài hát thành công!`)
+        setSelectedTracks([])
+      }
+      
+      // Refetch songs list
+      queryClient.invalidateQueries(['songs'])
+      
+      setShowDeleteDialog(false)
+    } catch (error) {
+      console.error('Error deleting song(s):', error)
+      toast.error('Không thể xóa bài hát. Vui lòng thử lại!')
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   const handleBulkAction = (action) => {
-    toast.success(`${action} applied to ${selectedTracks.length} tracks`)
-    setSelectedTracks([])
+    if (action === 'Delete') {
+      handleBulkDeleteClick()
+    } else {
+      toast.success(`${action} applied to ${selectedTracks.length} tracks`)
+      setSelectedTracks([])
+    }
   }
 
   const handleRowClick = (trackId, e) => {
@@ -74,6 +154,30 @@ export default function MusicManagement() {
       return
     }
     navigate(`/songs/${trackId}`)
+  }
+  
+  // Toggle dropdown menu with position calculation
+  const handleDropdownToggle = (trackId, event) => {
+    event.stopPropagation()
+    
+    if (openDropdown === trackId) {
+      setOpenDropdown(null)
+    } else {
+      const buttonRect = event.currentTarget.getBoundingClientRect()
+      
+      // Use viewport coordinates directly (no scrollY/scrollX needed for fixed positioning)
+      // getBoundingClientRect() already returns positions relative to viewport
+      setDropdownPosition({
+        top: buttonRect.bottom + 4, // Add small gap below button
+        right: window.innerWidth - buttonRect.right, // Align right edge of dropdown with button
+      })
+      setOpenDropdown(trackId)
+    }
+  }
+  
+  // Close dropdown when clicking outside
+  const handleCloseDropdown = () => {
+    setOpenDropdown(null)
   }
 
   return (
@@ -133,10 +237,11 @@ export default function MusicManagement() {
                   variant="secondary"
                   size="sm"
                   onClick={() => handleBulkAction('Delete')}
+                  className="text-apple-red text-sm transition-colors"
                 >
                   Delete
                 </Button>
-                <Button
+                {/* <Button
                   variant="secondary"
                   size="sm"
                   onClick={() => handleBulkAction('Feature')}
@@ -149,12 +254,17 @@ export default function MusicManagement() {
                   onClick={() => handleBulkAction('Export')}
                 >
                   Export
-                </Button>
+                </Button> */}
               </div>
             )}
           </div>
           <div className="flex items-center gap-2">
             <Select
+              value={itemsPerPage.toString()}
+              onChange={(e) => {
+                setItemsPerPage(Number(e.target.value))
+                setPage(1) // Reset về trang 1 khi đổi số items
+              }}
               options={[
                 { value: '10', label: '10 / page' },
                 { value: '20', label: '20 / page' },
@@ -258,9 +368,6 @@ export default function MusicManagement() {
                     <th className="text-left px-4 py-3 text-xs font-medium text-text-tertiary uppercase">
                       Duration
                     </th>
-                    {/* <th className="text-left px-4 py-3 text-xs font-medium text-text-tertiary uppercase">
-                      Streams
-                    </th> */}
                     <th className="text-left px-4 py-3 text-xs font-medium text-text-tertiary uppercase">
                       Upload Date
                     </th>
@@ -272,17 +379,19 @@ export default function MusicManagement() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {data?.data.map((track) => (
+                  {data?.data.map((track) => {
+                    const status = getStatusColor(track.isActive);
+                    return (
                     <tr
-                      key={track.id}
-                      onClick={(e) => handleRowClick(track.id, e)}
+                      key={track.songId}
+                      onClick={(e) => handleRowClick(track.songId, e)}
                       className="hover:bg-bg-hover transition-colors group cursor-pointer"
                     >
                       <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                         <input
                           type="checkbox"
-                          checked={selectedTracks.includes(track.id)}
-                          onChange={() => handleSelectTrack(track.id)}
+                          checked={selectedTracks.includes(track.songId)}
+                          onChange={() => handleSelectTrack(track.songId)}
                           className="w-4 h-4 rounded border-border bg-bg-tertiary"
                         />
                       </td>
@@ -290,9 +399,12 @@ export default function MusicManagement() {
                         <div className="flex items-center gap-3">
                           <div className="relative group/play flex-shrink-0">
                             <img
-                              src={track.thumbnail}
+                              src={track.coverImageUrl || '/placeholder-song.jpg'}
                               alt={track.title}
                               className="w-12 h-12 rounded object-cover"
+                              onError={(e) => {
+                                e.target.src = '/placeholder-song.jpg';
+                              }}
                             />
                             {/* <div className="absolute inset-0 bg-black/60 rounded flex items-center justify-center opacity-0 group-hover/play:opacity-100 transition-opacity">
                               <Play className="w-5 h-5 text-white" />
@@ -302,7 +414,7 @@ export default function MusicManagement() {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation()
-                                navigate(`/songs/${track.id}`)
+                                navigate(`/songs/${track.songId}`)
                               }}
                               className="font-medium text-text-primary hover:text-spotify-green transition-colors text-left"
                             >
@@ -312,13 +424,13 @@ export default function MusicManagement() {
                         </div>
                       </td>
                       <td className="px-4 py-3 text-text-secondary">
-                        {track.artist}
+                        {track.artistName}
                       </td>
                       <td className="px-4 py-3 text-text-secondary">
-                        {track.album}
+                        {track.albumTitle || 'Không'}
                       </td>
                       <td className="px-4 py-3 text-text-secondary">
-                        {track.genre}
+                        {track.genre || 'Unknown'}
                       </td>
                       <td className="px-4 py-3 text-text-secondary">
                         {formatDuration(track.duration)}
@@ -332,44 +444,25 @@ export default function MusicManagement() {
                         </div>
                       </td> */}
                       <td className="px-4 py-3 text-text-secondary">
-                        {format(new Date(track.uploadDate), 'MMM d, yyyy')}
+                        {formatDate(track.createdAt)}
                       </td>
                       <td className="px-4 py-3">
-                        <StatusBadge status={track.status} />
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${status.bg} ${status.text} ${status.border}`}>
+                          {status.label}
+                        </span>
                       </td>
                       <td className="px-4 py-3">
-                        <div className="relative group/action action-menu" onClick={(e) => e.stopPropagation()}>
-                          <button className="p-1.5 hover:bg-bg-hover rounded transition-colors">
+                        <div className="action-menu" onClick={(e) => e.stopPropagation()}>
+                          <button 
+                            onClick={(e) => handleDropdownToggle(track.songId, e)}
+                            className="p-1.5 hover:bg-bg-hover rounded transition-colors"
+                          >
                             <MoreVertical className="w-4 h-4 text-text-tertiary" />
                           </button>
-                          
-                          {/* Dropdown Menu - Shows on hover */}
-                          <div className="absolute right-0 top-full mt-1 w-48 bg-bg-card border border-border rounded-lg shadow-xl opacity-0 invisible group-hover/action:opacity-100 group-hover/action:visible transition-all z-20">
-                            <div className="p-1">
-                              <button 
-                                onClick={() => {
-                                  navigate(`/songs/${track.id}/edit`)
-                                }}
-                                className="w-full flex items-center gap-3 px-3 py-2 hover:bg-bg-hover rounded text-text-secondary hover:text-text-primary text-sm transition-colors"
-                              >
-                                <Edit className="w-4 h-4" />
-                                Edit
-                              </button>
-                              <button 
-                                onClick={() => {
-                                  handleDelete(track.id)
-                                }}
-                                className="w-full flex items-center gap-3 px-3 py-2 hover:bg-bg-hover rounded text-apple-red text-sm transition-colors"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                                Delete
-                              </button>
-                            </div>
-                          </div>
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  )})}
                 </tbody>
               </table>
             </div>
@@ -377,7 +470,7 @@ export default function MusicManagement() {
             {/* Pagination */}
             <div className="px-6 py-4 border-t border-border flex items-center justify-between">
               <p className="text-sm text-text-secondary">
-                Showing {((page - 1) * 20) + 1} to {Math.min(page * 20, data?.total || 0)} of {data?.total || 0} tracks
+                Showing {startIndex + 1} to {Math.min(endIndex, totalSongs)} of {totalSongs} tracks
               </p>
               <div className="flex items-center gap-2">
                 <Button
@@ -388,10 +481,13 @@ export default function MusicManagement() {
                 >
                   Previous
                 </Button>
+                <span className="text-sm text-text-secondary px-3">
+                  Page {page} of {totalPages}
+                </span>
                 <Button
                   variant="secondary"
                   size="sm"
-                  disabled={page >= (data?.totalPages || 1)}
+                  disabled={page >= totalPages}
                   onClick={() => setPage(page + 1)}
                 >
                   Next
@@ -401,6 +497,99 @@ export default function MusicManagement() {
           </>
         )}
       </Card>
+
+      {/* Global Dropdown Menu - Fixed position, rendered outside table */}
+      {openDropdown && (
+        <>
+          {/* Backdrop to close dropdown */}
+          <div 
+            className="fixed inset-0 z-30" 
+            onClick={handleCloseDropdown}
+          />
+          
+          {/* Dropdown Menu */}
+          <div 
+            className="fixed w-40 bg-bg-card border border-border rounded-lg shadow-xl z-40"
+            style={{
+              top: `${dropdownPosition.top}px`,
+              right: `${dropdownPosition.right}px`,
+            }}
+          >
+            <div className="p-1">
+              <button 
+                onClick={() => {
+                  navigate(`/songs/${openDropdown}/edit`)
+                  handleCloseDropdown()
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2 hover:bg-bg-hover rounded text-text-secondary hover:text-text-primary text-sm transition-colors"
+              >
+                <Edit className="w-4 h-4" />
+                Chỉnh sửa
+              </button>
+              <button 
+                onClick={() => {
+                  const track = data?.data.find(t => t.songId === openDropdown)
+                  handleDeleteClick(track)
+                  handleCloseDropdown()
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2 hover:bg-bg-hover rounded text-apple-red text-sm transition-colors"
+              >
+                <Trash2 className="w-4 h-4" />
+                Xóa
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Confirm Delete Dialog */}
+      <ConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleConfirmDelete}
+        isLoading={isDeleting}
+        variant="danger"
+        title={itemToDelete?.type === 'bulk' 
+          ? `Xóa ${itemToDelete?.ids?.length} bài hát` 
+          : 'Xóa bài hát'}
+        message={
+          itemToDelete?.type === 'bulk' ? (
+            <div>
+              <p className="text-text-secondary mb-3">
+                Bạn có chắc chắn muốn xóa <strong className="text-text-primary">{itemToDelete.ids.length} bài hát</strong> đã chọn?
+              </p>
+              <div className="max-h-32 overflow-y-auto bg-bg-secondary rounded-lg p-3 mb-3">
+                <ul className="space-y-1 text-sm">
+                  {itemToDelete.titles.slice(0, 5).map((title, index) => (
+                    <li key={index} className="text-text-primary">
+                      • {title}
+                    </li>
+                  ))}
+                  {itemToDelete.titles.length > 5 && (
+                    <li className="text-text-tertiary italic">
+                      và {itemToDelete.titles.length - 5} bài hát khác...
+                    </li>
+                  )}
+                </ul>
+              </div>
+              <p className="text-red-500 text-sm">
+                ⚠️ Hành động này không thể hoàn tác!
+              </p>
+            </div>
+          ) : (
+            <div>
+              <p className="text-text-secondary mb-2">
+                Bạn có chắc chắn muốn xóa bài hát{' '}
+                <strong className="text-text-primary">&ldquo;{itemToDelete?.title}&rdquo;</strong>?
+              </p>
+              <p className="text-red-500 text-sm">
+                Hành động này không thể hoàn tác!
+              </p>
+            </div>
+          )
+        }
+        confirmText={isDeleting ? 'Đang xóa...' : 'Xóa'}
+      />
     </div>
   )
 }

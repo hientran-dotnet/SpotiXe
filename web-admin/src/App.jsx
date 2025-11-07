@@ -7,7 +7,8 @@ import PublicRoute from '@components/routes/PublicRoute'
 // Eager loading - Import all pages directly for instant navigation
 import Dashboard from '@pages/Dashboard'
 import MusicManagement from '@pages/MusicManagement'
-import ArtistsAlbums from '@pages/ArtistsAlbums'
+import ArtistsManagement from '@pages/ArtistsManagement'
+import AlbumsManagement from '@pages/AlbumsManagement'
 import UsersManagement from '@pages/UsersManagement'
 import Analytics from '@pages/Analytics'
 import Playlists from '@pages/Playlists'
@@ -22,6 +23,16 @@ import NotFound from '@pages/NotFound'
 import AddSong from '@pages/songs/AddSong'
 import EditSong from '@pages/songs/EditSong'
 import ViewSong from '@pages/songs/ViewSong'
+
+// Artist management pages
+import AddArtist from '@pages/artists/AddArtist'
+import EditArtist from '@pages/artists/EditArtist'
+import ViewArtist from '@pages/artists/ViewArtist'
+
+// Album management pages
+import AddAlbum from '@pages/albums/AddAlbum'
+import EditAlbum from '@pages/albums/EditAlbum'
+import ViewAlbum from '@pages/albums/ViewAlbum'
 
 function App() {
   return (
@@ -55,7 +66,18 @@ function App() {
           <Route path="songs/:id" element={<ViewSong />} />
           <Route path="songs/:id/edit" element={<EditSong />} />
           
-          <Route path="artists" element={<ArtistsAlbums />} />
+          {/* Artist routes */}
+          <Route path="artists" element={<ArtistsManagement />} />
+          <Route path="artists/add" element={<AddArtist />} />
+          <Route path="artists/:id" element={<ViewArtist />} />
+          <Route path="artists/:id/edit" element={<EditArtist />} />
+          
+          {/* Album routes */}
+          <Route path="albums" element={<AlbumsManagement />} />
+          <Route path="albums/add" element={<AddAlbum />} />
+          <Route path="albums/:id" element={<ViewAlbum />} />
+          <Route path="albums/:id/edit" element={<EditAlbum />} />
+          
           <Route path="users" element={<UsersManagement />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="playlists" element={<Playlists />} />

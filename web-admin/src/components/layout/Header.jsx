@@ -145,6 +145,7 @@ export default function Header() {
               className="flex items-center gap-2 p-1.5 pr-3 rounded-lg hover:bg-bg-hover transition-colors"
             >
               <Avatar src={user?.photoURL} name={user?.displayName} size="sm" />
+              {/* {console.log(user.photoURL)} */}
               
               <ChevronDown className="w-4 h-4 text-text-secondary" />
             </button>

@@ -1,13 +1,14 @@
+import { forwardRef } from 'react'
 import { cn } from '@utils/helpers'
 
-export default function Input({
+const Input = forwardRef(function Input({
   label,
   error,
   icon: Icon,
   className,
   containerClassName,
   ...props
-}) {
+}, ref) {
   return (
     <div className={cn('w-full', containerClassName)}>
       {label && (
@@ -22,6 +23,7 @@ export default function Input({
           </div>
         )}
         <input
+          ref={ref}
           className={cn(
             'input-field',
             Icon && 'pl-10',
@@ -36,15 +38,17 @@ export default function Input({
       )}
     </div>
   )
-}
+})
 
-export function Textarea({
+export default Input
+
+export const Textarea = forwardRef(function Textarea({
   label,
   error,
   className,
   containerClassName,
   ...props
-}) {
+}, ref) {
   return (
     <div className={cn('w-full', containerClassName)}>
       {label && (
@@ -53,6 +57,7 @@ export function Textarea({
         </label>
       )}
       <textarea
+        ref={ref}
         className={cn(
           'input-field min-h-[100px] resize-y',
           error && 'border-apple-red focus:border-apple-red focus:ring-apple-red/20',
@@ -65,16 +70,16 @@ export function Textarea({
       )}
     </div>
   )
-}
+})
 
-export function Select({
+export const Select = forwardRef(function Select({
   label,
   error,
   options = [],
   className,
   containerClassName,
   ...props
-}) {
+}, ref) {
   return (
     <div className={cn('w-full', containerClassName)}>
       {label && (
@@ -83,6 +88,7 @@ export function Select({
         </label>
       )}
       <select
+        ref={ref}
         className={cn(
           'input-field',
           error && 'border-apple-red focus:border-apple-red focus:ring-apple-red/20',
@@ -101,4 +107,4 @@ export function Select({
       )}
     </div>
   )
-}
+})

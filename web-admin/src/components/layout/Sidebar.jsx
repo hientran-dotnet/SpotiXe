@@ -21,9 +21,9 @@ import { cn } from '@utils/helpers'
 const navigationItems = [
   { name: 'Trang chủ', path: '/dashboard', icon: Home },
   { name: 'Quản lý bài hát', path: '/songs', icon: Music },
-  { name: 'Nghệ sĩ & Album', path: '/artists', icon: Mic2 },
+  { name: 'Nghệ sĩ', path: '/artists', icon: Mic2 },
+  { name: 'Albums', path: '/albums', icon: BarChart3 },
   { name: 'Người dùng', path: '/users', icon: Users },
-  { name: 'Phân tích', path: '/analytics', icon: BarChart3 },
   { name: 'Danh sách phát', path: '/playlists', icon: ListMusic },
   { name: 'Gói Premium', path: '/premium', icon: Crown },
   { name: 'Doanh thu', path: '/revenue', icon: DollarSign },

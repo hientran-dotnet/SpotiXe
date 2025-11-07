@@ -102,90 +102,90 @@ export const mockApi = {
   },
 
   // Top performing tracks
-  getTopTracks: async () => {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    return [
-      {
-        id: "1",
-        title: "Blinding Lights",
-        artist: "The Weeknd",
-        album: "After Hours",
-        streams: 2345678,
-        duration: 200,
-        thumbnail: "https://via.placeholder.com/50",
-        trend: "up",
-      },
-      {
-        id: "2",
-        title: "Levitating",
-        artist: "Dua Lipa",
-        album: "Future Nostalgia",
-        streams: 1987654,
-        duration: 203,
-        thumbnail: "https://via.placeholder.com/50",
-        trend: "up",
-      },
-      {
-        id: "3",
-        title: "Save Your Tears",
-        artist: "The Weeknd",
-        album: "After Hours",
-        streams: 1765432,
-        duration: 215,
-        thumbnail: "https://via.placeholder.com/50",
-        trend: "down",
-      },
-      {
-        id: "4",
-        title: "Good 4 U",
-        artist: "Olivia Rodrigo",
-        album: "SOUR",
-        streams: 1654321,
-        duration: 178,
-        thumbnail: "https://via.placeholder.com/50",
-        trend: "up",
-      },
-      {
-        id: "5",
-        title: "Stay",
-        artist: "The Kid LAROI & Justin Bieber",
-        album: "Single",
-        streams: 1543210,
-        duration: 141,
-        thumbnail: "https://via.placeholder.com/50",
-        trend: "up",
-      },
-    ];
-  },
+  // getTopTracks: async () => {
+  //   await new Promise((resolve) => setTimeout(resolve, 500));
+  //   return [
+  //     {
+  //       id: "1",
+  //       title: "Blinding Lights",
+  //       artist: "The Weeknd",
+  //       album: "After Hours",
+  //       streams: 2345678,
+  //       duration: 200,
+  //       thumbnail: "https://via.placeholder.com/50",
+  //       trend: "up",
+  //     },
+  //     {
+  //       id: "2",
+  //       title: "Levitating",
+  //       artist: "Dua Lipa",
+  //       album: "Future Nostalgia",
+  //       streams: 1987654,
+  //       duration: 203,
+  //       thumbnail: "https://via.placeholder.com/50",
+  //       trend: "up",
+  //     },
+  //     {
+  //       id: "3",
+  //       title: "Save Your Tears",
+  //       artist: "The Weeknd",
+  //       album: "After Hours",
+  //       streams: 1765432,
+  //       duration: 215,
+  //       thumbnail: "https://via.placeholder.com/50",
+  //       trend: "down",
+  //     },
+  //     {
+  //       id: "4",
+  //       title: "Good 4 U",
+  //       artist: "Olivia Rodrigo",
+  //       album: "SOUR",
+  //       streams: 1654321,
+  //       duration: 178,
+  //       thumbnail: "https://via.placeholder.com/50",
+  //       trend: "up",
+  //     },
+  //     {
+  //       id: "5",
+  //       title: "Stay",
+  //       artist: "The Kid LAROI & Justin Bieber",
+  //       album: "Single",
+  //       streams: 1543210,
+  //       duration: 141,
+  //       thumbnail: "https://via.placeholder.com/50",
+  //       trend: "up",
+  //     },
+  //   ];
+  // },
 
-  // Music tracks (paginated)
-  getTracks: async (page = 1, limit = 20, filters = {}) => {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    const total = 1250;
-    const tracks = Array.from({ length: limit }, (_, i) => ({
-      id: `track-${(page - 1) * limit + i + 1}`,
-      title: `Track ${(page - 1) * limit + i + 1}`,
-      artist: `Artist ${Math.floor(Math.random() * 100) + 1}`,
-      album: `Album ${Math.floor(Math.random() * 50) + 1}`,
-      duration: Math.floor(Math.random() * 180) + 120,
-      uploadDate: new Date(
-        Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000
-      ).toISOString(),
-      streams: Math.floor(Math.random() * 1000000),
-      status: ["active", "pending", "approved"][Math.floor(Math.random() * 3)],
-      genre: ["Pop", "Rock", "Hip Hop", "Electronic", "Jazz"][
-        Math.floor(Math.random() * 5)
-      ],
-      thumbnail: "https://via.placeholder.com/50",
-    }));
+  // // Music tracks (paginated)
+  // getTracks: async (page = 1, limit = 20, filters = {}) => {
+  //   await new Promise((resolve) => setTimeout(resolve, 500));
+  //   const total = 1250;
+  //   const tracks = Array.from({ length: limit }, (_, i) => ({
+  //     id: `track-${(page - 1) * limit + i + 1}`,
+  //     title: `Track ${(page - 1) * limit + i + 1}`,
+  //     artist: `Artist ${Math.floor(Math.random() * 100) + 1}`,
+  //     album: `Album ${Math.floor(Math.random() * 50) + 1}`,
+  //     duration: Math.floor(Math.random() * 180) + 120,
+  //     uploadDate: new Date(
+  //       Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000
+  //     ).toISOString(),
+  //     streams: Math.floor(Math.random() * 1000000),
+  //     status: ["active", "pending", "approved"][Math.floor(Math.random() * 3)],
+  //     genre: ["Pop", "Rock", "Hip Hop", "Electronic", "Jazz"][
+  //       Math.floor(Math.random() * 5)
+  //     ],
+  //     thumbnail: "https://via.placeholder.com/50",
+  //   }));
 
-    return {
-      data: tracks,
-      total,
-      page,
-      totalPages: Math.ceil(total / limit),
-    };
-  },
+  //   return {
+  //     data: tracks,
+  //     total,
+  //     page,
+  //     totalPages: Math.ceil(total / limit),
+  //   };
+  // },
 
   // Artists
   getArtists: async (page = 1, limit = 12) => {
