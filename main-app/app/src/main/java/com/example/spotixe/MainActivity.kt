@@ -38,9 +38,11 @@ import com.example.spotixe.Pages.Pages.StartPages.StartScreen
 import com.example.spotixe.ui.theme.SpotiXeTheme
 import androidx.navigation.navigation
 import com.example.spotixe.Data.AlbumRepository
+import com.example.spotixe.Data.ArtistRepository
 import com.example.spotixe.Data.PlaylistRepository
 import com.example.spotixe.Data.SongRepository
 import com.example.spotixe.Pages.Pages.AppMainPages.AlbumDetailScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.ArtistDetailScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.PlaylistDetailScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.QueueScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SongMoreScreen
@@ -171,6 +173,28 @@ class MainActivity : ComponentActivity() {
                                 AlbumDetailScreen(navController, album, songs)
                             } else {
                                 Text("Album not found", color = Color.White)
+                            }
+                        }
+
+                        composable(
+                            route = MainRoute.ArtistDetail,
+                            arguments = listOf(navArgument("artistId"){ type = NavType.StringType })
+                        ) { be ->
+                            val id = be.arguments?.getString("artistId") ?: return@composable
+                            val artist = ArtistRepository.get(id)
+                            if (artist != null) {
+                                val album = artist.albumId?.let { AlbumRepository.get(it) }
+                                val topSongs = artist.topSongIds.mapNotNull { SongRepository.get(it) }
+                                ArtistDetailScreen(
+                                    navController = navController,
+                                    artistName = artist.name,
+                                    coverRes = artist.coverRes,
+                                    album = album,
+                                    albumReleaseDate = artist.albumReleaseDate,
+                                    topSongs = topSongs
+                                )
+                            } else {
+                                Text("Artist not found", color = Color.White)
                             }
                         }
                     }

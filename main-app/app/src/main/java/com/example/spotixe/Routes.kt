@@ -43,5 +43,10 @@ object MainRoute {
     //AlbumScreen (có albumId)
     const val AlbumDetail = "main/album/{albumId}"
     fun albumDetail(albumId: String) = "main/album/$albumId"
+
+    // ArtistScreen (có artistId)
+    const val ArtistDetail = "main/artist/{artistId}"
+    fun artistDetail(id: String) = "main/artist/$id"
+
 }
 

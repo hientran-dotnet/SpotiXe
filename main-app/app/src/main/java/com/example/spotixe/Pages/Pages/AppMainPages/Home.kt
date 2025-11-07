@@ -2,6 +2,7 @@ package com.example.spotixe.Pages.Pages.AppMainPages
 
 import Components.Card.AlbumTile
 import Components.Bar.BottomBar
+import Components.Card.ArtistChip
 import Components.Card.PlaylistCard
 import Components.Card.RecentlyPlayedItem
 import Components.Layout.SongCardRow
@@ -38,6 +39,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.spotixe.Data.AlbumRepository
+import com.example.spotixe.Data.ArtistRepository
 import com.example.spotixe.Data.PlaylistRepository
 import com.example.spotixe.Data.topPicks
 import com.example.spotixe.Data.recentlyPlayed
@@ -263,12 +266,52 @@ fun HomeScreen(navController: NavHostController) {
                     contentPadding = PaddingValues(horizontal = 16.dp)
                 ) {
                     items(
-                        items = com.example.spotixe.Data.AlbumRepository.all,
+                        items = AlbumRepository.all,
                         key = { it.id }
                     ) { album ->
                         AlbumTile (
                             album = album,
                             onClick = { navController.navigate(MainRoute.albumDetail(album.id)) }
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Artists",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "See All",
+                        color = Color(0xFF1DB954),
+                        modifier = Modifier.clickable { /* navController.navigate("recently_all") */ }
+                    )
+                }
+
+                Spacer(Modifier.height(10.dp))
+
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp)
+                ) {
+                    items(
+                        ArtistRepository.all,
+                        key = { it.id }) { artist ->
+                        ArtistChip(
+                            name = artist.name,
+                            coverRes = artist.coverRes,
+                            onClick = { navController.navigate(MainRoute.artistDetail(artist.id)) }
                         )
                     }
                 }

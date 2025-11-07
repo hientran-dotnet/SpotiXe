@@ -105,3 +105,35 @@ object AlbumRepository {
     fun get(id: String) = all.firstOrNull { it.id == id }
     fun songsOf(album: Album): List<Song> = album.songIds.mapNotNull { SongRepository.get(it) }
 }
+
+data class Artist(
+    val id: String,
+    val name: String,
+    val coverRes: Int,
+    val albumId: String?,
+    val albumReleaseDate: String?,
+    val topSongIds: List<String>
+)
+
+object ArtistRepository {
+    val all = listOf(
+        Artist(
+            id = "artist_gem",
+            name = "G.E.M",
+            coverRes = R.drawable.spotixe_logo,
+            albumId = "alb_gem_gloria",
+            albumReleaseDate = "12 Jun 2025",
+            topSongIds = listOf("rp1", "rp2", "rp3", "rp4", "rp5")
+        ),
+        Artist(
+            id = "artist_weeknd",
+            name = "The Weeknd",
+            coverRes = R.drawable.spotixe_logo,
+            albumId = "alb_highlights",
+            albumReleaseDate = "2021",
+            topSongIds = listOf("rp6", "rp7", "rp8", "rp9", "1")
+        )
+    )
+
+    fun get(id: String) = all.firstOrNull { it.id == id }
+}
