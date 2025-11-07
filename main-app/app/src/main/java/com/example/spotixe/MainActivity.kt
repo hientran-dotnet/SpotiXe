@@ -37,8 +37,12 @@ import com.example.spotixe.Pages.Pages.StartPages.Start3Screen
 import com.example.spotixe.Pages.Pages.StartPages.StartScreen
 import com.example.spotixe.ui.theme.SpotiXeTheme
 import androidx.navigation.navigation
+import com.example.spotixe.Data.AlbumRepository
+import com.example.spotixe.Data.PlaylistRepository
 import com.example.spotixe.Data.SongRepository
-import com.example.spotixe.Pages.Pages.AppMainPages.SongPlaylistScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.AlbumDetailScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.PlaylistDetailScreen
+import com.example.spotixe.Pages.Pages.AppMainPages.QueueScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SongMoreScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SongViewScreen
 
@@ -89,6 +93,7 @@ class MainActivity : ComponentActivity() {
                         composable(MainRoute.Search) { SearchScreen(navController) }
                         composable(MainRoute.User) { UserScreen(navController) }
                         composable(MainRoute.UserDetail) { UserDetailScreen(navController) }
+
                         composable(
                             route = MainRoute.SongView,
                             arguments = listOf(navArgument("songId") { type = NavType.StringType })
@@ -107,6 +112,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
+
                         composable(
                             route = MainRoute.SongViewMore,
                             arguments = listOf(navArgument("songId") { type = NavType.StringType })
@@ -117,6 +123,7 @@ class MainActivity : ComponentActivity() {
                                 SongMoreScreen(navController, song)
                             }
                         }
+
                         composable(
                             route = MainRoute.Playlist,
                             arguments = listOf(navArgument("songId") { type = NavType.StringType })
@@ -126,14 +133,44 @@ class MainActivity : ComponentActivity() {
                             val nextList = remember(songId) { SongRepository.all.filter { it.id != songId } }
 
                             if (current != null) {
-                                SongPlaylistScreen(
+                                QueueScreen(
                                     navController = navController,
                                     current = current,
                                     playingNext = nextList
                                 )
                             } else {
                                 // fallback đơn giản
-                                SongPlaylistScreen(navController, current = SongRepository.all.first(), playingNext = SongRepository.all.drop(1))
+                                QueueScreen(navController, current = SongRepository.all.first(), playingNext = SongRepository.all.drop(1))
+                            }
+                        }
+
+                        composable(
+                            route = MainRoute.PlaylistDetail,
+                            arguments = listOf(navArgument("playlistId") { type = NavType.StringType })
+                        ) { be ->
+                            val pid = be.arguments?.getString("playlistId") ?: return@composable
+                            val pl = remember(pid) { PlaylistRepository.get(pid) }
+                            val songs = remember(pl) { pl?.let { PlaylistRepository.songsOf(it) } ?: emptyList() }
+
+                            if (pl != null) {
+                                PlaylistDetailScreen(navController, pl, songs)
+                            } else {
+                                // fallback
+                                Text("Playlist not found", color = Color.White)
+                            }
+                        }
+
+                        composable(
+                            route = MainRoute.AlbumDetail,
+                            arguments = listOf(navArgument("albumId") { type = NavType.StringType })
+                        ) { be ->
+                            val albumId = be.arguments?.getString("albumId") ?: return@composable
+                            val album = AlbumRepository.get(albumId)
+                            val songs = album?.let { AlbumRepository.songsOf(it) } ?: emptyList()
+                            if (album != null) {
+                                AlbumDetailScreen(navController, album, songs)
+                            } else {
+                                Text("Album not found", color = Color.White)
                             }
                         }
                     }

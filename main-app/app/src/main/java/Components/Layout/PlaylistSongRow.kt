@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +28,13 @@ import androidx.compose.ui.unit.sp
 import com.example.spotixe.Data.Song
 
 @Composable
-fun PlaylistSongRow(song: Song, onClick: () -> Unit) {
+fun PlaylistSongRow(
+    song: Song,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    trailing: (@Composable () -> Unit)? = null,
+    showDivider: Boolean = false
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,6 +61,8 @@ fun PlaylistSongRow(song: Song, onClick: () -> Unit) {
             contentDescription = null,
             tint = Color.White.copy(0.7f)
         )
+        if (trailing != null) trailing()
     }
+    if (showDivider) Divider(color = Color.White.copy(0.08f))
 }
 

@@ -1,4 +1,4 @@
-package Components.Card
+package Components.Layout
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import com.example.spotixe.Data.Song
-import com.example.spotixe.Data.recentlyPlayed
 import androidx.navigation.NavController
 import com.example.spotixe.MainRoute
 

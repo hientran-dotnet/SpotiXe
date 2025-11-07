@@ -1,4 +1,4 @@
-package Components
+package Components.Bar
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth

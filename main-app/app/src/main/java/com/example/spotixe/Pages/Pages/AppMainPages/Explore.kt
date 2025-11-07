@@ -1,7 +1,7 @@
 package com.example.spotixe.Pages.Pages.AppMainPages
 
 import Components.Buttons.BackButton
-import Components.BottomBar
+import Components.Bar.BottomBar
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spotixe.Data.recentlyPlayed
 import com.example.spotixe.Data.topPicks
-import Components.Card.ExploreSection
+import Components.Layout.ExploreSection
 import androidx.compose.foundation.background
 import androidx.compose.material3.Divider
 import androidx.compose.ui.text.font.FontWeight

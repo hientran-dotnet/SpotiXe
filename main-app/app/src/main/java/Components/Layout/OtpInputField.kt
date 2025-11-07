@@ -1,4 +1,4 @@
-package Components
+package Components.Layout
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*

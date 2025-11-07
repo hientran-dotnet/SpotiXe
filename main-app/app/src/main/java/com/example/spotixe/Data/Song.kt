@@ -45,3 +45,63 @@ object SongRepository {
     val all: List<Song> get() = recentlyPlayed + topPicks
     fun get(id: String) = all.firstOrNull { it.id == id }
 }
+
+data class Playlist(
+    val id: String,
+    val title: String,
+    val coverRes: Int,
+    val songIds: List<String>
+)
+
+object PlaylistRepository {
+    // ví dụ vài playlist
+    val all = listOf(
+        Playlist(
+            id = "vp-top100",
+            title = "Top 100 - V-pop",
+            coverRes = R.drawable.spotixe_logo,
+            songIds = listOf("rp1","rp2","rp3","rp4","rp5","rp6","rp7","rp8","rp9")
+        ),
+        Playlist(
+            id = "rock-mix",
+            title = "Rock Mix",
+            coverRes = R.drawable.spotixe_logo,
+            songIds = listOf("1","2","3","4","5","6","7","8","9")
+        )
+    )
+
+    fun get(id: String) = all.firstOrNull { it.id == id }
+    fun songsOf(pl: Playlist) = pl.songIds.mapNotNull { SongRepository.get(it) }
+}
+
+
+data class Album(
+    val id: String,
+    val title: String,
+    val artist: String,
+    val coverRes: Int,
+    val songIds: List<String> // map sang SongRepository
+)
+
+object AlbumRepository {
+    // Dùng sẵn id từ SongRepository (recentlyPlayed + topPicks)
+    val all = listOf(
+        Album(
+            id = "alb_highlights",
+            title = "The highlights",
+            artist = "The Weeknd",
+            coverRes = R.drawable.spotixe_logo,           // đổi ảnh thật của bạn nếu có
+            songIds = listOf("rp1","rp2","rp3","rp4","rp5","rp6","rp7","rp8","rp9")
+        ),
+        Album(
+            id = "alb_rock_mix",
+            title = "Rock Mix",
+            artist = "Various",
+            coverRes = R.drawable.spotixe_logo,
+            songIds = listOf("1","2","3","4","5","6","7","8","9")
+        )
+    )
+
+    fun get(id: String) = all.firstOrNull { it.id == id }
+    fun songsOf(album: Album): List<Song> = album.songIds.mapNotNull { SongRepository.get(it) }
+}

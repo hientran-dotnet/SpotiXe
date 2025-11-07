@@ -1,6 +1,6 @@
 package com.example.spotixe.Pages.Pages.SignUpPages
 
-import Components.OtpInputField
+import Components.Layout.OtpInputField
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -1,8 +1,10 @@
 package com.example.spotixe.Pages.Pages.AppMainPages
 
-import Components.BottomBar
+import Components.Card.AlbumTile
+import Components.Bar.BottomBar
+import Components.Card.PlaylistCard
 import Components.Card.RecentlyPlayedItem
-import Components.Card.SongCardRow
+import Components.Layout.SongCardRow
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,10 +26,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.PersonPin
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,9 +38,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.spotixe.Data.PlaylistRepository
 import com.example.spotixe.Data.topPicks
 import com.example.spotixe.Data.recentlyPlayed
-import com.example.spotixe.Graph
 import com.example.spotixe.MainRoute
 
 @Composable
@@ -190,6 +190,7 @@ fun HomeScreen(navController: NavHostController) {
                     }
                 }
 
+
                 Spacer(Modifier.height(18.dp))
 
                 Row(
@@ -200,7 +201,7 @@ fun HomeScreen(navController: NavHostController) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "IDK",
+                        text = "Playlist",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
@@ -216,21 +217,21 @@ fun HomeScreen(navController: NavHostController) {
 
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    contentPadding = PaddingValues(horizontal = 12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp)
                 ) {
                     items(
-                        items = recentlyPlayed,
+                        items = PlaylistRepository.all,
                         key = { it.id }
-                    ) { song ->
-                        RecentlyPlayedItem(
-                            song = song,
-                            onClickItem = { navController.navigate(MainRoute.songView(song.id)) },
-                            onPlayClick  = { navController.navigate(MainRoute.songView(song.id)) }
+                    ) { pl ->
+                        PlaylistCard(
+                            playlist = pl,
+                            onClick = { navController.navigate(MainRoute.playlistDetail(pl.id)) }
                         )
                     }
                 }
 
+
                 Spacer(Modifier.height(18.dp))
 
                 Row(
@@ -241,7 +242,7 @@ fun HomeScreen(navController: NavHostController) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "IDK2",
+                        text = "Albums",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
@@ -255,19 +256,19 @@ fun HomeScreen(navController: NavHostController) {
 
                 Spacer(Modifier.height(10.dp))
 
+                // Hiển thị một hàng album
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    contentPadding = PaddingValues(horizontal = 12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp)
                 ) {
                     items(
-                        items = recentlyPlayed,
+                        items = com.example.spotixe.Data.AlbumRepository.all,
                         key = { it.id }
-                    ) { song ->
-                        RecentlyPlayedItem(
-                            song = song,
-                            onClickItem = { navController.navigate(MainRoute.songView(song.id)) },
-                            onPlayClick  = {navController.navigate(MainRoute.songView(song.id)) }
+                    ) { album ->
+                        AlbumTile (
+                            album = album,
+                            onClick = { navController.navigate(MainRoute.albumDetail(album.id)) }
                         )
                     }
                 }

@@ -1,4 +1,4 @@
-package Components.Card
+package Components.Layout
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

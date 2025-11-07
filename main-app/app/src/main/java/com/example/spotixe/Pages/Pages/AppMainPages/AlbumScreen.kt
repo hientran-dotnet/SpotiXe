@@ -1,14 +1,32 @@
 package com.example.spotixe.Pages.Pages.AppMainPages
 
 import Components.Bar.BottomBar
+import Components.Bar.MiniPlayerBar
+import Components.Buttons.BackButton
+import Components.Layout.PlaylistSongRow
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -17,26 +35,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.spotixe.Data.Playlist
+import com.example.spotixe.Data.Album
 import com.example.spotixe.Data.Song
 import com.example.spotixe.MainRoute
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.material.icons.filled.PlayArrow
-import Components.Bar.MiniPlayerBar
-import Components.Buttons.BackButton
-import Components.Layout.PlaylistSongRow
 
+// AlbumDetailScreen.kt
 @Composable
-fun PlaylistDetailScreen(
+fun AlbumDetailScreen(
     navController: NavHostController,
-    playlist: Playlist,
+    album: Album,
     songs: List<Song>
 ) {
     Scaffold(
         containerColor = Color(0xFF121212),
         contentWindowInsets = WindowInsets(0),
-        bottomBar = { BottomBar(navController) } // hiển thị BottomBar vì screen này thuộc MAIN
+        bottomBar = { BottomBar(navController) }
     ) { inner ->
         Box(
             Modifier
@@ -44,6 +57,7 @@ fun PlaylistDetailScreen(
                 .fillMaxSize()
                 .background(Color(0xFF121212))
         ) {
+
             Column(modifier = Modifier
                 .fillMaxSize()
                 .statusBarsPadding()
@@ -53,7 +67,7 @@ fun PlaylistDetailScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp)
+                        .height(350.dp)
                         .background(
                             Brush.linearGradient(
                                 listOf(Color(0xFF1B5E20), Color(0xFF121212))
@@ -63,13 +77,12 @@ fun PlaylistDetailScreen(
                         .padding(horizontal = 16.dp, vertical = 12.dp)
                 ) {
 
-
                     Column(
                         Modifier
                             .align(Alignment.BottomStart)
                             .padding(bottom = 8.dp)
                     ) {
-                        Text(playlist.title, color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                        Text(album.title, color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                         Spacer(Modifier.height(4.dp))
                         Text("${songs.size} songs", color = Color.White.copy(0.8f), fontSize = 13.sp)
                     }
@@ -86,33 +99,33 @@ fun PlaylistDetailScreen(
                         Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null, tint = Color.Black)
                     }
                 }
-
-                // ===== Danh sách bài hát trong playlist =====
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f),
-                    contentPadding = PaddingValues(bottom = 96.dp) // chừa chỗ cho mini-player + bottom bar
+                    // chừa chỗ cho mini player + bottom bar
+                    contentPadding = PaddingValues(bottom = inner.calculateBottomPadding() + 96.dp)
                 ) {
-                    items(songs) { s ->
+                    items(songs, key = { it.id }) { s ->
                         PlaylistSongRow(
                             song = s,
                             onClick = { navController.navigate(MainRoute.songView(s.id)) }
+                            // nếu component của bạn có trailing slot thì truyền thêm:
+                            // trailing = { Icon(Icons.Default.MoreVert, null, tint = Color.White.copy(0.7f)) }
                         )
                     }
                 }
             }
 
-            // ===== Mini player màu xanh (overlay) =====
-//            MiniPlayerBar(
-//                modifier = Modifier
-//                    .align(Alignment.BottomCenter)
-//                    .padding(
-//                        start = 16.dp,
-//                        end   = 16.dp,
-//                    )
-//            )
+            // Mini player nằm ngay trên BottomBar (không hard-code dp)
+            MiniPlayerBar(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                    )
+            )
         }
     }
 }
-

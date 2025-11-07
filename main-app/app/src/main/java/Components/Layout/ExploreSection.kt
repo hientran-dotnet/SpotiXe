@@ -1,4 +1,4 @@
-package Components.Card
+package Components.Layout
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.Divider
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.text.font.FontWeight
 import com.example.spotixe.Data.Song

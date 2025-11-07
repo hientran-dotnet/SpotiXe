@@ -38,7 +38,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material.icons.filled.Favorite
 
 @Composable
-fun SongPlaylistScreen(
+fun QueueScreen(
     navController: NavHostController,
     current: Song,
     playingNext: List<Song>
