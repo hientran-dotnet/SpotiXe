@@ -17,12 +17,7 @@ import androidx.navigation.NavHostController
 import com.example.spotixe.Data.Song
 import com.example.spotixe.Graph
 import com.example.spotixe.player.PlayerViewModel
-
-@Composable
-fun rememberPlayerVM(navController: NavHostController): PlayerViewModel {
-    val owner = remember(navController) { navController.getBackStackEntry(Graph.MAIN) }
-    return viewModel(owner)
-}
+import com.example.spotixe.player.rememberPlayerVMActivity
 
 // Component
 @Composable
@@ -33,7 +28,7 @@ fun PlayButton(
     size: Dp = 36.dp,
     onPlay: () -> Unit
 ) {
-    val playerVM = rememberPlayerVM(navController)
+    val playerVM = rememberPlayerVMActivity()
 
     FilledIconButton(
         onClick = onPlay,

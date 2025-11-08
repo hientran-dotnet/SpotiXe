@@ -40,9 +40,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
 import com.example.spotixe.MainRoute
 import com.example.spotixe.R
-
+import com.example.spotixe.player.rememberPlayerVMActivity
+import androidx.navigation.NavController
 @Composable
 fun UserScreen(navController: NavHostController) {
+    val playerVM = rememberPlayerVMActivity()
     val playlists = listOf(
         PlaylistUi("LoL songs", "17 Songs", R.drawable.spotixe_logo),
         PlaylistUi("Liked songs", "17 Songs", R.drawable.spotixe_logo, liked = true),
@@ -59,7 +61,6 @@ fun UserScreen(navController: NavHostController) {
     Scaffold(
         containerColor = Color.Transparent,
         contentWindowInsets = WindowInsets(0),
-        bottomBar = { BottomBar(navController) }
     ) { inner ->
         // Tất cả phần trên dùng Column
         Column(

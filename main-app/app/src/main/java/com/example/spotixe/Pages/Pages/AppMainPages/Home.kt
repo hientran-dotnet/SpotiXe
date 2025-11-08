@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -45,9 +46,11 @@ import com.example.spotixe.Data.PlaylistRepository
 import com.example.spotixe.Data.topPicks
 import com.example.spotixe.Data.recentlyPlayed
 import com.example.spotixe.MainRoute
+import com.example.spotixe.player.rememberPlayerVMActivity
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
+    val playerVM = rememberPlayerVMActivity()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -56,7 +59,6 @@ fun HomeScreen(navController: NavHostController) {
         Scaffold (
             containerColor = Color.Transparent,
             contentWindowInsets = WindowInsets(0),
-            bottomBar = { BottomBar(navController) }
         ){ innerPadding ->
             Column(
                 modifier = Modifier
@@ -147,10 +149,18 @@ fun HomeScreen(navController: NavHostController) {
                     horizontalArrangement = Arrangement.spacedBy(14.dp),
                     contentPadding = PaddingValues(horizontal = 12.dp)
                 ) {
-                    items(topPicks.size) { i ->
-                        SongCardRow(song = topPicks[i], navController = navController)
+                    itemsIndexed(topPicks) { i, s ->
+                        SongCardRow(
+                            song = s,
+                            navController = navController,
+                            // nếu SongCardRow có onPlay callback thì:
+                            // onPlay = { playerVM.playFromList(topPicks, i) }
+                        )
+                        // Nếu SongCardRow chưa có onPlay, bạn có thể set click vào Card = play:
+                        // hoặc thêm nút ▶ bên trong SongCardRow để gọi playerVM.playFromList(topPicks, i)
                     }
                 }
+
 
                 Spacer(Modifier.height(18.dp))
 
@@ -181,17 +191,15 @@ fun HomeScreen(navController: NavHostController) {
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     contentPadding = PaddingValues(horizontal = 12.dp)
                 ) {
-                    items(
-                        items = recentlyPlayed,
-                        key = { it.id }
-                    ) { song ->
+                    itemsIndexed(recentlyPlayed, key = { _, it -> it.id }) { index, song ->
                         RecentlyPlayedItem(
                             song = song,
-                            onClickItem = { navController.navigate(MainRoute.songView(song.id)) },
-                            onPlayClick  = { navController.navigate(MainRoute.songView(song.id))}
+                            onClickItem = { navController.navigate(MainRoute.songView(song.id)) }, // bấm vào item → sang SongView
+                            onPlayClick  = { playerVM.playFromList(recentlyPlayed, index) }       // bấm ▶ → PHÁT (bar hiện)
                         )
                     }
                 }
+
 
 
                 Spacer(Modifier.height(18.dp))

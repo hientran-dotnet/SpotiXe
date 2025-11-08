@@ -37,6 +37,7 @@ import com.example.spotixe.Graph
 import com.example.spotixe.MainRoute
 import com.example.spotixe.R
 import com.example.spotixe.player.PlayerViewModel
+import com.example.spotixe.player.rememberPlayerVMActivity
 
 
 @Composable
@@ -48,12 +49,10 @@ fun ArtistDetailScreen(
     albumReleaseDate: String?,
     topSongs: List<Song>
 ) {
-    val owner = remember(navController) { navController.getBackStackEntry(Graph.MAIN) }
-    val playerVM: PlayerViewModel = viewModel(owner)
+    val playerVM = rememberPlayerVMActivity()
     Scaffold(
         containerColor = Color(0xFF121212),
         contentWindowInsets = WindowInsets(0),
-        bottomBar = { BottomBar(navController) }
     ) { inner ->
         Box(
             Modifier
@@ -173,17 +172,7 @@ fun ArtistDetailScreen(
                 }
             }
 
-            // Mini player nằm ngay trên BottomBar
-            MiniPlayerBar(
-                state = playerVM.ui,
-                onToggle = { playerVM.toggle() },
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                    )
-            )
+
         }
     }
 }

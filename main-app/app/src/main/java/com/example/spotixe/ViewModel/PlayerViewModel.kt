@@ -1,11 +1,16 @@
 // PlayerViewModel.kt
 package com.example.spotixe.player
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.spotixe.Data.Song
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,8 +23,7 @@ data class PlayerUiState(
     val durationSec: Int = 286
 ) {
     val current: Song? get() = queue.getOrNull(index)
-    val progress: Float get() =
-        if (durationSec == 0) 0f else positionSec.toFloat() / durationSec
+    val progress: Float get() = if (durationSec == 0) 0f else positionSec.toFloat() / durationSec
 }
 
 class PlayerViewModel : ViewModel() {
@@ -27,6 +31,7 @@ class PlayerViewModel : ViewModel() {
     val ui: StateFlow<PlayerUiState> = _ui
 
     private var ticker: Job? = null
+    private var wasPlayingBeforeSeek = false  // ⬅️ thuộc lớp
 
     /** Play 1 bài trong 1 danh sách (queue). */
     fun playFromList(list: List<Song>, startIndex: Int) {
@@ -50,14 +55,33 @@ class PlayerViewModel : ViewModel() {
 
     fun toggle() {
         val s = _ui.value
-        _ui.value = s.copy(isPlaying = !s.isPlaying)
-        if (_ui.value.isPlaying) startTicker() else stopTicker()
+        val playing = !s.isPlaying
+        _ui.value = s.copy(isPlaying = playing)
+        if (playing) startTicker() else stopTicker()
     }
 
+    /** Gọi khi bắt đầu kéo tua (pause tạm thời nếu đang play). */
+    fun beginSeek() {
+        wasPlayingBeforeSeek = _ui.value.isPlaying
+        if (wasPlayingBeforeSeek) {
+            _ui.value = _ui.value.copy(isPlaying = false)
+            stopTicker()
+        }
+    }
+
+    /** Tua tới phần trăm (0f..1f). */
     fun seekTo(percent: Float) {
         val dur = _ui.value.durationSec
         val sec = (percent.coerceIn(0f, 1f) * dur).toInt()
         _ui.value = _ui.value.copy(positionSec = sec)
+    }
+
+    /** Gọi khi thả tay sau khi tua (resume nếu lúc đầu đang play). */
+    fun endSeek() {
+        if (wasPlayingBeforeSeek) {
+            _ui.value = _ui.value.copy(isPlaying = true)
+            startTicker()
+        }
     }
 
     fun next() {
@@ -73,9 +97,9 @@ class PlayerViewModel : ViewModel() {
     }
 
     private fun startTicker() {
-        if (ticker?.isActive == true) return
+        ticker?.cancel()
         ticker = viewModelScope.launch {
-            while (true) {
+            while (isActive) {
                 delay(1000)
                 val st = _ui.value
                 if (st.isPlaying && st.current != null) {
@@ -88,5 +112,12 @@ class PlayerViewModel : ViewModel() {
             }
         }
     }
+
     private fun stopTicker() { ticker?.cancel(); ticker = null }
+}
+
+@Composable
+fun rememberPlayerVMActivity(): PlayerViewModel {
+    val owner = LocalContext.current as ViewModelStoreOwner
+    return viewModel(owner) // scope Activity
 }

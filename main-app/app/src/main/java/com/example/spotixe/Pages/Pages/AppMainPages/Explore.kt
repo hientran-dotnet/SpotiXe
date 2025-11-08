@@ -20,9 +20,11 @@ import androidx.compose.foundation.background
 import androidx.compose.material3.Divider
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
+import com.example.spotixe.player.rememberPlayerVMActivity
 
 @Composable
 fun ExploreScreen(navController: NavHostController) {
+    val playerVM = rememberPlayerVMActivity()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -31,7 +33,6 @@ fun ExploreScreen(navController: NavHostController) {
         Scaffold (
             containerColor = Color.Transparent,
             contentWindowInsets = WindowInsets(0),
-            bottomBar = { BottomBar(navController) }
         ) { innerPadding ->
             Column(
                 modifier = Modifier

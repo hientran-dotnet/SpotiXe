@@ -45,6 +45,7 @@ import com.example.spotixe.Data.Song
 import com.example.spotixe.Graph
 import com.example.spotixe.MainRoute
 import com.example.spotixe.player.PlayerViewModel
+import com.example.spotixe.player.rememberPlayerVMActivity
 import com.google.common.collect.Multimaps.index
 
 // AlbumDetailScreen.kt
@@ -54,12 +55,10 @@ fun AlbumDetailScreen(
     album: Album,
     songs: List<Song>
 ) {
-    val owner = remember(navController) { navController.getBackStackEntry(Graph.MAIN) }
-    val playerVM: PlayerViewModel = viewModel(owner)
+    val playerVM = rememberPlayerVMActivity()
     Scaffold(
         containerColor = Color(0xFF121212),
         contentWindowInsets = WindowInsets(0),
-        bottomBar = { BottomBar(navController) }
     ) { inner ->
         Box(
             Modifier
@@ -130,17 +129,6 @@ fun AlbumDetailScreen(
                     }
                 }
             }
-
-            MiniPlayerBar(
-                state = playerVM.ui,
-                onToggle = { playerVM.toggle() },
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                    )
-            )
         }
     }
 }

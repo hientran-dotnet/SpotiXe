@@ -1,5 +1,6 @@
 package com.example.spotixe.Pages.Pages.AppMainPages
 
+import Components.Bar.ScrubbableProgressBar
 import Components.Buttons.BackButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,11 +32,11 @@ import androidx.navigation.NavHostController
 import com.example.spotixe.Data.Song
 import com.example.spotixe.MainRoute
 import com.example.spotixe.R
-
-// thêm các import layout cần thiết
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.ui.zIndex
+import com.example.spotixe.player.rememberPlayerVMActivity
 
 @Composable
 fun QueueScreen(
@@ -43,14 +44,16 @@ fun QueueScreen(
     current: Song,
     playingNext: List<Song>
 ) {
+    val playerVM = rememberPlayerVMActivity()
     var isLiked by remember { mutableStateOf(false) }
     var isPlaying by remember { mutableStateOf(true) }
     var position by remember { mutableStateOf(0.2f) }
-
+    val ui by playerVM.ui.collectAsState()
     Scaffold(
         containerColor = Color(0xFF121212),
         contentWindowInsets = WindowInsets(0) // ta sẽ tự xử lý insets bên dưới
     ) { inner ->
+
         Column(
             Modifier
                 .padding(inner)
@@ -145,14 +148,18 @@ fun QueueScreen(
                     .windowInsetsPadding(WindowInsets.navigationBars) // chừa safe-area đáy
                     .padding(bottom = 12.dp) // đẩy footer lên một chút để không "tụt"
             ) {
-                LinearProgressIndicator(
-                    progress = { position }, // thay bằng progress thật nếu có
-                    modifier = Modifier
+
+                Spacer(Modifier.height(8.dp))
+
+                ScrubbableProgressBar(
+                    progress    = ui.progress,
+                    onSeek      = { p -> playerVM.seekTo(p) },
+                    onSeekStart = { playerVM.beginSeek() },
+                    onSeekEnd   = { playerVM.endSeek() },
+                    height      = 8.dp,
+                    modifier    = Modifier
                         .fillMaxWidth()
-                        .height(4.dp)
-                        .clip(RoundedCornerShape(2.dp)),
-                    color = Color(0xFF58BA47),
-                    trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                        .zIndex(1f)
                 )
 
                 Row(Modifier.fillMaxWidth()) {

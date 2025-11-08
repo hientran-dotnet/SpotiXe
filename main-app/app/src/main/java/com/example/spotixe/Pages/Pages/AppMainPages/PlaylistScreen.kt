@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.spotixe.Graph
 import com.example.spotixe.player.PlayerViewModel
+import com.example.spotixe.player.rememberPlayerVMActivity
 
 @Composable
 fun PlaylistDetailScreen(
@@ -37,12 +38,10 @@ fun PlaylistDetailScreen(
     playlist: Playlist,
     songs: List<Song>
 ) {
-    val owner = remember(navController) { navController.getBackStackEntry(Graph.MAIN) }
-    val playerVM: PlayerViewModel = viewModel(owner)
+    val playerVM = rememberPlayerVMActivity()
     Scaffold(
         containerColor = Color(0xFF121212),
         contentWindowInsets = WindowInsets(0),
-        bottomBar = { BottomBar(navController) } // hiển thị BottomBar vì screen này thuộc MAIN
     ) { inner ->
         Box(
             Modifier
@@ -114,16 +113,6 @@ fun PlaylistDetailScreen(
                     }
                 }
             }
-
-//             ===== Mini player màu xanh (overlay) =====
-//            MiniPlayerBar(
-//                modifier = Modifier
-//                    .align(Alignment.BottomCenter)
-//                    .padding(
-//                        start = 16.dp,
-//                        end   = 16.dp,
-//                    )
-//            )
         }
     }
 }

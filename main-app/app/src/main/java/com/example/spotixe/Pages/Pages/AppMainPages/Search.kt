@@ -36,13 +36,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.spotixe.Data.genres
+import com.example.spotixe.player.rememberPlayerVMActivity
 
 @Composable
 fun SearchScreen(
     navController: NavHostController,
 ) {
     var text by rememberSaveable { mutableStateOf("") }
-
+    val playerVM = rememberPlayerVMActivity()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -51,7 +52,6 @@ fun SearchScreen(
         Scaffold (
             containerColor = Color.Transparent,
             contentWindowInsets = WindowInsets(0),
-            bottomBar = { BottomBar(navController) }
         ) { innerPadding ->
             Column(
                 modifier = Modifier

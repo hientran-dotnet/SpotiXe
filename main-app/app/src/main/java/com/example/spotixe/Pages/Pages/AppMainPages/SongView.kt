@@ -1,80 +1,51 @@
+// SongViewScreen.kt
 package com.example.spotixe.Pages.Pages.AppMainPages
 
+import Components.Bar.ScrubbableProgressBar
 import Components.Buttons.BackButton
-import android.R.attr.contentDescription
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.SkipNext
-import androidx.compose.material.icons.filled.SkipPrevious
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.example.spotixe.Data.Song
-import com.example.spotixe.R
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Lyrics
-import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.PlaylistAddCircle
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import com.example.spotixe.MainRoute
-
+import com.example.spotixe.player.rememberPlayerVMActivity
+import kotlin.math.max
 
 @Composable
 fun SongViewScreen(
     navController: NavHostController,
     song: Song
 ) {
-    var isPlaying by remember { mutableStateOf(true) }
+    val playerVM = rememberPlayerVMActivity()
+    val ui by playerVM.ui.collectAsState()
+
+    // (Tuỳ chọn) đảm bảo vào SongView là đang play đúng bài
+    LaunchedEffect(song.id) {
+        if (ui.current?.id != song.id) {
+            playerVM.play(song)
+        }
+    }
+
     var isLiked by remember { mutableStateOf(false) }
-    var position by remember { mutableFloatStateOf(0.2f) }
 
     Scaffold(
         containerColor = Color(0xFF121212),
@@ -87,7 +58,6 @@ fun SongViewScreen(
                 .statusBarsPadding()
                 .padding(horizontal = 16.dp)
         ) {
-
             // Header
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -115,21 +85,20 @@ fun SongViewScreen(
             // Title + artist + more
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.weight(1f)) {
-                    Text(song.title,
+                    Text(
+                        song.title,
                         color = Color.White,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         maxLines = 1,
-                        modifier = Modifier
-                            .padding(bottom = 4.dp)
+                        modifier = Modifier.padding(bottom = 4.dp)
                     )
-
-                    Text("${song.artist}",
+                    Text(
+                        song.artist,
                         color = Color.White.copy(0.7f),
                         fontSize = 13.sp,
                         maxLines = 1,
-                        modifier = Modifier
-                            .padding(bottom = 10.dp)
+                        modifier = Modifier.padding(bottom = 10.dp)
                     )
                 }
                 IconButton(onClick = { navController.navigate(MainRoute.songViewMore(song.id)) }) {
@@ -142,28 +111,27 @@ fun SongViewScreen(
                 }
             }
 
-
-            // Progress Bar Placeholder
-            LinearProgressIndicator(
-                progress = { 0.3f }, // You can replace this with actual progress
-                modifier = Modifier
+            // ==== ScrubbableProgressBar ====
+            ScrubbableProgressBar(
+                progress    = ui.progress,
+                onSeek      = { p -> playerVM.seekTo(p) },
+                onSeekStart = { playerVM.beginSeek() },
+                onSeekEnd   = { playerVM.endSeek() },
+                height      = 8.dp,
+                modifier    = Modifier
                     .fillMaxWidth()
-                    .height(4.dp)
-                    .clip(RoundedCornerShape(2.dp)),
-                color = Color(0xFF58BA47),
-                trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                    .zIndex(1f)
             )
             Row(Modifier.fillMaxWidth()) {
                 Text(
-                    formatTime( (position * 286).toInt() ),
+                    formatTime(ui.positionSec),
                     color = Color.White.copy(0.7f),
                     fontSize = 12.sp
-                ) // demo 4:46 = 286s
-
+                )
                 Spacer(Modifier.weight(1f))
-
+                val remain = max(0, ui.durationSec - ui.positionSec)
                 Text(
-                    "-${formatTime(286 - (position * 286).toInt())}",
+                    "-${formatTime(remain)}",
                     color = Color.White.copy(0.7f),
                     fontSize = 12.sp
                 )
@@ -179,31 +147,31 @@ fun SongViewScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { /* prev */ }) {
+                IconButton(onClick = { playerVM.prev() }) {
                     Icon(
-                        imageVector=Icons.Default.SkipPrevious,
+                        imageVector = Icons.Default.SkipPrevious,
                         contentDescription = null,
                         tint = Color.White,
                         modifier = Modifier.size(40.dp)
                     )
                 }
                 FilledTonalButton(
-                    onClick = { isPlaying = !isPlaying },
+                    onClick = { playerVM.toggle() },
                     colors = ButtonDefaults.filledTonalButtonColors(containerColor = Color.White),
                     modifier = Modifier.size(64.dp),
                     shape = CircleShape,
                     contentPadding = PaddingValues(0.dp)
                 ) {
                     Icon(
-                        imageVector = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                        contentDescription = if (isPlaying) "Pause" else "Play",
+                        imageVector = if (ui.isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                        contentDescription = if (ui.isPlaying) "Pause" else "Play",
                         tint = Color.Black,
                         modifier = Modifier.size(40.dp)
                     )
                 }
-                IconButton(onClick = { /* next */ }) {
+                IconButton(onClick = { playerVM.next() }) {
                     Icon(
-                        imageVector= Icons.Default.SkipNext,
+                        imageVector = Icons.Default.SkipNext,
                         contentDescription = null,
                         tint = Color.White,
                         modifier = Modifier.size(40.dp)
@@ -213,7 +181,7 @@ fun SongViewScreen(
 
             Spacer(Modifier.height(4.dp))
 
-            // Actions row (like / lyrics / queue)
+            // Actions (like / queue)
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -226,46 +194,17 @@ fun SongViewScreen(
                         modifier = Modifier.size(34.dp)
                     )
                 }
-
                 Image(
-                    painter = painterResource(R.drawable.list),
+                    painter = painterResource(com.example.spotixe.R.drawable.list),
                     contentDescription = "playlist",
                     modifier = Modifier
                         .size(34.dp)
-                        .clickable{ navController.navigate(MainRoute.playlist(song.id)) }
-                        .offset( y = 8.dp)
+                        .clickable { navController.navigate(MainRoute.playlist(song.id)) }
+                        .offset(y = 8.dp)
                 )
-
-//                IconButton(onClick = { /* queue */ }) {
-//                    Icon(
-//                        imageVector = Icons.Default.Lyrics,
-//                        contentDescription = null,
-//                        tint = Color(0xFF58BA47),
-//                        modifier = Modifier.size(34.dp)
-//                    )
-//                }
             }
 
             Spacer(Modifier.height(8.dp))
-
-//            // Lyrics panel (green card)
-//            Column(
-//                Modifier
-//                    .fillMaxWidth()
-//                    .clip(RoundedCornerShape(12.dp))
-//                    .background(Color(0xFF58BA47))
-//                    .padding(12.dp)
-//            ) {
-//                Text("Lyrics", color = Color.Black, fontWeight = FontWeight.SemiBold)
-//                Spacer(Modifier.height(8.dp))
-//                Text(
-//                    "[Verse 1]\nWhat's in your heart? What's left to give?\nWhen everything's broken, chasin' the wind",
-//                    color = Color.Black,
-//                    lineHeight = 18.sp
-//                )
-//            }
-//
-//            Spacer(Modifier.height(12.dp))
         }
     }
 }
