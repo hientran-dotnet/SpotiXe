@@ -11,12 +11,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,11 +29,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.spotixe.Data.Album
 import com.example.spotixe.Data.Song
+import com.example.spotixe.Graph
 import com.example.spotixe.MainRoute
 import com.example.spotixe.R
+import com.example.spotixe.player.PlayerViewModel
 
 
 @Composable
@@ -43,6 +48,8 @@ fun ArtistDetailScreen(
     albumReleaseDate: String?,
     topSongs: List<Song>
 ) {
+    val owner = remember(navController) { navController.getBackStackEntry(Graph.MAIN) }
+    val playerVM: PlayerViewModel = viewModel(owner)
     Scaffold(
         containerColor = Color(0xFF121212),
         contentWindowInsets = WindowInsets(0),
@@ -151,10 +158,16 @@ fun ArtistDetailScreen(
                         .weight(1f),
                     contentPadding = PaddingValues(bottom = inner.calculateBottomPadding() + 96.dp)
                 ) {
-                    items(topSongs, key = { it.id }) { s ->
+                    itemsIndexed(topSongs, key = { _, s -> s.id }) { index, s ->
                         PlaylistSongRow(
                             song = s,
-                            onClick = { navController.navigate(MainRoute.songView(s.id)) }
+                            onRowPlay = {                     // click cả dòng → play (MiniPlayerBar sẽ tự hiện)
+                                playerVM.playFromList(topSongs, index)
+                            },
+                            onMoreClick = {                   // 3 chấm → vào SongView
+                                navController.navigate(MainRoute.songView(s.id))
+                                //mở bài hát
+                            },
                         )
                     }
                 }
@@ -162,6 +175,8 @@ fun ArtistDetailScreen(
 
             // Mini player nằm ngay trên BottomBar
             MiniPlayerBar(
+                state = playerVM.ui,
+                onToggle = { playerVM.toggle() },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(

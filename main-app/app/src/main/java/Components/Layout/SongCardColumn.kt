@@ -1,5 +1,6 @@
 package Components.Layout
 
+import Components.Buttons.PlayButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,7 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.Text
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.spotixe.Data.Song
+import com.example.spotixe.player.PlayerViewModel
+import com.google.android.play.integrity.internal.s
 
 
 @Composable
@@ -31,7 +39,7 @@ fun SongCardColumn(
     modifier: Modifier = Modifier
 ) {
     val shape = RoundedCornerShape(12.dp)
-
+    val playerVM: PlayerViewModel = viewModel(LocalContext.current as ViewModelStoreOwner)
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -63,17 +71,6 @@ fun SongCardColumn(
         }
 
         Spacer(modifier = Modifier.weight(1f))
-
-        FilledIconButton(
-            onClick = {  },
-            modifier = Modifier.size(36.dp),
-            colors = IconButtonDefaults.filledIconButtonColors(
-                containerColor = Color(0xFF1DB954),
-                contentColor = Color.Black
-            )
-        ) {
-            Icon(Icons.Rounded.PlayArrow, contentDescription = null)
-        }
     }
 
 }

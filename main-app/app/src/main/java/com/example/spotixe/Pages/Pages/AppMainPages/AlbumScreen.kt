@@ -3,11 +3,13 @@ package com.example.spotixe.Pages.Pages.AppMainPages
 import Components.Bar.BottomBar
 import Components.Bar.MiniPlayerBar
 import Components.Buttons.BackButton
+import Components.Buttons.PlayButton
 import Components.Layout.PlaylistSongRow
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
@@ -27,6 +30,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -34,10 +38,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.spotixe.Data.Album
 import com.example.spotixe.Data.Song
+import com.example.spotixe.Graph
 import com.example.spotixe.MainRoute
+import com.example.spotixe.player.PlayerViewModel
+import com.google.common.collect.Multimaps.index
 
 // AlbumDetailScreen.kt
 @Composable
@@ -46,6 +54,8 @@ fun AlbumDetailScreen(
     album: Album,
     songs: List<Song>
 ) {
+    val owner = remember(navController) { navController.getBackStackEntry(Graph.MAIN) }
+    val playerVM: PlayerViewModel = viewModel(owner)
     Scaffold(
         containerColor = Color(0xFF121212),
         contentWindowInsets = WindowInsets(0),
@@ -87,7 +97,7 @@ fun AlbumDetailScreen(
                         Text("${songs.size} songs", color = Color.White.copy(0.8f), fontSize = 13.sp)
                     }
 
-                    // nút Play nổi
+//                     nút Play nổi
                     FilledIconButton(
                         onClick = { /* play all */ },
                         modifier = Modifier.align(Alignment.BottomEnd),
@@ -106,19 +116,24 @@ fun AlbumDetailScreen(
                     // chừa chỗ cho mini player + bottom bar
                     contentPadding = PaddingValues(bottom = inner.calculateBottomPadding() + 96.dp)
                 ) {
-                    items(songs, key = { it.id }) { s ->
+                    itemsIndexed(songs, key = { _, s -> s.id }) { index, s ->
                         PlaylistSongRow(
                             song = s,
-                            onClick = { navController.navigate(MainRoute.songView(s.id)) }
-                            // nếu component của bạn có trailing slot thì truyền thêm:
-                            // trailing = { Icon(Icons.Default.MoreVert, null, tint = Color.White.copy(0.7f)) }
+                            onRowPlay = {                     // click cả dòng → play (MiniPlayerBar sẽ tự hiện)
+                                playerVM.playFromList(songs, index)
+                            },
+                            onMoreClick = {                   // 3 chấm → vào SongView
+                                navController.navigate(MainRoute.songView(s.id))
+                                //mở bài hát
+                            },
                         )
                     }
                 }
             }
 
-            // Mini player nằm ngay trên BottomBar (không hard-code dp)
             MiniPlayerBar(
+                state = playerVM.ui,
+                onToggle = { playerVM.toggle() },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(

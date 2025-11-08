@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -47,6 +48,7 @@ import com.example.spotixe.Pages.Pages.AppMainPages.PlaylistDetailScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.QueueScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SongMoreScreen
 import com.example.spotixe.Pages.Pages.AppMainPages.SongViewScreen
+import com.example.spotixe.player.PlayerViewModel
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -55,6 +57,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
+            val playerVM: PlayerViewModel = viewModel()
             val navController: NavHostController = rememberNavController()
             SpotiXeTheme {
                 SetSystemBars()

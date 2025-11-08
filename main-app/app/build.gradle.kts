@@ -60,6 +60,9 @@ dependencies {
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.media3.session)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation ("com.google.dagger:hilt-android:2.57.1") // Use the latest version
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation("com.googlecode.libphonenumber:libphonenumber:8.13.38")

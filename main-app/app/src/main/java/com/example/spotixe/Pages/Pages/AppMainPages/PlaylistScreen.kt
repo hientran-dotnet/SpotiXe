@@ -26,6 +26,10 @@ import androidx.compose.material.icons.filled.PlayArrow
 import Components.Bar.MiniPlayerBar
 import Components.Buttons.BackButton
 import Components.Layout.PlaylistSongRow
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.spotixe.Graph
+import com.example.spotixe.player.PlayerViewModel
 
 @Composable
 fun PlaylistDetailScreen(
@@ -33,6 +37,8 @@ fun PlaylistDetailScreen(
     playlist: Playlist,
     songs: List<Song>
 ) {
+    val owner = remember(navController) { navController.getBackStackEntry(Graph.MAIN) }
+    val playerVM: PlayerViewModel = viewModel(owner)
     Scaffold(
         containerColor = Color(0xFF121212),
         contentWindowInsets = WindowInsets(0),
@@ -94,16 +100,22 @@ fun PlaylistDetailScreen(
                         .weight(1f),
                     contentPadding = PaddingValues(bottom = 96.dp) // chừa chỗ cho mini-player + bottom bar
                 ) {
-                    items(songs) { s ->
+                    itemsIndexed(songs, key = { _, s -> s.id }) { index, s ->
                         PlaylistSongRow(
                             song = s,
-                            onClick = { navController.navigate(MainRoute.songView(s.id)) }
+                            onRowPlay = {                     // click cả dòng → play (MiniPlayerBar sẽ tự hiện)
+                                playerVM.playFromList(songs, index)
+                            },
+                            onMoreClick = {                   // 3 chấm → vào SongView
+                                navController.navigate(MainRoute.songView(s.id))
+                                //mở bài hát
+                            },
                         )
                     }
                 }
             }
 
-            // ===== Mini player màu xanh (overlay) =====
+//             ===== Mini player màu xanh (overlay) =====
 //            MiniPlayerBar(
 //                modifier = Modifier
 //                    .align(Alignment.BottomCenter)

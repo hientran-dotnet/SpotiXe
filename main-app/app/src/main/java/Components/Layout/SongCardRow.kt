@@ -50,7 +50,6 @@ fun SongCardRow(
             contentScale = ContentScale.Crop
         )
 
-        // Gradient tối ở đáy để đọc chữ
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
