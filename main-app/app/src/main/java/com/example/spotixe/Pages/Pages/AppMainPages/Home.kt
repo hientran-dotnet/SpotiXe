@@ -153,11 +153,7 @@ fun HomeScreen(navController: NavHostController) {
                         SongCardRow(
                             song = s,
                             navController = navController,
-                            // nếu SongCardRow có onPlay callback thì:
-                            // onPlay = { playerVM.playFromList(topPicks, i) }
                         )
-                        // Nếu SongCardRow chưa có onPlay, bạn có thể set click vào Card = play:
-                        // hoặc thêm nút ▶ bên trong SongCardRow để gọi playerVM.playFromList(topPicks, i)
                     }
                 }
 
@@ -195,7 +191,7 @@ fun HomeScreen(navController: NavHostController) {
                         RecentlyPlayedItem(
                             song = song,
                             onClickItem = { navController.navigate(MainRoute.songView(song.id)) }, // bấm vào item → sang SongView
-                            onPlayClick  = { playerVM.playFromList(recentlyPlayed, index) }       // bấm ▶ → PHÁT (bar hiện)
+                            onPlayClick  = { playerVM.playFromList(recentlyPlayed, index) }       // bấm ▶ → phát bài hát
                         )
                     }
                 }

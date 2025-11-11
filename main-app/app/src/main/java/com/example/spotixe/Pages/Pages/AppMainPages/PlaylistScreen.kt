@@ -54,7 +54,7 @@ fun PlaylistDetailScreen(
                 .statusBarsPadding()
             ) {
                 BackButton(navController)
-                // ===== Header lớn (gradient + tiêu đề + nút Play) =====
+                //Header lớn (gradient + tiêu đề + nút Play)
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -92,7 +92,7 @@ fun PlaylistDetailScreen(
                     }
                 }
 
-                // ===== Danh sách bài hát trong playlist =====
+                //Danh sách bài hát trong playlist
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -102,7 +102,7 @@ fun PlaylistDetailScreen(
                     itemsIndexed(songs, key = { _, s -> s.id }) { index, s ->
                         PlaylistSongRow(
                             song = s,
-                            onRowPlay = {                     // click cả dòng → play (MiniPlayerBar sẽ tự hiện)
+                            onRowPlay = {                     // click cả dòng → play
                                 playerVM.playFromList(songs, index)
                             },
                             onMoreClick = {                   // 3 chấm → vào SongView

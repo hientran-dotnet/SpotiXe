@@ -111,7 +111,7 @@ fun SongViewScreen(
                 }
             }
 
-            // ==== ScrubbableProgressBar ====
+            //ScrubbableProgressBar
             ScrubbableProgressBar(
                 progress    = ui.progress,
                 onSeek      = { p -> playerVM.seekTo(p) },

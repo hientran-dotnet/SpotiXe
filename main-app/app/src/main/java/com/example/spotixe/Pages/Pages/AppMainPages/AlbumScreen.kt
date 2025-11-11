@@ -48,7 +48,6 @@ import com.example.spotixe.player.PlayerViewModel
 import com.example.spotixe.player.rememberPlayerVMActivity
 import com.google.common.collect.Multimaps.index
 
-// AlbumDetailScreen.kt
 @Composable
 fun AlbumDetailScreen(
     navController: NavHostController,
@@ -72,7 +71,7 @@ fun AlbumDetailScreen(
                 .statusBarsPadding()
             ) {
                 BackButton(navController)
-                // ===== Header lớn (gradient + tiêu đề + nút Play) =====
+                //Header lớn (gradient + tiêu đề + nút Play)
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -95,8 +94,7 @@ fun AlbumDetailScreen(
                         Spacer(Modifier.height(4.dp))
                         Text("${songs.size} songs", color = Color.White.copy(0.8f), fontSize = 13.sp)
                     }
-
-//                     nút Play nổi
+                    // nút Play nổi
                     FilledIconButton(
                         onClick = { /* play all */ },
                         modifier = Modifier.align(Alignment.BottomEnd),
@@ -112,13 +110,12 @@ fun AlbumDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f),
-                    // chừa chỗ cho mini player + bottom bar
                     contentPadding = PaddingValues(bottom = inner.calculateBottomPadding() + 96.dp)
                 ) {
                     itemsIndexed(songs, key = { _, s -> s.id }) { index, s ->
                         PlaylistSongRow(
                             song = s,
-                            onRowPlay = {                     // click cả dòng → play (MiniPlayerBar sẽ tự hiện)
+                            onRowPlay = {                     // click cả dòng → play
                                 playerVM.playFromList(songs, index)
                             },
                             onMoreClick = {                   // 3 chấm → vào SongView

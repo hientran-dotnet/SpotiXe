@@ -66,7 +66,7 @@ fun ArtistDetailScreen(
             ) {
                 BackButton(navController)
 
-                // ===== Header: cover lớn + tên nghệ sĩ =====
+                //Header: cover lớn + tên nghệ sĩ
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -79,7 +79,6 @@ fun ArtistDetailScreen(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
                     )
-                    // gradient đen dưới để đọc chữ
                     Box(
                         Modifier
                             .align(Alignment.BottomCenter)
@@ -104,7 +103,7 @@ fun ArtistDetailScreen(
                     )
                 }
 
-                // ===== Album section (nếu có) =====
+                //Album section
                 if (album != null) {
                     Row(
                         modifier = Modifier
@@ -142,7 +141,7 @@ fun ArtistDetailScreen(
                     }
                 }
 
-                // ===== Top Songs =====
+                //Top Songs
                 Text(
                     "Top Songs",
                     color = Color.White,
@@ -160,7 +159,7 @@ fun ArtistDetailScreen(
                     itemsIndexed(topSongs, key = { _, s -> s.id }) { index, s ->
                         PlaylistSongRow(
                             song = s,
-                            onRowPlay = {                     // click cả dòng → play (MiniPlayerBar sẽ tự hiện)
+                            onRowPlay = {                     // click cả dòng → play
                                 playerVM.playFromList(topSongs, index)
                             },
                             onMoreClick = {                   // 3 chấm → vào SongView

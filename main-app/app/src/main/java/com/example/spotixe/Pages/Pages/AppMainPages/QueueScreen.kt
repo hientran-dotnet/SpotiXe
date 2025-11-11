@@ -51,7 +51,7 @@ fun QueueScreen(
     val ui by playerVM.ui.collectAsState()
     Scaffold(
         containerColor = Color(0xFF121212),
-        contentWindowInsets = WindowInsets(0) // ta sẽ tự xử lý insets bên dưới
+        contentWindowInsets = WindowInsets(0)
     ) { inner ->
 
         Column(
@@ -61,7 +61,7 @@ fun QueueScreen(
                 .statusBarsPadding()
                 .padding(horizontal = 16.dp)
         ) {
-            // ===== Header =====
+            //Header
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -72,7 +72,7 @@ fun QueueScreen(
                 Spacer(Modifier.weight(1f))
             }
 
-            // ===== Current song =====
+            //Current song
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -126,12 +126,12 @@ fun QueueScreen(
             Spacer(Modifier.height(12.dp))
             Text("Playing Next", color = Color.White.copy(0.85f), fontSize = 13.sp)
 
-            // ===== Danh sách: để "ngắn lại" & không bị footer che =====
+            //Danh sách
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                contentPadding = PaddingValues(bottom = 120.dp) // chừa chỗ cho progress + controls
+                contentPadding = PaddingValues(bottom = 120.dp)
             ) {
                 items(playingNext) { s ->
                     NextRow(
@@ -141,12 +141,12 @@ fun QueueScreen(
                 }
             }
 
-            // ===== Footer: progress + controls =====
+            //Footer: progress + controls
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .windowInsetsPadding(WindowInsets.navigationBars) // chừa safe-area đáy
-                    .padding(bottom = 12.dp) // đẩy footer lên một chút để không "tụt"
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(bottom = 12.dp)
             ) {
 
                 Spacer(Modifier.height(8.dp))
@@ -183,7 +183,7 @@ fun QueueScreen(
                     FilledTonalButton(
                         onClick = { isPlaying = !isPlaying },
                         colors = ButtonDefaults.filledTonalButtonColors(containerColor = Color.White),
-                        modifier = Modifier.size(64.dp),      // GIỮ nguyên kích thước gốc của bạn
+                        modifier = Modifier.size(64.dp),
                         shape = CircleShape,
                         contentPadding = PaddingValues(0.dp)
                     ) {
@@ -191,7 +191,7 @@ fun QueueScreen(
                             imageVector = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
                             contentDescription = null,
                             tint = Color.Black,
-                            modifier = Modifier.size(28.dp)   // GIỮ nguyên kích thước gốc
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                     IconButton(onClick = { /* next */ }) {

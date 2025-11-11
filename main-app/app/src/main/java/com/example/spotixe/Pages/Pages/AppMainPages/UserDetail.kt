@@ -153,7 +153,7 @@ fun UserDetailScreen(navController: NavController) {
             }
         }
 
-        // ----- DOB Picker -----
+        //DOB Picker
         if (showDobPicker) {
             DatePickerDialog(
                 onDismissRequest = { showDobPicker = false },
@@ -171,7 +171,7 @@ fun UserDetailScreen(navController: NavController) {
             ) { DatePicker(state = dobState) }
         }
 
-        // ----- Joining Picker -----
+        //Joining Picker
         if (showJoinPicker) {
             DatePickerDialog(
                 onDismissRequest = { showJoinPicker = false },
@@ -191,7 +191,7 @@ fun UserDetailScreen(navController: NavController) {
     }
 }
 
-/* ---------- Tiny reusable lines ---------- */
+//  Tiny reusable lines
 
 @Composable
 private fun EditableTextLine(

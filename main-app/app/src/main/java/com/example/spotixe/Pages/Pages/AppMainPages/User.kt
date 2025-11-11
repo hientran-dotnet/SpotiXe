@@ -121,7 +121,7 @@ fun UserScreen(navController: NavHostController) {
                 }
             }
 
-            // ===== Title “Danh sách” (vẫn ở Column) =====
+            //Title “Danh sách” (vẫn ở Column)
             Text(
                 text = "Danh sách",
                 color = Color.White,
@@ -131,12 +131,12 @@ fun UserScreen(navController: NavHostController) {
             )
             Divider(color = Color.White.copy(alpha = 0.15f))
 
-            // ===== Chỉ phần List dùng LazyColumn =====
+            //Chỉ phần List dùng LazyColumn
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f), // chiếm phần còn lại để list cuộn riêng
-                contentPadding = PaddingValues(bottom = 100.dp) // tránh đè BottomBar/mini player
+                    .weight(1f),
+                contentPadding = PaddingValues(bottom = 100.dp)
             ) {
                 items(playlists) { p ->
                     PlaylistRow(
