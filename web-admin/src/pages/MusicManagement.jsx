@@ -258,21 +258,6 @@ export default function MusicManagement() {
               </div>
             )}
           </div>
-          <div className="flex items-center gap-2">
-            <Select
-              value={itemsPerPage.toString()}
-              onChange={(e) => {
-                setItemsPerPage(Number(e.target.value))
-                setPage(1) // Reset về trang 1 khi đổi số items
-              }}
-              options={[
-                { value: '10', label: '10 / page' },
-                { value: '20', label: '20 / page' },
-                { value: '50', label: '50 / page' },
-              ]}
-              className="w-30"
-            />
-          </div>
         </div>
 
         {/* Filter Panel */}

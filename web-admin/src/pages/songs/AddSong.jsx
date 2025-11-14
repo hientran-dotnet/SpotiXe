@@ -160,12 +160,16 @@ export default function AddSong() {
       }
       if (fieldsUpdated.length > 0) toast.success(`Đã trích xuất: ${fieldsUpdated.join(', ')}`, { id: 'metadata', duration: 4000 })
       else toast.info('Các trường đã có dữ liệu, không cần cập nhật', { id: 'metadata' })
+
+      console.log(metadata)
     } catch (error) {
       if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) toast.error('Lỗi CORS: Server không cho phép truy cập.', { id: 'metadata', duration: 6000 })
       else if (error.message.includes('HTTP 403') || error.message.includes('HTTP 401')) toast.error('Không có quyền truy cập file audio.', { id: 'metadata' })
       else if (error.message.includes('HTTP 404')) toast.error('Không tìm thấy file audio.', { id: 'metadata' })
       else toast.error('Không thể trích xuất metadata: ' + error.message, { id: 'metadata' })
     } finally { setIsExtractingMetadata(false) }
+
+    
   }
 
   const onSubmit = async (data) => {
