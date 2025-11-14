@@ -48,7 +48,7 @@ object MainRoute {
     const val ArtistDetail = "main/artist/{artistId}"
     fun artistDetail(id: String) = "main/artist/$id"
 
-    const val Test="test"
+    const val ErrorScreen="error_screen"
 
 }
 
