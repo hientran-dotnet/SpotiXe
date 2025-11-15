@@ -3,6 +3,7 @@ package com.example.spotixe.Pages.Pages.SignUpPages
 import Components.Buttons.BackButton
 import Components.Buttons.GoogleSignInButtonFirebase
 import Components.Buttons.TermsAndPolicyCheck
+import Components.isValidPassword
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -169,7 +170,7 @@ fun Sign_UpEmail2Screen(
 
                 if (!isPasswordValid && password.isNotEmpty()) {
                     Text(
-                        text = "Mật khẩu phải có 8 ký tự, có chữ hoa, chữ thường và số",
+                        text = "Mật khẩu c 8 ký tự, có chữ hoa, chữ thường và số",
                         color = Color.Red,
                         fontSize = 13.sp,
                         modifier = Modifier.padding(top = 4.dp, start = 4.dp)
@@ -300,11 +301,3 @@ fun Sign_UpEmail2Screen(
     }
 }
 
-fun isValidPassword(pw: String): Boolean {
-    val hasUpper = pw.any { it.isUpperCase() }
-    val hasLower = pw.any { it.isLowerCase() }
-    val hasDigit = pw.any { it.isDigit() }
-    val longEnough = pw.length >= 8
-
-    return hasUpper && hasLower && hasDigit && longEnough
-}
