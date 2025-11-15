@@ -32,11 +32,11 @@ import com.example.spotixe.Data.PlaylistRepository
 import com.example.spotixe.Data.SongRepository
 import com.example.spotixe.Pages.Pages.AppMainPages.*
 import com.example.spotixe.Pages.Pages.SignInPages.Sign_in1Screen
-import com.example.spotixe.Pages.Pages.SignInPages.Sign_in2Screen
 import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpEmail1Screen
 import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpEmail2Screen
 import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpPhone1Screen
 import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpPhone2Screen
+import com.example.spotixe.Pages.Pages.SignUpPages.Sign_UpPhone3Screen
 import com.example.spotixe.Pages.Pages.StartPages.Start2Screen
 import com.example.spotixe.Pages.Pages.StartPages.Start3Screen
 import com.example.spotixe.Pages.Pages.StartPages.StartScreen
@@ -87,7 +87,7 @@ class MainActivity : ComponentActivity() {
                         // ----- NAV HOST -----
                         NavHost(
                             navController = navController,
-                            startDestination = Graph.MAIN,
+                            startDestination = Graph.AUTH,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(inner)
@@ -104,20 +104,20 @@ class MainActivity : ComponentActivity() {
 
                             // AUTH GRAPH
                             navigation(
-                                startDestination = AuthRoute.SignIn1,
+                                startDestination = AuthRoute.SignUpPhone3,
                                 route = Graph.AUTH
                             ) {
                                 composable(AuthRoute.SignIn1) { Sign_in1Screen(navController) }
-                                composable(AuthRoute.SignIn2) { Sign_in2Screen(navController) }
                                 composable(AuthRoute.SignUpEmail1) { Sign_UpEmail1Screen(navController) }
                                 composable(AuthRoute.SignUpEmail2) { Sign_UpEmail2Screen(navController) }
                                 composable(AuthRoute.SignUpPhone1) { Sign_UpPhone1Screen(navController) }
                                 composable(AuthRoute.SignUpPhone2) { Sign_UpPhone2Screen(navController) }
+                                composable(AuthRoute.SignUpPhone3) { Sign_UpPhone3Screen(navController) }
                             }
 
                             // MAIN GRAPH
                             navigation(
-                                startDestination = MainRoute.ErrorScreen,
+                                startDestination = MainRoute.Home,
                                 route = Graph.MAIN
                             ) {
                                 composable(MainRoute.Home) { HomeScreen(navController) }

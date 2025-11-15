@@ -1,5 +1,6 @@
 package com.example.spotixe.Pages.Pages.SignUpPages
 
+import Components.Buttons.BackButton
 import Components.Buttons.GoogleSignInButtonFirebase
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -58,6 +59,8 @@ fun Sign_UpEmail1Screen(
 ){
     var green = Color(0xFF58BA47)
     var agreed by rememberSaveable { mutableStateOf(false) }
+    var name by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -72,21 +75,7 @@ fun Sign_UpEmail1Screen(
                 .statusBarsPadding(),
             horizontalArrangement = Arrangement.Start
         ){
-            Box(
-                modifier = Modifier
-                    .padding(start = 8.dp, top = 8.dp)
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFF000000))
-                    .clickable { navController.popBackStack() },
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color(0xFFFFFFFF)
-                )
-            }
+            BackButton(navController)
         }
 
         Column(
@@ -127,8 +116,10 @@ fun Sign_UpEmail1Screen(
 
             // TextField cho Name
             TextField(
-                value = "",
-                onValueChange = {},
+                value = name,
+                onValueChange = {
+                    name = it
+                },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color(0xFF444444),
                     unfocusedContainerColor = Color(0xFF444444),
@@ -155,8 +146,10 @@ fun Sign_UpEmail1Screen(
 
             // TextField cho Email
             TextField(
-                value = "",
-                onValueChange = {},
+                value = email,
+                onValueChange = {
+                    email = it
+                },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color(0xFF444444),
                     unfocusedContainerColor = Color(0xFF444444),

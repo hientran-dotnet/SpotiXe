@@ -77,7 +77,7 @@ fun Start2Screen(navController: NavController){
             Spacer(Modifier.height(140.dp))
 
             Button(
-                onClick = {navController.navigate(AuthRoute.SignIn2)},
+                onClick = {navController.navigate(AuthRoute.SignIn1)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp)

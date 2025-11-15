@@ -1,4 +1,3 @@
-// PlayerViewModel.kt
 package com.example.spotixe.player
 
 import androidx.compose.runtime.Composable
@@ -31,7 +30,7 @@ class PlayerViewModel : ViewModel() {
     val ui: StateFlow<PlayerUiState> = _ui
 
     private var ticker: Job? = null
-    private var wasPlayingBeforeSeek = false  // ⬅️ thuộc lớp
+    private var wasPlayingBeforeSeek = false
 
     /** Play 1 bài trong 1 danh sách (queue). */
     fun playFromList(list: List<Song>, startIndex: Int) {

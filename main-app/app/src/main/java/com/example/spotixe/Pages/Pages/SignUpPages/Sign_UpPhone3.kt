@@ -1,9 +1,9 @@
 package com.example.spotixe.Pages.Pages.SignUpPages
 
 import Components.Buttons.BackButton
-import Components.Buttons.GoogleSignInButtonFirebase
-import Components.Buttons.TermsAndPolicyCheck
+import Components.Layout.OtpInputField
 import Components.isValidPassword
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -59,22 +60,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.AuthRoute
 import com.example.spotixe.R
-import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun Sign_UpEmail2Screen(
-    navController: NavController,
-    onSignedIn: (FirebaseUser) -> Unit={},
-    onError: (String) -> Unit={}
-){
+fun Sign_UpPhone3Screen(navController: NavController){
     var green = Color(0xFF58BA47)
+    var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var repassword by rememberSaveable { mutableStateOf("") }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
     var rePasswordVisible by rememberSaveable { mutableStateOf(false) }
     val isPasswordValid = isValidPassword(password)
     val isRePasswordMatch = repassword.isNotEmpty() && repassword == password
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -107,17 +103,47 @@ fun Sign_UpEmail2Screen(
                 modifier = Modifier.height(180.dp)
             )
 
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(20.dp))
 
             Text(
-                "Create your account",
-                fontSize = 35.sp,
-                fontWeight = FontWeight.Bold,
+                "Enter Username and\nPassword to continue",
+                fontSize = 20.sp,
                 color = green,
+                fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
 
+            Spacer(Modifier.height(15.dp))
+
+            // Username label
+            Text(
+                text = "Username",
+                color = green,
+                fontSize = 18.sp,
+                modifier = Modifier.align(Alignment.Start)
+            )
+
             Spacer(Modifier.height(8.dp))
+
+            // TextField cho username
+            TextField(
+                value = username,
+                onValueChange = {
+                    username = it
+                },
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFF444444),
+                    unfocusedContainerColor = Color(0xFF444444),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = Color.White,
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(12.dp))
+            )
+
+            Spacer(Modifier.height(20.dp))
 
             // Password label
             Text(
@@ -170,7 +196,7 @@ fun Sign_UpEmail2Screen(
 
                 if (!isPasswordValid && password.isNotEmpty()) {
                     Text(
-                        text = "Mật khẩu c 8 ký tự, có chữ hoa, chữ thường và số",
+                        text = "Mật khẩu phải có 8 ký tự, có chữ hoa, chữ thường và số",
                         color = Color.Red,
                         fontSize = 13.sp,
                         modifier = Modifier.padding(top = 4.dp, start = 4.dp)
@@ -179,7 +205,7 @@ fun Sign_UpEmail2Screen(
             }
 
 
-            Spacer(Modifier.height(8.dp ))
+            Spacer(Modifier.height(20.dp ))
 
             // RePassword label
             Text(
@@ -258,46 +284,6 @@ fun Sign_UpEmail2Screen(
             ) {
                 Text(text = "Sign up")
             }
-
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Text(
-                text = buildAnnotatedString {
-                    append("Or ")
-                    withStyle(style = SpanStyle(color = Color.White)) { append("sign in") }
-                    append(" with")
-                },
-                color = green,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(15.dp))
-
-            GoogleSignInButtonFirebase(
-                onSuccess = { user: FirebaseUser ->
-                    navController.navigate("") {
-                        popUpTo("login") { inclusive = true }
-                        launchSingleTop = true
-                    } },
-                onError = { e -> onError(e.message ?: "Unknown error") }
-            )
-
-            Spacer(modifier = Modifier.height(15.dp))
-
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = green)) {append("Already have account ?\n")}
-                    withStyle(style = SpanStyle(color = green)) { append("Click here to ") }
-                    withStyle(style = SpanStyle(color = Color.White, fontStyle = FontStyle.Italic)) { append("sign up") }
-                },
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.clickable { println("Navigate to Sign In") }
-            )
         }
-
     }
 }
-

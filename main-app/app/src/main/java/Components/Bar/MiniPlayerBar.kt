@@ -1,4 +1,3 @@
-// Components/Bar/MiniPlayerBar.kt
 package Components.Bar
 
 import androidx.compose.foundation.Image
@@ -42,7 +41,7 @@ fun MiniPlayerBar(
 
     Column(
         modifier.fillMaxWidth()
-            .background(Color(0xE6118F3D), shape = RoundedCornerShape(12.dp))
+            .background(Color(0xFF222222), shape = RoundedCornerShape(12.dp))
     ) {
         Row(
             modifier = Modifier

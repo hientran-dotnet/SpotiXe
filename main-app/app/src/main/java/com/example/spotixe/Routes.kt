@@ -13,12 +13,11 @@ object StartRoute {
 
 object AuthRoute {
     const val SignIn1 = "sign_in1"
-    const val SignIn2 = "sign_in2"
-    // bạn có sign_in3 thì thêm
     const val SignUpEmail1 = "sign_upEmail1"
     const val SignUpEmail2 = "sign_upEmail2"
     const val SignUpPhone1 = "sign_upPhone1"
     const val SignUpPhone2 = "sign_upPhone2"
+    const val SignUpPhone3 = "sign_upPhone3"
 }
 
 object MainRoute {
