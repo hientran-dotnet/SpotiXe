@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { Filter, MoreVertical, Edit, Trash2, Plus } from 'lucide-react'
+import { Filter, MoreVertical, Edit, Trash2, Plus, Upload } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Button from '@components/common/Button'
 import Card from '@components/common/Card'
@@ -189,13 +189,23 @@ export default function MusicManagement() {
             Quản lý bài hát
           </h1>
         </div>
-        <Button
-          icon={Plus}
-          iconPosition="left"
-          onClick={() => navigate('/songs/add')}
-        >
-          Thêm bài hát
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="secondary"
+            icon={Upload}
+            iconPosition="left"
+            onClick={() => navigate('/songs/bulk-import')}
+          >
+            Nhập hàng loạt
+          </Button>
+          <Button
+            icon={Plus}
+            iconPosition="left"
+            onClick={() => navigate('/songs/add')}
+          >
+            Thêm bài hát
+          </Button>
+        </div>
       </div>
 
       {/* Tabs */}

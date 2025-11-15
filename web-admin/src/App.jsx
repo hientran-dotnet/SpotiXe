@@ -23,6 +23,7 @@ import NotFound from '@pages/NotFound'
 import AddSong from '@pages/songs/AddSong'
 import EditSong from '@pages/songs/EditSong'
 import ViewSong from '@pages/songs/ViewSong'
+import BulkImportSongs from '@pages/songs/BulkImportSongs'
 
 // Artist management pages
 import AddArtist from '@pages/artists/AddArtist'
@@ -63,6 +64,7 @@ function App() {
           
           {/* Song routes */}
           <Route path="songs/add" element={<AddSong />} />
+          <Route path="songs/bulk-import" element={<BulkImportSongs />} />
           <Route path="songs/:id" element={<ViewSong />} />
           <Route path="songs/:id/edit" element={<EditSong />} />
           

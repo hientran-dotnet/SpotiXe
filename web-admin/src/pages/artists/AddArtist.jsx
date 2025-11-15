@@ -65,35 +65,6 @@ export default function AddArtist() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left - Image */}
           <motion.div initial={{ opacity:0, x:-20 }} animate={{ opacity:1, x:0 }}>
-            {/* <Card className="p-8">
-              <h2 className="text-xl font-semibold text-text-primary mb-6">Ảnh đại diện</h2>
-              {imagePreview ? (
-                <div className="space-y-4">
-                  <div className="relative group">
-                    <div className="w-full aspect-square rounded-full overflow-hidden">
-                      <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-                    </div>
-                    <div className="absolute inset-0 bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <label className="cursor-pointer">
-                        <div className="bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">Đổi ảnh</div>
-                        <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <label className="block cursor-pointer">
-                    <div className="border-2 border-dashed border-border rounded-lg p-12 text-center hover:border-spotify-green transition-colors">
-                      <ImageIcon className="w-12 h-12 mx-auto mb-4 text-text-tertiary" />
-                      <p className="text-text-primary font-medium mb-2">Tải ảnh lên</p>
-                      <p className="text-sm text-text-tertiary">PNG, JPG tối đa 5MB</p>
-                    </div>
-                    <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
-                  </label>
-                </div>
-              )}
-            </Card> */}
             <Card className="p-8">
   <h2 className="text-xl font-semibold text-text-primary mb-6">Ảnh đại diện</h2>
 
@@ -107,7 +78,6 @@ export default function AddArtist() {
         type="url"
         placeholder="https://cdn.spotixe.io/artists/den-vau.jpg"
         {...register('profileImageUrl', { 
-          required: 'Ảnh đại diện là bắt buộc',
           onChange: (e) => setImagePreview(e.target.value)
         })}
         className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-spotify-green"

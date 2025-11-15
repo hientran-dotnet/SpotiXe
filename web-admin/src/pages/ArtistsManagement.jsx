@@ -18,7 +18,7 @@ export default function ArtistsManagement() {
   const [viewMode, setViewMode] = useState('grid')
   const [searchQuery, setSearchQuery] = useState('')
   const [page, setPage] = useState(1)
-  const [itemsPerPage] = useState(20)
+  const [itemsPerPage] = useState(100)
   const [isDeleting, setIsDeleting] = useState(false)
 
   // Refetch data when component mounts (e.g., when coming back from edit page)
@@ -107,30 +107,6 @@ export default function ArtistsManagement() {
               className="w-full pl-10 pr-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-spotify-green"
             />
           </div>
-
-          {/* View Toggle */}
-          {/* <div className="flex items-center gap-2">
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`p-2 rounded-lg transition-colors ${
-                viewMode === 'grid'
-                  ? 'bg-spotify-green text-white'
-                  : 'bg-bg-secondary text-text-tertiary hover:text-text-primary'
-              }`}
-            >
-              <Grid className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => setViewMode('table')}
-              className={`p-2 rounded-lg transition-colors ${
-                viewMode === 'table'
-                  ? 'bg-spotify-green text-white'
-                  : 'bg-bg-secondary text-text-tertiary hover:text-text-primary'
-              }`}
-            >
-              <List className="w-5 h-5" />
-            </button>
-          </div> */}
         </div>
       </Card>
 
