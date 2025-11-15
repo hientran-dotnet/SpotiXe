@@ -60,10 +60,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.AuthRoute
 import com.example.spotixe.R
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.ktx.auth
 
 @Composable
 fun Sign_UpPhone3Screen(navController: NavController){
     var green = Color(0xFF58BA47)
+    val currentUser = Firebase.auth.currentUser
+    val phone = currentUser?.phoneNumber
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var repassword by rememberSaveable { mutableStateOf("") }

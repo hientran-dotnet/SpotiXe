@@ -1,6 +1,7 @@
 package com.example.spotixe.Pages.Pages.SignUpPages
 
 import Components.Buttons.BackButton
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,10 +30,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -46,9 +52,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.AuthRoute
 import com.example.spotixe.R
+import com.example.spotixe.services.startPhoneVerification
+import com.example.spotixe.services.normalizeVietnamPhone
 
 @Composable
 fun Sign_UpPhone1Screen(navController: NavController){
+    var phoneNumber by rememberSaveable { mutableStateOf("") }
+    var errorMessage by rememberSaveable { mutableStateOf<String?>(null) }
+    var isLoading by rememberSaveable { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    val activity = context as Activity
     var green = Color(0xFF58BA47)
     Box(
         modifier = Modifier
@@ -107,42 +121,79 @@ fun Sign_UpPhone1Screen(navController: NavController){
 
             // TextField cho Phone number
             TextField(
-                value = "",
-                onValueChange = {},
+                value = phoneNumber,
+                onValueChange = {
+                    phoneNumber = it
+                },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color(0xFF444444),
                     unfocusedContainerColor = Color(0xFF444444),
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     cursorColor = Color.White,
-
-                    ),
+                ),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(shape = RoundedCornerShape(12.dp))
-
             )
+
 
             Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {navController.navigate(AuthRoute.SignUpPhone2)},
+                onClick = {
+                    isLoading = true
+                    errorMessage = null
+
+                    val normalizedPhone = normalizeVietnamPhone(phoneNumber)
+
+                    if (!normalizedPhone.startsWith("+84") || normalizedPhone.length < 11) {
+                        isLoading = false
+                        errorMessage = "Số điện thoại không hợp lệ, hãy nhập dạng 0xxxxxxxxx hoặc +84xxxxxxxxx"
+                        return@Button
+                    }
+
+                    startPhoneVerification(
+                        activity = activity,
+                        rawPhone = normalizedPhone,
+                        onCodeSent = {
+                            isLoading = false
+
+                            navController.navigate(AuthRoute.SignUpPhone2)
+                        },
+                        onError = { msg ->
+                            isLoading = false
+                            errorMessage = msg
+                        }
+                    )
+                },
+                enabled = !isLoading && phoneNumber.isNotBlank(),
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = green,
                     contentColor = Color.Black
-
                 )
-
             ) {
                 Text(
-                    text = "Continue",
+                    text = if (isLoading) "Sending..." else "Continue",
                     fontSize = 18.sp
                 )
             }
+
+
+
+            if (errorMessage != null) {
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = errorMessage!!,
+                    color = Color.Red,
+                    fontSize = 13.sp
+                )
+            }
+
 
             Spacer(modifier = Modifier.height(40.dp))
 
