@@ -117,7 +117,7 @@ class MainActivity : ComponentActivity() {
 
                             // MAIN GRAPH
                             navigation(
-                                startDestination = MainRoute.Home,
+                                startDestination = MainRoute.ErrorScreen,
                                 route = Graph.MAIN
                             ) {
                                 composable(MainRoute.Home) { HomeScreen(navController) }
@@ -125,6 +125,12 @@ class MainActivity : ComponentActivity() {
                                 composable(MainRoute.Search) { SearchScreen(navController) }
                                 composable(MainRoute.User) { UserScreen(navController) }
                                 composable(MainRoute.UserDetail) { UserDetailScreen(navController) }
+                                composable(MainRoute.ErrorScreen) {
+                                    ErrorScreen(
+                                        message = "An unexpected error occurred.",
+                                        onRetry = { /* TODO: implement retry logic */ }
+                                    )
+                                }
 
                                 // SongView
                                 composable(
