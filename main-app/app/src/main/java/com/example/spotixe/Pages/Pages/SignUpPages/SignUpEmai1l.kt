@@ -59,6 +59,8 @@ fun Sign_UpEmail1Screen(
 ){
     var green = Color(0xFF58BA47)
     var agreed by rememberSaveable { mutableStateOf(false) }
+    var name by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -114,8 +116,10 @@ fun Sign_UpEmail1Screen(
 
             // TextField cho Name
             TextField(
-                value = "",
-                onValueChange = {},
+                value = name,
+                onValueChange = {
+                    name = it
+                },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color(0xFF444444),
                     unfocusedContainerColor = Color(0xFF444444),
@@ -142,8 +146,10 @@ fun Sign_UpEmail1Screen(
 
             // TextField cho Email
             TextField(
-                value = "",
-                onValueChange = {},
+                value = email,
+                onValueChange = {
+                    email = it
+                },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color(0xFF444444),
                     unfocusedContainerColor = Color(0xFF444444),

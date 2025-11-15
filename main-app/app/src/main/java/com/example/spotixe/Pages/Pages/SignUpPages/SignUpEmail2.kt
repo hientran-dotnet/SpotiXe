@@ -21,11 +21,15 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -43,11 +47,16 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.spotixe.AuthRoute
 import com.example.spotixe.R
 import com.google.firebase.auth.FirebaseUser
 
@@ -58,7 +67,13 @@ fun Sign_UpEmail2Screen(
     onError: (String) -> Unit={}
 ){
     var green = Color(0xFF58BA47)
-    var agreed by rememberSaveable { mutableStateOf(false) }
+    var password by rememberSaveable { mutableStateOf("") }
+    var repassword by rememberSaveable { mutableStateOf("") }
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+    var rePasswordVisible by rememberSaveable { mutableStateOf(false) }
+    val isPasswordValid = isValidPassword(password)
+    val isRePasswordMatch = repassword.isNotEmpty() && repassword == password
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -101,7 +116,7 @@ fun Sign_UpEmail2Screen(
                 textAlign = TextAlign.Center
             )
 
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(8.dp))
 
             // Password label
             Text(
@@ -113,21 +128,55 @@ fun Sign_UpEmail2Screen(
 
             Spacer(Modifier.height(8.dp))
 
-            // TextField cho Password
-            TextField(
-                value = "",
-                onValueChange = {},
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFF444444),
-                    unfocusedContainerColor = Color(0xFF444444),
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(12.dp))
-            )
+            Column {
+                TextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color(0xFF444444),
+                        unfocusedContainerColor = Color(0xFF444444),
+                        focusedIndicatorColor = if (isPasswordValid) Color.Transparent else Color.Red,
+                        unfocusedIndicatorColor = if (isPasswordValid) Color.Transparent else Color.Red,
+                        cursorColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp)),
+                    placeholder = { Text("Enter password", color = Color.LightGray) },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Next
+                    ),
+                    visualTransformation = if (passwordVisible)
+                        VisualTransformation.None
+                    else
+                        PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(
+                                imageVector = if (passwordVisible)
+                                    Icons.Default.Visibility
+                                else
+                                    Icons.Default.VisibilityOff,
+                                contentDescription = if (passwordVisible)
+                                    "Ẩn mật khẩu" else "Hiện mật khẩu",
+                                tint = Color.White
+                            )
+                        }
+                    }
+                )
+
+                if (!isPasswordValid && password.isNotEmpty()) {
+                    Text(
+                        text = "Mật khẩu phải có 8 ký tự, có chữ hoa, chữ thường và số",
+                        color = Color.Red,
+                        fontSize = 13.sp,
+                        modifier = Modifier.padding(top = 4.dp, start = 4.dp)
+                    )
+                }
+            }
+
 
             Spacer(Modifier.height(8.dp ))
 
@@ -142,55 +191,73 @@ fun Sign_UpEmail2Screen(
             Spacer(Modifier.height(8.dp))
 
             // TextField cho RePassword
-            TextField(
-                value = "",
-                onValueChange = {},
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFF444444),
-                    unfocusedContainerColor = Color(0xFF444444),
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(shape = RoundedCornerShape(12.dp))
-            )
-
-            Spacer(Modifier.height(6.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TermsAndPolicyCheck(
-                    checked = agreed,
-                    onCheckedChange = { agreed = it },
-                    modifier = Modifier.weight(1f)
+            Column {
+                TextField(
+                    value = repassword,
+                    onValueChange = { repassword = it },
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color(0xFF444444),
+                        unfocusedContainerColor = Color(0xFF444444),
+                        focusedIndicatorColor = if (isRePasswordMatch || repassword.isEmpty()) Color.Transparent else Color.Red,
+                        unfocusedIndicatorColor = if (isRePasswordMatch || repassword.isEmpty()) Color.Transparent else Color.Red,
+                        cursorColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp)),
+                    placeholder = { Text("Re-enter password", color = Color.LightGray) },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    visualTransformation = if (rePasswordVisible)
+                        VisualTransformation.None
+                    else
+                        PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { rePasswordVisible = !rePasswordVisible }) {
+                            Icon(
+                                imageVector = if (rePasswordVisible)
+                                    Icons.Default.Visibility
+                                else
+                                    Icons.Default.VisibilityOff,
+                                contentDescription = if (rePasswordVisible)
+                                    "Ẩn mật khẩu" else "Hiện mật khẩu",
+                                tint = Color.White
+                            )
+                        }
+                    }
                 )
+
+                if (!isRePasswordMatch && repassword.isNotEmpty()) {
+                    Text(
+                        text = "Mật khẩu nhập lại không khớp",
+                        color = Color.Red,
+                        fontSize = 13.sp,
+                        modifier = Modifier.padding(top = 4.dp, start = 4.dp)
+                    )
+                }
             }
 
 
             Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {},
+                onClick = { navController.navigate(AuthRoute.SignIn1) },
+                enabled =
+                    isPasswordValid && password == repassword,
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = green,
                     contentColor = Color.Black
-
                 )
-
             ) {
-                Text(
-                    text = "Sign up",
-                    fontSize = 18.sp
-                )
+                Text(text = "Sign up")
             }
+
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -231,4 +298,13 @@ fun Sign_UpEmail2Screen(
         }
 
     }
+}
+
+fun isValidPassword(pw: String): Boolean {
+    val hasUpper = pw.any { it.isUpperCase() }
+    val hasLower = pw.any { it.isLowerCase() }
+    val hasDigit = pw.any { it.isDigit() }
+    val longEnough = pw.length >= 8
+
+    return hasUpper && hasLower && hasDigit && longEnough
 }

@@ -17,6 +17,7 @@ object AuthRoute {
     const val SignUpEmail2 = "sign_upEmail2"
     const val SignUpPhone1 = "sign_upPhone1"
     const val SignUpPhone2 = "sign_upPhone2"
+    const val SignUpPhone3 = "sign_upPhone3"
 }
 
 object MainRoute {

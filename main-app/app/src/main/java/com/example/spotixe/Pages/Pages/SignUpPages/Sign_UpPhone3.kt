@@ -1,7 +1,8 @@
-package com.example.spotixe.Pages.Pages.SignInPages
+package com.example.spotixe.Pages.Pages.SignUpPages
 
 import Components.Buttons.BackButton
-import Components.Buttons.GoogleSignInButtonFirebase
+import Components.Layout.OtpInputField
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,12 +32,13 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -48,17 +50,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotixe.R
-import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun Sign_in1Screen(
-    navController: NavController,
-    onSignedIn: (FirebaseUser) -> Unit={},
-    onError: (String) -> Unit={}
-    ){
+fun Sign_UpPhone3Screen(navController: NavController){
     var green = Color(0xFF58BA47)
-    var emailorphone by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var username by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -68,9 +65,9 @@ fun Sign_in1Screen(
     )
     {
         Row (
-                modifier = Modifier
-                    .padding(start = 15.dp)
-                    .statusBarsPadding(),
+            modifier = Modifier
+                .padding(start = 15.dp)
+                .statusBarsPadding(),
             horizontalArrangement = Arrangement.Start
         ){
             BackButton(navController)
@@ -94,18 +91,18 @@ fun Sign_in1Screen(
             Spacer(Modifier.height(20.dp))
 
             Text(
-                "Sign in your account",
-                fontSize = 35.sp,
-                fontWeight = FontWeight.Bold,
+                "Enter Username and\nPassword to continue",
+                fontSize = 20.sp,
                 color = green,
+                fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
 
-            Spacer(Modifier.height(40.dp))
+            Spacer(Modifier.height(15.dp))
 
-              // Email label
+            // Username label
             Text(
-                text = "Email or Phone number",
+                text = "Username",
                 color = green,
                 fontSize = 18.sp,
                 modifier = Modifier.align(Alignment.Start)
@@ -113,11 +110,11 @@ fun Sign_in1Screen(
 
             Spacer(Modifier.height(8.dp))
 
-            // TextField cho Email
+            // TextField cho username
             TextField(
-                value = emailorphone,
+                value = username,
                 onValueChange = {
-                    emailorphone = it
+                    username = it
                 },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color(0xFF444444),
@@ -161,17 +158,6 @@ fun Sign_in1Screen(
                     .clip(shape = RoundedCornerShape(12.dp))
             )
 
-            Spacer(Modifier.height(10.dp))
-
-            Text(
-                text = "Forgot password",
-                color = Color.White,
-                fontStyle = FontStyle.Italic,
-                modifier = Modifier
-                    .align(Alignment.Start)
-                    .clickable {}
-            )
-
             Spacer(Modifier.height(20.dp))
 
             Button(
@@ -187,50 +173,10 @@ fun Sign_in1Screen(
 
             ) {
                 Text(
-                    text = "Sign in",
+                    text = "Continue",
                     fontSize = 18.sp
-                    )
+                )
             }
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            Text(
-                text = buildAnnotatedString {
-                    append("Or ")
-                    withStyle(style = SpanStyle(color = Color.White)) { append("sign in") }
-                    append(" with")
-                },
-                color = green,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(15.dp))
-
-            GoogleSignInButtonFirebase(
-                onSuccess = { user: FirebaseUser ->
-                    navController.navigate("") {
-                        popUpTo("login") { inclusive = true }
-                        launchSingleTop = true
-                    } },
-                onError = { e -> onError(e.message ?: "Unknown error") }
-            )
-
-            Spacer(modifier = Modifier.height(25.dp))
-
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = green)) {append("Don't have account ?\n")}
-                    withStyle(style = SpanStyle(color = green)) { append("Click here to ") }
-                    withStyle(style = SpanStyle(color = Color.White, fontStyle = FontStyle.Italic)) { append("sign up") }
-                },
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.clickable { println("Navigate to Sign Up") }
-            )
-
-
         }
-
     }
 }
