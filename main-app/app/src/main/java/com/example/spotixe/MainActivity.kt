@@ -117,7 +117,7 @@ class MainActivity : ComponentActivity() {
 
                             // MAIN GRAPH
                             navigation(
-                                startDestination = MainRoute.ErrorScreen,
+                                startDestination = MainRoute.Home,
                                 route = Graph.MAIN
                             ) {
                                 composable(MainRoute.Home) { HomeScreen(navController) }
