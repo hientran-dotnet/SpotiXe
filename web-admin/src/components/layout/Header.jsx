@@ -164,6 +164,7 @@ export default function Header() {
                   </div>
                   <div className="py-2">
                     <button
+                      data-navigation="true"
                       onClick={() => {
                         navigate('/settings')
                         setShowUserMenu(false)
@@ -174,6 +175,7 @@ export default function Header() {
                       Profile
                     </button>
                     <button
+                      data-navigation="true"
                       onClick={() => {
                         navigate('/settings')
                         setShowUserMenu(false)

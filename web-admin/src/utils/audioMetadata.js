@@ -6,10 +6,16 @@
 /**
  * Extract metadata from audio file URL
  * @param {string} audioUrl - URL of the audio file
+ * @param {AbortSignal} signal - Optional abort signal
  * @returns {Promise<Object>} Extracted metadata
  */
-export const extractAudioMetadata = async (audioUrl) => {
+export const extractAudioMetadata = async (audioUrl, signal = null) => {
   try {
+    // Check if aborted before starting
+    if (signal?.aborted) {
+      throw new Error('ABORTED');
+    }
+
     // Create audio element
     const audio = new Audio();
     audio.crossOrigin = "anonymous";
@@ -20,8 +26,23 @@ export const extractAudioMetadata = async (audioUrl) => {
         reject(new Error("Timeout loading audio file"));
       }, 30000); // 30 seconds timeout
 
+      // Listen for abort signal
+      const abortHandler = () => {
+        clearTimeout(timeout);
+        audio.pause();
+        audio.src = '';
+        reject(new Error('ABORTED'));
+      };
+
+      if (signal) {
+        signal.addEventListener('abort', abortHandler);
+      }
+
       audio.addEventListener("loadedmetadata", () => {
         clearTimeout(timeout);
+        if (signal) {
+          signal.removeEventListener('abort', abortHandler);
+        }
 
         // Basic metadata from audio element
         const basicMetadata = {
@@ -38,6 +59,9 @@ export const extractAudioMetadata = async (audioUrl) => {
 
       audio.addEventListener("error", () => {
         clearTimeout(timeout);
+        if (signal) {
+          signal.removeEventListener('abort', abortHandler);
+        }
         reject(new Error("Failed to load audio file"));
       });
 
@@ -45,15 +69,23 @@ export const extractAudioMetadata = async (audioUrl) => {
       audio.load();
     });
 
+    // Check abort status again before ID3 extraction
+    if (signal?.aborted) {
+      throw new Error('ABORTED');
+    }
+
     // Try to extract ID3 tags if available
     try {
-      const id3Data = await extractID3Tags(audioUrl);
+      const id3Data = await extractID3Tags(audioUrl, signal);
       return {
         ...metadata,
         ...id3Data,
       };
     } catch (error) {
       // If ID3 extraction fails, return basic metadata
+      if (error.message === 'ABORTED') {
+        throw error;
+      }
       console.warn("ID3 extraction failed, using basic metadata:", error);
       return metadata;
     }
@@ -66,12 +98,13 @@ export const extractAudioMetadata = async (audioUrl) => {
 /**
  * Extract ID3 tags from MP3 file
  * @param {string} audioUrl - URL of the audio file
+ * @param {AbortSignal} signal - Optional abort signal
  * @returns {Promise<Object>} ID3 tag data
  */
-const extractID3Tags = async (audioUrl) => {
+const extractID3Tags = async (audioUrl, signal = null) => {
   try {
-    // Fetch the audio file
-    const response = await fetch(audioUrl);
+    // Fetch the audio file with abort signal
+    const response = await fetch(audioUrl, signal ? { signal } : {});
     if (!response.ok) {
       throw new Error("Failed to fetch audio file");
     }
@@ -199,10 +232,25 @@ const parseID3v2Frames = (data, version) => {
     };
 
     if (frameMap[frameId]) {
-      metadata[frameMap[frameId]] = textValue;
+      // Special handling for artist field - extract all artists
+      if (frameMap[frameId] === "artist") {
+        const allArtists = extractAllArtists(textValue);
+        console.log(
+          `[Metadata] Original artist: "${textValue}" -> All artists:`,
+          allArtists
+        );
+        metadata[frameMap[frameId]] = allArtists; // Return as array
+      } else {
+        metadata[frameMap[frameId]] = textValue;
+      }
     }
 
     offset += frameHeaderSize + frameSize;
+  }
+
+  // Log extracted metadata for debugging
+  if (metadata.artist) {
+    console.log("[Metadata] Artists from ID3:", metadata.artist);
   }
 
   return metadata;
@@ -220,21 +268,99 @@ const decodeTextFrame = (data) => {
   const textData = data.slice(1);
 
   try {
+    let decodedText;
     switch (encoding) {
       case 0: // ISO-8859-1
-        return String.fromCharCode(...textData).replace(/\0/g, "");
+        decodedText = String.fromCharCode(...textData).replace(/\0/g, "");
+        break;
       case 1: // UTF-16 with BOM
       case 2: // UTF-16BE without BOM
-        return new TextDecoder("utf-16").decode(textData).replace(/\0/g, "");
+        decodedText = new TextDecoder("utf-16")
+          .decode(textData)
+          .replace(/\0/g, "");
+        break;
       case 3: // UTF-8
-        return new TextDecoder("utf-8").decode(textData).replace(/\0/g, "");
+        decodedText = new TextDecoder("utf-8")
+          .decode(textData)
+          .replace(/\0/g, "");
+        break;
       default:
-        return String.fromCharCode(...textData).replace(/\0/g, "");
+        decodedText = String.fromCharCode(...textData).replace(/\0/g, "");
     }
+
+    return decodedText ? decodedText.trim() : null;
   } catch (error) {
     console.warn("Error decoding text frame:", error);
     return null;
   }
+};
+
+/**
+ * Extract all artist names from artist field
+ * Splits by common separators and returns array of all artists
+ *
+ * Examples:
+ * - "B Ray / ASTRA" -> ["B Ray", "ASTRA"]
+ * - "Erik feat. Min" -> ["Erik", "Min"]
+ * - "Sơn Tùng M-TP ft. Snoop Dogg" -> ["Sơn Tùng M-TP", "Snoop Dogg"]
+ * - "Mono (feat. OnlyC)" -> ["Mono", "OnlyC"]
+ *
+ * @param {string} artistString - Full artist string from metadata
+ * @returns {Array<string>} Array of all artist names
+ */
+const extractAllArtists = (artistString) => {
+  if (!artistString) return [];
+
+  let workingString = artistString.trim();
+
+  // Remove parentheses but keep the content for parsing
+  // "Mono (feat. OnlyC)" -> "Mono feat. OnlyC"
+  workingString = workingString.replace(
+    /\s*\((feat\.|ft\.|featuring)\s*/gi,
+    " $1 "
+  );
+  workingString = workingString.replace(/\)/g, "");
+
+  // Common separators for featured artists (in priority order)
+  const separators = [
+    { pattern: /\s+feat\.?\s+/gi, replacement: "||SPLIT||" },
+    { pattern: /\s+ft\.?\s+/gi, replacement: "||SPLIT||" },
+    { pattern: /\s+featuring\s+/gi, replacement: "||SPLIT||" },
+    { pattern: /\s*\/\s*/g, replacement: "||SPLIT||" },
+    { pattern: /\s*&\s*/g, replacement: "||SPLIT||" },
+    { pattern: /\s*,\s*/g, replacement: "||SPLIT||" },
+    { pattern: /\s+and\s+/gi, replacement: "||SPLIT||" },
+    { pattern: /\s+with\s+/gi, replacement: "||SPLIT||" },
+  ];
+
+  // Apply all separators
+  for (const { pattern, replacement } of separators) {
+    workingString = workingString.replace(pattern, replacement);
+  }
+
+  // Split and clean
+  const artists = workingString
+    .split("||SPLIT||")
+    .map((name) => name.trim())
+    .filter(
+      (name) =>
+        name.length > 0 &&
+        !["feat", "ft", "featuring", "with", "and"].includes(name.toLowerCase())
+    );
+
+  // Remove duplicates (case-insensitive)
+  const uniqueArtists = [];
+  const seen = new Set();
+
+  for (const artist of artists) {
+    const lowerArtist = artist.toLowerCase();
+    if (!seen.has(lowerArtist)) {
+      seen.add(lowerArtist);
+      uniqueArtists.push(artist);
+    }
+  }
+
+  return uniqueArtists;
 };
 
 /**

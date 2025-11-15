@@ -64,10 +64,12 @@ export const getArtistById = async (id) => {
 /**
  * Create new artist
  * @param {Object} artistData - Artist data
+ * @param {AbortSignal} signal - Optional abort signal
  * @returns {Promise<Object>} Created artist object
  */
-export const createArtist = async (artistData) => {
-  const response = await artistApi.post(ENDPOINTS.ARTISTS, artistData);
+export const createArtist = async (artistData, signal = null) => {
+  const config = signal ? { signal } : {};
+  const response = await artistApi.post(ENDPOINTS.ARTISTS, artistData, config);
   return response;
 };
 

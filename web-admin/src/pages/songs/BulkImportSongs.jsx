@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Upload, Download, FileText, AlertCircle, CheckCircle, XCircle, ArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '@components/common/Button'
 import Card from '@components/common/Card'
+import LeavePageDialog from '@components/common/LeavePageDialog'
 import { bulkImportSongs } from '@services/api/songService'
 import { downloadCSVTemplate, parseCSVFile } from '@utils/csvHelper'
 import toast from 'react-hot-toast'
@@ -15,6 +16,17 @@ export default function BulkImportSongs() {
   const [importResults, setImportResults] = useState(null)
   const [dragActive, setDragActive] = useState(false)
   const [processingStatus, setProcessingStatus] = useState('')
+  const abortControllerRef = useRef(null)
+
+  // Handle cleanup when user confirms leaving page
+  const handleConfirmLeave = () => {
+    // Cleanup when user confirms leaving
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+    setIsProcessing(false)
+    toast.error('Đã hủy tiến trình nhập bài hát')
+  }
 
   const handleDrag = (e) => {
     e.preventDefault()
@@ -62,6 +74,9 @@ export default function BulkImportSongs() {
       return
     }
 
+    // Create abort controller for this import session
+    abortControllerRef.current = new AbortController()
+
     setIsProcessing(true)
     setProcessingStatus('Đang đọc file CSV...')
     
@@ -78,9 +93,15 @@ export default function BulkImportSongs() {
 
       setProcessingStatus(`Đang trích xuất metadata và nhập ${parsedData.length} bài hát...`)
       
-      // Call bulk import API (will extract metadata automatically)
-      const results = await bulkImportSongs(parsedData)
+      // Call bulk import API with abort signal
+      const results = await bulkImportSongs(parsedData, abortControllerRef.current.signal)
       
+      // Check if process was aborted
+      if (abortControllerRef.current?.signal.aborted) {
+        toast.error('Tiến trình đã bị hủy')
+        return
+      }
+
       setImportResults(results)
       setProcessingStatus('')
       
@@ -91,11 +112,25 @@ export default function BulkImportSongs() {
         toast.error(`${results.failed.length} bài hát nhập thất bại!`)
       }
     } catch (error) {
-      console.error('Error importing songs:', error)
-      toast.error('Có lỗi xảy ra khi nhập bài hát!')
+      if (error.name === 'AbortError' || error.message === 'ABORTED' || error.code === 'ERR_CANCELED') {
+        console.log('[Bulk Import] Import was cancelled by user')
+        toast.error('Tiến trình đã bị hủy')
+        setImportResults({
+          successful: [],
+          failed: [{
+            title: 'Đã hủy',
+            artistName: 'N/A',
+            error: 'Tiến trình đã bị hủy bởi người dùng'
+          }]
+        })
+      } else {
+        console.error('Error importing songs:', error)
+        toast.error('Có lỗi xảy ra khi nhập bài hát!')
+      }
       setProcessingStatus('')
     } finally {
       setIsProcessing(false)
+      abortControllerRef.current = null
     }
   }
 
@@ -158,7 +193,11 @@ export default function BulkImportSongs() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-spotify-green mt-1">•</span>
-                <span>Nếu ca sĩ chưa tồn tại trong hệ thống, ca sĩ mới sẽ được tự động tạo</span>
+                <span>Hỗ trợ <strong>nhiều ca sĩ</strong> (feat, ft, /, &amp;) - Ví dụ: &ldquo;B Ray / ASTRA&rdquo; sẽ tạo cả 2 ca sĩ nếu chưa tồn tại</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-spotify-green mt-1">•</span>
+                <span>Tất cả ca sĩ chưa tồn tại sẽ được tự động tạo mới trong hệ thống</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-spotify-green mt-1">•</span>
@@ -453,6 +492,12 @@ export default function BulkImportSongs() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Leave Page Warning Dialog */}
+      <LeavePageDialog 
+        isProcessing={isProcessing}
+        onConfirmLeave={handleConfirmLeave}
+      />
     </div>
   )
 }

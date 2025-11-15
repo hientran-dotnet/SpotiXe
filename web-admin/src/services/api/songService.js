@@ -65,10 +65,12 @@ export const getSongById = async (id) => {
 /**
  * Create new song
  * @param {Object} songData - Song data
+ * @param {AbortSignal} signal - Optional abort signal
  * @returns {Promise<Object>} Created song object
  */
-export const createSong = async (songData) => {
-  const response = await songApi.post(ENDPOINTS.SONGS, songData);
+export const createSong = async (songData, signal = null) => {
+  const config = signal ? { signal } : {};
+  const response = await songApi.post(ENDPOINTS.SONGS, songData, config);
   return response;
 };
 
@@ -145,9 +147,10 @@ export const uploadAudioFile = async (id, file) => {
  * 5. Insert songs with proper IDs
  *
  * @param {Array} csvData - Array of parsed CSV rows
+ * @param {AbortSignal} signal - Abort signal to cancel the import process
  * @returns {Promise<Object>} Import results { successful: [], failed: [] }
  */
-export const bulkImportSongs = async (csvData) => {
+export const bulkImportSongs = async (csvData, signal = null) => {
   const results = {
     successful: [],
     failed: [],
@@ -180,6 +183,12 @@ export const bulkImportSongs = async (csvData) => {
 
     // Process each song
     for (const row of csvData) {
+      // Check if abort was requested
+      if (signal?.aborted) {
+        console.log('[Bulk Import] Process aborted by user');
+        throw new Error('ABORTED');
+      }
+
       const audioUrl = row.AudioFileUrl?.trim();
       const coverImageUrl = row.CoverImageUrl?.trim() || null;
 
@@ -194,54 +203,102 @@ export const bulkImportSongs = async (csvData) => {
 
       try {
         // Extract metadata from audio file
-        console.log(`Extracting metadata from: ${audioUrl}`);
-        const metadata = await extractAudioMetadata(audioUrl);
+        console.log(`[Bulk Import] Extracting metadata from: ${audioUrl}`);
+        const metadata = await extractAudioMetadata(audioUrl, signal);
 
         // Use metadata or fallback values
         const title = metadata.title || extractFilenameFromUrl(audioUrl);
-        const artistName = metadata.artist || "Unknown Artist";
+        // Artist can be array or string - normalize to array
+        const artistNames = Array.isArray(metadata.artist)
+          ? metadata.artist
+          : metadata.artist
+          ? [metadata.artist]
+          : ["Unknown Artist"];
         const albumTitle = metadata.album;
         const duration = metadata.duration || 0;
         const genre = metadata.genre || null;
         const releaseDate = formatReleaseDate(metadata.releaseDate);
 
+        console.log(`[Bulk Import] Extracted metadata:`, {
+          title,
+          artistNames,
+          albumTitle,
+          duration,
+          genre,
+          releaseDate,
+        });
+
         // Validate extracted data
         if (!title || duration === 0) {
           results.failed.push({
             title: title || audioUrl,
-            artistName: artistName,
+            artistName: artistNames.join(", "),
             error: "Không thể trích xuất metadata đầy đủ từ file audio",
           });
           continue;
         }
 
-        // Find or create artist
-        let artistId;
-        const artistKey = artistName.toLowerCase();
+        // Find or create ALL artists
+        const artistIds = [];
+        const createdArtistNames = [];
 
-        if (artistMap.has(artistKey)) {
-          artistId = artistMap.get(artistKey);
-        } else {
-          // Create new artist
-          try {
-            const newArtist = await createArtist({
-              name: artistName,
-              bio: "",
-              profileImageUrl: null,
-              verified: false,
-            });
-            artistId = newArtist.artistId;
-            artistMap.set(artistKey, artistId);
-            console.log(`Created new artist: ${artistName}`);
-          } catch (error) {
-            results.failed.push({
-              title: title,
-              artistName: artistName,
-              error: `Không thể tạo ca sĩ: ${error.message}`,
-            });
-            continue;
+        for (const artistName of artistNames) {
+          const artistKey = artistName.toLowerCase().trim();
+
+          console.log(
+            `[Bulk Import] Looking for artist: "${artistName}" (key: "${artistKey}")`
+          );
+
+          if (artistMap.has(artistKey)) {
+            const existingId = artistMap.get(artistKey);
+            artistIds.push(existingId);
+            console.log(
+              `[Bulk Import] Found existing artist ID: ${existingId}`
+            );
+          } else {
+            // Create new artist
+            try {
+              console.log(`[Bulk Import] Creating new artist: "${artistName}"`);
+              const newArtist = await createArtist({
+                name: artistName,
+                bio: "",
+                profileImageUrl: null,
+                verified: false,
+              }, signal);
+              artistIds.push(newArtist.artistId);
+              artistMap.set(artistKey, newArtist.artistId);
+              createdArtistNames.push(artistName);
+              console.log(
+                `[Bulk Import] Created new artist: ${artistName} (ID: ${newArtist.artistId})`
+              );
+            } catch (error) {
+              // If aborted during artist creation, throw to stop processing
+              if (error.message === 'ABORTED' || error.name === 'AbortError' || error.code === 'ERR_CANCELED') {
+                throw error;
+              }
+              
+              console.error(
+                `[Bulk Import] Failed to create artist ${artistName}:`,
+                error
+              );
+              // Continue with other artists even if one fails
+            }
           }
         }
+
+        // If no artists were found/created, fail this song
+        if (artistIds.length === 0) {
+          results.failed.push({
+            title: title,
+            artistName: artistNames.join(", "),
+            error: "Không thể tạo hoặc tìm thấy ca sĩ",
+          });
+          continue;
+        }
+
+        // Use first artist as primary artist for the song
+        const primaryArtistId = artistIds[0];
+        const primaryArtistName = artistNames[0];
 
         // Find album (set null if not found)
         let albumId = null;
@@ -260,29 +317,55 @@ export const bulkImportSongs = async (csvData) => {
           genre: genre,
           audioFileUrl: audioUrl,
           coverImageUrl: coverImageUrl,
-          artistId: artistId,
+          artistId: primaryArtistId,
           albumId: albumId,
           isActive: true,
         };
 
+        // Check abort signal before creating song
+        if (signal?.aborted) {
+          console.log('[Bulk Import] Process aborted before creating song');
+          throw new Error('ABORTED');
+        }
+
         // Create song
         try {
-          const createdSong = await createSong(songData);
+          const createdSong = await createSong(songData, signal);
+
+          // Prepare artist names for display
+          const allArtistNames = artistNames.join(", ");
+          const displayMessage =
+            createdArtistNames.length > 0
+              ? `${allArtistNames} (Tạo mới: ${createdArtistNames.join(", ")})`
+              : allArtistNames;
+
           results.successful.push({
             title: songData.title,
-            artistName: artistName,
+            artistName: displayMessage,
             albumTitle: albumTitle || null,
             songId: createdSong.songId,
           });
-          console.log(`Successfully created song: ${title}`);
+          console.log(
+            `[Bulk Import] Successfully created song: ${title} with artists: ${allArtistNames}`
+          );
         } catch (error) {
+          // If aborted during song creation, throw to stop processing
+          if (error.message === 'ABORTED' || error.name === 'AbortError' || error.code === 'ERR_CANCELED') {
+            throw error;
+          }
+          
           results.failed.push({
             title: songData.title,
-            artistName: artistName,
+            artistName: artistNames.join(", "),
             error: `Lỗi tạo bài hát: ${error.message}`,
           });
         }
       } catch (error) {
+        // If aborted, throw immediately to stop the loop
+        if (error.message === 'ABORTED' || error.name === 'AbortError' || error.code === 'ERR_CANCELED') {
+          throw error;
+        }
+        
         results.failed.push({
           title: extractFilenameFromUrl(audioUrl),
           artistName: "N/A",
@@ -291,6 +374,11 @@ export const bulkImportSongs = async (csvData) => {
       }
     }
   } catch (error) {
+    // Re-throw abort errors to be handled by caller
+    if (error.message === 'ABORTED' || error.name === 'AbortError' || error.code === 'ERR_CANCELED') {
+      throw error;
+    }
+    
     console.error("Bulk import error:", error);
     throw new Error(`Lỗi khi nhập hàng loạt: ${error.message}`);
   }

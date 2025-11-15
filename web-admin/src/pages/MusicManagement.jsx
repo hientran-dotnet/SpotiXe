@@ -251,27 +251,13 @@ export default function MusicManagement() {
                 >
                   Delete
                 </Button>
-                {/* <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => handleBulkAction('Feature')}
-                >
-                  Feature
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => handleBulkAction('Export')}
-                >
-                  Export
-                </Button> */}
               </div>
             )}
           </div>
         </div>
 
         {/* Filter Panel */}
-        {showFilters && (
+        {/* {showFilters && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
@@ -325,7 +311,7 @@ export default function MusicManagement() {
               </Button>
             </div>
           </motion.div>
-        )}
+        )} */}
       </Card>
 
       {/* Tracks Table */}

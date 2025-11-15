@@ -20,6 +20,7 @@ export default function Button({
     primary: 'bg-gradient-primary text-white hover:shadow-glow',
     secondary: 'bg-bg-tertiary text-text-primary hover:bg-bg-hover border border-border',
     danger: 'bg-apple-red text-white hover:bg-apple-red/90',
+    warning: 'bg-yellow-500 text-white hover:bg-yellow-600',
     ghost: 'text-text-primary hover:bg-bg-hover',
     success: 'bg-spotify-green text-white hover:bg-spotify-green-dark',
   }
