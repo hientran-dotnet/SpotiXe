@@ -17,6 +17,7 @@ import com.example.spotixe.Data.recentlyPlayed
 import com.example.spotixe.Data.topPicks
 import Components.Layout.ExploreSection
 import androidx.compose.foundation.background
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavHostController
@@ -25,62 +26,72 @@ import com.example.spotixe.player.rememberPlayerVMActivity
 @Composable
 fun ExploreScreen(navController: NavHostController) {
     val playerVM = rememberPlayerVMActivity()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121212))
-    ){
-        Scaffold (
+    ) {
+        Scaffold(
             containerColor = Color.Transparent,
             contentWindowInsets = WindowInsets(0),
         ) { innerPadding ->
-            Column(
+
+            LazyColumn(
                 modifier = Modifier
                     .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())
                     .background(Color(0xFF121212))
                     .fillMaxSize()
-                    .statusBarsPadding()
+                    .statusBarsPadding(),
+                contentPadding = PaddingValues(bottom = 16.dp)
             ) {
-                // Header
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 12.dp, start = 8.dp, end = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
 
-                    BackButton(navController)
+                // ---------- HEADER ----------
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 12.dp, start = 8.dp, end = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        BackButton(navController)
 
-                    Text(
-                        text = "Khám phá",
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF58BA47)
-                    )
+                        Text(
+                            text = "Khám phá",
+                            fontSize = 28.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF58BA47)
+                        )
+                    }
+
+                    Spacer(Modifier.height(4.dp))
+                    Divider(color = Color.White.copy(alpha = 0.2f))
                 }
 
-                Spacer(Modifier.height(4.dp))
-                Divider(color = Color.White.copy(alpha = 0.2f))
+                // ---------- SECTION 1: HIT MỚI HÔM NAY ----------
+                item {
+                    ExploreSection(
+                        title = "Hit mới hôm nay",
+                        songs = recentlyPlayed,
+                        modifier = Modifier.padding(top = 12.dp),
+                        navController = navController
+                    )
 
-                // Section 1
-                ExploreSection(
-                    title = "Hit mới hôm nay",
-                    songs = recentlyPlayed,
-                    modifier = Modifier
-                        .padding(top = 12.dp)
-                )
+                    Spacer(Modifier.height(20.dp))
+                }
 
-                Spacer(Modifier.height(20.dp))
+                // ---------- SECTION 2: MỚI PHÁT HÀNH ----------
+                item {
+                    ExploreSection(
+                        title = "Mới phát hành",
+                        songs = topPicks,
+                        navController = navController
+                    )
 
-                // Section 2
-                ExploreSection(
-                    title = "Mới phát hành",
-                    songs = topPicks
-                )
-
-                Spacer(Modifier.height(32.dp))
+                    Spacer(Modifier.height(32.dp))
+                }
             }
         }
     }
 }
+

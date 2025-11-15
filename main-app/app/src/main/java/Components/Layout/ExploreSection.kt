@@ -16,11 +16,23 @@ import com.example.spotixe.Data.chunkByFour
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
+import androidx.navigation.NavController
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.spotixe.Data.chunkByFour
 
 @Composable
 fun ExploreSection(
     title: String,
     songs: List<Song>,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     val grouped = songs.chunkByFour()
@@ -28,9 +40,8 @@ fun ExploreSection(
         initialPage = 0,
         pageCount = { grouped.size }
     )
-    val scope = rememberCoroutineScope()
 
-    Column(Modifier.fillMaxWidth()) {
+    Column(modifier.fillMaxWidth()) {
 
         Text(
             text = title,
@@ -57,7 +68,8 @@ fun ExploreSection(
                 group.forEach { song ->
                     SongCardColumn(
                         song = song,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        navController = navController
                     )
                     Spacer(Modifier.height(10.dp))
                 }
@@ -82,9 +94,7 @@ fun ExploreSection(
                             else Color.Gray.copy(alpha = 0.4f)
                         )
                 )
-
             }
         }
-
     }
 }

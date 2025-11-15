@@ -34,19 +34,16 @@ import androidx.compose.material3.TextFieldDefaults
 fun UserDetailScreen(navController: NavController) {
     val formatter = remember { DateTimeFormatter.ofPattern("dd/MM/yyyy") }
 
-    // State mẫu (sau này bind từ ViewModel)
     var name by remember { mutableStateOf("Tran Thanh") }
     var email by remember { mutableStateOf("tranthanh123@gmail.com") }
     var dob by remember { mutableStateOf(LocalDate.of(1987, 2, 5)) }
     var joinDate by remember { mutableStateOf(LocalDate.of(2025, 10, 1)) }
 
-    // Toggle edit cho từng dòng
     var editName by remember { mutableStateOf(false) }
     var editEmail by remember { mutableStateOf(false) }
     var showDobPicker by remember { mutableStateOf(false) }
     var showJoinPicker by remember { mutableStateOf(false) }
 
-    // DatePicker state
     val dobState = rememberDatePickerState(
         initialSelectedDateMillis = dob.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
     )
@@ -54,7 +51,6 @@ fun UserDetailScreen(navController: NavController) {
         initialSelectedDateMillis = joinDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
     )
 
-    // Validate nhỏ cho email
     fun isValidEmail(s: String) =
         android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches()
 
@@ -171,7 +167,6 @@ fun UserDetailScreen(navController: NavController) {
             ) { DatePicker(state = dobState) }
         }
 
-        //Joining Picker
         if (showJoinPicker) {
             DatePickerDialog(
                 onDismissRequest = { showJoinPicker = false },
@@ -190,8 +185,6 @@ fun UserDetailScreen(navController: NavController) {
         }
     }
 }
-
-//  Tiny reusable lines
 
 @Composable
 private fun EditableTextLine(

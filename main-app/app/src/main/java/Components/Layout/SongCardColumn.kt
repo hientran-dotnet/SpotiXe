@@ -29,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.spotixe.Data.Song
+import com.example.spotixe.MainRoute
 import com.example.spotixe.player.PlayerViewModel
 import com.google.android.play.integrity.internal.s
 
@@ -36,7 +37,8 @@ import com.google.android.play.integrity.internal.s
 @Composable
 fun SongCardColumn(
     song: Song,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     val shape = RoundedCornerShape(12.dp)
     val playerVM: PlayerViewModel = viewModel(LocalContext.current as ViewModelStoreOwner)
@@ -47,7 +49,7 @@ fun SongCardColumn(
             .clip(shape)
             .background(Color(0xFF171717))
             .border(1.dp, Color(0x332E2E2E), shape)
-            .clickable { }
+            .clickable { navController.navigate(MainRoute.songView(song.id)) }
             .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
