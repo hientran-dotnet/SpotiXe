@@ -1,5 +1,6 @@
 package com.example.spotixe.Pages.Pages.SignInPages
 
+import Components.Buttons.BackButton
 import Components.Buttons.GoogleSignInButtonFirebase
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,6 +29,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +57,8 @@ fun Sign_in1Screen(
     onError: (String) -> Unit={}
     ){
     var green = Color(0xFF58BA47)
+    var emailorphone by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -66,21 +73,7 @@ fun Sign_in1Screen(
                     .statusBarsPadding(),
             horizontalArrangement = Arrangement.Start
         ){
-            Box(
-                modifier = Modifier
-                    .padding(start = 8.dp, top = 8.dp)
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFF000000))
-                    .clickable { navController.popBackStack() },
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color(0xFFFFFFFF)
-                )
-            }
+            BackButton(navController)
         }
 
         Column(
@@ -112,7 +105,7 @@ fun Sign_in1Screen(
 
             // Email label
             Text(
-                text = "Email",
+                text = "Email or Phone number",
                 color = green,
                 fontSize = 18.sp,
                 modifier = Modifier.align(Alignment.Start)
@@ -122,8 +115,10 @@ fun Sign_in1Screen(
 
             // TextField cho Email
             TextField(
-                value = "",
-                onValueChange = {},
+                value = emailorphone,
+                onValueChange = {
+                    emailorphone = it
+                },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color(0xFF444444),
                     unfocusedContainerColor = Color(0xFF444444),
@@ -150,8 +145,10 @@ fun Sign_in1Screen(
 
             // TextField cho Password
             TextField(
-                value = "",
-                onValueChange = {},
+                value = password,
+                onValueChange = {
+                    password = it
+                },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color(0xFF444444),
                     unfocusedContainerColor = Color(0xFF444444),
