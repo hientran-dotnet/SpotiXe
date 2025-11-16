@@ -104,7 +104,7 @@ class MainActivity : ComponentActivity() {
 
                             // AUTH GRAPH
                             navigation(
-                                startDestination = AuthRoute.SignUpPhone3,
+                                startDestination = AuthRoute.SignIn1,
                                 route = Graph.AUTH
                             ) {
                                 composable(AuthRoute.SignIn1) { Sign_in1Screen(navController) }

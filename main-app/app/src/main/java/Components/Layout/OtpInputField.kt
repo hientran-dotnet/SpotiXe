@@ -52,7 +52,7 @@ fun OtpInputField(
                         val ch = otp.value.getOrNull(i)?.toString() ?: ""
                         Box(
                             modifier = Modifier
-                                .size(60.dp)
+                                .size(48.dp)
                                 .background(Color(0xFF444444), RoundedCornerShape(12.dp))
                                 .border(1.dp, Color(0xFF444444), RoundedCornerShape(12.dp)),
                             contentAlignment = Alignment.Center

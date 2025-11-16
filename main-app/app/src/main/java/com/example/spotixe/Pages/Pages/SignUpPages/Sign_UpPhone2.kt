@@ -2,6 +2,7 @@ package com.example.spotixe.Pages.Pages.SignUpPages
 
 import Components.Buttons.BackButton
 import Components.Layout.OtpInputField
+import android.app.Activity
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,8 +29,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,13 +48,17 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.spotixe.AuthRoute
 import com.example.spotixe.R
+import com.example.spotixe.services.verifyOtpCode
 
 @Composable
 fun Sign_UpPhone2Screen(navController: NavController){
     var green = Color(0xFF58BA47)
     var otpValue = rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
+    val activity = context as Activity
+    var isLoading by rememberSaveable { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -104,41 +111,62 @@ fun Sign_UpPhone2Screen(navController: NavController){
             )
 
             Spacer(Modifier.height(15.dp))
+
             OtpInputField(
                 otp = otpValue,
-                count = 5,
+                count = 6,
                 mask = true,
                 onFilled = { code ->
-                    if (code == "123456") {
-                        // OK -> màn hình mk mới
-//                        navController.navigate(Routes.)
-                        println("inputOTP11@=${otpValue}")
-                    } else {
-                        // Sai mã -> báo lỗi
-                        Toast.makeText(context, "Mã OTP không đúng", Toast.LENGTH_SHORT).show()
-                    }
+                    isLoading = true
+                    verifyOtpCode(
+                        activity = activity,
+                        code = code,
+                        onSuccess = {
+                            isLoading = false
+                            navController.navigate(AuthRoute.SignUpPhone3)
+                        },
+                        onError = { msg ->
+                            isLoading = false
+                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                        }
+                    )
                 }
             )
+
 
             Spacer(Modifier.height(20.dp))
 
             Button(
-                onClick = {},
+                onClick = {
+                    isLoading = true
+                    verifyOtpCode(
+                        activity = activity,
+                        code = otpValue.value,
+                        onSuccess = {
+                            isLoading = false
+                            navController.navigate(AuthRoute.SignUpPhone3)
+                        },
+                        onError = { msg ->
+                            isLoading = false
+                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                },
+                enabled = !isLoading && otpValue.value.length == 6,
                 modifier = Modifier
                     .width(150.dp)
                     .height(45.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = green,
                     contentColor = Color.Black
-
                 )
-
             ) {
                 Text(
-                    text = "Continue",
+                    text = if (isLoading) "Verifying..." else "Continue",
                     fontSize = 18.sp
                 )
             }
+
 
             Spacer(modifier = Modifier.height(40.dp))
 
